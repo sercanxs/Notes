@@ -1,0 +1,55 @@
+  driver.get("https://www.google.com"); 
+
+ Thread.sleep(3000); = 3 saniye bekliyor --> error'un geçmesi için add exceptions'a tıklıyoruz.
+
+driver.navigate().to("https://www.facebook.com"); = google'den facebook'a geçiyor. = get komutu olmadan da çalışır.
+
+
+ driver.navigate().back(); = tekrar google'e dönüyor.
+
+ driver.navigate().forward();= tekrar facebook'a geçiyor.
+
+ driver.navigate().refresh();
+
+System.out.println(driver.getTitle()); = title alıyoruz.
+
+ String title = driver.getTitle(); = driver.getTitle() yazdıktan sonra alt + enter+enter yaparak String variable oluşturuyoruz. 
+
+ soutv + enter =  System.out.println("title = " + title);
+
+
+        System.out.println(driver.getCurrentUrl()); = içinde olduğumuz url.
+
+       driver.getPageSource().sout = source code gösteriyor.
+
+      driver.close(); = siteyi kapatıyor.
+       
+      driver.quit(); = bütün açılan siteleri kapatıyor.
+
+
+        driver = new ChromeDriver(); = driver.quit();'ten sonra yeni site açabilmek için bunu yazmalıyız. Webdriver yok ama.
+        
+        driver.get("http://practice.cybertekschool.com");
+
+        exception in thread = consolda hatanın ne olduğunu gösteriyor, sonra mavi kısma tıklıyoruz ve hataya gidiyoruz.
+
+
+ 
+
+
+ WebDriver driver = WebDriverFactory.getDriver("chrome"); = Sürekli Webdriver yazdığımız için bunu methoda aktardık. 
+                                                            WebDriverFactory class'i içinde getDriver methodu oluşturduk.
+                                                            Bu methodun return'u Webdriver. kullanılacak browser'i ise parameter'e yazdık.
+
+
+Java --> it is programming language in which we write our tests
+IntelliJ--> we use it to write and execute our code/tests (just like Eclipse)
+Library/Dependency --> set of prewritten classes,methods which we can add to our code and use
+Selenium --> automation tool/library, just another depedency
+Maven --> build management tool, we use it to manage depedencies, for example we added selenium and java faker libraries
+pom.xml --> brain of maven, we put depedendices and settings here.
+                               
+                              
+
+
+                                    

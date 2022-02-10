@@ -1,0 +1,50 @@
+	String[] str= {"aaa","bbb","ccc","ddd","eee"};
+		
+		System.out.println(str[1].charAt(0));   =cevap b
+
+
+	    
+
+
+
+
+
+            String str= ("it will display the array of the size");
+		
+	    String[] arr= str.split(" ");   = boşlukların başına virgül koyarak ayırır.
+	    
+	    System.out.println(Arrays.toString(arr));  =  [it, will, display, the, array, of, the, size]
+
+
+       
+
+
+           String str= ("it will display xxxAbc2321xxx the array of the size");
+		
+	    String[] arr= str.split("display ");
+	    
+	    String arr1= arr[1].split(" the")[0];   =sondaki sıfırı koymazsak String kısmı String[] olması lazım.
+	    
+	    System.out.println(arr1);
+
+
+            double [][] a= new double[3][5]; = number of rows, number of columns = column kısmına bir şey yazmazsak da olur. ama ilk kısım 
+                                                                                   zorunlu.
+		
+          two dimensinal array:
+
+
+           int[]  b= new int[4]; = normalde b'nin değerleri 0,0,0,0'di.
+           int [][] a= new int[3][]; = ama burada içerideki değerler int[] şeklinde olduğu için null sonucu çıkabilir.
+           int [][] a= new int[3][4]; = böyle bir durumda içeride 3 tane 0,0,0,0 olan array açıldı. böyle bir durumda 3'ün içindeki değerler null değil adress olur.
+                                        hepsi heap'te depolanır.
+
+         System.out.println(a[1]); = adress veriyor.
+         System.out.println(a[1][0]); = cevap 0.
+
+         a[1][0]=10;
+
+         System.out.println(a.length); = 3 rows
+         System.out.println(a[0].length); = 4 columns.
+		
+		

@@ -1,0 +1,11 @@
+instance variables belongs to object
+
+
+Constructors:
+
+	- is a method that is automatically called when an object is created
+	- used to initialize object's instance fields
+	- new keyword invoked the constructor
+
+
+Constructor Chaining : Calling one constructor from another constructor. Chaining can be done using this() keyword. this() keyword should be always be the first line of the constructor.

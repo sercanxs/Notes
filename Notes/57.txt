@@ -1,0 +1,148 @@
+
+
+
+
+
+                Test data -> where do you get your test data? 
+                            
+                            1. I use dummy data website to generate 
+
+                            2. sometimes I got data from my developer/BA for the valid data
+
+                            3. some company has "data provider" team  - not common
+                            
+
+                 
+                How do you eveluate if a test case is a good or bad? 
+                    - a test case should have all the neseceary elements -id, scenario, test data, pre-condition, test env, and test steps , expected result. 
+
+                    - test steps should written in detail 
+
+               
+
+
+
+Test environment -> dev env func should be deployed to QA env. 
+                    Done by DevOps team with Jenkins app. 
+
+
+                   
+                UI testing : 
+
+                manual testing -> 
+
+                                  no matter pass or fail, need to provide evidance 
+                                   - screenshot, screenvideo 
+
+
+               atomation testing -> 
+                                    - recomened take a screenshot of IDE result 
+
+
+
+
+test cycle closure -> in agile, if i am done with the user story ? 
+
+                      - all the test cases are executed 
+                      - any bug report is written , bug is removed 
+
+
+                      is this sprint's user stories are all done? 
+
+                      - demo meeting at the end of the sprint - PO 
+
+                      - team lead & business team analyze some reports from the sprint 
+                         sprint report -> how many stories are completed 
+                                          how much % of manual vs automation 
+                                          each member's time spent on testing 
+
+
+What is STLC? can you tell me your steps of how you perform testing? 
+
+
+---------------------------------
+
+
+Test scenario review -> a meeting 
+                        When BA writes AC in cucumber gherkin style, BA and the all the testers write AC - test cases / test scenario togather 
+
+
+
+
+Brown bag session  --> Testers teach develoeprs how to test the project 
+
+                      1 qa -> sldies + example code 
+
+
+
+=============
+
+Tell me about yourslef 
+
+- apple , 6 yrs 
+
+- program lan - 
+
+ - selenium, cucumber , ect 
+
+
+which project method env you work? 
+
+Agile - scrum 
+
+
+------------
+
+
+-------
+which are there scrum meetings you conducted in your team? 
+sprint cycle: 2 weeks 
+
+ grooming before sprint 
+
+ sprint plan 
+ demo 
+ retro 
+ 
+-------------
+testing types you have performed ? 
+
+ smoke - everyday , i check result from jenkins 
+
+ regression 
+
+STLC steps: req analyze - test case - test env - 
+
+
+you said you know several prog languages, what are they? 
+
+c++ python java 
+
+
+what are the method types are there in Java? 
+method types :1. void method, 2.return method
+
+
+how to use replace method in string? 
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

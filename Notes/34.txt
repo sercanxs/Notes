@@ -1,0 +1,165 @@
+06/17/21
+
+
+Agenda : 
+
+Agile - Scrum
+
+Scrum 3 roles
+
+
+
+ Scrum team -> choose 1 sprint cycle 
+       1.  1 week 
+       2.  2 weeks --> the most used cycle 
+       3.  3 weeks 
+       4.  4 weeks  
+
+
+Relase a prject : Decided by PO 
+                 many release cycle options: 
+				  1. relase after each sprint 
+                  2. relase after 3-4 sprints 
+                  3. relase after 3-4 months (6 sprints) 
+
+
+
+
+
+
+The company --> several PM 
+
+              Discord -> a project 
+                   1 PO 
+
+
+     
+
+SCRUM team   Deisner team    DevOps team     UAT team    performacne team
+                            					   1BA
+ 
+
+     Scrum team -> 1 po, 1SM, 5dev+2qa, 1 designer, 2 perfromance testers
+
+
+
+po -> Release will be at 08/2021 
+
+
+dev & QA   <-- PO   <-- The client 
+
+
+
+PO   <-- The client  -->   menu 
+						   registor 
+						   login/logout 
+						   online order
+
+
+PO prioritize the req:
+			 #1 priority: Registration -> a feature of an app takes around 1 month - several months. 
+			 		As a user, I want to resistor the app so that I can login to and order food. -> frontend
+
+			 		As a user, I want my username/passwords are saved in the database so that i can login anytime with any device. 
+
+			 		As a user, I want to send get method to registor the app via API so that I can confirm the registration is working well. 
+
+
+			 #2 priority: login 
+               restaurant manager login -> home page with 4 modules 
+                      3 layers's user stories
+               cusotmr login            -> home page with 2 moduels 
+               weiters/chef login       -> home page 3 modules 
+
+
+			 #3 priority: logout 
+			 #4 priority: Menu
+			 #5 priority: Online order
+
+
+
+
+In waterfall, requirements are written in srs DOC. 
+
+
+User Story-> is the req in agile. 
+
+
+
+As a user, I want to send text message so that I can communicate with someone. 
+
+
+As an admin, I want to create a channle so that I can add more people and they can talk in on place. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  1 compnay : 3 meeting rooms 
+                      4:30m Scrum team 
+  Scrum team 
+  DevOps 
+  Performance team 
+  UAT team 
+
+
+Development team-> Deisngers(dont mention in interview), Develoeprs, QA, Performance teters 
+
+
+
+
+
+
+
+
+
+
+Pm,BA ,pO --> Business team 
+
+
+
+
+PM -> hire team members 
+      plan -> tools, testings types, 
+      Defin the release date & contect with PO together 
+      manage several projects at a time 
+-----------
+
+Scrum  == Agile --> not correct 
+
+
+Scrum is one of the Agile branch/framework 
+
+Scrum role , meetigns, artifacts 
+
+
+Scrum role -> 3 roles -> PO , SM, Dev team(dev&qa)
+
+
+
+How to handle the uncompleted task? 
+   - it is taken to the next sprint. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

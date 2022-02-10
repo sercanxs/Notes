@@ -1,0 +1,101 @@
+List<WebElement> buttons = driver.findElements(By.tagName("button")); = Değişkeni yazarken List olarak yazmalıyız. 
+                                                                        findElements yani "s" de var. böylelikle List'in içinde bir çok değer var.
+                                                                        findElements deyince bütün button tag'lerini içine topladı.
+  buttons.size().sout = içinde ne kadar değer olduğunu gösteriyor.
+
+
+iter + enter =         for (WebElement button : buttons) {
+                               button.getText().sout = buttons list olduğundan getText'i yazmamız için tek bir değer gerekir.
+                       }                           
+
+
+buttons.get(0).getText().sout = Java sıralamaya sıfırdan başlar.
+
+Yanlış locator yollarsak yani tagname olarak yanlış isim yazarsak bile consolda hata gözükmez.
+
+
+DROPDOWNS
+Dropdown menu is a menu that offers a list of options. Most of the time we only allowed to choose one option.
+
+
+WebElement dropdownElement = driver.findElement(By.id("state")); = dropdownlar --> ülkeye tıkladığımızda 50 tane ülke çıkıyor.
+
+        Select stateDropdown = new Select(dropdownElement); = incelede dropdown'da Select varsa dropdown'dan bir şey seçmek için bu şekilde locatori içine yazdık. 
+
+ List<WebElement> options = stateDropdown.getOptions(); = seçeneklerin hepsini kapsar.
+        
+        options.size().sout = ne kadar seçenek olduğunu gösterdi.
+
+
+  for (WebElement option : options) {
+            option.getText().sout    = bütün seçeneklerin text'i
+            
+        }
+
+   stateDropdown.getFirstSelectedOption().getText().sout = ilk seçilen seçeneği gösteriyor. --> Select a state
+
+stateDropdown.selectByVisibleText("Alaska"); = dropdown'da görünür text'lerden birini seçtik.
+
+stateDropdown.selectByIndex(51); = index numarasına göre seçtik. java 0'dan başladığı için 52 tane index varsa 51 sonuncusu.
+
+stateDropdown.selectByValue("WA"); = Value attributesi WA olanı seçiyor.
+
+
+
+
+WebElement dropdownElement = driver.findElement(By.id("dropdownMenuLink")); = Eğer dropdown'da select tagi yoksa önce adressini yazdık.
+
+        dropdownElement.click();  = tıklayınca seçenekler açıldığı için tıkladık.
+
+        List<WebElement> elements = driver.findElements(By.className("dropdown-item")); --> bunda select olmadığı için options methodu da yok.
+                                                                                           dolayısıyla findElements kullandık.
+        System.out.println(elements.size());
+
+        elements.get(0).click(); = seçeneklerden index numarası ile tıklıyoruz.
+
+
+======================
+Popups,alerts,Iframes,Windows
+=====================
+Popups,alerts,modal,dialog,overlay --> anything pop ups on the webpage.
+
+
+driver.findElement(By.xpath("//button[1]")).click(); = buttonun adresini bulduk ve tıkladık.
+
+        Alert alert = driver.switchTo().alert(); = Alert çıktı. bu alertler çıkınca hiçbir şey yapamıyoruz ve bunları yazdık.
+ 
+       alert.accept(); = Alertteki kabul etme tuşuna basıyor.
+
+       alert.dismiss(); = Alertteki reddetme tuşuna basıyor.
+
+       alert.sendKeys("hello"); = Alertte mesaj yazma çıkınca mesaj yazdık.
+        
+       alert.accept();          = ve kabul ettik.
+
+
+        
+        driver.getWindowHandle().sout = şu anda bulunulan internet sitesini gösteriyor.
+        
+        driver.getWindowHandles().sout = tüm açık internet sitelerini gösteriyor.
+
+        Set<String> windowHandles = driver.getWindowHandles(); = Bu da collection'dır ama Set'in List'ten farkı aynı değer 2 kere yazılamaz ve
+                                                                 Set içinde index yoktur dolayısıyla index numarası ile order verilemez.
+
+
+         for (String handle : windowHandles) {
+            
+          if(!handle.equals(driver.getWindowHandle())){ = eşit değildir bu şekilde yazılıyor.
+                driver.switchTo().window(handle);       = internet sitesini değiştiriyor.
+
+            }
+         }
+
+          for (String handle : windowHandles) {             
+                     driver.switchTo().window(handle);         
+                     if(driver.getTitle().equals("New Window")){  = eğer birçok internet sitesi açılmışsa değiştirmek zor olabilir. Dolayısıyla title'den siteyi buluyoruz.
+
+                         break;
+                     }
+
+
+

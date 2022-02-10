@@ -1,0 +1,52 @@
+Truth Table for and operator = 2 tane and gelirse ilki false ise ikinciye bakmadan sonuca false yazar.
+expression 1 expression 2 returned value
+true             true       true
+false            true       false
+
+Truth table for or operator
+pipe = or = iki tane pipe gelirse ilki true ise diğerine hiç bakmadan sonuca true yazar.
+
+False | False= False
+False or True = True
+True  or False= True
+True or True  = True
+
+Truth table for carrot sign
+false ^ false = false
+true  ^ false = true
+false ^ true  = true
+true  ^ true  = false
+
+ boolean res1 = (i1==i2)|(c1==c2);
+  boolean res1 = i1==i2^c1==c2; = parantez konulmamış. İşlem önceliği ama bir tane | konulmuş iki tane || konulsa ikinci kısımda
+                                  parantez olsa bile birinci kısım true ise ikinci kısmı okumaz yani önce solu okur.
+
+boolean res1 = (i1==i2)^(c1==c2);
+		    res1 = (c2!=c1)||(x=false); --> X'e sadece bir tane = konulduğunda x'in değeri false değişiyor ve res1 kısmında
+                                                    false geçerli oluyor.
+if(5<1 && x++>325) = böyle bir durumda bir tane & konulsa x'in değeri sonraki satırlarda değişir ama iki tane & koyunca
+                     ilk kısım false ise ikinci kısmı hiç okumuyor program.
+++ch1;   = System.out.println(ch1); = char karakteri 'A' ise print içinde çıkan kısım 66 değil B'dir.
+         = System.out.println(ch1+2); = Böyle bir durumda çıkan sonuç 68'dir
+         = System.out.println('A' +'B'); = Char + Char eşittir toplama.
+          =System.out.println(a+b); = Bu char değişkenleri 'A' ve 'B' ise sonuç yine 132'dir.
+         
+
+Logical Operators Precedence
+
+1 - !
+2 - &&
+3 - ||
+
+Precedence Of All Operators
+
+1 - -(Unary Negation)! ++ -- + -
+2 - */%
+3 - + -
+4 - < > <= >=
+5 - == !=
+6 - &&
+7 - ||               = ikinci kısımda parantez olsa bile ilk kısım true ise ikinci kısmı okumaz yani önce soldan sağa okur.
+8 - = += -= *= /= %=
+
+Compiler kodları soldan sağa doğru okur.

@@ -1,0 +1,73 @@
+What is collection?
+
+Collection is a group of individual objects as a single entity. = student1, student2, student3, student4, student5.
+
+N97 --> 9. sayfa'da bazı kısımlara dikkat et. --> List, ArrayList, Set, HashSet, Collection,Iterable.
+
+                                                  interview'de yüzde 90 cevaplayamıyor = List class değildir. interface'dir
+
+                                                  First concrete class galiba interface'lerden sonraki ilk class.
+      
+                                                  General idea olması önemli. Interview'de buradan eleniyorlar.
+
+
+ArraysList collection'dır. Array'dan farklıdır.
+
+List, Collection'ı yani, interface interface'i extend eder.
+List'in altındaki classlar ise List'i implement ederler yani classlar interface'i implement ederler N96 - sayfa 12.
+ (ArrayList)
+classlar class'i ise extend ederler. yani stack vector'ü extend eder.
+
+
+List --> List'e aynı değer 2 kere yazılabilir. Ve orderlerin sırası vardır. Set'te böyle bir şey yoktur. Very very famous interview Questions.
+(sayfa 12)
+-----------------------------------------------------------------------------------------
+List<String> a = new ArrayList<>();
+		a.add("hello");
+		a.add("nine");
+		
+		Collections.sort(a); = Collections'ın static methodu. İçine ArrayList yazdık.
+
+------------------------------------------------------------------------------------------
+List<Product> a = new ArrayList<>(); = Product isminde constructorı yazdık. Product objecttir.
+
+a.add(new Product("spoon",13.99)); = içine object yazdık.
+
+-------------------------------------------------------------------------------------------
+
+Comparable<T> interface içinde compareTo methodu var. bu methodu override ettiğimizde, new Product("spoon",13.99) gibi değerleri örneğin fiyatlarına göre sıralayabiliyoruz.
+              Yani iki tane değer varken object içinde o değerlerden birisine göre sıraladık. Collections.sort(a); = error vermiyor.
+
+implement ederken Comparable<Product> olarak yazdık. yani içine object yolladık. = interview --> Collections.sort bunlarda da çalışır mı. Evet çalışır ama override edilmesi lazım.
+--------------------------------------------------------------------------------------------
+	List<Integer> list = new LinkedList<>();
+		list.add(10);
+		list.add(20);
+		list.add(50);
+		
+		System.out.println(((LinkedList)list).getFirst()); = LinkedList'e özel method casting lazım.(override olmayan methodlar için)
+
+                ((LinkedList) list).addFirst(3);
+		((LinkedList) list).addLast(4);
+
+-----------------------------------------------------------------------------------------------
+                            
+1  2  3  4  5  6 ... 100 ... 10000 ..... 100000 ArrayList'lerde çok fazla değer olunca bir tane sıranın değerini sildiğimiz zaman bütün 
+                                                sıraların değeri sola kayıyor bu da performance sorunu oluşturuyor.(Dynamic Array bunu kastediyor.)
+
+Ama bunun için Single Linked List içinde node var.
+
+  142  -  503  -  608  -  321  -  809      
+"A",503|"B",608|"C",321|"D",809|"E",null  --> nodeler bir sonraki değerin adresini taşıyor. Yani araya yeni bir değer eklediğimizde		
+		                              o değer bir sonraki kısmın adresini taşıyor ve dolayısıyla performance sıkıntısı olmuyor.
+
+Linked List'lerde Double Linked List kullanılır = Single Listten farkı, Double'in her iki tarafı da işaret etmesi. Yani Single'de son değerin
+sonunda null varken, double'de ilk değerin başında da null var. Adress olmayınca null yazıyor.
+------------------------------------------------------------------------------------------------
+Vektor Slaytta yazıyor. sayfa 19
+Vector is synchronized(thread-safe) = bir kod üzerinde aynı anda 2 farklı yerden düzenlemeye izin vermiyor. Dolayısıyla senkronizasyon sorunu olmuyor.
+------------------------------------------------------------------------------------------------
+LinkedList vs ArrayList. sayfa 18
+
+
+

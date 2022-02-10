@@ -1,0 +1,41 @@
+public class cellphone {             =cellphone adında template oluşturduk. main method yok.
+String brand;
+String color;
+double price;
+double screensize;
+	
+	
+	public void call() {          = no static.
+		
+	}
+	public void message() {
+		
+	}
+	public void takeaphoto() {
+		
+	}
+}
+
+
+public class dogObjects {
+
+	public static void main(String[] args) {   =main method var.   
+
+		dog dog1 = new dog();              =dog class dosyasındaki değişkenlere yeni özelliklerde köpek ekleyebilmek için dog1'i açtık.
+		
+		dog dog2 = new dog();
+		
+		dog dog3 = new dog();
+		
+		dog1.age=10;           =0 iken 10 oldu.
+		dog1.breed="nein";     =null iken nein oldu
+		dog1.color="hi";
+		dog1.name="co co";
+		dog1.barking();        dog dosyasındaki barking methodunu yapıyor. parantez içine değer verilebilir.
+		dog1.hungry();
+		dog1.sleeping();
+		System.out.println(dog1.breed); breed değişkenini yazdık.
+		
+	}
+
+}

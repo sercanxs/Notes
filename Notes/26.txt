@@ -1,0 +1,36 @@
+for ( ){} = for içinde yeni açılan değişkenler aynı data type olmalıdırlar. yani birisi long ise diğeri long olabilir. Ama değişkenler loop'un dışında açılmışsa içeride iki farklı 
+            data type'de değişken de kullanılabilir.
+
+
+	public static void main(String[] args) {
+		for(int i=1;i<6;i+=1) {
+		for(int j=0;j<i;j+=1) {	
+			System.out.print("*");      = +    bu tarz çıktılar için.
+		}		                      ++
+		System.out.println();                 +++
+		}
+
+
+
+
+
+
+int i = 5;
+		while(i<10) {
+			
+			System.out.println(i);
+			i++;
+		}                                       =Eğer condition true ise içeriyi yapar.i++ konmazsa sonsuz tekrar eder.
+
+
+
+	int a =1;
+		do {
+			System.out.println(a);
+			a++;
+		}while(a<10);                     =önce içeriyi yapar. koşul true oldukça başa döner. 
+
+While = true ise while kısmından sonra yazılan kodlar error verir. ama infinite loop i++ ile oluşturulmuş ise vermeyebilir.
+
+
+

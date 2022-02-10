@@ -1,0 +1,25 @@
+WebElement row = driver.findElement(By.xpath("//table[@id='table1']/tbody/tr["+i+"]")); = içerisi string olduğu için for loop'tan değeri rahatça koyabildik.(for loop --> int i)
+
+
+In html tables are represented with <table> tag
+Tables are made of <thead> and <tbody>
+
+<thead> --> this is the table header, here we have table column names
+<tr> table row, indicates one whole row
+<th> --> this tag indicates a cell that is used for table headers
+
+<tbody> this is where the data is
+<tr> table row, indicates one whole row
+<td> --> cell in a table body
+
+
+Table tag'ina getText() yazınca çıkan sonuç =
+
+Last Name First Name Email Due Web Site Action
+Smith John jsmith@gmail.com $50.00 http://www.jsmith.com edit delete
+Bach Frank fbach@yahoo.com $51.00 http://www.frank.com edit delete
+Doe Jason jdoe@hotmail.com $100.00 http://www.jdoe.com edit delete
+Conway Tim tconway@earthlink.net $50.00 http://www.timconway.com edit delete
+
+-----------------------------------------------------------------------------
+

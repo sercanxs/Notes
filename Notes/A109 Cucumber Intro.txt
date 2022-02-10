@@ -1,0 +1,221 @@
+Given --> pre conditions gibi
+When --> actionlar
+Then --> bütün whenlerin ortak amacını kapsayan bir then olabilir. --> User should be able to login.
+
+---------------------------------------------
+help --> check for update ile updatelemek gerekebilir, pom xml içinde açılacak yeni dependencyler için.
+
+
+
+
+
+Gherkin plugin
+1. Intellij IDEA – Preference - Plugins (MAC) File-Settings-Plugins (Windows)
+2. Marketplace -> Gherkin
+3. Install
+Cucumber plugin
+1. Intellij IDEA – Preference - Plugins (MAC) File-Settings-Plugins (Windows)
+2. Marketplace -> Cucumber for Java
+3. Install
+If needed pls restart your IDE
+===============================
+Create a maven project
+1. Open Intellij
+2. File -> new -> Project
+3. Select maven
+4. Click next
+5. Hit the arrow down
+6. GroupID: com.vytrack
+7. ArtifactID: EU6CucumberSelenium
+8. Finish
+9. This window if it asks
+ADD DEPENDENCIES TO POM XML
+<dependencies>
+<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-
+java -->
+<dependency>
+<groupId>org.seleniumhq.selenium</groupId>
+<artifactId>selenium-java</artifactId>
+<version>3.141.59</version>
+</dependency>
+<!-- 
+https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -
+->
+<dependency>
+<groupId>io.github.bonigarcia</groupId>
+<artifactId>webdrivermanager</artifactId>
+<version>4.1.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+<dependency>
+<groupId>io.cucumber</groupId>
+<artifactId>cucumber-java</artifactId>
+<version>5.7.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+<dependency>
+<groupId>io.cucumber</groupId>
+<artifactId>cucumber-junit</artifactId>
+<version>5.7.0</version>
+<scope>test</scope>
+</dependency>
+</dependencies>
+=============================
+Creating resources folder
+1. Right click to test
+2. New -> directory
+3. Name: resources
+4. Ok
+Creating com.vytrack.runners
+1. Right click on java
+2. New -> package
+3. Name: com.vytrack.runners
+4. Ok
+Creating utilities package
+1. Right click on vytrack
+2. New -> package
+3. Name: utilities
+4. Ok
+Creating utilities package
+1. Right click on vytrack
+2. New -> package
+3. Name: utilities
+4. Ok
+Creating step_definitions package
+1. Right click on vytrack
+2. New -> package
+3. Name: step_definitions
+4. Ok
+
+
+---------------------------------------
+
+Resources directory içinde yeni features directory oluşturduk ve içine login.feature isminde file oluşturduk. içinde yazanlar.
+Resources directory oluştururken aşağıdaki resources'e tıklamak lazım. sağ tıklayıp mark ile test resources root seçilerek yapılabilir.
+(Test resources root olarak seçtikten sonra new-->directory gözüküyor.)
+src test'in içindeki javayı da test sources root olarak marklayacağız.(resources değil sources.)
+
+Feature: User should be able to login
+
+  Scenario: Login as driver              = Test case
+    Given the user is on the login page
+    When the user enters driver information
+    Then the User should be able to login
+
+
+------------------------------------------------------------------------------------------------------
+Runners package'i içine CukesRunner classi oluşturduk
+
+
+@RunWith(Cucumber.class) = Junit anotaion oluşturduk.
+@CucumberOptions(
+        features = "src/test/resources/features" = package adressini verdik. Aşağıda bulunan class'i çalıştırınca yukarıdaki gherkin dilinin 
+                                                   komutlarını yapıyor.
+)
+public class CukesRunner { = Bunu çalıştırıyoruz yukarıdaki bilgiler given when then içinde çıkıyor. Ama içlerinde komut yok yazısı çıkıyor.
+
+
+
+}
+
+O mesajdaki given when then kısmını kopyalıyoruz. Aşağıda.
+
+@Given("the user is on the login page")
+public void the_user_is_on_the_login_page() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@When("the user enters driver information")
+public void the_user_enters_driver_information() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+@Then("the User should be able to login")
+public void the_User_should_be_able_to_login() {
+    // Write code here that turns the phrase above into concrete actions
+    throw new io.cucumber.java.PendingException();
+}
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+step_definitions package'i içinde yeni LoginStepDefs class oluşturduk. kopyaladığımız kısmı bu kısma yapıştırdık.  kırmızı kısımları import ettik.
+------------------------------------------------------------------------------------------------
+public class LoginStepDefs {
+
+    @Given("the user is on the login page")
+    public void the_user_is_on_the_login_page() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+    @When("the user enters driver information")
+    public void the_user_enters_driver_information() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+    @Then("the User should be able to login")
+    public void the_User_should_be_able_to_login() {
+        // Write code here that turns the phrase above into concrete actions
+        throw new io.cucumber.java.PendingException();
+    }
+
+
+}
+----------------------------------------------------------------------------------------------------
+ Runner class'in step definitions'ı anlaması için onu göstermemiz lazım.
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        features = "src/test/resources/features", = virgül koyduk.
+        glue = "com/vytrack/step_definitions"  = LoginStepDefs adressini buraya yazdık.
+)
+public class CukesRunner {
+
+
+
+}
+--------------------------------------------------------------------------------------------------------
+
+public class LoginStepDefs {
+
+    @Given("the user is on the login page")
+    public void the_user_is_on_the_login_page() {
+        System.out.println("hello");                       =throwları sildik ve hello yazdık.
+      
+    }
+
+    @When("the user enters driver information")
+    public void the_user_enters_driver_information() {
+        System.out.println("hellowhen");
+    }
+
+    @Then("the User should be able to login")
+    public void the_User_should_be_able_to_login() {
+        System.out.println("hello then");
+    }
+--------------------------------------------------------------------------------------------------------
+Login feature'e yeni scenario yazdığımızda aşağıdaki senaryo için given ve then'i zaten tanımladığımız için tek gereken wheni tanımlamak oluyor.
+
+Feature: User should be able to login
+
+  Scenario: Login as driver
+    Given the user is on the login page
+    When the user enters driver information
+    Then the User should be able to login
+
+  Scenario:  Login as a sales manager
+    Given the user is on the login page
+    When the user enters the sales manager information
+    Then the User should be able to login
+
+
+
+

@@ -1,0 +1,4 @@
+System.out.println(a.isEmpty()); = içi boşsa true.
+System.out.println(a.isBlank()); = içi boşsa ya da space varsa true.
+
+System.out.println(d.startsWith("Hola")); = Hola ile başlıyorsa true.

@@ -1,0 +1,172 @@
+Error'da çıkan yazılar class'lardan kaynaklanmaktadır.
+
+
+            try {String str="Java";
+		System.out.println(str.charAt(0));
+		System.out.println(str.charAt(5));
+		System.out.println(str.charAt(1));
+		
+		}catch(Exception e) {                                           
+			System.out.println("Exception happened in try block"); = hata bulursa bunu yazıyor. Ve try içindeki kodların devamı
+                                                                                 artık yazılmıyor. Exception e ise object açtığımız kısım.
+		}
+
+System.out.println("after catch"); = try catch block içinde hata olsa bile ondan sonra yazılan kodlar çalışmaya devam eder.
+
+
+Errors in Java
+
+Compile errors: Java kod yazma ekranında kırmızı olan hatalar. We can not use try/catch block to handle this.
+
+Runtime Error: Errors/Exceptions during code execution: 
+•Error that takes place during execution(Runtime Error)
+
+(Ex: StackOverFlow error(Stack memory is full), OutOfMemoryError(Heap memory            
+is full)
+We do not use try/catch to handle. = try/catch kullanmayız. main method ile diğer static methodlar arasında sonsuz döngü oluşturduğumuzda bu tarz hata çıkabiliyor.
+
+Runtime Exception that takes place during execution(Runtime Exceptions)
+(Ex: IndexOutOfBounds Exception, NoSuchElementException) = str.charAt(5) yazarken index olarak 5'in olamayacağı yönündeki hata.  
+
+
+syso-e.getMessage() = Catch'in içine yazdığımızda hata yazısını kısa özet geçiyor.  
+
+e.printStackTrace(); = Hata yazısını belki normal şekliyle yazıyor. syso olmadan yazıyoruz.  
+
+try {
+
+}catch(Exception e){ 
+
+return; = Hata bulunursa main methodu durdurur.
+}finally{
+           Hata olsa da olmasa da burası hep çalışır. hata olup return çalışırsa bile finally kısmı yine okunur. Catch kısmında hata varsa program durur ama en son finally'i okur.
+
+}
+
+Finally şu iki durum dışında hep çalışır = System.exit(0);
+                                           JVM crash
+
+
+Exception classes hata yazılarını bulundurur. Eğer exception classes --> error ve runtime exceptions class'larina ait değilse checked exceptions'dir.
+                         
+                  String str="Java"; = bunu yazsak, handle yapmasak bile kod çalışır.
+                  
+                  Thread.sleep(3000); = ama bu tek başına çalışmaz.
+
+                  Bu kodu çalıştırmak için iki şeye ihtiyacımız var. = Handle yaparız --> try, catch, finally
+                                                                       Declare: throws declaration --> throws InterruptedException(Throw değil Throws)
+
+                  Bir kodu çalıştırmak için exception class'i ayrı olarak yazıyorsak bu class checked exceptions'dır.
+
+
+	
+
+----------------------------------------------------------------------------------------------------------------
+try { Thread.sleep(3000);
+	
+	
+	}catch(InterruptedException e) { = her hatanın bir class'ı olurdu ve o class'daki yazıları yazardı. Burada bazı hataların classı'ı olmadığı için bunu yazdık.
+		
+		
+		
+	}
+
+------------------------------------------------------------------------------------------------------------------
+Multiple Catchs
+
+
+           try {
+			System.out.println(4/0);                    
+			String str= null;
+			System.out.println(str.toUpperCase());
+			
+			int[] a = {5,6};
+			
+			System.out.println(a[2]);
+			
+		}catch(ArithmeticException e) {                 = Çalışma prensibi eğer try'da bir hata görürse o hataya uygun catch'i yazıyor. ama sadece 1 tane hata için 1 tane catch  
+			System.out.println("1");                  yazıyor. Diğer hatalar ise okunmuyor. Eğer catch blokları arasında inherit ilişki varsa en child(ya da parent) olanı en üste
+			                                          yazıyoruz. Yani RuntimeException'ı ilk catch'a yazarsak error verir. Eğer aralarında inheritance yoksa catchlarin sırasına
+		}catch(NullPointerException e) {                  dikkat etmeye gerek yok.
+			System.out.println("2");                = Rule: Handle more specialized exception class before general exception classes.
+			
+		}catch(RuntimeException e) {
+			
+		e.printStackTrace();
+			
+		}
+
+------------------------------------------------------------------------------------------------------
+Aşağıdakileri bilmek zorunda değiliz. Bilmiyoruz diyebiliriz. 
+
+catch(IllegalArgumentException  | NullPointerException e) { = catch içine birden fazla hata yakalama class'i koyabiliriz. Ama bunlar arasında ilişki olmayacak ve siblings olabilirler.
+			
+			e.printStackTrace();
+			
+			
+			
+		}
+------------------------------------------------------------------------------------------------------
+throw clause
+
+throw new Exception("Another Exception"); = manually creating a error. = Bunu yazdığımızda hata yazısı gözükür.
+
+------------------------------------------------------------------------------------------------------
+throws clause
+
+public static void main(String[] args) throws InterruptedException { = bunu yazdığımızda direkt hata yazısı gözükmez. hata yazısı gözükmesi için hata yapmamız lazım.
+		                                                       bir class'i throws ettiğimizde, o class içinde hata yazılarını bulundurur. Yani Thread.sleep'in hata yazılarını
+	Thread.sleep(3000);                                            bir class bulundurur. Belki bu class aynı zamanda Thread.sleep'in ne olduğunu da anlatıyor olabilir.
+				                                       
+	}
+--------------------------------------------------------------------------------------------------------
+	public static void s1() throws InterruptedException { 
+		
+		Thread.sleep(3000);
+		
+	}
+
+s1(); error verir çünkü bu methodda checked exception declare edildiği için kim bu methodu çağırıyorsa aynı şekilde checked exception'i declare etmesi lazım ya da try-catch içinde handle etmesi lazım.
+
+--------------------------------------------------------------------------------------------------------
+Creating Custom Exceptions
+
+
+public class HungryException extends RuntimeException{
+
+
+}
+
+throw new HungryException(); = kendi exception'ınımızı oluşturduk.
+
+------------------------------------------------------------------------------------------------------------
+Buradan gelecek sorular kelimelerle olacak.
+
+catch block yoksa try'daki hata'dan sonra kod ilerlemesi durur. En son finally okunur. try catch dışına gidilmez, diğer methodlara dönülmez.
+
+
+N96 - 4. sayfada hierarcy var.
+
+Throwable is the highest level of Error handling classes   
+
+	class Error extends Throwable{}
+	class Exception extends Throwable{}
+	class RuntimeException extends Exception{} = hierarcy sorarlarsa bunları söylemek yetebilir.
+
+-----------------------------------------------------------------------------------------------------------------
+
+What is the difference between Error and Exception?
+    - Error: is used in situations where there is nothing programmer can do about it
+        Ex: StackOverFlowError,OutOfMemomaryerror
+    - Exception : is used when a programmer can handle the exception = yani handle edebiliyorsak exception'dır.(try-catch)
+                  Thread.sleep(3000); yazarken de kırmızı hata çıkıyor ama bu kırmızı hata handle edilebiliyor.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+    
+     
+	

@@ -1,0 +1,84 @@
+
+
+
+3 layers of a software: front-end / UI 
+                        Database 
+                        API 
+                        
+                        or Back-end == database + api 
+
+
+
+
+
+
+                   Only one project is done by multiple teams: 
+                      1 PO -  1 project -> communication app
+                      1 BA - helper of PO
+                      1 or more designers
+
+ technical team          DevOps-team     performance-team    design-team
+ 5dev 2test + 1qa         engineers        cyberSecurity       designers
+
+
+
+               
+
+                         15 projects 
+                         5 pM
+
+
+=======================
+Software development life cycle 
+
+development == build == implement == create 
+
+
+interview question : what is SDLC? 
+
+
+someone should have one idea : 
+
+Asiya - have an idea of building a restaurant application 
+
+
+Asiya will look for a PO(product owner from an IT company) to talk about the business. 
+
+PO with his/her business team : PM, BA --> analyze 
+
+
+PO -> gather client's(Asiya) request / requirement / information / features 
+
+
+features of app --> menu - price, name , picture
+                    order - 
+                    payment 
+                    make reservation 
+                    locations 
+                    contact  - phone , email, social media , 
+                    review - feedback , 
+                    map
+
+                    add more requirement from Business team 
+                    end user's requirement 
+                    Domain expert - expert on building restaurant app
+
+
+
+Design step: make decision on what program language and tools are gonna be used by developers and testers. 
+
+      Front-end developers - c# , c , java, javaScript, CSS, HTML 
+                             Spring , Angular 
+
+      Front-end testers - python, ruby, java .. 
+                             CucumberBDD + selenium, testnG, Junit
+
+      back-end (database + api) - JDBC, RestAsured-API...
+
+
+
+
+
+
+
+

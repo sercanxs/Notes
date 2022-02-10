@@ -1,0 +1,30 @@
+System.out.println(Arrays.toString(a)); = a'daki değerlerin hepsini veriyor. hata verirse import lazım. import java.util.Arrays;
+
+
+
+for(int val : a) {
+			System.out.println(val);       = a'dan tüm değerleri yazıyor. a integer.
+		}
+
+
+int[] a = new int[5]; 
+int[] b = a;              = b, a'daki objeyi gösteriyor. a'da bir şeyler değiştirirsek b'de de değişir.
+
+
+
+
+f(a);                            = a adresinin objesini c'ye yolladık.                                  
+
+public static void f(int[] c){
+
+
+
+}
+	
+
+
+public static int[] b() {
+		
+		int[] a = {1,5,4,6,7};  = returning array.
+		return a;
+	}

@@ -1,0 +1,159 @@
+CSS'de Locator.
+
+#disappearing_button = # + id ile adress veriyor.
+
+button#disappearing_button = button tag'i içinde.
+
+
+WebDriver driver = WebDriverFactory.getDriver("chrome");
+driver.get("http://practice.cybertekschool.com/multiple_buttons");
+        WebElement dontclick = driver.findElement(By.cssSelector("#disappearing_button")); =css adressi yazma
+
+
+
+.nav-link  = class'lari bulmak için
+a.nav-link = a tag'i içinde.
+
+eğer class değeri = btn btn-primary olduğunda arada boşluk olduğu içinde iki class vardır ve adressi için .btn.btn-primary gibi yazarız.
+
+
+
+[name='button6'] = css içinde atribute ve valueler üzerinden adress bulma.
+
+button[onclick='button6()'] = button tag'i içinde
+
+
+
+
+
+button[id^='button_'] = Css'de id'nin static kısmını aldık. sadece carrot sign ekledik.
+
+[id$='_button'] = static kısmı sonda ise $ ekledik.
+
+[id*='_button'] = contains yani _button içermesi lazım.
+
+
+
+[onclick^='button']:nth-of-type(4) = aynı özelliği taşıyanlardan aynı parent içinde olanlardan 4. sünü seçtik.
+
+[onclick^='button'][id^='button'] = 2 koşulu sağlayanı buluyor.bu 'and' komutu. 'or' komutu çalışmıyor.
+
+
+ul>li>a = tag kullanarak adress bulmak.
+
+ul a = grandchild bulmak için boşluk koyduk.
+
+h3~p = h3 tag'inin p adındaki siblingsini bulduk.
+
+
+CSS vs XPATH = interview questions
+
+css is slightly faster then xpath on IE, other browsers it is negligible.
+css is easier to write and read, cleaner syntax
+
+1. css cannot locate element using text
+
+2. css can't find from matches based on index(different parents)
+
+3. css can't locate child to parent
+
+xpath can do more than css, but it is little complex to write.
+
+Hierarchy of Locators
+
+ID: always look for id first, they are unique.(dynamic problem)
+NAME
+tagName
+className
+CSS = kolay olduğu için
+XPATH
+LINKS = go with LinkText or PartialLinkText
+
+TestNG
+Developers write their code and do Unit testing.In unit testing smallest block of code is tested.
+
+TestNG allows us to run, organize tests, it can do assertions and verification,generate reports.
+
+
+New Depencies = TestNG 
+
+
+
+ @Test                            = özel methodu çalıştırırsak sadece o çalışır. class ismini çalıştırırsak hepsi çalışır.
+    public void test1(){            @Test --> bu test edilecek diyor.
+
+        System.out.println("my first test case");     
+    }
+
+
+
+
+public class BeforeAfterMethod {  = main methoda gerek yok.
+
+    @Test
+    public void test1(){
+        System.out.println("2");
+
+    }
+    @Test
+    public void test2(){
+        System.out.println("4");
+
+    }
+     @Ignore                    = @Ignore koyduğumuzda bunu okumaz.
+     @Test
+    public void test3(){
+        System.out.println("7");
+
+    }
+    @BeforeMethod
+    public void setup(){
+
+        System.out.println("1");  = her @Test kısmından önce Before kısmı okunur.
+
+    }
+    @AfterMethod                    
+    public void teardown(){
+        System.out.println("4");  = her @Test kısmından sonra After kısmı okunur. Yani 2 tane @Test varsa Before ve After 2 kere çalışır.
+
+    }
+}
+
+
+
+
+
+
+
+
+
+
+    @BeforeClass = bununla açılan method ilk okunur. Bir kere okunur.
+    @AfterClass = en son okunur.
+
+
+
+
+ @Test
+    public void test(){
+        Assert.assertEquals("title","title");  = aynı ise konsolda bir şey gözükmez.
+
+    }
+
+
+in testng, if assertion fails, rest of the method will NOT execute, it will be ignored/skipped. 
+
+@AfterMethod'un içindekiler assertion failing varsa bile okunurlar. internet sitesini kapatabilmek için gereklidir.
+
+
+@Test ler birbirinden bağımsız olarak biri fail olsa bile diğerleri çalışır. Konsolun solundaki kısımlarda testler var.
+
+in TestNG = no main method
+
+
+
+
+
+
+
+

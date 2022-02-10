@@ -1,0 +1,38 @@
+    @Test
+    public void test1(){
+        String expectedresult = "cybertek"; 
+        String actualresult = "cyb";
+   Assert.assertTrue(expectedresult.startsWith(actualresult),"verify the inputs"); = assertTrue --> koşulun true olmasını bekliyoruz.
+                                                                                                   Eğer koşul yanlış ise konsolda verify the inputs yazıyor.
+                                                                                                   verify the inputs yazmazsak konsolda uzunca hata yazısı çıkabilir.
+    }
+
+
+    Assert.assertFalse(false); = false olmasını beklediğimiz için konsolda bir şey yazmaz.
+
+   
+ Assert.assertEquals("title","title","verify the inputs"); = son kısım koşul false olduğunda çıkan mesaj
+
+
+blueRadioButton.isSelected().sout = eğer kutunun içi doluysa true yazar. sout --> sout'a enter tıklıyoruz.
+
+greenRadioButton.isEnabled().sout = green'in içi doldurulabilirse true yazar. click komutu ile green'in içini dolduramasak bile konsolda hata çıkmaz.
+
+When we try to interact with disabled elements 2 things can happen:
+1.no action will be happen and code will not fail, not complain
+2.no action will be happen but we can get ElementNotInteractableException: element not interactable
+
+
+Checkboxes = Checkboxes'lerin içleri doldurulduklarında diğer kutular etkilenmez. RadioButtonlarda etkilenir.
+
+blueRadioButton.getAttribute("type") = type attribute'nin valuesi
+blueRadioButton.getAttribute("name") = name attribute'nin valuesi
+blueRadioButton.getAttribute("checked") = kutuya tıkladığımızda kod kısmında checked yazıyor. Eğer kodda attribute'nin value'si yoksa sonuç true ya da false.
+blueRadioButton.getAttribute("notAttribute") = böyle bir attribute yoksa sonuç null.
+
+GreenRadioButton.getAttribute("outerHTML").sout = Her şeyi String olarak yazar --> <button class="btn btn-primary" onclick="button2()" name="button2">Button 2</button> 
+GreenRadioButton.getAttribute("innerHTML").sout = Sadece text kısmını alır     --> Button 2
+
+
+usernameInput.isDisplayed().sout = bazen inputlar kod kısmında yazsa bile sitede görünmez. bu kod ile bunu anlayabiliyoruz.
+

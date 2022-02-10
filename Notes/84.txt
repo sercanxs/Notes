@@ -1,0 +1,110 @@
+ABSOLUTE XPATH
+
+
+/html/body/div/div[2]/div/div[1]/button[4] = tag'i "button" olanlardan 4'ü seçtik eğer birinci ise [1] yazmaya gerek yok.
+
+sağ tıklayıp --> copy full xpath --> paste =xpath'i veriyor.
+
+Absolute path'i kullanmayız çünkü sitedeki en küçük değişiklik kodu bozar. --> div[5] yeni div eklenince çalışması için div[6] olması lazımdır. 
+
+
+Relative Xpath
+
+//button = 2 slash --> parent,child ile uğraşmıyoruz.
+
+//button[2]
+
+//p = search'te iki tane gösterir.
+
+//p[2] = bu komut çalışmaz çünkü iki //p aynı parentclass içinde değil.
+
+//li/a 
+
+//ul//a = 
+---------------------------------------------
+
+//button[@onclick='button1()'] = turuncu olanlar attribute = @ yazdıktan sonra attribute yazıyoruz ve içine değer yazıyoruz.
+
+//button[@*='button1()'] = attribute valuesi "button1()" olan herhangi bir attribute olabilir.
+
+//*[@*='button1()'] = bu koşulu sağlayan herhangi bir tag olabilir.
+
+
+
+
+
+
+
+ WebElement button2  = driver.findElement(By.xpath("//*[@*='button2()']")); = içine adressi yazdık.
+
+
+
+
+
+//button[text()='Button 1'] = text'in önünde @ yok çünkü text attribute değil. Button 1'in ise inspect'de bir rengi yok. yani text'leri
+                                   almak için text() kullanıyoruz. = text'in full uyuşması gerekebilir. 
+
+//button[.='Button 1'] = yukarıdakinin kolay hali. 
+
+
+
+
+//button[contains(text(),'1')] = içinde text'inde 1 değerini içeren button tagını bul. yani "button 1" olsa bile bulur.
+
+
+
+
+
+
+
+//button[starts-with(@id,'button_')] = starts-with = keyword.    button_btd, button_btnbtn gibi id sürekli değişiyor ama id'nin
+                                                                button_ kısmı hep aynı kalıyor. bu durumda bu kısmı yazdık.
+
+
+
+
+
+//button[ends-with(@id,'_button')] = dynamic value'nin son kısmı hep _button olarak bitiyorsa bunu yazıyoruz ama Chrome'de çalışmıyor.
+
+
+
+
+
+//button[contains(@id,'_button')]  = id --> atribute'si içinde "_button" içerirse bunu yazıyoruz.
+
+
+//button[contains(@id,'_button')][2] = aynı koşulu sağlayan değerlerden ikincisini seçtik. 
+
+ 
+
+//div[@class='container']/p = 2 tane p varsa ve p[2] yazamıyorsak bu şekilde yazabiliriz. Bir sürü div olabilir ama div[3] yazarak her
+                             div'e ulaşamayabiliriz. //div[@class='container'] yazdığımızda bu koşulu sağlayan 3 tane değer olsa bile
+                             /p'yi eklediğimizde bu yeni koşulu sağlayan sadece bir tane kalır.
+
+
+
+(//p)[2] = farklı parent içinde p'ler varsa bu şekilde diğerlerine de gidebiliyoruz.
+
+
+//button[@onclick='button2()'and @name='button2'] = 2'sinin de olduğu --> and // or olursa --> ya da.
+
+
+
+//button[@name='button2']/parent::* = belli kısmı bulduktan sonra parent'e çıktık.
+
+//button[@name='button2']/parent::*/p = parentten geri child'a indik.
+
+
+//button[@name='button2']/following-sibling::button[2] = aynı parent içinde, altındaki button tag'lerine bakıyor.
+
+//button[@name='button2']/preceding-sibling::button = aynı parent içinde, yukaridaki button tag'lerine bakıyor.
+
+//button[@name='button2']/../../.. = yukarıdaki parentlere çıkarıyor.
+
+//button[@name='button2']/../p 
+
+
+
+
+
+

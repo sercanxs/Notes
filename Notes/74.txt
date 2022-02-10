@@ -1,0 +1,87 @@
+floor hi; = template açtığımızda sadece declare yapabiliyoruz yani floor hi= new floor(); gibi yazmıyoruz.
+
+public class calculator {
+	
+	floor floor;
+	carpet carpet;
+	
+	
+
+	public double getTotalCost(double cost,double area) {
+		
+		return carpet.getCost()*floor.getArea();                    = method içinde carpet ve nokta komutları çalışır.
+	}
+}
+
+
+
+calculator c2= new calculator(new floor(3,5),new carpet(5)); = içeriye object yolladık.
+
+public is avaliable to anywhere.
+
+        public String name;
+	public int age;
+	public char gender;
+
+
+        private int age; = private yapınca age sadece içinde bulunduğu class içinde çalışıyor.
+
+cut the access --> private ile değişkenlerin class dışındaki diğer yerlerle erişimini kesiyoruz
+setter method to initialize my value 
+create getter method to retrieve it  
+
+
+private variables.
+public  setter method
+public getter method
+
+
+
+public void setAge(int age) {         = setter method - setAge, getAge sıklıkla kullanılan method ismi.
+
+this.age=age; 
+		} 
+
+public int getAge() {                 = getter method = age normalde private'di ama getter methodu ile returnledik.
+	
+	return this.age;
+}
+	
+sağ tık source'den getter setter oluşturulabilir.
+
+construction içindeki parametlere bir kere değer verildiğinde değiştirilemeyebilir. = card c5= new card(3,5); =buraya yazdıktan sonra 3 ve 5 değiştirilemeyebilir.
+
+sağ tık source'den toString ile aşağıdaki method oluşabilir.
+
+public String toString() {
+	return "Person [name=" + name + ", age=" + age + ", gender=" + gender + "]";
+}
+
+
+
+Encapsulation(Data Hiding)
+• Encapsulation is an important concept in OOP.
+• An object hides its internal data from code that is outside the class that the object is an 
+instance of.
+• Only the class’s methods may directly access and make changes to the object’s 
+internal data.
+• You hide an object’s internal data by making the class fields private, and making the 
+methods that access those fields public.
+• These public methods are called getters and setters (accessor and mutator)(accessor=getter)
+
+Access modifier
+-private
+-public
+
+• We can provide only getter in a class to make the class immutable. (Read only)
+• We can provide only setter in a class to make the class attribute write-only
+
+
+
+
+
+
+
+
+
+

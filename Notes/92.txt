@@ -1,0 +1,118 @@
+Abstract class'dir -- interface ise keyword.
+
+
+public interface Electric {       = Class yerine interface yazdık.
+
+        public static final boolean home = true;
+	boolean rose = false;  = error vermez çünkü bu zaten public static final'dir. Yani değişkenler public static final olabilir.
+	
+	public abstract void charge();
+	public abstract void call();
+        void calinus(); = error vermez çünkü bu zaten public abstract'tir.
+
+        public default void methodA() { = interface'ler default method içerebilir. Bunun body'si var. Bu default method'un ismi default 
+                                          olsa da access modifier değildir. Bunlar abstract olmadığı için, implementation olduğu için
+		                          override istemez.
+		
+	}
+	public static int methodB() {   = interface'ler static method da içerir. Ama instance method içermez.
+		
+		
+		return 5;
+	}
+
+
+}
+----------------------------------------------------
+
+public class Tesla implements Electric {     =extends yerine implements kullandık.
+
+
+	public void charge() {                         = override ettik.
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	public void call() {
+		// TODO Auto-generated method stub
+		
+	}
+
+        public void calinus() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}
+----------------------------------------------------------
+public interface SelfDriving {
+	
+	void selfdrive();
+
+}
+----------------------------------------------------------
+public class Tesla2 implements Electric,SelfDriving { = Birden fazla interface implements ettik. Override lazım. 
+
+
+}
+
+----------------------------------------------------------
+
+
+public class vehicle extends Tesla2 implements Electric,SelfDriving { = extends ile implements birlikte kullanılabilir ama extends önce yazılmalı.
+                                                                       
+                                 
+}
+-----------------------------------------------------------
+public interface Electric {    
+
+        public default void methodA() { 
+                                          		                          		
+	}
+	public static int methodB() {   
+		
+		return 5;
+	}
+}
+----------------------------------------------------------------------
+public interface SelfDriving {    
+
+        public default void methodA() {       = Eğer iki interface'de de default method varsa, bu iki interface aşağı classlar'dan 
+                                                implement edildiğinde default method'un da overridelenmesi lazım. staticler ancak hidinglenir.
+	}
+	public static int methodB() {   
+		
+		return 5;
+	}
+}
+-----------------------------------------------------------------------
+
+We can not instantiate abstract classes and interfaces
+
+
+
+Abstract classes can have abstract and non-abstract methods
+Interfaces can have abstract, default, static methods
+
+
+Abstract classes can have constructors
+Interfaces can not have constructors = Super keyword bunu göstermez.
+
+
+-Access Modifiers
+- Abstract Classes can use all access modifiers with variables and methods 
+- Interfaces can only use public access modifier 
+(Java-11 private final avaiable too - dont worry) 
+
+
+Inheritance 
+- Abstract classes can extend a single abstract or non-abstract class and 
+implement interfaces
+- Interfaces can extend multiple interfaces
+- Interfaces support multiple inheritance
+- Interfaces can not extend classes 
+
+

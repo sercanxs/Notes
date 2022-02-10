@@ -1,0 +1,27 @@
+	String a="Apple";                =String class ismi ile açtık objeyi. bu şekilde açılanlar string pool içinde obje olarak toplanırlar.
+        String str = new String("Apple"); class ismi ve keyword'le açtık objeyi. a ve str referans değişkeni. yeni obje açılır.
+
+       System.out.println(str.length()); = String içinde ne kadar harf kullanıldığını gösteriyor.
+		int x=str.length();
+		System.out.println(x*10);
+
+
+      System.out.println(str.charAt(4));= Str'nin 5. sıradaki harfi gösteriyor.length ile son karakter bulunabilir.
+
+
+      return; = sadece return yazarak main method durdurulabilir.
+
+      String word=a.concat(str); = a'ya str'yi ekledik. plus ile oluşturulandan farkı plusda başka datatypeler kullanılırken bunda sadece string.
+
+      String word=a.concat(str).concat("hello").concat(" hi");  = birçok ekleme
+
+      boolean b=a.contains("app");         = app varsa true.
+		System.out.println(b);
+
+     Immutable String = 
+
+     String s ="java";
+         s="javascript"; = String pool içinde açılan objeler değiştirilemez. yani java objesi değişmiyor javascript objesi açılıyor s referansı bu objeyi gösteriyor.
+
+     int x = 5;
+      x=10;      =5 yukarıdakinden farklı direkt 10'a değişiyor. 

@@ -1,0 +1,125 @@
+
+
+
+
+
+       
+
+           Some PO writes 1 user story for 1 function, and creates several sub-task for the different layers. 
+
+           As a user, i should be able to upload a file. 
+             Sub-task 1:  UI upload a file
+             Sub-task 2:  DB upload a file
+             Sub-task 3: API upload a file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------
+Asya can we create one test plan and start with it but in a process  of running to add changes or  modifications to it?..
+
+- yes, we can make changes while we are working on againts our test plan 
+
+
+
+
+
+Step 3 of STLC -> test case 
+
+When do we write a test case? 
+ 
+ - whenever you have a user story to test. 
+
+
+So we write a test case based on AC? 
+
+  one test case is written based on the function that discribed on the user story & make sure you included some AC. 
+
+
+
+
+
+
+
+Login function -. user story 
+                                           expected result
+test case 1: login as an Admin               10 modules 
+test case 2: login as a student               8 modules
+test case 3: login as a teacher              10 modules
+test case 4: login with wrong/invalid password 
+test case 5: login with wrong/invalid username 
+test case 6: click login button without any credentials 
+
+
+after analyze my test cases description / test scenario / test case summary, i found that TC1 & TC3 has the same expected resule, I can just create 1 test case.  
+
+
+
+pre-condition : 
+
+delete a picture from the website. -> user story 
+
+pre-condition: there should be at least 1 picture is on the website. 
+
+
+
+Edit a user account -> user story 
+
+        Asiya --> Asya 
+
+pre-condition: at least one account should be exist with original info 
+
+
+
+------
+
+test steps : 
+
+It does not start from login page/ function always. 
+
+access to a course on Canvas -> user story 
+
+  step1 : user on the dashboard 
+  step2: user click a course (java)
+  step3: user lauch on the course page
+
+
+search an item -> test data s the item name iphone? java book? 
+
+fill a form -> data of birth -> the numbers are test data 
+               name -> the name you use is test data 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

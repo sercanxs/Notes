@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Login to Cybertek</title>
+		<style type="text/css">
+			h1{
+				color: green;
+			}
+			form{
+				background-color: lightgrey;
+				padding: 20px;
+			}
+
+			input{
+				width:100%;
+			}
+
+			input[value="Login"]{
+				background-color: blue;
+				color:white;
+				padding: 12px 20px;
+				border: 1px;
+				margin: 8px 0;
+
+			}
+		</style>
+		<script type="text/javascript">
+			function check(form) {
+				if(form.username.value=="cyber"&&form.password.value=="abc123"){
+					alert("username and password accepted");
+				}else{
+					alert("wrong username or password");
+				}
+
+			}
+		</script>
+	</head>
+	
+	<body>
+		<h1>Welcome to Cybertek Login page</h1>
+		<a href="https://cybertekschool.com/">our home page</a>
+		<br>
+		<form>
+			<label>Username</label>
+			<input type="text" id="username"/>
+
+			<label>Password</label>
+			<input type="text" id="password"/>
+
+			<label>Choose your campus</label>
+				<select>
+					<option>Tysons</option>
+					<option>Chicago</option>
+					<option>Europe</option>
+					<option>Online</option>
+
+				</select>
+
+			<input type="submit" value="Login" onclick="check(this.form)"/>
+
+		</form>
+
+	</body>
+
+</html>
+

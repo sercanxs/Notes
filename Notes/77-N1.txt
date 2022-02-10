@@ -1,0 +1,99 @@
+control + s = kaydetmek
+
+HOW TO CREATE AN HTML FILE = Kaydederken --> login.html yazıyoruz.
+
+<h yazdığımızda html gözüküyor ona tıklıyoruz. Sublime text gerekli yapıyı sunuyor.
+
+<t ile title çıkıyor ona tıklıyoruz.
+
+<title>Login to Markarow</title> = ilk head'in altına yazıyoruz. üst kısımda yazıyor.
+
+
+
+
+<body>
+Welcome to moskow  = sitede bunu yazıyor.
+
+</body> =slash
+
+<h1>Welcome to moskow </h1> = daha büyük yazar. = h'nin yanındaki sayılar arttıkça yazı boyutu küçülür.
+
+<a href="https://youtube.com">our home page</a> =farklı sayfalara yönlendirir. https yazmazsak gitmiyor.
+
+<form>
+	<label>username</label>  =input alırken username yazıyor.
+	<input type="checkbox"/>  = alacağamız input komutu
+                          <br>    =  bir satır aşağıya iniyor
+    <label>password</label>
+	<input type="text"/> = = alacağımız input -->abc123
+
+  <input type="submit" value="login"> = login buttonu isminde tıklama inputu.
+</form>
+
+
+ <input type="password"/> = type = password ise sitede yazılan şifre **** olarak gözüküyor.
+
+<select>
+	<option>Tysons</option>   
+	<option>Chicago</option>
+	<option>Europe</option>
+	<option>Online</option>       = dropdown oluşturmak. seçenekli input.
+	
+</select>
+
+
+<!--<input type="submit" value="login">  --> = comment line yapmak
+
+
+
+
+
+
+
+<style type="text/css">
+		
+                            =head kısmında bulunan buraya css kodu yazılıyor.
+h1{
+			color: green;  = h1 boyutuyla yazdığımız yazının rengini değiştirdik.
+		}
+form{
+	background: darkgreen; = yazılan input kısımlarının arkaplan rengi.
+padding: 20px 
+
+}
+input{
+			width: 100%;    = inputun girileceği kısımın sayfanın genişliğine oranı olabilir.
+		}
+
+</style>
+
+
+	input[value="Login"]{                               = Özel bir inputun görünüşünde oynama yaptık.
+				background-color: blue;
+				color:white;
+				padding: 12px 20px;
+				border: 1px;
+				margin: 8px 0;
+
+
+	<input type="text" id="Orpheo" /> = input aldığımız kutuyu boyadık.
+
+
+		}
+	input[id="Orpheo"]{
+
+		background-color: green;   
+	}
+
+	<script type="text/javascript">                              = çalışması için  kod kısmında aşağıda onclick var.
+			function check(form) {
+				if(form.username.value=="cyber"&&form.password.value=="abc123"){
+					alert("username and password accepted");
+				}else{
+					alert("wrong username or password");
+				}
+
+			}
+		</script>
+
+

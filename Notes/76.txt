@@ -1,0 +1,51 @@
+
+
+
+genel obje inherit edildiğinde = genel objectin bütün karakterikstik özelliği +normal objectin kendi ek özellikleri
+
+ In OOP, inheritance is used to create an “is-a” relationship among classes. = soru olarak çıkabilir.
+
+inherit edilen class= Super, Parent , Base Class.
+inherit eden class =  SUB,   Child  , Derived CLass.
+
+public class student extends person {        = Person'ın özellikleri student'e geçiyor. student'in kendi ek özellikleri var. 
+                                               student = ChildClass , person = ParentClass
+	
+}      
+
+        public String name; =Public variable
+	int age;    =default variable. = default değişkenleri sadece aynı package içerisinde inherit edilebilir.
+
+
+
+
+ neler inherit edilebilir.
+
+All public variables and methods.    
+All protected variables and methods
+All default variables and methods are inherited only if super class and 
+sub class are in the same package.   
+Private variables and methods are not inherited. But it is accessible 
+using public getter/setters.
+Constructors are not inherited.         
+
+Single Inheritance = bir tane inherit etmek yetiyor.
+Multi Level Inheritance = bir class bir başka class'ı inherit ettiğinde kendisi child class olur. Aynı zamanda başka class onu inherit
+                          etse o zaman parentclass olur. Eğer iki durum birlikte gerçekleşirse multi level inheritance vardır.
+
+Hierarchical Inheritance :         ----A---- 
+                                   |   |   |
+                                   B   C   D 
+B, C, D = A'yı inherit ettiklerinde ve aralarında bağ yoksa böyle bir durum hiyerarşiktir.
+
+
+Multiple Inheritance = Bir class dosyası içinde 2 tane class dosyası inherit edilemez. 
+                       
+                       public class student extends person
+                       public class student extends animal =error.
+                       
+                      
+                       Dog extends Fish extends Animal - Bu şekilde de yazılamaz.
+
+                       (interview'de sorarsalar = böyle bir şey olmaz ama Multi Level inheritance yaparız)
+

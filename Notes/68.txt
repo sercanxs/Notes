@@ -1,0 +1,149 @@
+public static void main(String[] args) = String args command line ile ilgili. command line argument
+                                         Powershell'de java classname apple 1 2 true yazdığımızda bu argument sayesinde apple 1 2 true 
+                                         yazıyor.
+
+
+	public static void main(String[] args) {
+		sum(2,4);
+		sum(3,6,7);
+		sum(10,2,4,6,7);
+
+	}
+	public static void sum(int... numbers) {             = int numbers array gibi davranıyor. sum methodlarının hiçbiri error vermiyor.
+		int sum=0;
+		for(int a:numbers) {                           for each loop uygulayabiliyoruz.
+			sum=sum+a;
+			
+		}
+		
+		System.out.println(sum);
+	}
+
+}
+
+
+
+
+
+             double d = Math.pow(4.0, 2.0);   = karesini alma cevap 16.
+	
+	
+		
+		double d1=Math.sqrt(25.0);  = cevap 5.
+
+	
+	    
+	    final double d2 = Math.PI;               =pi sayısını bu şekilde yazmalıyız.
+	  
+
+          	System.out.println(Math.round(5.6)); = Yakına yuvarlıyor. Cevap 6.
+
+              	
+	    		System.out.println(Math.floor(4.9)); = 4'e yuvarlıyor
+	    		System.out.println(Math.ceil(4.1));  = 5'e yuvarlıyor
+
+
+
+
+
+
+
+
+
+	              Byte by1=new Byte((byte)100);
+			
+			 Byte by2=new Byte("100"); 
+			
+			 Byte by3=new Byte(100);     =error. casting yapmalıyız.
+
+		 Integer int1 = Integer.valueOf(100); = new yazmak istemeyenler için.
+			
+
+		 Boolean bool1 = Boolean.valueOf(true);
+
+Wrapper class gives us convertion skills that --> Auto boxing and Auto unboxing.		
+
+Auto boxing converts primitive to object.
+
+                         Integer int11 = new Integer(12); Burada conversion yok no-boxing(auto boxing'de olabilir)
+			 Integer int12=12;  =             auto-boxing  (new ile oluşturulmayan veya ilk harfi küçük 
+                                                            olanlarda boxing olabilir yani burada auto boxing olabilir.
+                                                           12 --> primitive'dir ve object oluyor.)       
+			 int int13=int11;               burada Auto boxing oluyor yani int --> Integer oluyor.  
+
+
+
+Auto-Unboxing converts object to primitive.
+                         
+                         Double doub3=3.14; ---> auto-unboxing
+			 Double doub4=new Double(3.14);  =Bu kısımda conversion olmuyor.yani no boxing. auto-unboxing de olabilir.(bu tarz örneklerin hepsinde boxing  olabilir.)
+			 double doub5=doub3;   Bunda ise Auto-Unboxing oluyor. 
+
+
+
+
+                         Integer n2=new Integer(10);
+			 
+			 Integer n3=new Integer("10");  =String
+			 
+			 
+			 Byte by1=new Byte((byte)100);
+			 
+			 Byte by2=new Byte("100"); =String
+			 
+
+			 Double d3=new Double("45.2"); =String
+			 Double d2=new Double(45.2);  
+			 
+			 Boolean b1=new Boolean("true");
+			
+			 Boolean b2=new Boolean(true);
+			
+			 
+			 Character c1= new Character('a'); =bunda string error veriyor.
+			
+			 
+
+
+	long l1= new Long(545345435L); = Unboxing 
+		Long l2= new Long(213213); = ilk Long büyük ise zaten baştan primitive başladığı için no boxing. (ama boxing de olabilir.)
+                long l3=l2;= long is object. object is change to primitive --> unboxing
+
+
+int n=5;
+Integer num1=n; --> Integer num1=5; auto-boxing
+
+
+	Integer int100 =Integer.valueOf(100);
+		Double d100=int100;           =Casting, wrapperlerde mümkün değil.
+
+int number =Integer.parseInt("2018"); =String integere dönüşüyor.
+Integer number =Integer.parseInt("2018");
+
+
+        int a1=5;
+	String c=String.valueOf(a1);
+	String c2=Integer.toString(a1);   =integer string yapma.
+
+
+         int a ="24";error
+         String a1="24";
+         int number12 =Integer.parseInt(a1); =String'i integere çevirme.
+
+
+	System.out.println(Byte.MAX_VALUE);=Byte max value.
+System.out.println(Character.MAX_VALUE);= cevap = "?"
+
+System.out.println(Character.isAlphabetic('a'));         =Alfabetikse true
+	System.out.println(Character.isAlphabetic('1')); =Alfabetik değil false.
+
+
+System.out.println(Character.isLetter('j')); = letterse true.
+
+        System.out.println(Character.isDigit('5')); =true
+	System.out.println(Character.isDigit('a')); =false
+
+
+	
+
+

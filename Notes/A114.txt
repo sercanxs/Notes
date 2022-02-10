@@ -1,0 +1,86 @@
+HOW TO RE-RUN FAILED TEST CASES IN CUCUMBER ? --> verify ile çalıştırdıktan sonra fail veren test caseleri çalıştırıyoruz.
+
+                                              
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"json:target/cucumber.json",
+                "html:target/default-html-reports",
+                "rerun:target/rerun.txt"},          = rerun kısmını yazdık bu kısım bize failed testcase'lerin adressini verdi.
+        features = "src/test/resources/features",
+        glue = "com/vytrack/step_definitions",
+        dryRun = false,
+        tags = "@strauss"
+)
+public class CukesRunner {
+}
+
+---------------------------------------------------------------------------------------------------------------------
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"html:target/failed-html-report"},    = failed için yeni report ekledik.
+        features = "@target/rerun.txt",                 = rerun'daki failleri çalıştırıyoruz.
+        glue = "com/vytrack/step_definitions"
+)
+public class FailedTestRunner {  = Case sensitive. Verify'e tıklayınca CukesRunner ile birlikte bu da çalışır. failler iki kere test edilir.
+}                                  
+
+
+failleri görmek için failed html reporttaki index'e tıklıyoruz.
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+maven install --> google maven --> Maven – Welcome to Apache Maven --> Use  Download, --> Binary zip archive	apache-maven-3.8.4-bin.zip.
+--> indirilen dosyanın içindekileri kopyaladık. --> this pc --> c'ye yapıştırdık. --> bu dosyanın adresini kopyaladık. --> This pc --> properties
+-->Advanced system settings --> environment variables --> new --> system variables New --> name Maven_Home --> value --> C:\apache-maven-3.8.4
+--> ok --> New --> name M2_HOME --> value --> C:\apache-maven-3.8.4--> ok --> System variables --> click double to path --> new --> C:\apache-maven-3.8.4\bin 
+--> her çıkana ok. --> powershell --> mvn -version.
+
+Eclipse Maven Project Oluşturmak için:
+Eclipse --> new --> other --> click maven --> maven project. -->click create a simple project --> next --> id and artifact finish 
+
+---------------------------------------------------------------------------------------------------------------------
+windows --> search --> file explorer options --> view --> show hidden files folders.
+
+C-->users --> -->.m2--> şirketlerde buralarda settings file oluyor. dependencyler ile alakası olabilir.
+
+---------------------------------------------------------------------------------------------------------------------
+intellij project'i open in explorer ile açıyoruz.
+
+powershel'i açıyoruz cd yazıp project dosyasını cd'nin yanına sürüklüyoruz. artık pwd yazdığımızda project'in adını veriyor
+ls yazdığımızda pom da gözüküyor. mvn clean, mvn verify gibi kodları yazıdığımızda çalışıyor. Kod çalışırken ctrl c yapınca duruyor.
+
+---------------------------------------------------------------------------------------------------------------------
+Maven 
+Maven is build management tool in java.There are other build 
+tools in java such as gradle and ant. 
+ 
+Create a project 
+Manage dependencies 
+Comple,test,run 
+Deploy  
+
+As a tester, I use maven to create my test automation 
+framework, I manage my dependencies, run my tests, 
+and generate reports. 
+
+Maven project always has 3 things. 
+ Pom file(project configuration, dependencies) 
+ -src folder(actual code) 
+ -Target folder(fro complied classes, for reports) 
+
+Companies may use their own repository/nexus. We need to 
+add .settings file in the maven home folder. Get this file from 
+you coworkers, company documentation. 
+
+Maven home folder-> maven creates a folder called .m2 in 
+the user folder 
+
+
+
+
+
+
+
+

@@ -1,0 +1,59 @@
+
+Byte ve Shortlar 
+
+   short first=10;
+   short second =20;
+   short third=(short)(first+second);
+   short third=first+second;=error short ve byteler toplanırken integer olarak algınlanıyor sonuç integer olduğu için hata veriyor
+   short fourth=10+20; = program biliyor, bunlar integer değil.
+
+Unary Operators
+   int i=10, j=5;
+	 i++; = Bunu buraya yazdığımız zaman yani postu kullandığımız zaman bu satırda bir etkisi olmuyor. Yani değeri burada 10 kalıyor.
+	 --j; = Ama bulunduğu satır bittikten sonra i'nin değeri 11'e çıkıyor. J ise direkt bu satırda değeri 4'e düşüyor.
+          
+	 
+	 System.out.println(i); 11
+	 System.out.println(j); 4
+
+         System.out.println(i++); değeri bu satırda aynı kalıyor ama bu satır bittiğinde değeri bir yükseliyor. i'nin değeri buna değişiyor.
+         System.out.println(--j); değeri bu satırda düşüyor. j'nin değeri buna değişiyor.
+
+         boolean flag=true;
+	 
+	 System.out.println(!flag); false
+
+         int x=2;
+         int y=x++; = x bir dahaki satırdan itibaren üç olacağı için y bu satırda ve sonraki satırlarda iki kalıyor.
+         y=y++;     = böyle bir durumda y'nin değeri burada da sonraki satırlarda da değişmiyor.
+
+         int a=50;
+		
+	 int result= --a + a++ + a-- + a++; = 49 + 49 + 50 + 49 --> a en son 50 oluyor ama aradaki değerleri böyle.
+		
+         System.out.println(result); = 197
+
+         Assignment Operators:
+
+         x=y --> x=y
+         x+=y    x=x+y
+         x-=y      x-y
+         x*=y      x*y
+         x/=y      x/y
+         x%=y       x%y
+
+         Relational Opreators:
+         All RO return boolean.True or False
+         > 
+         >= Greater than or Equal
+         <
+         <= Less than or Equal
+         == Equal
+         != Not equal
+
+         boolean b1=first!=second;
+         System.out.println(b1); = true
+         System.out.println((24*2)<=(44*2));
+
+
+   

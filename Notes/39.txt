@@ -1,0 +1,27 @@
+dog dog1 = new dog(); =new object
+Scanner sc = new Scanner(System.in);
+
+dog1 = non primitive datatypes
+       reference variables
+
+methods, local variables, reference variables in stack(primitive variables are in stack)
+
+objects, instance variables in heap
+
+System.out.println(dog1); = dog1  de bir değişken ve referans değişkenleri objectin adresini gösteriyor.
+                            dog1 sadece objectin adresini taşır. Objecti taşımaz.
+
+main method içinde yazılan değerler stackte depolanırken dog1 referansı ile açılmış objenin içindeki değişkenler heap'te depolanır.
+class dog{ } ise template'dir hafızası yoktur.
+
+Garbage collector referanssız kalan objeleri siliyor
+
+dog1=null; objeleri referanssız bırakıyor.
+dog1=dog2;
+
+Library Classes=bu classlar ile uzun sürede yapacağımız şeyleri kısa sürede yapıyoruz.
+java library lang packagei classlar import istemez. java bu import işlemini otomatik yapar. ama util package'indeki classlar için import
+gerekir.
+
+import package.name.Class; = import java.util.Scanner;
+import package.name.*;     = import java.util.*;=java util packageindeki tüm classleri çıkarır.

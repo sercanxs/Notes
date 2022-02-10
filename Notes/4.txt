@@ -1,0 +1,70 @@
+
+ 
+
+ folder: -> Directory
+ 	- it's a special place where we can save files, or even folders. 
+
+ path: the location of the folder or a file.
+
+
+
+
+
+   How you can open termianl -- > Mac
+   How you can open powershell --> Windows
+
+
+   Commands we usually use:
+   pwd --> Print working directory. It shows the location of your command prompt. It's important to know where are you located in the command prompt before you conduct any other actions. 
+
+   cd --> Change directory. changes your directory to your desired location. 
+
+   **Make sure your folder name and file name is correct when you given them to your command, they are case sensitive.**
+
+   clear --> We use that to clear up our command prompt. 
+
+   cd .. --> Brings you one directory up from your current directory. 
+
+   ~ --> Represent home directory.
+
+   cd ~ --> Brings you back to your home directory.
+
+   ls --> list all folders under current directory.
+
+   history --> list all the commaned typed in the history of the command prompt.
+
+   mkdir --> make directory(folder).
+
+   keyboard 'TAB' button ussage --> Start typing a file name or a folder name and press 'Tab' on your keyboard to auto complete it.
+
+   rm --> remove a directory in windows.
+
+   rmdir --> remove directory in windows and mac. 
+
+   touch --> Touch command, it will create a file. (for mac only)
+
+   new-item --> new-item, it will create a file. for example: new-item this_is_my_first_file
+
+   rm -r --> forcefully remove a folder. Example: rm -r foldername
+
+   1. create a folder named "CommandPractices" on your Desktop by using powershell/terminal.
+   2.create three text files within the folder you can created by using powershell/terminal.
+   3. delete each text file one by one by using powershell/terminal.
+   4. delete the folder "CommandPractices" from the dekstop by using terminal/powershell.
+
+
+   cp --> copy a file from one location to another location. For example: cp filename1 filename2 
+
+
+   Copy-Item --> copy a file from one location to another location.For example: Copy-Item "C:\User\Desktop\test.txt" -Destination "C:\User\Desktop\Test_Folder\test.txt"
+
+
+  cp orginal_file_path destination_file_path
+
+  1. Create a folder on the desktop with named folder1, create another folder on the desktip called folder2.
+2. Navigate into folder1 and create a file named Folder1_file.txt. 
+3. Copy this file from folder1 to folder2 and rename it to Folder2_file.txt
+
+
+cp C:\Users\yusuf\Desktop\folder1\Folder1_file.txt C:\Users\yusuf\Desktop\folder2\Folder2_file.txt
+

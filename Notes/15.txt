@@ -1,0 +1,49 @@
+
+
+  - Dynamic testing types == Software testing levels 
+         - unit testing            unitleri test
+         - Integration testing     toplu unitleri birlikte test
+         - System testing           level 3 testerlerin yaptığı.
+         - User Acceptance Testing (UAT)
+
+
+ expected result == client's requirement 
+ actual result == the output / actually result after performing testing
+
+
+Static testing: testing documents , no coding , performed manually
+
+
+Dynamic testing: testing code and software
+                 performed manually & automatically 
+
+
+
+
+Verification process : process of prepare documents, testing it(perform static testing) 
+
+
+Validation process: process of write code, and test it (dynamic test)
+                    
+              e.g:  a frontend developer wrote code to build a login feature
+                    then he/she performed dynamic testing to test the code 
+
+
+
+
+who perform the static testing? 
+    - whoever wrote a document, and all the people are related to the document.
+
+    e.g: 1. in requirement gathering step, business team & client perform static testing 
+
+         2.  in design step, designers and client, maybe business team also perform static testing 
+
+
+
+
+
+automatic testing=computer basic testing(resimleri gözlerimizle kontrol ederiz bu manuel olabilir. Unitleri tek tek kontrol ederiz.
+manually testing=                        bu manuel olabilir. Jenkinse atarız dosyaları bu automatice daha yakındır.Manuel is with no automation tools.)
+                                         
+
+

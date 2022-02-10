@@ -1,0 +1,1 @@
+I think the most important thing for this question is to highlight the feature of JAVA as a platform-independent language. Actually, JVM provides us with this feature. We also have a motto for this concept, "Write Once, Run Anywhere". 

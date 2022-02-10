@@ -1,0 +1,27 @@
+Java is a computer programing language.
+object oriented
+platform independence = can run every platform
+
+Java Components
+Java Virtual Machine: Bytecodeleri okur. Bu bytecodeleri bilgisayar okuyamaz dolayısıyla bytecodelerin yorumlayıcısı budur.
+Can run Java programs.it doesnt physically exist.
+JRE= Java Runtime Environment. JVM'yi içerir. Java programlarını çalıştırabilmek için buna gerek vardır. Örneğin JVM matematiği
+anlayamayabilir. JRE bunların yorumlanmasını sağlar, bytecodelere çevirir. it physically exists.
+JDK= Java Development Kit. JRE'yi içerir. Kod yazmak için buna gerek vardır. İçinde kod yazabileceğimiz gerekli araçları içerir.
+
+Java code structure 
+Class Header: public class HelloWorld
+Opening and Closing Braces
+Main Method: public static void main(String[] args)
+Displays a message on the screen
+Semi Colon; Every Statment finishes with semicolon
+
+How Java Works
+
+Write our code in any text editor and save it as classname.java
+Compile our java code: javac classname.java
+.class file will be created
+Run your java code: java classname
+
+Printing Statement in Java
+ - System.out.println("Hello World");

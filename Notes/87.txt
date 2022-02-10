@@ -1,0 +1,13 @@
+Sublime text'te dosya ismine .gitignore yazdığımızda ve içine -->
+                                                                  file2.txt
+                                                                  file3.txt  yazdığımızda bu isimlerde açtığımız dosyalar github'da gözükmüyor.
+                                                                             Ama bunu gitignore'ye yazmadan önce örneğin file2.txt açmışsak file2.txt'deki değişiklikler hep gözükebilir.
+
+
+
+*.java =gitignore içine yazdığımızda dosya ismi uzantısıyla birlikte .java olarak biten bütün dosyalar github'da gözükmüyor.
+secret* =uzantısıyla birlikte secret olarak başlayanlar gözükmüyor.
+folder1 = (Şu ana kadar klasörlere dosya dedim) dosya ismini direkt yazdığımızda o dosyanın içindeki tüm klasörler github'da gözükmüyor. Tabi ilk gitignore'yi save'lemek lazım.
+
+github'da repository settings'ten ignore işlemi yapılabilir ama yukarıdaki kurallar geçerli.
+ 

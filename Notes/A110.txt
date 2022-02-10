@@ -1,0 +1,142 @@
+scenario'yu yazdığımızda given when then'lerden tanımlı olmayanları yakalamak için testi çalıştırıp 5 dakika bekleyeceğimize dryRun kısmını true yapıyoruz. Bütün scenariolar'daki
+given when then'leri okumadan tanımlı olmayanların hepsini buluyor.
+
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"json:target/cucumber.json",
+                "html:target/default-html-reports"},
+        features = "src/test/resources/features",
+        glue = "com/vytrack/step_definitions",
+        dryRun = false,                          = bunu true yapıyoruz.
+        tags = "@login" = specific senaryoları çalıştırmak için senaryolara tag verip o tagi buraya yazıyoruz. Tagler aşağıda.
+)
+public class CukesRunner {
+}
+
+
+
+----------------------------------------------------------------------------------------------------------
+@login                                             = Feature'e tag verdik.
+Feature: Users should be able to login
+  @driver @VYT-123                                 = specific senaryoya tag verdik. Bir scenario için birden fazla tag verilebilir ve farklı scenariolar aynı tagi alabilirler.
+  Scenario: Login as a driver                        
+    Given the user is on the login page
+    When the user enters the driver information
+    Then the user should be able to login
+  @sales_manager @VYT-123            
+  Scenario:  Login as a sales manager
+    Given the user is on the login page
+    When the user enters the sales manager information
+    Then the user should be able to login
+  @store_manager @smoke                            = smoke test bu yöntemle yapılıyor.
+  Scenario: Login as a store manager
+    Given the user is on the login page
+    When the user enters the store manager information
+    Then the user should be able to login
+  @abc
+  Scenario: Login as a store manager
+    Given the user is on the login page
+    When the user enters the store manager information
+    Then the user should be able to login
+    And the title should be this
+
+
+
+--------------------------------------------------------------------------------------------------------------------
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"json:target/cucumber.json",
+                "html:target/default-html-reports"},
+        features = "src/test/resources/features",
+        glue = "com/vytrack/step_definitions",
+        dryRun = false,
+        tags = "@driver and @VYT-123" = tag yazarken araya and ekleyip iki koşulu sağlayan scenarioyu alabiliyoruz. and yerine or koyarsak bu taglerden birine sahip olan bütün senaryoları
+                                        test eder. and yazmak için eski yöntem tags = {"@login","@VYT-123"}.or yazmak için eski yöntem tags = "@driver, @VYT-123" --> cucumber 3 kullanan
+                                        şirketler için gerekli. Eski yöntemler şimdiki intellijlerde çalışmayabilir.
+)
+public class CukesRunner {
+}
+
+    tags = "@login and not @wip" = and not koyunca @login olanlardan @wip haricindekileri test et.
+
+    tags = "@login and not @wip and not @wip123" = birden çok tag koyduk.
+
+    tags = {"@login","~@wip"} = eski yöntem
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+ Scenario: Navigating Fleet -- Vehicles
+    Given the user is on the login page                  = Pre condition
+    And the user enters the sales manager information    = Pre condtion kısmının devamı olduğu için And'i buraya koyduk. Action'ın devamı olsaydı When'in altın koyardık.
+    When the user navigates to Fleet, Vehicles
+    Then the title should be Vehicles
+
+-------------------------------------------------------------------------------------------------------------------------
+
+Cucumber Hooks 
+Methods that execute before and after scenarios. Hook 
+will always run, even if the scenario fails. 
+Create a hooks class
+1.Right click on step_definitions package
+2.new-> class
+3.Enter name: Hooks
+4.OK
+
+Import from cucumber NOT uni (Before after methodlar için olabilir.)
+
+
+---------------------------------------------------------------------------------------------------------------------------
+public class Hooks {
+
+    @Before                                 = cukesrunner'i çalıştırdığımızda her senaryo için before after method da çalışır. Test ignore edilse bile yani give when then tanımlı değilse
+    public void setUp(){                                                                            bile before ve after çalışır.
+        System.out.println("\tthis is coming from BEFORE");
+        Driver.get().manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+    }
+
+    @After
+    public void tearDown(Scenario scenario){
+        if(scenario.isFailed()){
+            final byte[] screenshot = ((TakesScreenshot) Driver.get()).getScreenshotAs(OutputType.BYTES);
+            scenario.attach(screenshot,"image/png","screenshot");
+        }
+
+        Driver.closeDriver();
+
+    }
+
+    @Before("@abc")                = Eğer üzerine tag koyarsak o tag'deki scenariolar için çalışır. (Custom hooks)
+    public void setUpdb(){
+        System.out.println("\tconnecting to database..."); =\t yazınca konsolda yazılar biraz sağdan yazıyor.
+    }
+
+    @After("@abc")
+    public void closeDb(){
+        System.out.println("\tdisconnecting to database...");
+
+    }
+
+
+
+}
+
+-----------------------------------------------------------------------------------------------------------------------
+Custom hookslar defaults hooklardan sonra çalışır.
+
+Default before
+Custom before
+Custom after
+Default after = Bir senaryo için iki tane before after varsa ikisi de çalışır.
+
+-----------------------------------------------------------------------------------------------------------------------
+
+
+
+    
+
+
+

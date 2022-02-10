@@ -1,0 +1,37 @@
+	public static void main(String[] args) {
+	
+hello();                                                   =methodlara gidiyoruz. Birinci methodun hepsini okuduktan sonra bir alt satıra geçiyor.                                   
+hello();
+hello();
+hello();
+harbor();
+
+System.out.println("Hello");
+	}
+	public static void hello() {                            =yeni method açtık.
+		
+		System.out.println("hi");
+		
+		
+	}
+	public static void harbor() {
+		
+		System.out.println("students studying");
+	}
+
+
+Ststs();    =eğer aşağıda method yoksa error üstünden oluşturabiliyoruz. private yazısını public 'e çeviriyoruz.
+
+deep deeper = method içinde methoda gittikten sonra methodlardan çıkarken önce içteki methodlara gidilir.
+
+public static void main(String[] args) {
+	int num=5;                                             =pass by value = num değişkeninin değeri geçiyor ama numun kendisi 5 kalıyor. İçeride ikinci num değişkeninin olması sorun
+		                                                değil çünkü sadece değer geçiyor. alt methoddaki değişkenler başka methodlarda kullanılamaz çünkü local variableler.available
+		Richard(num,5);     =değer veriyoruz.
+
+	}
+
+	public static void Richard(int num,double sum) {      = iki taraf double olsa bile iki kere double yazıyoruz.
+		System.out.println(num);
+		
+	}

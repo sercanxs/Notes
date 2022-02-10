@@ -1,0 +1,121 @@
+
+
+
+     Scrumban == Scrum + kanban 
+
+  
+
+
+
+   Scrum 3 artifacts :  1. Product backlog
+   							there is one only PB for one project 
+                             PO owns th PB 
+                             PO stores the Users stories , other tasks
+                             PO prioritize the stories 
+                             any changes for req is welcome 
+
+
+                        2. Sprint backlog
+                        	there are many SB 
+                        	for each sprint, we have 1 SB
+                        	changes are not welcome 
+                        	SM and dev team use / manage the SB
+
+
+
+    
+
+
+
+Grooming meeting --> 
+            Before the Grooming: PO write/prepare user stories & its AC 
+            					 PO prioritize stories  
+                                 Stories are stored in product backlog
+
+            During the Grooming: Scrum team = SM, PO , Dev team
+                                 PO explains the Stories & ACs 
+
+                                 Estimate story points (optional)
+
+
+
+Who decide the story points? 
+
+1. PO ask to give points, and Developers & testers give points
+
+2. PO & Developers give points (there is no testers involved estimation)
+
+
+
+
+
+
+ Jira is app/software that IT companies use to manage project- work hours, documents like user story, bug report, test cases, test results, sprint activities, and scrum artifacts. 
+
+
+
+Sprint planing : conducted in the 1st day of sprint
+
+During the sprint planning: 
+    Step1: SM creates a sprint backlog in Jira 
+    Step2: How many story points we can finish in this sprint? 
+         - SM asked each person's availability for the sprint
+         - SM ask question "do you have any day off? "
+             Original team capacity : [ (dev num + QA num) * 8 days ] 
+
+         - based on that , calculated the team's capacity 
+   Step3: PO/BA takes the stories from backlog to sprint backlog 
+   Step4: start the sprint 
+           - SM click the button "Start sprint" on jira 
+           - SM /PO write sprint Goal , choose the sprint starting & ending dat 
+
+
+
+
+
+
+
+
+sprint backlog -> exact tasks (stories, bug..) needs to be done during the current sprint 
+                 1 SB per sprint
+                 SM created SB in the sprint planning meeting 
+
+
+
+
+How many stories a team can finish in a sprint? 
+- this is a wrong question. 
+
+How many story points we can finish in a sprint? 
+
+
+ 1 sprint == 2 weeks == 10 days 
+
+     Dev team can work on user stories only in 8 days. 
+
+    1st day of each sprint - planning meeting, analze user stories, assign task
+    last day-> Demo meeting 
+
+    
+
+
+
+
+
+
+who transfers them from product backlog to spritn backlog???
+- PO 
+- Could be BA 
+- OR SM ? ? 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+package Javashort;
+
+import java.util.Scanner;
+
+public class testscanner {
+
+	public static void main(String[] args) {
+		
+		Scanner marmor = new Scanner(System.in);      
+		
+                System.out.println("Enter the code");         
+
+                int a= marmor.nextInt();
+		
+		System.out.println("Welcomen");
+
+	}
+
+}
+  değerleri konsoldan almak için scanner kullanıyoruz. öncelikle Scanner marmor kısmını yazıyoruz. marmor kendi verdiğimiz isim.
+  
+  public class kısmında class dosyasına verdiğimiz ismin Scanner olması sorun çıkartabilir. Çünkü scanner marmor kısmının çalışması için public classın üstünde import kısmı var. Ve bu 
+  
+  kısmı eğer direkt yazarak oluşturamadıysak bir diğer yöntem Scanner marmor'daki hatanın üstüne tıklayıp import util kısmına tıklamak ve class ismi Scanner olunca hata kısmında
+  
+  import util çözümü gözükmeyebilir. Sonra değişken oluşturup o değişkene uygun next kısmını yazıyoruz. değişken kısmındaki marmor bizim verdiğimiz scanner ismi. 
+
+  Program çalıştığında konsoldan gerekli veri girilince program devam eder.
+
+  nextInt()
+  nextDouble()
+  next() and nextLine() --> gets String variable types(like print and println)
+  nextBoolean
+
+  next() --> sadece bir kelimeyi yakalar.
+  nextLine() --> boşluklarla birlikte yakalar. Next kullandığımızda konsolda bir sonraki satırdan yazarız. 
+                nextLine ile önceki kodun yanına bir boşluk bırakarak yazarız. 
+                Dolayısıyla önceki kod ile birlikte yazmamak için primitive datatypesden sonra marmor.nextLine(); ekleriz.  
+                Ama String'den sonra marmor.nextLine(); eklersek konsolda bir tane ek kısmına boşa yazı yazarız. Yani
+                int'den sonra marmor.nextLine(); yazdıktan sonra nextLine oluşturduktan sonra bir daha nextLine sorun oluşturmaz.
+                Kod sırasında println önce gelse bile marmor.nextLine(); yazmadığımızda 
+                konsolda girilmesi gereken kodlar println'den önce girilir next hariç ya da String'den Stringe gidilenler hariç vs.
+                next'ten nextLine'ye giderken araya marmor.nextLine(); eklemezsek kod yazamayız. 
+
+Double'de verileri konsoldan alırken nokta yerine virgül kullanıyoruz.
+                
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+  

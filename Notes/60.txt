@@ -1,0 +1,180 @@
+
+
+
+invalid data : 1. created by yourself 
+               invalid phone # EX: 64532165
+             
+               2. Dummy data website 
+
+               3. Jaka faker 
+
+
+
+  
+14 
+user story : test case 1
+             test case 2
+
+             manually test the above 2 test cases: 
+
+             Test Execution 
+
+             ONLY 1 will be created. 
+
+how do I know which Test execution is mine? 
+ - Link funtion 
+ - Link it to my user story sO I can find it easily 
+
+
+
+
+how to find any ticket created by me or my teammates? 
+- Backlog 
+
+
+
+
+
+user story : test case 1
+             test case 2
+             test Execution 
+             bug 
+
+
+
+assign --> you will assign to a developer 
+           in some case, (you forget who is the developer, or it is rule) to assign teamlead 
+
+
+bug severity level: you decide this 
+                     how much does this bug effect the app?
+
+bug priority level: developers + Po 
+                     when to fix this bug? how urgent to fix this bug? 
+
+
+
+
+pre-condition : user login successfully 
+
+as a user, I should be able to book a study room. 
+
+
+test case: 
+step1:  click hunt module from the homepage
+step2:  
+step3: 
+step4: 
+
+
+
+@BeforeMethod          @test                 @test
+ login              book a room           calendar issue
+
+
+
+
+
+task issu type: UEG1-14(login)
+
+                 story: Task 
+                        summary: same sa the user story 
+                        description: whichever testing type is needed. 
+                        ex: 
+                        Login funtion database testing: 
+
+                        in the oracle database, the should be 20 teacher's credentials, 30 students' credentials, and 15 team lead's credentials. 
+
+                 
+ Task issu is normally created by BA, PO.                       
+
+
+Test Plan: in STLC, test plan is a document 
+
+           in jira, it is a like a folder
+           with TP ticket, we collect all the test cases in pne place 
+
+           Test plan for realse level 
+           Test plan for Sprint level 
+           Test plan for Epic level 
+           Test plan for user story level (which is not recomended)
+
+
+
+
+Test plan for Sprint level : TeamLead, or testers 
+                             1 Test Plan per sprint
+
+
+S20    S21     S22    S23   ....
+37TC   29TC    20TC   32TC
+
+
+test plan for Epic level : 1 test plan per Epic 
+
+
+1 Epic : As a user, I should be able to send message in slack. 
+   
+      Story1: s a user, I should be able to send message in channel by creating. 
+
+      Story2: s a user, I should be able to send message dirrectly. 
+      Story3:
+        :
+      Story28
+
+this Epic took total 2 sprints to work, so we create 1 test plan, and collect all TC in to the test plan. 
+
+
+
+
+
+Test plan for realse level  
+
+next release is 01/03/2021
+
+
+1 test plan -- 
+
+from 09/01/2020 - 01/03/2021(4 months/8 sprints)
+
+
+
+
+ Test plan for user story level (which is not recomended)
+
+
+
+Assignment: 
+
+each group:   1 User story(given story)
+              1 Test plan --> Sprint level 
+              1 Test Execution 
+
+ each member: 1 test case (at least)
+              link your test case to story & test plan 
+              add your test case to test execution & manually test it 
+
+              if you find any bug, create bug ticket & link it with story. 
+
+
+
+
+
+what is this bookit application about? 
+
+ - what user can do with this app?
+    - reserve study/converence rooms 
+    - users can see the map of the school
+    - view schedule
+    - update user info 
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+public class Employee {
+	
+	public Employee(int a) {
+		
+		
+	}
+}
+
+---------------------------------------------------------------
+public class fulltimeemployee extends Employee {      = error veriyor çünkü parent class'da constructor var ve gizliden açılan super();'de
+                                                        parametreler uymuyor. Childclass'da constructor açıp ilk satıra super(5); yazıp
+                                                        bu sorunu çözebiliriz ya da parentclass constructor'da parametreleri silersek bu
+                                                        sorun yine çözülür.
+
+}
+
+=Bu derste anlatmamış olabilir.
+
+Access Modifiers: - > public, protected, default, private                                    
+                  - > variables, constructors, methods can have all 4 access modifiers.
+
+    private members are accessible:
+    	- only within the defining class
+
+    default members are accessible:
+    	- within the defining class
+    	- in another class in the same package as the defining class
+
+    protected members are accessible:
+    	- within the defining class
+    	- in another class in the same package as the defining class
+    	- in the derived class defined in any package (through inheritance)
+    	- It is used to make sure the class variables are accessible only to subclasses
+
+    public members are accessible:
+    	- within the defining class
+    	- in another class in the same package as the defining class
+    	- in a class defined in another package

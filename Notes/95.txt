@@ -1,0 +1,93 @@
+
+NoSuchElementException hatası aşağıdaki durumlarda olur.
+1.locator might be wrong(dynamic or not correct)
+2.not enough wait time
+3.frame or iframe 
+
+
+
+Frames
+Program adressi bulamıyorsa iframe tag olabilir. iframe tag'i içerisinde başka html bulunur. bundan dolayı program adressi bulamayabilir.
+normalde bir html vardır. ama iframe ile ikinci html açılır.
+ 
+
+  driver.switchTo().frame("mce_0_ifr"); = frame'in name ya da id'sni yazdık.
+        
+  driver.findElement(By.cssSelector("#tinymce")).clear(); = yazı yazılacak kısımda ilk bulunan yazıları sildik.
+        
+  driver.findElement(By.cssSelector("#tinymce")).sendKeys("MikeSmith"); = MikeSmith yazdık.
+
+  driver.switchTo().defaultContent(); = ilk frame'e döner.
+
+  driver.switchTo().frame(0); = içine int yazdık. eğer bir tane frame varsa index numarası 0'dır. Direkt Grandchild'lara inilemez.
+
+  driver.switchTo().parentFrame(); = bir parent frame'e çıkıyor.
+
+  WebElement element = driver.findElement(By.tagName("iframe")); = bir tane iframe tag'i olduğu için onu kolayca Webelement olarak aldık.
+
+  driver.switchTo().frame(element); = içine Webelement yazdık.
+
+
+
+HTML                           = HTML'den direkt en alttaki framelere atlayamayız. Bir child aşağı gidebiliriz. Bu tabloyu çizmek önemli.
+     frame-top
+           frame left
+           frame middle
+           frame right
+     frame-bottom
+
+
+Direkt yanındaki frame'lere gidilemez. Ama parent'e çıkıp childlara gidilebilir.
+
+------------------------------------------------------------------------------------------
+
+Bazı siteler 5 saniye'de açılıyor dolayısıyla yazdığımız kodlar error veriyor. çözüm = Thread.sleep(6000);
+
+Hidden olanlar adress olarak bulunabilir ama mesaj yazma kısmında hata verirler.
+Hiç olmayanların adress'i de bulunmaz ama 5 saniye sonra ortaya çıkarlar.
+
+
+Implicitly Wait(Dynamic Wait)
+
+ 
+driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS); = bunu internet sitesi açılmadan önceki kısma yani beforeMethoda yazsak bile
+                                                                   çalışır.
+
+20 saniye içerisinde beklenilecek kısımlar açılınca diğer kodlar çalışır. 20 saniyede beklenecek kısımlar geçmezse program kendini kapatır.
+avantajı her şeyi süresinde beklemek. 20 saniye süre versek bile 20 saniye beklemeyiz.
+
+
+Explicit Wait
+
+     WebElement element = driver.findElement(By.id("username"));
+
+     WebDriverWait wait = new WebDriverWait(driver,10); = Explicit wait için açtık. 10 saniye boyunca aşağıdaki koşul gerçekleşsin diye bekliyor.
+
+     wait.until(ExpectedConditions.visibilityOf(element)); = koşulu buraya yazdık. Yani elementi her ne kadar konsoldan seçsek bile kendisi sitede görünür 
+                                                             değil. dolayısıyla mesaj yazamıyoruz. Görünür olana kadar bekliyoruz ve öyle
+                                                             mesaj yazıyoruz. 
+
+
+     element.sendKeys("MikeSmith");
+
+    10 saniye bekleme süresi dolarsa çıkan hata TimeOutException.
+
+
+Implicitly Wait
+
+waits while trying to findElement = findelement kısmında elementi bulana kadar bekliyoruz. Bazen elementi bulsak bile element görünür olmayabiliyor ya da başka durumlar oluyor. onun için explicitly wait uyguluyoruz.
+Bir kere yazınca bütün findElement kısımlarına etki ediyor.
+
+
+Explicitly Wait
+
+wait until condition is met or time runs out(dynamic) = belli koşul sağlanınca bekleme geçiyor.
+Gereken her yere ayrı ayrı yazıyoruz.
+
+
+
+
+
+
+
+

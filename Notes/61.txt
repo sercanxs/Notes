@@ -1,0 +1,29 @@
+array objecttir. heapte depolanır.
+
+                int[] a;
+		int b[];
+		
+		
+		
+		a = new int[5];          = a 5 tane değer içeriyor.
+
+		String[] c= new String[6];
+
+
+
+
+System.out.println(a[4]); =  a'nın 5 sıradaki değeri.     default value = 0
+System.out.println(a[5]); =  a'nın 6. sıradaki değeri error. 
+
+           a[4]=10; = değer verme  
+
+	int[] mylist= {1,2,3,4,6,8,9,14}; =no new.
+		
+		System.out.println(mylist[4]);  =cevap 6
+
+        int[] mylist1;
+         mylist1=  {1,2,3,4,6,8,9,14}; =bu şekil yanlış.
+
+       a.length = a.length(); gibi değil.
+
+      

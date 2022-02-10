@@ -1,0 +1,36 @@
+	String result;
+	    int score=48;
+	
+		result=score>60 ? "1" : "2"; = true ise 1 false ise 2 yazar.
+		
+		System.out.println(result);
+		
+		int x =2;
+		System.out.println(x>2 ? x<4 ? 10:8:7); = 2. koşul true ise 10, false ise 8, ilk koşul false ise 7.
+
+
+
+
+
+		
+		
+		
+		for(int a=0;a<5;a+=1) {
+			System.out.println("hello");
+			
+		}   = okuma sırası a=0 - a<5 - System.out.println("hello"); - a+=1       = a++ da gelse ++a da gelse en son bu kısmı okuduğu için sonuç değişmez.  
+
+          
+
+               int a sadece bu parantezler içinde geçerlidir. bu parantezlerden sonra yeniden int a oluşturulabilir.
+
+
+              
+
+              Compilerin error vermediği hataları bulmak için = debug kullanıyoruz.
+
+              Soldaki mavi yere = sol çift tık ya da sağ tık ->uygun yere toggle breakpoint yapıyoruz. Run'in yanındaki debug tuşuna basıyoruz. yeşil kısım nerede olduğumuzu gösteriyor.
+                                                               sonra soldaki sarı step into tuşuna basıyoruz ve sağdaki kısımları inceliyoruz. step intolar println kısımlarına geldiğinde
+                                                               yeni dosyalar açılıyor. bunun için println satırına geldiğimizde direkt step overa basıyoruz. olur da step into basarsak
+                                                               step return yapıp sonra step over yapıyoruz.  debug bittiğinde sol üstteki kırmızı terminate tuşuna basıyoruz ve
+                                                               terminatedleri siliyoruz. sağdaki kısımdan kurtulmak için sağ üstteki javaya tıklıyoruz.    

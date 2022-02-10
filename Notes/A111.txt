@@ -1,0 +1,53 @@
+Google --> maven cucumber report yazdık ve aşağıdaki siteye tıkladık.
+
+damianszczepanik/maven-cucumber-reporting - GitHub = https://github.com/damianszczepanik/maven-cucumber-reporting
+
+Dependencies'in altına build'i ekledik.
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"json:target/cucumber.json",
+                "html:target/default-html-reports"},  =json file
+        features = "src/test/resources/features",
+        glue = "com/vytrack/step_definitions",
+        dryRun = false,
+        tags = "@login"
+)
+public class CukesRunner { = plugin'i yazdıktan sonra çalıştırınca target'in içinde cucumber.json çıkıyor mu ona bakıyoruz.
+}
+
+If you don’t see target folder click gear icon and make sure “Show Excluded Files” selected
+
+Click verify = build'i ekledikten sonra refreshledikten sonra sağ taraftaki mavenden verifyliyoruz. Build success yazısını görmeliyiz.
+
+If you have any error, click clean first then verify
+
+Build Success yazısından sonra Target içinde cucumber reports çıkıyor.
+
+Open in chrome ile açabiliriz reportları.
+
+pages package, configurationReader gibi gerekenleri oluşturduk.
+
+----------------------------------------------------------------------------------------------------------
+
+ Scenario: login as a driver user
+      Given the user is on the login page
+      When the user logs in using "User10" and "UserUser123" = "" kısımları step definitons'da parametrelere yazılıyor. dryRun true yapıp kodu 
+      Then the user should be able to login                    çalıştırıp stepdefinitons için gerekli kısmı kopyalıyoruz.
+      And the title contains "Dashboard"
+
+-------------------------------------------------------------------------------------------------------------
+
+  @When("the user logs in using {string} and {string}")
+    public void the_user_logs_in_using_and(String username, String password) { = parametre.
+        LoginPage loginPage = new LoginPage();
+        loginPage.login(username,password);
+
+
+-------------------------------------------------------------------------------------------------------------
+ Then default page number should be 1 = numara kullandığımızda integer olarak algılıyor ve step definitions'da bu integer gösteriliyor.
+
+
+
+

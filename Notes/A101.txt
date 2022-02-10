@@ -1,0 +1,150 @@
+Stack <Integer>numsStack = new Stack<>();
+		
+		numsStack.add(59);
+		numsStack.add(79);
+		numsStack.add(53);
+		numsStack.add(53);
+	
+		System.out.println(numsStack.peek()); = en son eklenen değeri yazar = 53
+		
+		
+numsStack.pop(); = en son eklenen değeri siler.
+
+last in first out bu şekilde çalışıyor.(Stack)
+
+--------------------------------------------------------------------------------------
+	Queue<String> queue = new LinkedList<>();
+		
+		queue.add("mike");
+		queue.add("ozzy");
+		queue.add("cemal");
+		
+	
+		
+		String name = queue.remove(); = ilk eklenen değeri siler. Silmeden önce değişkeni kaydettik.
+		
+		System.out.println(name); = mike
+		
+		System.out.println(queue.toString()); = ozzy cemal
+
+                name = queue.poll(); --> queue.remove(); ile aynıdır ama bir farkı var. queue boşsa null yazar.
+		
+		System.out.println(name);
+
+
+ 	        name = queue.peek(); --> en öndeki değeri silmeden aldık.
+		
+		System.out.println(name);
+
+
+Queue is first in first out
+
+---------------------------------------------------------------------------------------------
+
+
+Set<Integer> mySet = new HashSet<>();
+		
+		
+                mySet.add(100);
+		mySet.add(100);
+		mySet.add(100);
+		mySet.add(500);
+		mySet.add(300);
+		mySet.add(900);
+		mySet.add(800);
+		
+		System.out.println(mySet.toString()); = [800, 100, 500, 900, 300] = aynı değer iki kere yazılamıyor. 800'ün ilk sırada 
+                                                                                    olmasının sebebi HashSet'ler hashcode'lere göre sıralanıyor.
+
+
+
+List<String> list = Arrays.asList("23","12","aa","zajb","321","bb");
+		
+		Set<String> unique = new HashSet<>(list);
+		
+		System.out.println(list.toString());
+		System.out.println(unique.toString()); = hashcode'lere göre sıralıyor, duplicateleri bir olarak yazıyor.
+
+
+
+TreeSet <Integer> tSet = new TreeSet<>();
+
+	        tSet.add(50);
+		tSet.add(50);
+		tSet.add(50);
+		tSet.add(20);
+		tSet.add(40);
+		tSet.add(30);
+		tSet.add(90);
+		
+		System.out.println(tSet.toString()); = [20, 30, 40, 50, 90] = sıraya dizdi sayıları ve aynı değerin iki kere yazılmasına izin vermiyor.
+
+
+---------------------------------------------------------------------------------------------
+Slayt sayfa 30'dan soru gelebilir. = Ozzy'nin evinde bütün duvarlar bu tarz resimlerle notlarla doluymuş. Interview için aradıklarında direkt bakıp cevaplıyormuş.
+ 
+---------------------------------------------------------------------------------------------
+nums.forEach(n -> System.out.println(n)); = nums'ın içindeki değerleri tek tek yazıyor. (lambda ile ilgili)
+
+
+	nums.removeIf(n -> n<50); = 50'den küçük değerleri siliyor.
+
+
+----------------------------------------------------------------------------------------------
+
+List<Integer> nums = new ArrayList<>();
+		
+		nums.add(40);
+		nums.add(30);
+		nums.add(56);
+		nums.add(34);
+		nums.add(12);
+		nums.add(43);
+		nums.add(65);
+		
+		
+		
+		Iterator<Integer> it = nums.iterator();
+		
+		
+		
+		System.out.println(it.hasNext()); = Bir sonraki kısımda değer var diyor --> true.
+		
+		System.out.println(it.next()); = 40 --> 0 noktasındayız bir sonraki 40
+		System.out.println(it.next()); = 30 --> 40 değerindeyiz bir sonraki 30
+		System.out.println(it.next()); = 56 --> 30 değerindeyiz bir sonraki 56
+		System.out.println(it.next()); = 34 --> 56 değerindeyiz bir sonraki 34  = son değere geldiğimizde it.hasNext(); false verir ve bunun ile loop oluşturulabilir.
+
+
+               Bu objectin içindeki değerlerin hepsini yazdığımızda artık geriye dönüş yoktur ve yeni object gerekir.
+
+
+               Iterator<Integer> it2 = nums.iterator();
+
+
+               What is the difference between for each loop and iterator --> interview question
+
+               - we can remove objects while looping in iterator.
+
+               it.remove(); = içinde bulunulan değeri siler. it.next() yazınca çıkan değeri değil ama ondan bir önceki değeri siler.
+
+
+--------------------------------------------------------------------------------------------------
+
+	List<String> cities = new ArrayList<>();
+		
+		cities.add("Boston");
+		cities.add("New York");
+		cities.add("Virgina");
+		cities.add("DC");
+		
+		
+		 for(String a : cities) {
+			 cities.remove(a);  = çalıştırırken error verir. for each loop içinde remove methodu kullanılamaz.
+			 
+			 
+		 }
+
+
+
+		

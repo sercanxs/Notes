@@ -1,0 +1,32 @@
+
+HOW TO CREATE AN HTML FILE = Kaydederken --> login.html yazıyoruz.
+
+<head> --> tag contains information about the webpage like title, it is not content of the page but info about the page.
+
+<body> --> all content inside the body tag related to webpage.
+
+<a href="value">content</a>
+
+Attributes --> gives additional information, capability,feature to tag = "incele"deki turuncu kısımlar attribute mavi kısımlar value
+
+All attributes come insdite the opening tag. Thay are name and value combination. = mor olanlar html tags.
+
+css selector = declarations = turuncu - mavi = tag - atrributes'in css'deki durumu.
+
+to use css we use style html tag
+<style type="text/css"> CSS CODE HERE </style>
+How css works:
+1.we locate the element(providing tag and attributes)
+2.we provide style code for that element/elements
+Element --> building block of html document,html pages, consist of html elements
+
+HTML --> put the content to the webpage
+CSS--> used for designing the webpage
+JS--> action to the page
+
+Javascript gives action to page, actions like login, open and close tabs, pages, make a pop up etc.
+id attribute --> uniquely identifies an element
+we use script html tag to put some javascript code our html page
+<script type="text/javascript">JS CODE HERE</script>
+
+MAKE SURE YOUR OS LANGUAGE IS ENGLISH

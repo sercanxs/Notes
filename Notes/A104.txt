@@ -1,0 +1,205 @@
+ com.cybertek'in içine pages package açtık. içine java class koyduk.
+
+    public LoginPage(){
+        PageFactory.initElements(Driver.get(),this); = Constructor açtık. Driver kısmı başka class'dan geliyor. Selenium anotaions'ların çalışması için bu lazım. Driver.get().get(ConfigurationReader.get("url")); = bu kodların ikisi yeni site açıyor ve ikisi birlikte kullanılsa bile bir site açılıyor.
+                                                       
+                                            
+                                                       
+    }
+
+    //driver.findElement(By.id("prependedInput"));
+                                          
+    @FindBy(id = "prependedInput")
+    public WebElement usernameInput;
+
+    @FindBy(id = "prependedInput2")  = @FindBy selenium'da findelement yerine kullanılıyor. Selenium Anotaions'dir.
+    public WebElement passwordInput; = WebElement declare ettik daha intialize etmedik.
+
+    //driver.findElement(By.id("_submit"));
+    @FindBy(id = "_submit")
+    public WebElement loginBtn;
+
+------------------------------------------------------------------------------
+
+
+    @Test
+    public void wrongPasswordTest(){
+
+        LoginPage loginPage = new LoginPage();  = object oluşturduk. Constructor'ı çağırdık.
+
+        loginPage.usernameInput.sendKeys("user1"); = selenium kısmında declare ettiğimiz WebElement'leri kullandık.
+        loginPage.passwordInput.sendKeys("somepassword");
+        loginPage.loginBtn.click();
+
+        Assert.assertEquals(driver.getCurrentUrl(),"https://qa1.vytrack.com/user/login");
+
+    }
+
+
+Bunun yapılmasının sebebi internette login page'in address'ini bulmaya gerek kalmıyor. Yani TestCase'ler kolay yazılıyor ve
+developer'ler id'yi değiştirirse 200 yerden id'yi değiştirmek yerine @FindBy kısmında id'yi değiştiriyoruz.
+
+com.cybertek.pages'in içinde LoginPage örneği en aşağıda.
+
+----------------------------------------------------------------------------
+   public void login(String username,String password){   = Login page içinde login methodu oluşturduk bu method sayesinde sürekli login komutları yazmaya gerek kalmıyor.
+        usernameInput.sendKeys(username);                  içine 2 parametre gerekiyor.
+        passwordInput.sendKeys(password);
+        loginBtn.click();
+    }
+
+
+public void loginAsStoreManager(){                       = Bunun içinde parametre yok. Direkt bu method ile login yapabiliyoruz.
+ 
+        String username = ConfigurationReader.get("storemanager_username"); 
+        String password = ConfigurationReader.get("storemanager_password");
+
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginBtn.click();
+    }
+
+
+----------------------------------------------------------------------------
+@FindAll --> gives us option to use multiple locators, if at least one of them is matching it will find the web element. Birisi tutarsa onun webelementini veriyor olabilir.
+
+@FindAll({
+@FindBy(id = "prependedInput"),
+@FindBy(name ="_username")
+})
+public WebElement usernameInput;
+
+----------------------------------------------------------------------------
+@FindBys --> if all locators are matching with element then it will return it. AND logic applies here. --> ikisi de aynı webelementin adressini vermesi lazım. Öyle olursa Weblementi verir.
+
+@FindBys({
+@FindBy(id = "prependedInput"),
+@FindBy(name ="_username")
+})
+public WebElement usernameInput;
+
+
+@FindBy kullanılırken .btn.btn-primary gibi bir css address'i kullandığımızda bütün buttonların WebElement adressi geliyor böyle bir durumda public List<WebElement> gerekir.
+
+
+----------------------------------------------------------------------------
+
+Page Object Model
+
+Page Object Model --> this is a design pattern that enhances the ease of maintenance and reusability. It is a class that mirrors the behavior and object(web elements) 
+of a webpage from the app. In page object model we create classes that serve as an object repository.
+
+How to create Pom ?
+Create a new package
+1.Right click on cybertek
+2.new -> package
+3.Enter name: pages
+4.OK
+
+Create page object class for login page
+1.Right click on pages package
+2.New-> Class
+3.Enter name: LoginPage
+4.OK
+
+Page Object Model vs PageFactory
+
+Page Object Model --> design pattern in selenium
+PageFactory --> is class in selenium using which we can create page object model.
+
+
+-------------------------------------------------------------------------------
+
+com.cybertek.page içinde BasePage 
+BasePage --> will contain elements and functionalities that are common on other pages. = sitede farklı sayfalara gitsek de hep sağ üstte profil resmi kısmı var. Bununla ilgili
+                                                                                         komutları tekrar tekrar yazmak uzun sürebilir. Bunun için kolay hale getirdik.
+
+BasePage, BrowserUtils'den birçok method kullanabilir. BrowserUtils ise utilities içinde oluşturduğumuz class. İçinde birçok method var. Bu class'in örneği diğer sayfada.
+
+
+BasePage'in abstract olmasının sebebi birçok object açılmasını engellemek. Bunun sebebi BasePage specific site için geçerli.
+
+
+
+-------------------------------------------------------------------------------------------
+LoginPage örneği
+-------------------------------------------------------------------------------------------
+
+
+package com.cybertek.pages;
+
+import com.cybertek.utilities.ConfigurationReader;
+import com.cybertek.utilities.Driver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindAll;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class LoginPage {
+
+    public LoginPage(){
+        PageFactory.initElements(Driver.get(),this);
+    }
+
+    //driver.findElement(By.id("prependedInput"));
+    @FindAll({
+            @FindBy(id = "prependedInput"),
+            @FindBy(name ="_username")
+    })
+    public WebElement usernameInput;
+
+    @FindBy(id = "prependedInput2")
+    public WebElement passwordInput;
+
+    //driver.findElement(By.id("_submit"));
+    @FindBy(id = "_submit")
+    public WebElement loginBtn;
+
+
+
+    public void login(String username,String password){
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginBtn.click();
+    }
+
+    public void loginAsStoreManager(){
+
+        String username = ConfigurationReader.get("storemanager_username");
+        String password = ConfigurationReader.get("storemanager_password");
+
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginBtn.click();
+    }
+
+    public void loginAsDriver(){
+
+        String username = ConfigurationReader.get("driver_username");
+        String password = ConfigurationReader.get("driver_password");
+
+        usernameInput.sendKeys(username);
+        passwordInput.sendKeys(password);
+        loginBtn.click();
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

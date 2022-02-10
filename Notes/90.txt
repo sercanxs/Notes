@@ -1,0 +1,111 @@
+package day40_accessmodifiers_final_hiding;
+
+public class car {
+	
+	
+	
+	
+	
+
+}
+
+class car1 {               = aynı görüntü içerisinde iki class açılabilir alttaki public olamaz yukarıdaki public ya da default olmalı.
+	
+	
+}
+-------------------------------------------------------
+
+Variables, Constructors, Methods = tüm access modifiers'leri kullanırlar.
+
+int x; --> önüne access modifer koymadığımızda bu defaulttur ve aynı package içerisinde geçerlidir.
+
+protected int x; --> aynı package veya farklı package içerisindeki sub classes'lerde geçerlidir.(yani farklı package içindeyse sadece 
+                                                                                                 inheritance ile kullanılabilir.)
+------------------------------------------------------------------
+public cartest() {
+		engine=30; =constructor içerisinde protected'i kullanabildik. yani c.engine gibi yazmadık inheritance'den dolayı.
+                            c.year gibi değişkenleri yazmak için import ve obje açmak gerekli.
+		
+		
+		
+	}
+--------------------------------------------------------------------
+
+Doğrudan inherit etmesek bile arka planda 
+
+public class cartest extends Object vardır ve constructor içinde gizliden açılan super(); keyword bunu gösterir. Nokta koyduğumuzda çıkan bir
+                                                                                         sürü method bu object class'dan kaynaklanır.
+
+-----------------------------------------------------------
+final is a non-access modifier which is applicable to a variable, method and class.
+
+Final variable = değiştirilemiyor.
+Final methods = override edilemiyor.
+Final Classes  = inheritance edilemiyor.
+
+
+When local variable is final, we can declare and assign value later in code
+
+When instance variable is final, we need to initialize it in:
+•same statement
+•constructor
+•init block
+
+local variables can't have access modifiers
+
+--------------------------------------------------------
+
+Final Arrays'lerde object değiştirilemez. ama objectin içerisindeki değerler değiştirilebilir.
+
+Arraylist'lerde aynı kural geçerli.(Değiştirmek için new keyword ile açılan objectleri işaret edemiyoruz ama diğer objectleri belki işaret edebiliriz.)
+
+--------------------------------------------------------
+
+Inheriting Variables
+
+We can not override instance variables; we can hide them. 
+
+
+
+public class Parent {
+	
+	public int x=100;
+	
+	public void increment() {
+		
+		x++;
+		
+	}
+}
+---------
+public class child extends Parent {
+	
+	public int x =200;            =inherit edemiyoruz ama parent class ile aynı isimde yazıyoruz.
+
+}
+---------
+public class TestParentChild {
+
+	public static void main(String[] args) {
+	
+		child s = new child();
+		
+		s.increment();             =Parent class'daki 100'ü artırır.
+		
+		System.out.println(s.x);   =Childclass'daki 200'ü yazar.
+
+                Parent p = new Parent();   =Parent class'daki 100'ü yazmak için
+		
+		p.increment();
+		System.out.println(p.x);
+
+	}
+}
+
+-----------------------------------------------------------
+
+We can not override  static methods; we can hide them.
+
+Method overriding'de parent class ve child class'taki methodlara static koyduğumuzda method hiding oluyor.
+
+

@@ -1,0 +1,100 @@
+ + toplama
+ -
+ *
+ /
+ % bölümden kalanı veriyor.
+
+     System.out.println(56+5);
+     int morechairs=chairs+7;
+
+number + number = toplama
+number + String = 5Hello
+String + Boolean = Hellotrue
+Boolean + number = error
+String + char = String
+char + char = toplama
+
+System.out.println(2+0+3+"Cybertek"+(5+3+4));= Cybertekten sonra iki parantez koymazsak çıktı 5Cybertek534 olur.
+
+
+int art=7;
+art*0.2 = 5'e bölmek için 0.2 ile çarpıyoruz yoksa sonuç kesirli çıkmıyor.
+
+precedence of calculation
+
+-(unary negation) ! - 1 (sayının önündeki artı eksiler ve ünlem)
+*/% - 2
++-  - 3
+
+ System.out.println((6-6+7-1)/6);= Parantez içi işlem önceliği
+
+Type Cast Operator
+	1- Implicit Casting
+	2- Explicit Casting
+
+Implicit Casting
+
+int x = 'A'; Char kelimelerini inte yazınca inte normal sayı geliyor.
+System.out.println(x); //65
+
+Conclusion:
+1- Done by compiler
+2- Smaller data type to bigger data type
+3- Widening
+4- No Loss of Data
+
+
+byte - > short - > int - > long - > float - > double
+
+Explicit Casting
+
+int x = 130;
+byte b = x;
+
+(x 4 byte b 1 byte-compiler will not do it)
+
+
+byte b = (byte)x;   = byten sınırı inte ulaşamadığı için bu yöntemi uyguluyoruz. 
+System.out.println(b); //-126 
+
+Conclusion:
+1- Done by Programmer
+2- Bigger Data Type to Smaller Data Type
+3- Narrowing
+4- Loss of Data
+
+byte < - short < - int < - long < - float < - double
+
+int x=130;
+byte b = (byte)x;
+
+int(32 bit) = > 00000000 00000000 00000000 10000010 = int byte çevirme yöntemi
+
+byte(8 bit) = > 1 0000010 (first digit is 1 - negative)
+
+ complement form  = > 1111101
+ 
+ sonuçta veri kaybı oluyor.
+
+
+double x = 3/5 = 0 = integer/integer=integer 
+
+double celcius,fahrenheit;
+    		celcius= 702/5; = integer/integer = 140
+    		celcius=celcius/9; = Double/integer = double
+                                     integer/double = double
+                System.out.println(celcius); = 15.55555555
+
+               int pies   = 5     = integerler kesirli sayı olamaz. integer/integer'de kesirli kısım gider. Ama işin içinde double olunca error verir.
+               piesperson = (double)pies/people; = sonucun kesirli çıkması için integer olan piesi double formatına getirdik.
+               piesperson = double(pies/people); = böyle bir durumda içerisi integer/integer olacağından ilk sonuç integer olur ama devamında sonuç double olur. Çıktı ise = 24.0
+                 
+
+ 							
+ 					  
+
+
+
+
+
+

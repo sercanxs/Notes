@@ -1,0 +1,115 @@
+Polymorphism is the ability of the object to take on many forms = driver hem chrome olabilmeli hem firefox hem ie.
+
+Polymorphism is when reference type is a parent class/interface and 
+object type is child.
+
+ChromeDriver driver = new ChromeDriver(); 
+ Ref.type  - ref.name        object.type
+
+Public interface MyInterface{}
+Public class ClassA implements MyInterface{} = burada interface'i implement edince MyInterface parent class ve ClassA ise child class oldu. 
+Public class ClassB implements MyInterface{}
+
+ClassA a = new ClassA(); = burada reference type ve object type parent class olduğu için polymorphism yok.
+ClassB b = new ClassB();
+
+MyInterface a = new ClassA(); = polymorphic way. parent-child oluşabilmesi için inheritance lazım yani extend ya da implement lazım.
+MyInterface b = new ClassB();
+
+----------------------------------------------------------------------------------
+
+
+	public static void main(String[] args) {
+	
+		
+		shape s1 = new shape();
+		s1.draw();
+		shape s2 = new circle();
+		s2.draw();                 = eğer method override edilmişse child class methodunu okur yoksa parent class methodu okur.
+
+	}
+
+}
+
+-------------------------------------------------------------------------------------
+	shape[] shape = new shape[3]; = Arrays // holding 3 objects.
+    
+	shape[0]= new triangle();
+	
+	shape[1]= new circle(); = Polymorphic way
+	shape[2]= new square();
+	
+	for(shape a :shape) {
+		
+		a.getClass().getName();     = hangi class'dayız onun ismini gösteriyor. getClass bize object hakkında bilgiler veriyor.      
+		a.getClass().getSimpleName(); = ismi basitçe gösteriyor.
+		a.draw(); = gösterilen objectdeki methodu uyguladık. Polymorphic way olunca Polymorphism kuralları geçerli.
+		
+		
+		}
+
+--------------------------------------------------------------------------------------
+
+	shape sh = new triangle();
+
+		if(sh instanceof triangle) {        =sh'nin gösterdiği object triangle ise true. 
+			
+			System.out.println("Triangle");
+				
+		}else {
+			
+			System.out.println("other");
+		}
+
+---------------------------------------------------------------------------------------
+		ArrayList<shape> shapelist = new ArrayList<>(); = polymorphic olması için parent-child olması lazım. 
+		shapelist.add(new triangle());
+		shapelist.add(new square());
+		shapelist.add(new circle());
+---------------------------------------------------------------------------------------
+	List<shape> shapelist = new ArrayList<>(); = Burada ArrayList yerine List yazarak parent class'i koyduk. Polymorphic.
+		shapelist.add(new triangle());
+		shapelist.add(new square());
+		shapelist.add(new circle());
+-------------------------------------------------------------------------------------
+
+       Reference type decides what is accessible = polymorphic way'de sadece override methodlar çalışabiliyor.
+
+      
+		shape s1 = new shape();  = burada polymorphism yok.
+		s1.draw();
+		shape s2 = new circle(); = burası polymorphic way o zaman overridelere bakıyor.
+		s2.draw();               = bu method override değilse error. 
+
+---------------------------------------------------------------------------------------
+Instructs the compiler to change the existing type of an object reference 
+to another type
+
+                shape s1 = new shape();
+		s1.draw();
+		shape s2 = new circle();
+		s2.draw();
+		
+		circle obj2 = (circle)s2; =s2 objesini circle objesine castingledik. Yani referans type'i shape değil de circle oldu. Bunu yaparak override olmayan methodları çalıştırdık.
+		s2.draw();
+                ((circle)s2).draw(); = yukarıdakinin farklı versiyonu.	
+----------------------------------------------------------------------------------------
+A obj = new B(); = C'ye daha gelmemiş.
+C obj2 = (C) obj;  //not possible
+A
+B
+C
+You can not cast below your object level = daha C'ye ulaşmadığı için error veriyor. 
+
+A obj = new C(); olsaydı 
+B obj2 = (B) obj; çalışabilirdi. C daha aşağı seviyede olsa bile B'yi kapsıyor.
+
+
+	
+
+
+
+
+
+
+

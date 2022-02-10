@@ -1,0 +1,40 @@
+id dynamicse id'i almak zor olabilir. Dynamic olduğunu anlamak için refresh yapıyoruz.
+
+
+ driver.manage().window().maximize(); = ekranı büyütüyor.
+
+
+
+
+ WebElement signupbutton = driver.findElement(By.name("wooden_spoon"));
+        signupbutton.click();
+
+
+ driver.findElement(By.name("wooden_spoon")).click(); = lazy way
+
+name can be duplicated.
+
+
+
+ WebElement fullNameInput = driver.findElement(By.tagName("input")); =tag locator. mor kısımlar tag kısımları. ilk bulduğunu seçiyor.
+        fullNameInput.sendKeys("Mike Smith");                         ctrl + f ile aynı isimde başka tagler var mı onu görüyoruz.
+
+
+Class Locator
+
+     WebElement homelink = driver.findElement(By.className("nav-link")); = ilk gördüğünü seçer. class isminde boşluk varsa yani
+                                                                           "btn button1" gibi yazılıyorsa içinde 2 class var demektir.
+                                                                           bu durumda kod çalışmaz.
+
+
+
+
+   WebElement link1= driver.findElement(By.linkText("Example 1: Element on page that is hidden and become visible after trigger")); = uzunca yazan kısımı aldık. --> link text'ini aldık
+                                                                                                                                       Bu link text linkler için geçerli olabilir.
+        
+
+        WebElement link2= driver.findElement(By.partialLinkText("Example 4")); = diğerlerinden ayırıcı olan kısmını aldık.
+
+
+
+

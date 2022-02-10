@@ -1,0 +1,4 @@
+		int[] y= {};
+		y = new int[2]; = y'nin içinde y[0] değeri yok bunu yazmamız lazım.
+		
+	

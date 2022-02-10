@@ -1,0 +1,23 @@
+Kod 1 - syso/sout yazıp ctrl + space ve tab = System.out.println(); = "" içermiyor.
+
+public class HelloWorld {
+    public static void main(String[] args) {
+	System.out.println("Hello World") ;
+    }
+}
+
+ln koymazsak eğer bir sonraki print ile yazdığımız koddaki yazı bu yazıya eklenir.
+
+Concetanation: +
+
+System.out.println("All " + "Are"); = All Are
+
+\": iki tane "" arasına bir tane " koyunca hata vermemesi bu şekilde yazıyoruz.
+\': "" arasına ' yazmak için kullanılır.
+\\: "" arasına koyunca \ bir tane çıkar.
+
+Yorum yapmak için en başa
+//: bir satır kullanılabilir.
+/*: */ ile bitirilince birden fazla satırı yorum için kullanmaya izin verir.
+
+

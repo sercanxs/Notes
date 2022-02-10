@@ -1,0 +1,122 @@
+Scrum : 
+
+      
+
+      Scrum 3 artifact : 1. Product backlog 
+                         2. Sprint backlog ->  SM & dev team responsible manage the SB 
+                                              
+
+                         3. Burndown chart -> report , sprint report 
+
+                                              total amaonut of points that burns each everyday 
+
+                                              reminds the dev team remained work amount / story points
+
+
+                                              SM opens and shows this during the daily stand up 
+
+      Scrum 5 events / meetings : 
+                
+
+             
+
+
+
+       
+
+
+                    in Sprint planning: 
+                    1. some team leaders assign user stories /tasks to spesific team members during the meeting 
+
+
+                    2. people just randomly take user stories to work on 
+
+
+
+
+On the sprint plain meeting,  the SM (she/he) has one day off. Who is handle SM responsible on the day?
+
+  - in my team ,BA / PO handle it 
+
+
+
+
+
+
+dev team -> 3 dev & 2 qa --> one of them is a team/tech lead 
+
+
+            8 dev -> tech leader 
+            5 qa  -> qa team leader / qa manager 
+
+
+
+
+
+
+
+ 
+ before 10am, each developer & qa has to open the Scrum baord , prepare thier 3 question's answer 
+
+     what I did yestersday ? / last business day ? 
+
+       - RAS-1
+
+
+     what i am going to do today ? 
+       - RAS 10 
+
+
+     is there any problem? 
+     - no 
+
+
+
+
+
+
+
+
+
+Demo : 
+
+Atendee posibilities : 
+
+1. Scrum team members : PO, SM, Dev team 
+
+                       - PO represent the client to give feadback / accept/reject users stories 
+
+                       - each dev team member demo about what she/he has done 
+
+                       - PO based on the team's DOD accept/reject a story
+
+
+2. Scrum team + stakeholder (the client, investors )
+        
+            - stakeholder will give feedback 
+
+
+3. Scrum team + stakeholder + PM 
+
+
+4. Scrum team + other team (UAT, performance ) + stakeholders + PM
+
+
+5. Scrum team + entire team members in the company 
+
+         - instead of each person do demo in this kind of big members 
+         - one person from the dev team / scrum team  demo -> team lead , BA
+
+
+
+
+
+
+
+
+
+
+
+
+
+

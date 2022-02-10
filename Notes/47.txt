@@ -1,0 +1,8 @@
+System.out.println(a.substring(5)); = 5 numaradan itiraben okumaya başlar.
+
+System.out.println(a.substring(5,7)); = 7 numarayı kapsamaz.
+
+System.out.println(d.toLowerCase());  = bütün karakterleri küçük harf yapar.
+System.out.println(d.toUpperCase());
+
+System.out.println(d.trim()); = baştaki ve sondaki boşlukları siler.

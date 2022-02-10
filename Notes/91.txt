@@ -1,0 +1,109 @@
+public abstract class Animal {
+	
+	
+	public void eat() {
+		
+		}
+	public void breathe() {
+		
+		
+	}
+}
+-------------------------------------
+public static void main(String[] args) {
+		Animal x = new Animal();  = abstract class için object oluşturamayız. Can't be instantiated bunu kastediyor. Error.
+                                                          
+
+	}
+
+------------------------------------------
+
+public abstract class Animal {
+	
+	
+	public abstract void eat(); = Abstract methodun curly brace body'si yoktur.
+		
+		
+	public abstract void breathe();
+
+        public void instance() { = instance method.
+	System.out.println("hi"); = instance methodun içine bunu yazdığımız zaman child class error veriyor.	
+		
+	}
+
+}
+--------------------------------------------------------------
+public class Dog extends Animal{
+
+	@Override
+	public void eat() {      = çözümü ise abstract methodları override'lemek
+		
+        System.out.println("Dog is eating"); =child class içinde değer verdik.	
+	}
+
+	@Override
+	public void breathe() {
+		
+		
+	}
+}
+------------------------------------------------------------------
+public class Bird extends Animal{  =error verir --> abstract methodları override'lemeliyiz.
+
+
+
+}
+------------------------------------------------------------------
+public abstract class Bird extends Animal{ = abstract classlar başka abstract classları inherit ederken override şartı yoktur.
+
+
+
+}
+-------------------------------------------------------------------
+public class parent extends Bird{ = parent class Bird Abstract class'i inherit etti ama Bird Abstract class'inda override olmadığı için
+                                    sonuç error veriyor. Bird ya da parent class'da override methodlar olmalı.
+
+
+}
+----------------------------------------------------------------------
+
+
+Abstract class içinde constructor bulunabilir. Eğer constructor varsa ve içinde parametre varsa child class'da gizliden açılan super();
+onu göstermez dolayısıyla child class'ta constructor açıp super() ve parametre ile işaret etmeliyiz.
+
+
+
+Can you add instance or static variables into abstract class?
+	- Yes we can have instance variables in abstract class
+
+- Variables can not be abstract
+		abstract int id; //Error
+
+Can you add instance or static init block?
+	- Yes we can 
+
+
+Can an abstract class extend another non-abstract class?
+	- Yes it can 
+
+Can we add static method into abstract class?
+	- yes we can 
+
+Can a method be abstract and final in abstract class?
+	- No it can not 
+
+	public abstract class Browser{
+		public abstract final void navigate(String url); //Error
+		public abstract void displayWebpage();
+	}
+
+Can abstract method be protected, private, and default?
+	- private: no
+	- default: yes 
+	- protected: yes
+
+
+Eğer abstract method, abstract olmayan classlara kadar implement edilmemişse error yazısı abstract olmayan ilk classda gözükür.
+
+
+

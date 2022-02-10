@@ -1,0 +1,18 @@
+method overloading
+
+
+	public static int sum(int a,int b) {
+		
+		return a;
+	}
+public static int sum(int a,int b,int c) {          = iki aynı isimde farklı method açtık.
+		
+		return a;
+
+sum ctrl space =sum methodlarını gösteriyor.
+
+
+	public static int sum(int a,long b) {}
+        public static int sum(long a,int b) {}
+ 
+sum(20,20);=error verir hangi suma ait olduğunu bilmiyor.

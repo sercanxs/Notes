@@ -1,0 +1,9 @@
+Random a = new Random();                   =import gerekli.
+		
+		int b =a.nextInt(100);     =0-99
+		int c =a.nextInt();        = eksi sayılar da dahil.
+		System.out.println(b);
+		System.out.println(c);
+        
+          a.nextDouble()=0.0 1.0 arasında.
+          float =0'dan sonra double'e göre daha az sayı var

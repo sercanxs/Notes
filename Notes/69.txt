@@ -1,0 +1,50 @@
+ArrayList is a class in the Java that is similar to an array and allows you to store objects.
+
+
+Arraylist is a class = import java.util.ArrayList;
+ArrayList<String> a = new ArrayList<String>(); = String = sadece object olabilir.(double konulmaz-->Double konulur.)
+ArrayList<String> a = new ArrayList<String>(100); = hiçbir şey yazılmazsa kapasite 10'dur ama şimdi 100 yaptık(size ile kapasite aynı değil). String = wrapper class 
+                                                    yani int koyacaksak int değil de Integer.
+
+ArrayList<String> a = new ArrayList<>();    =Sağdaki string kısmı yazılmasa da olur.
+		
+		a.add("hi");                =ekleme yaptık 
+		a.add("mike");
+		a.add("hello");             =for each loop ile kullanılabilir.
+
+ArrayList<Integer> b = new ArrayList<>(); 
+		
+		b.add(100);
+		b.add(new Integer("100"));
+
+
+        System.out.println(a.get(0)); = hi
+        System.out.println(a.size()); = 3 değer var = hiç değer yoksa 0.
+        System.out.println(a.isEmpty());  = içi boşsa true.
+
+        System.out.println(a.toString()); = [hi, mike, hello]
+
+       a.remove(0); = 0 numaradaki değeri sildi.
+       String n1 = new String("mike");
+       a.remove(n1);                   = özel bir değeri silmek için içeriye object yazmak lazım.
+       a.remove(new String("hi"));     = object.
+        a.remove("hello");             = hello zaten object olduğu için new'e gerek yok. Yukarıdakiler Integer'de kullanılabilir.
+
+        a.add(0,"welcome"); = 0'a ekledik. Diğerleri sağa kaydı.
+        System.out.println(a.indexOf("mike")); = mike'in sırasını veriyor. içeride yoksa -1.
+       a.clear(); = a'daki her değeri siliyor.
+       a.addall(a1) = a1'deki değerlerin hepsini a'ya ekledik. a1 array değil de arraylist olabilir.
+
+
+       	ArrayList<String> a = new ArrayList<>(); 
+		ArrayList<String> c = a;                   = c, a'nın gösterdiğini gösteriyor.
+		ArrayList<String> d = new ArrayList<>(a);  = d, a'nın gösterdiğini kopyalıyor.
+
+
+         System.out.println(a.contains("hi")); = hi varsa true.
+         System.out.println(a.get(1).equals("Welcome")); = 1 sıradaki welcome ise true. 
+
+        System.out.println(a.containsAll(a)); = içerideki a kısmına collection lazım. yani "hello" yazsak error verebilir. Soldaki a, içerideki a'daki değerlerin hepsini içeriyorsa true.
+
+       
+

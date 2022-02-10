@@ -1,0 +1,204 @@
+ Scenario: Menu Options Driver
+    Given the user logged in as "driver"
+    Then the user should see following options
+      | Fleet      |
+      | Customers  |
+      | Activities |
+      | System     |      = değerler dynamic olabiliyor. Böyle bir durumda parametreye list yazılır.
+
+dryRun true yapıp kodları kopyaladık.
+
+Parametre kısmının parametresini değiştirdik. -->  public void the_user_should_see_following_options(List<String> menuOptions) {
+
+}
+
+      | Dashboards         | = sağ daki pipenin soluna ctrl + alt + l basınca pipeler sıraya giriyor.
+
+
+----------------------------------------------------------------------------------------------------------------
+
+  Scenario: login as a given user
+    Given the user is on the login page
+    When the user logs in using following credentials
+      | username  | user10      |
+      | password  | UserUser123 |
+      | firstname | Brenden     |        = map key and value oluşturduk.
+      | lastname  | Schneider   |
+    Then the user should be able to login
+
+
+ @When("the user logs in using following credentials")
+    public void the_user_logs_in_using_following_credentials(Map<String,String> userInfo) { = parametreye map yazdık.
+
+}
+
+------------------------------------------------------------------------------------------------------------------
+@login
+Feature: Users should be able to login
+
+  Background: the user is on the login page = bütün givenleri background'a attık bir scenario çalışmadan önce burası çalışır.
+
+  @driver @VYT-123
+  Scenario: Login as a driver
+
+    When the user enters the driver information
+    Then the user should be able to login
+  @sales_manager @VYT-123
+  Scenario:  Login as a sales manager
+
+    When the user enters the sales manager information
+    Then the user should be able to login
+  @store_manager @smoke
+  Scenario: Login as a store manager
+
+    When the user enters the store manager information
+    Then the user should be able to login
+  @abc @wip
+  Scenario: Login as a store manager
+    
+    When the user enters the store manager information
+    Then the user should be able to login
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+  @After
+    public void tearDown(Scenario scenario){
+
+        if(scenario.isFailed()){
+            final byte[] screenshot = ((TakesScreenshot) Driver.get()).getScreenshotAs(OutputType.BYTES); = After'a screenshot koyduk byte olarak kaydettik.
+            scenario.attach(screenshot,"image/png","screenshot");
+
+        }
+
+        Driver.closeDriver();
+
+    }
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Reportu ve Screenshotu görmek için CukesRunner'e gelip maven'e tiklayip verify yapıyoruz.(maven pluginleri için maven kullanıyoruz.)
+
+Hatalar --> cucumber-html-reports içinde overview-features.html içinde gözüküyor. Açınca sol alttaki mavi feature kısmına tıklıyoruz
+aşağıda hookslarda screenshot var.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+        plugin = {"json:target/cucumber.json",
+                "html:target/default-html-reports", = html reports oluşturduk. default html reports içinde index'i açtık bu dosyayı görmek için
+                "rerun:target/rerun.txt"},             mavenle çalıştırmadan intellij ile çalıştırmak yetebilir.
+        features = "src/test/resources/features",
+        glue = "com/vytrack/step_definitions",
+        dryRun = false,
+        tags = "@wip12"
+)
+public class CukesRunner {
+}
+
+
+
+
+
+
+
+
+
+
+
+kodların çalışmamasının sebebinin pomların versiyonu ile alakası olabilir. 
+
+
+güncel çalışan cucumber pom'u. Clean verify gerekebilir. (Doğru scenariolarla, yoksa hata verebilir.)
+---------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.vytrack</groupId>
+    <artifactId>EU7CucumberSelenium</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>5.7.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>5.7.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>               <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <runOrder>Alphabetical</runOrder>
+                    <includes>
+                        <include>**/*CukesRunner.java</include>
+                        <include>**/*FailedTestRunner.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Cucumber HTML Reports</projectName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>**/cucumber*.json</param>
+                            </jsonFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
+
+
+

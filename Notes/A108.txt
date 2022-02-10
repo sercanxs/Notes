@@ -1,0 +1,44 @@
+Singleton
+
+same object everytime
+
+driver için belli objecti göstermekle uğraşmıyoruz. Hep aynı driver objecti kullanıyoruz.
+
+        WebDriver driver = Driver.get(); = Object oluşturduk.
+        Driver.get().get(url); = singleton olunca yeniden object oluşturmaya gerek kalmadan hep aynı objecti kullandık.
+
+--------------------------------------------------------------------------------------------------------------------
+What is framework ?
+Test automation framework is an environment that we write and execute tests. Test automation framework uses different tools, designs in order to efficiently generate, 
+run and report automated tests. In framework we use different packages, folders to make them more efficient,scalable,understadable etc.
+
+java--> our framework is written in java lang.
+maven--> build management tool we use for managing our dependencies and plugins, run from terminal
+selenium --> we use for automate the browser
+testng --> used to create tests, run tests, generate reports, building smoke/regression suites, assertions, annotations
+intellij--> ide that we used, where we write our code.
+extent reports --> used to generate html report with steps, metricts, screenshots
+apache poi --> read/write excel files
+git/github --> version control
+jenkins --> to schedule smoke/regression tests,send email to team etc.
+
+HOW DID WE USE OOP CONCEPT IN OUR FRAMEWORK ?
+
+Inheritance
+we use base classes such as test base in our framework. this class contains the properties and methods which are common to all test classes. all test classes extend this testBase class.
+
+Encapsulation
+we have a driver class that uses private driver variable and we use the public getter method to access this.
+
+Abstraction
+we have and abstract basepage where we put the logic to common all the page object classes. my page object classes extend the base class. when we create object of the any page
+object, we can access the method from abstract class.
+
+Polymorphism
+we use method overloading in our framework in multiple instances.
+we have overloaded utilites methods which can take different types of arguments.
+sometimes we can pass webelements, or by locators.
+
+ 
+
+ 

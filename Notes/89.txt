@@ -1,0 +1,34 @@
+intellij ile repository --> java project oluşturduk. --> iml ile aynı yere .gitignore file oluşturduk.
+
+.gitignore = .idea
+             out
+             *.iml
+
+
+sağ üstte VCS var. onun üzerinde en üsttekine tıklıyoruz --> git yazan kısma next diyoruz.
+
+sağ üstte git --> commit tıklıyoruz ve soldan seçip commit tıklıyoruz.
+
+Project içerisindeki kırmızı kısımlar normale dönüyor.
+
+
+Maven Project açtığımızda
+Target'e sağ tıklayıp git'ten gitignore oluşturuyoruz.
+
+içinde yazanlar =
+
+/target/
+/.idea/
+*.iml
+
+
+File --> Settings --> Version Control --> GitHub --> add'e tıklıyoruz
+
+Git-->Github-->ShareProject
+
+değişiklikleri önce commit edip sonra pushluyoruz.
+
+GitHub'u açtığımızda sol üst public'in yanında Project ismi var ona tıklıyoruz. Sonra dosya ekliyoruz. ve onu intellij'den fetchliyoruz.
+
+Git new Branch --> check out clicked --> yeni değişiklikler commit ettiğimizde branch'de oluşturduğumuz branch'e yazıyor. yeni değişiklikler
+                                         önceki branchlerde gözükmeyebilir. Önceki branchi check out yapıp. Merge'liyoruz.

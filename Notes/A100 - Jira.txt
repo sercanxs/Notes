@@ -1,0 +1,20 @@
+Actionlar = Emir 
+Expected Result = should ile kullanacağız
+
+
+Action       Data     Expected
+
+Click                  User should be able to click on the login button = Tıkla --> Tıklayabilmelisin
+
+Verify that...          User should be able to lands dashboard          = Homepage'de olduğunu kontrol et --> Homepage'de olabilmelisin
+
+
+PreConditions'da test yapmadığımız için yapılacakları detay vermeden descriptiona yazdık.
+
+Login with Valid Credentials
+
+User should able to lands on dashboard page/home page
+
+Employee281
+
+Employee123

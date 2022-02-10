@@ -1,0 +1,94 @@
+if(a==1) {
+			System.out.println("Monday");
+		}
+		else if
+		(a==2) {
+			System.out.println("tuesday");
+			
+		}
+		else if(a==3) {
+			System.out.println("wednesday");
+		}                                       =Eğer condition false ise diğer koşula geçiyor o da false ise diğerine geçiyor.
+                                                         En son sadece else de kullanılabilir.
+
+
+Nested if statements              = if içinde if kullanmak.
+
+ if(carType==1) {
+    	 if(isRushHour==true) {
+    		 price=30;
+    		}else {
+    			price=5;
+    		}
+     }else if(carType==2){
+    	 price = 55.30;
+     }
+
+
+
+if'lerde sadece bir tane komut yazacaksak {} kullanılma zorunluluğu yoktur.
+  if(true) 
+    	System.out.println("hi");
+     else
+    	 System.out.println("no");
+
+
+
+
+SwitchCaseStatement:           
+
+		String weather="windy";
+		
+		switch(weather) {
+		
+		case "sunny":                          =weather "sunny" ise bunları yap weather "windy" ise bunları yap.
+			System.out.println("go");
+			System.out.println("come");
+			break;
+			
+		case "windy":
+			System.out.println("dont go");
+			System.out.println("dont come");
+			break;
+			
+			default: System.out.println("gm"); Bunların hiç biri uymuyorsa bunu yap. Defaultun yeri önemli değildir, "sunny"nin üzerinde olsa da "sunny" ya da diğerleri çalışır.
+                                                           Eğer hiç bir değişken uymuyorsa default komutları uygulanır. String kullanma zorunluluğu yoktur. break kısımları bulunur.
+			
+		}                                        
+
+
+int a=4;                                              = Aynı cevapları veren caseler için bu şekil daha kolay.
+		
+		switch(a) {
+		
+		case 1:case 2:
+		
+		case 3:
+			System.out.println("Pass");
+			break;
+		case 4:
+		case 5:
+			System.out.println("fail");
+			break;
+		
+		}
+
+Data types supported by switch statements:
+	- int
+	- byte
+	- short
+	- char
+	- String
+
+	-boolean,long,double,float not supported
+
+
+Switch statements data type for case statements must all match the data type of the switch variable = datatyplerle casedeki veriler uyuşmalı.
+
+Case statement value must be final constant variable. = Eğer case kısmına değişken ismi yazılacaksa bu final olmalı çünkü variableler
+değişebilir.
+
+
+
+
+

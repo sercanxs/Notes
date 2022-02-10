@@ -1,0 +1,13 @@
+what is epic in agile?
+recursive methods
+decimal methods =
+	DecimalFormat a= new DecimalFormat("0.00");  =import ettik.
+		DecimalFormat b= new DecimalFormat("#.##");	
+		
+		double c=22.65656;
+		
+		System.out.println(b.format(c)); = sadece 22.56 yazar.
+		
+		String d=a.format(c); =String ile oluşturulur.
+
+System.out.printf("%3d",c); =printf

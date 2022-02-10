@@ -1,0 +1,107 @@
+Variable: Something can store a piece of data.
+
+Declaration of Variable.      : DataType VariableName;
+Assigning a Value to Variable : VariableName = Value;
+
+
+DataTypes: A particular scheme for representing values with bit patterns.  
+Bu datalar bilgisayardan hafıza kullanırlar ve bazı değişkenleri yazabilmek için farklı data gerekir. 
+
+	- > Primitive Variables
+			Integer : byte - > short - > int - > long 
+			Floating : float - > double
+			Character : char
+			Boolean : boolean
+        - > Non-Primitive Variable
+			String
+//Declaration
+		byte inches;
+		int speed;
+		short month;
+		float salescommission;
+		double distance;
+//assigned
+		inches=5;
+		speed=100;
+		month=2;
+		distance=10.2;
+		salescommission=5;
+
+//declared+assigned
+		byte inches2=5;
+
+System.out.println("hello "+inches);
+
+                
+
+
+                long l1 = -214_7483_649l; = integer sınırına girmiyor olabilir.Yani longa yazdığımız sayılar integer'den longa çevriliyor
+                  l ya da L koyarak direkt sayı kısmında longa dahil ediyoruz.
+		
+		System.out.println("l1 = " +l1);
+
+                long l1 = -214_7483_649l; = java kodları kolay okusun diye böyle aralara alttan tire koyabiliyoruz
+            
+                char a1= 'A'; 
+		char a2= '\u0041'; = Unicode de başına ters slash koyuyoruz. A'nın unicode'u
+		System.out.println(a2);
+		char a3= 65; sadece 65 yazarak A'yi veriyor.
+
+                float f1= 2.1f; = Float yazarken kesirli sayının yanına f koymazsak bunu double algılayabilir.
+
+                boolean status = true;
+                
+                System.out.println("hello world = " + status);
+		
+		String name = "Ozzy";
+		
+                Değişkenlere değer verme yöntemleri:
+
+                int price=5;
+		int quantity=14;
+		
+		int price1,quantity1;
+		price1=100;
+		quantity1=20;
+		
+		int price2=3,quantity2=30;
+		
+		String s1,s2; = daha değer vermemişiz.
+
+
+                long l1 =5; yazdığımız zaman aşağıda
+                
+                l1=6; yazarak bu sayıyı değiştirebiliriz ama
+      
+                long l1 =6 yazamayız çünkü bu durumda iki tane l1 dosyası oluşur.
+
+                final byte ark=1; yazarsak eğer ark dosyası bir daha değiştirilemez.
+
+                Variable or Classnames =
+
+                The first character must be one of the letters a-z or A-Z, an underscore( _ ), or a dollar sign( $ )
+         
+                After the first character, you may use the letters a-z or A-Z, the digits 0-9, underscores( _ ), or dollar sign( $)
+
+                Identifiers can not include spaces
+
+                Variable names can not be Java reserved word(can not be public, can be Public)
+ 
+                Camel Case : firstName
+
+                
+
+
+              
+                
+		
+	
+		
+         
+
+
+
+
+
+
+

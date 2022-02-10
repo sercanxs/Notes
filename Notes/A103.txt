@@ -1,0 +1,253 @@
+What is Automation Framework ?
+Automation framework is integrated system, organozation of packages, files, classes, tools in a way that it makes writing and maintaning automated tests easy.
+Good framework must be easy to maintain, easy to use, easy to scale, reasuable, report.
+======================================
+Properties file
+
+1.Right click on the name of the project
+2.New -> File
+3.Enter name: configuration.properties
+4.OK
+
+properties file works like a control center, we manage our browser, urls, database and couple of user information from those file and it changes values everywhere 
+that we used configuration input.
+
+It has key and value structure.
+
+Single Responsibility principle(this class only do one job)
+Create a properties reader file
+1.Right click to utilities package
+2.New -> class
+3.Enter name: ConfigurationReader
+4.OK
+
+To read, reach value in configration.properties file, I need ConfigurationReader class which allow us to read properties file type.
+
+Singleton design let us use the same version of an object across to whole program.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+                // what file to read
+
+                String path = "configuration.properties"; = Bu dosya src'nin içinde olmasaydı adresi src.tests. diye yazardık.
+ 
+                // read the file into java, finds the file using the string path
+  
+                FileInputStream input = new FileInputStream(path);
+
+                // properties --> class that store properties in key / value format = Properties dosyasına key=value yazmak yetiyor --> Username=12345
+ 
+                properties = new Properties();
+ 
+                // the values from the file input is loaded / fed in to the properties object
+
+                properties.load(input);
+
+
+               
+                 public static String get(String keyName) {  = Key'i yazınca value'yi veriyor.
+
+            return properties.getProperty(keyName);
+            }
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+        String browserType = ConfigurationReader.get("browser");  = get methodunu kullandık. Key yazınca value verdi.
+
+        System.out.println("browserType = " + browserType);
+
+
+
+
+        driver.findElement(By.id("prependedInput2")).sendKeys("ABC123"+ Keys.ENTER); =password'u yazarken enter tuşuna da bastık.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Utilites içinde Yeni Driver Dosyası oluşturduk içinde yazanlar en aşağıda
+
+ public void test3(){
+        WebDriver driver = Driver.get(); = Artık browser'i bu methodla alıyoruz. Key'lerin Return'nunu veriyor. Static methodları içerebilir.(farklı objectlerde etkisi var.)
+
+        driver.get("https://www.amazon.com");
+
+
+        Driver.get().get("https://www.amazon.com");
+    }
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Before after methodları TestBase class'a aktardık ve bu classı extends edince before after method çalışır. İçerisinde wait and actionslar var. TestBase en aşağıda.
+
+
+
+
+
+
+
+ConfigurationReader içinde olanlar
+
+
+----------------------------------------------------------------------------------
+package com.cybertek.utilities;
+
+import java.io.FileInputStream;
+import java.util.Properties;
+
+    /**
+     * reads the properties file configuration.properties
+     */
+    public class ConfigurationReader {
+
+        private static Properties properties;
+
+        static {
+
+            try {
+                // what file to read
+                String path = "configuration.properties";
+                // read the file into java, finds the file using the string path
+                FileInputStream input = new FileInputStream(path);
+                // properties --> class that store properties in key / value format
+                properties = new Properties();
+                // the values from the file input is loaded / fed in to the properties object
+                properties.load(input);
+
+                input.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+
+        public static String get(String keyName) {
+
+            return properties.getProperty(keyName);
+        }
+
+
+    }
+-------------------------------------------------------------------------------------
+Utilities Driver içinde olanlar
+-------------------------------------------------------------------------------------
+
+package com.cybertek.utilities;
+
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.safari.SafariDriver;
+
+public class Driver {
+
+    private Driver() {}
+
+    private static WebDriver driver;
+
+    public static WebDriver get() {
+        if (driver == null) {
+            String browser = ConfigurationReader.get("browser");
+            switch (browser) {
+                case "chrome":
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                    break;
+                case "chrome-headless":
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver(new ChromeOptions().setHeadless(true));
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    break;
+                case "firefox-headless":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver(new FirefoxOptions().setHeadless(true));
+                    break;
+                case "ie":
+                    if (!System.getProperty("os.name").toLowerCase().contains("windows"))
+                        throw new WebDriverException("Your OS doesn't support Internet Explorer");
+                    WebDriverManager.iedriver().setup();
+                    driver = new InternetExplorerDriver();
+                    break;
+
+                case "edge":
+                    if (!System.getProperty("os.name").toLowerCase().contains("windows"))
+                        throw new WebDriverException("Your OS doesn't support Edge");
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
+                    break;
+
+                case "safari":
+                    if (!System.getProperty("os.name").toLowerCase().contains("mac"))
+                        throw new WebDriverException("Your OS doesn't support Safari");
+                    WebDriverManager.getInstance(SafariDriver.class).setup();
+                    driver = new SafariDriver();
+                    break;
+            }
+
+
+
+        }
+
+        return driver;
+    }
+
+    public static void closeDriver() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
+}
+
+
+-------------------------------------------------------------------------------------------------------------
+Packagelerin olduğu kısma before after method için Test Base ekledik 
+-------------------------------------------------------------------------------------------------------------
+
+package com.cybertek.tests;
+
+import com.cybertek.utilities.ConfigurationReader;
+import com.cybertek.utilities.Driver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+
+import java.util.concurrent.TimeUnit;
+
+public class TestBase {
+    protected WebDriver driver;
+    protected Actions actions;
+    protected WebDriverWait wait;
+
+    @BeforeMethod
+    public void setUp(){
+        driver = Driver.get();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        actions = new Actions(driver);
+        wait = new WebDriverWait(driver,10);
+        driver.get(ConfigurationReader.get("url"));
+
+    }
+
+    @AfterMethod
+    public void tearDown() throws InterruptedException {
+        Thread.sleep(2000);
+        Driver.closeDriver();
+    }
+
+}
+
+
+
+
+
+
+
+

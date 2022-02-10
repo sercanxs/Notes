@@ -1,0 +1,22 @@
+ WebElement retrievePasswordButton = driver.findElement(By.id("form_submit")); = inceleden id'yi içine kopyaladık.
+        retrievePasswordButton.click();
+
+
+    WebElement emailinputbox = driver.findElement(By.name("email")); = email yazma kısmının id'si olmadığı için name'ini kullandık.
+        emailinputbox.sendKeys("mike@hotmail.com");
+
+        emailinputbox.getAttribute("value"); = email'i yazdıktan sonra o kutuda ne yazdığını gösterir.
+
+
+ WebElement actualmessageget = driver.findElement(By.name("confirmation_message"));
+        
+
+         actualmessageget.getText(); = eğer almak istediğimiz değer kutunun içinde yazılı değilse bu şekilde yazıyoruz. 
+
+
+
+
+
+
+
+

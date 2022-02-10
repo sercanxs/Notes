@@ -1,0 +1,306 @@
+static String school; 
+
+
+
+        student s1=new student("Mike",30,1000,"Cybertek");
+	student s2=new student("John",20,1200,"Cybertek");
+	student s3=new student("Jamal",25,1500,"Cybertek");
+	
+	s1.school="security";                              = class dosyasında bir değişkene static yazdığımızda, o değişkeni 
+                                                             belirli bir objeden değiştirdiğimizde, bütün objeler bu değişken için
+                                                             aynı class dosyasına baktığı için değişir. 
+                                                             normalde heapte açılan objelerde bütün değişkenler bulunurken static school
+                                                             için yeni object açılıyor ve school burada bulunuyor. diğer objeler bu 
+                                                             objeyi işaret ediyor.
+
+
+
+
+
+	System.out.println(student.school); =  sadece class ismi ile static değişkeni yazılabiliyor.
+
+
+System.out.println(Math.PI); = Statictir.
+
+local variables: created inside the method
+instance variables: created inside class and belongs to object
+static variables: created inside class and belongs to class
+
+
+
+
+
+
+
+
+public static double plus(double num1,double num2) { 
+		return num1+num2;
+	}
+		
+		double result=calculator.plus(1, 3); =method staticle oluşturulmuşsa sadece class dosyası ile methodu çağırabiliyoruz.
+		                                     calculator class dosyasındaki static methodu çağırdık. 
+		System.out.println(result);
+
+
+
+               calculator c1 =new calculator();  = bu şekilde yazmaya gerek kalmadı.
+		c1.plus(1, 3);
+
+
+
+
+
+
+
+
+public class calculator {
+int x;                                                      
+	
+	public static double plus(double num1,double num2) {  = x'i buraya yazarsak error verir.
+		return num1+num2;
+	}
+	public static double minus(double num1,double num2) {
+		return num1-num2;
+	}
+	public static double multiply(double num1,double num2) {
+		return num1*num2;
+	}
+	public double hell() {
+		
+		return x; = x'i burada returnleyebildik --> burası instance method --> yukarıdakiler static method.
+	}                                                                               int x = instance variables,
+}
+
+
+
+
+
+
+
+
+public static void m1() {             
+		
+	System.out.println("hello");	
+	}
+
+     1 -  m1();                     =static method çağırma şekilleri --> 1 numara sadece aynı class dosyası içinde çalışıyor yoksa error.
+     2 -  calculatorTest.m1();
+     3 -  calculatorTest ca1= new calculatorTest();
+     	  ca1.m1();
+
+
+
+static kısmını sildiğimizde 1 ve 2 error veriyor. 1 numara 2'nin benzeri aynı class dosyası içinde kolayca yazabiliyoruz. 2=error --> 1=error.
+
+
+
+	static String name="Apple";
+
+public static void show1() {
+		show2();       = you cant call instance method/variable from static method.
+                System.out.println(name); = static değişkenler error vermiyor --> static olmayan değişkenler burada error verebilir.
+	}
+public void show2() {
+	show1();                     = static olan method ve değişkenler instance methoddan çağrılabiliyor.
+        System.out.println(name);	
+    }
+public  void show3() {
+		show2();              = instance methoddan instance method çağrılabiliyor.
+	}
+
+
+
+
+
+
+
+constructor'ı kendimiz oluşturduğumuzda public'i private yapıp --> calculatorTest ca1= new calculatorTest(); kısmında error verdirebiliriz.
+
+
+
+public static void m1() {
+		static int x=2;        =local variableler static olamaz. error.
+	System.out.println("hello");	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class campus {
+
+private String city;
+static String country;
+
+static {
+	
+	System.out.println("Static block-1");       
+	
+	
+}
+
+public campus(String city) {
+System.out.println("constructor");
+	this.city = city;
+}	
+	
+static {
+		System.out.println("static block-2");
+	}
+
+
+}
+
+
+	public static void main(String[] args) {
+		campus c1=new campus("chicago");  =bunu yazdığımız zaman önce statik kısımları okunur sonra constructor yazılır.
+		campus c2=new campus("oregon");    yani çıktı               Static block-1
+                                                                            static block-2
+}                                                                           constructor
+                                                                            constructor          olur.
+                                                   c1 ve c2'yi oluşturmamız sorun değil çünkü staticler sadece bir kere okunur yani
+                                                   c2 olduğu için sonuçta 2 tane "static block 1 ve static block 2" yazılmaz.
+
+
+
+
+
+
+public class campus {
+	
+	static final int a=5; =final varsa değer verilmesi lazım değer verilmezse error.
+}
+
+
+
+
+
+public class campus {
+	
+	static final int a;
+        a=5;                   = bu şekilde değer verilirse error.
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class campus {
+	
+	static final int a;
+	
+	
+
+
+
+static {
+	
+	System.out.println("Static block-1");   = eğer a'ya static içerisinde değer verirsek error olmaz. çünkü static sadece bir kere 
+	                                          çalışır bu da final a'ya değer vermeyi sağlar.
+	a=5;
+	
+	
+	
+}
+
+
+
+}
+
+
+
+-----------------------------------------------------------------------------------------
+
+public class allBlocks {
+
+	public allBlocks() {
+		
+		System.out.println("no");
+		
+	}
+public allBlocks(int x) {
+		
+		System.out.println("one argument constructor");
+		
+	}
+static {
+	
+	System.out.println("1");
+}
+{
+	System.out.println("2");
+	}
+{
+	System.out.println("3");
+	}
+{
+		System.out.println("4");
+	}
+	static {
+		
+		System.out.println("5");
+	}
+	
+	
+	
+}
+
+	
+
+public static void main(String[] args) {
+	allBlocks o1=new allBlocks();
+	allBlocks o2=new allBlocks(4);     
+}
+
+
+Çıktı =
+
+1 = static block
+5 = static block
+2 = intstance block
+3 = instance block
+4 = instance block
+no = o1
+2 = instance block
+3 = instance block
+4 = instance block
+one argument constructor  = o2 --> static block sadece bir kere çalışır ama instance block o2 objesini açtığımızda bir daha çalışır.
+
+
+
+import static java.lang.Math.*; //import all static properties belongs to math class
+
+	System.out.println(Math.sqrt(30));
+	System.out.println(sqrt(15));      = main methoddan önce import eklemezsek bu error verir.
+        System.out.println(PI);
+	
+
+	
+
+
+
+
+	
+
+
+                                                                

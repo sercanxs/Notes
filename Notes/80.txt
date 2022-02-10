@@ -1,0 +1,97 @@
+java subclass constructor'a super keyword koymadığımızda kendisi otomatik olarak koyuyor.
+
+public class ctest1 {
+
+	public static void main(String[] args) {
+		subclass1 obj = new subclass1();      = main methodtan constructorı çağırdık ama sonuç sc1 ve sb1 çıktı. bunun nedeni
+                                                       subclass1 içinde super() oluşuyor ve o da superclass constructor'ı işaret ediyor.
+	}
+
+}
+-----------------------------------------------------
+public class subclass1 extends superclass1 {
+  public subclass1(){
+	  System.out.println("sb1");
+  }
+
+}
+------------------------------------------------
+public class superclass1 {
+
+	
+		
+		public superclass1(){
+		System.out.println("sc1");	
+			
+		
+
+
+	}
+
+}
+
+
+
+
+
+
+
+
+
+public class subclass1 extends superclass1 {
+  public subclass1(){
+       super();
+	  System.out.println("sb1");
+  }
+
+}
+
+
+super(); = superclass'taki constructor'ı çağırır.parametrelerin eşleşmesi lazım. super() ilk kısımda olmalı.
+           super() and this() aynı constructor'da olamaz. sağ tıkla oluşturulan constructor kendisi otomatik super(parametreleri) oluşturur.
+
+
+
+
+overriding = same name - same parameters. sağ tıkla override oluşturulabilir. sonra superi silip parentclass'tan aldığımız methodla bu methodun içine kopyala yapıştır yapıyoruz. 
+
+
+
+
+Method overriding = parent class'da bir method var. child class'da da aynı isimde ve parametrede method var bu durumda, çağırdığımızda
+                    child class'in methodu çalışacaktır.
+                    - bu inheritance'larda olur.
+                    -  Access modifier: Needs to be same or more visible(childclass method-parent class'tan daha kısıtlayıcı olamaz.)
+                                        • public - > public
+                                        • protected - > protected, public
+                                        • default - > default, protected, public 
+                    -Return type:
+                               • must be same or 
+                               • covariant type (same class type or sub class type) = return'de kendi class isimlerini yazabilirler.
+
+
+                    -private and final methods can not be overridden
+
+
+
+
+method overloading vs overriding --> Slayt'ta yazıyor.
+
+overriding'den dolayı ParentClass methodlarına erişmek zor olabilir. Childclass'da super. yazdığımızda methodlar, değişkenler gözüküyor.
+
+this vs super = Slayt'ta yazıyor.
+
+We can use both of them anywhere in a class except static areas (static 
+block or static method)
+
+
+ 
+                        
+
+               
+
+
+
+
+
+

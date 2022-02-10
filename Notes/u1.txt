@@ -1,0 +1,6 @@
+remove(index);  --> remove(3);          removes the object having 3.
+remove(object); --> removes the object
+
+list.addAll(Arrays.asList(array))
+list.addAll(Arrays.asList("java","Puyhon")
+cars.addAll(Arrays.asList(new Car("Toyota"), new Car("Ford")));

@@ -1,0 +1,29 @@
+İf statements
+
+public static void main(String[] args) {
+		
+
+                int score=80;
+		
+		if (score>75) {
+			System.out.println("Hi");
+              x=30;
+
+
+	} =if doğruysa içeriyi okur. Eğer x'e yukarıda değer verilmemişse içerideki 30 her ne kadar içeride dursa da parantez
+                                     sonrasında yazılan println(x)'de error verir. Dolayısıyla if'den önce x'e 0 da olsa bir değer
+                                     verilmelidir.
+
+        boolean nbm=true;
+                if (nbm) {
+			System.out.println("2");
+                nbm=false;
+         }                                     = nbm'ye verilen değer true olduğu için if komutu çalışır. Ve if komutu çalışınca nbm içerideki verilen yeni değerden dolayı artık false olur.
+                
+              if(a>6) {
+    	System.out.println("1");
+    }
+    else {
+    	System.out.println("2");
+    }                             = Eğer if true ise bunu yap, true değilse başka bir şey yap.
+                                 

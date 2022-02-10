@@ -1,0 +1,37 @@
+		String a="sdasdasda sos";
+		
+		System.out.println(a.indexOf("sos"));  = sos kelimesinin kaçtan başladığını gösteriyor. ilk s sıfır ise sos 10'da başlıyor.
+               
+                System.out.println(a.indexOf("java")); = içinde bulunmazsa sonuç -1.
+                
+                System.out.println(a.indexOf("sd"));= ilk bulduğunu gösteriyor. tek harf ise '' da kullanılabilir.
+
+                System.out.println(a.indexOf("s", 3));= s'i arıyor ama 3 numaradan başlıyor.
+
+                System.out.println(a.lastIndexOf("s")); = s'i arıyor ama sondakini buluyor.
+
+                System.out.println(a.indexOf(str));=değişken ismi.
+
+              	String a="hola welcomen conga";
+		
+		String b=a.replace("hola", "moskow"); = değiştirme.
+ 
+                String b=a.replace("hola", "moskow").replace("welcomen", "found");
+
+                String c=a.replace(" ", ""); = bütün boşlukları değiştiriyor.
+
+                String a="hola welcomen conga";
+		String d="hola welcomen conga";
+		
+		System.out.println(a.equals(d)); =eşitse true.
+
+                String str=new String("hola welcomen conga");
+		System.out.println(a==str);                     =str ve a aynı objenin referansı olmadığı için false. String pool'de olsalar true.== olduğunda böyle.
+		System.out.println(a.equals(str))               =str ve a'nın değerleri aynı true.
+
+                equalsIgnoreCase();=                           büyük küçük harf dikkat etmiyor olabilir.
+
+
+              replacefirst 
+              replaceall
+		

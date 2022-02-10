@@ -1,0 +1,133 @@
+new Dependecy --> Apache POI
+
+poi
+
+poi ooxml --> toplam 2 tane dependency ekledik
+
+-------------------------------------------------------------------------------------------------------------
+Excel dosyamızı src.test.rescource'e koyduk.
+-------------------------------------------------------------------------------------------------------------
+
+
+    @Test
+    public void readExcelFile(){
+
+        //Create an object from ExcelUtil  = Yeni utilites pages oluşturduk Excel dosyalarını almak için.
+        //it accepts two argument
+        //Argument 1: location of the file(path)
+        //Argument 2: sheet that wew want to open(sheetName)
+
+        ExcelUtil qa3short = new ExcelUtil("src/test/resources/Vytracktestdata.xlsx","QA3-short"); = excel'in adressini path from content ile kopyaladık.
+                                                                                                     sağ taraf ise excel içinde bulunan aşağıdaki sheet kısmı.
+
+        //how many rows in the sheet
+        System.out.println("qa3short.rowCount() = " + qa3short.rowCount()); = kaç row var onu gösteriyor = 14. --> ilk row'u da gösteriyor.
+
+        //how many columns in the sheet
+        System.out.println("qa3short.columnCount() = " + qa3short.columnCount()); = kaç column var onu gösteriyor.
+
+        //get all column names
+        System.out.println("qa3short.getColumnsNames() = " + qa3short.getColumnsNames()); = sadece birinci sıranın columnlarını veriyor. firsname, Lastname gibi
+
+        //get all data in list of maps
+        List<Map<String, String>> dataList = qa3short.getDataList(); = Key ve Value string olduğu için içeriye iki kere String yazdık.
+        for (Map<String, String> onerow : dataList) {                  getDataList() ile verileri aldık. ilk sıra key oldu ve diğer sıralar value oldu.
+            System.out.println(onerow);                                Username = Roma, Lastname = Medhurst 
+                                                                       Username = John, Lastname = Carrol gibi bütün key valueler yazıldı.
+        }
+
+        //get Nona as a value
+        System.out.println("dataList.get(2) = " + dataList.get(2).get("firstname")); = Bu sıranın firstname'ini aldık = Nona --> aslında 4. sırada ama java 0'dan başladığı için
+                                                                                                ve ilk sırayı saymazsak 2. sıra oluyor.
+
+        //get Harber
+        System.out.println("dataList.get(8) = " + dataList.get(8).get("lastname")); = Harber --> 10 - 2 = 8.
+        //get all data in 2d array
+        String [][] dataArray = qa3short.getDataArray(); 
+
+        //print 2d array
+        System.out.println(Arrays.deepToString(dataArray)); = deeptoString ile two dimensional array'in içindeki değerleri yan yana yazabildik.
+                                                               [[username, password, firstname, lastname], [user1, UserUser123, John, Doe],[user4, UserUser123, Kyleigh, Reichert]...
+
+    }
+}
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+public class DDFWithDataProvider {
+
+    @DataProvider                      = Yeni Testng anotations.
+    public Object [][] testData(){
+        String [][] data = {
+                {"Person of Interest","10"},
+                {"Sherlock","9"},
+                {"Breaking Bad","9"},
+                {"The Office","8"},
+                {"Friends","7"},
+                {"Westworld","10"},
+                {"Gotham","9"},
+                {"Dark","8"}
+        };
+        return data;
+    }
+
+
+    @Test(dataProvider ="testData") = dataprovider yazdıktan sonra içeriye method ismini de yazdık.
+    public void test1(String tvshow,String rating){ = data provider'in return'ü Object[][]'di ve burada bu şekilde iki değeri assign etmiş olduk.
+        System.out.println("Tv show: "+tvshow +" has rating "+rating); = sanki loop varmış gibi bütün değerleri okuyor değerler aşağıda.
+
+    }
+
+}
+
+Tv show: Person of Interest has rating 10
+Tv show: Sherlock has rating 9
+Tv show: Breaking Bad has rating 9
+Tv show: The Office has rating 8
+Tv show: Friends has rating 7
+Tv show: Westworld has rating 10
+Tv show: Gotham has rating 9
+Tv show: Dark has rating 8                       = 8 tests passed yazıyor. Yani 8'ini ayrı testcase olarak görüyor.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+public class DDFLoginTest extends TestBase {
+
+    @DataProvider
+    public Object [][] userData(){
+
+        ExcelUtil qa3short = new ExcelUtil("src/test/resources/Vytracktestdata.xlsx","QA3-all");  =excel'i aldık.
+
+        String [][] dataArray =qa3short.getDataArrayWithoutFirstRow(); = row'lardaki column'lari test edeceğimiz için ilk row olmadan aldık.
+
+        return dataArray;
+    }
+
+    @Test(dataProvider = "userData")
+    public void test1(String username,String password,String firstName,String lastName){
+        extentLogger=report.createTest("Test "+firstName+" "+lastName);
+        LoginPage loginPage = new LoginPage();
+
+        loginPage.login(username,password);
+
+        DashboardPage dashboardPage = new DashboardPage();
+        dashboardPage.waitUntilLoaderScreenDisappear();
+
+        String actualFullName = dashboardPage.getUserName();
+        String expectedFullName = firstName+" "+lastName;
+
+        Assert.assertEquals(actualFullName,expectedFullName,"verify fullname");
+        extentLogger.pass("PASSED");
+    }
+
+
+}
+
+
+
+In DDF(Data Driven Framework) we seperate test data and test code. we design our test code in a way that it can read the test data and execute 
+tests base on it. Our test code will have the test steps. Test input data will be in external sources. Our test data will decide how many times a test case runs.
+

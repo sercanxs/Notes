@@ -1,0 +1,5 @@
+for(int a:array){
+
+    a=rn.nextInt(50);       =for each loop ile array'daki değerlere erişlebiliriz ama onları değiştiremiyiz galiba. array'in değerleri
+                             0,0,0,0,0'dır.
+}                          

@@ -1,0 +1,41 @@
+
+
+regression :
+
+major reg: perform before each relase // performed before deploying all the features of the app from QA env -> stg env. 
+
+    how many scenarios : 500 - 3000
+    how long does it take to run : 
+    how often do you perform regression ?  every 3-6 months   
+                                           it depends on our app's feature
+    both automation & manual regression performed
+
+
+minor reg: everyday? once a week? once a month? 
+           automatically perform 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,163 @@
+
+
+===============================
+SDLC: 
+     Software Development Life Cycle
+
+     global standardized steps to develop softwares
+
+
+0. Idea -> theme / domain of a software 
+
+domain -> Bank domain 
+          
+            Bank of america 
+            Chase bank 
+
+
+          Education domain 
+            Canvas 
+            Udemy -> 
+
+          health-care domain 
+             UHG 
+             highmark
+
+           Game domain 
+
+SDLC step1: Requirement Gathering 
+             
+
+             provide the requirement: 
+             Client / customer ==> who own the business / idea / software
+
+             internal customer - CEO, or anyone in the IT company get the idea
+
+                    e.g: Kuzzat is a client for cybertekschool.com project
+
+             external customer -> the idea / project belongs to a person or one company, but its build by another IT company 
+
+                    e.g: Asiya - restaurant owner, the IT company is buiding her project 
+
+
+                    e.g:  Cybertek is an external customer to replit/canvas/zoom/okta 
+
+
+           who gather requirement : 
+             Business team - Product Owner (PO) , Project manager (PM), Business Analysis (BA)
+
+
+             what is a requirement: features of the software that will be developed/built 
+
+             what is a feature of a app? 
+                what the software can do ? what the users can do on the app? 
+
+                e.g: Discord: communicate/chat 
+                              user/account management -> add/delete/edit a user information    
+                              channel 
+                              file management 
+                              log call -> voice message / video message
+
+          
+
+
+             How do business team organized the requirements? 
+                - they write documents 
+                - example doc - SRS 
+
+           
+           How do you know if a requirement is good or not? 
+
+                - the requirement should be SMART 
+
+SDLC Step2: Design 
+              write SDS doc based on SRS 
+              designers design forntend/backend 
+              meanwhile they identify input/data to the app 
+
+              All the documents are reviewed by business team and stakeholders
+
+
+
+SDLC Step3: developing / coding / implementing 
+
+             Developers ==frontend developers 
+                          backend developers 
+                          full-stack developers - (know both frontend & backend)
+
+
+SDLC step4: Testing / validating / check quality 
+           
+            manual testers 
+
+            automation testers = 
+                          frontend testers 
+                          backend testers 
+                          full-stack testers - (know both frontend & backend)
+
+             
+             performance testers => speed , volume, stress,  
+             security engineer 
+
+             DevOps engineer -> 
+
+             
+             after all types of testings are done by different testing team,Client needs to approve the software  
+
+SDLC step5: deploying / releasing / push to market / let end users use the app 
+            
+             end users use the app
+
+SDLC step 6: maintaining 
+             
+              1. hidden bugs might be reported by end users 
+
+              bug reports from end users will handled by the team who envolved on debveloping the app. 
+
+              business team will check the bug reports and updated requirement
+              developers fix the bugs --> hot fix 
+              testers/QA --> test agian 
+
+              2. testers might test the production as well 
+                 PO/BA provide simulated data to testers
+
+              3. support 
+
+              4. update the app 
+                 
+                  what features I had so far: menu, review, favorite, payment
+
+                  new idea : make reservation, pick up / dilivery , location
+
+
+                 PO and his/her team will gather the new requirements from the CLient ==  back to SDLC step 1  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

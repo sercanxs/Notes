@@ -1,0 +1,80 @@
+
+
+
+
+
+
+
+
+
+
+Epic -- a big user story. PO divides it to smaller user stories. 
+
+Epic1 - login 
+    story1 - school edmins login 
+    story2 - 
+
+
+
+
+--------------------------------------------------
+
+1. Story : PO created story. 
+
+     summary : PO write the funtion names 
+
+     asignee : who should work on this issue 
+     reporter: the onw who created the ticket 
+
+     Environment : dev , QA , staging , backend related url...
+
+     Description: write the user story 
+    
+    Attachment: PO provide design page/ pictures 
+
+     sprint : chosse the sprint that this sotry should be done
+               ex: Sprint34 
+
+      Story Points: give point in a meeting. 
+                     whike creating the story, leave it alone.        
+
+
+
+
+
+-----------
+2. test case 
+
+As a user, i should be able to login from login page of Bookit application.
+
+AC1. Verify that all the users can login with valid credentialas.
+
+
+before create a test case, what I have to do? 
+
+  - positive & negative senerios
+
+
+
+scnerio :
+
+login as a teacher with valid credentialas.
+login as a teamlead with valid credentialas.
+login as a student with valid credentialas.
+
+
+the above all 3 scenarios has the same test case steps, so we will create 1 test case for all. However, for the data, we need to provide all 3 users's credentilas. 
+
+
+
+choose - Test (test case name in jira)
+
+
+
+
+
+
+
+
+
+

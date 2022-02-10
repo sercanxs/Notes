@@ -1,0 +1,109 @@
+new Dependency = ExtentReports
+
+--------------------------------------------------------------------------------
+
+HTML Reporting
+
+A good bug report must have
+1.Recration steps with expected and actual
+2.Screenshot and exception
+
+when we use testng/junit with selenium, we can use reporting tools such as Allure and ExtentReports.
+
+--------------------------------------------------------------------------------
+aşağıdaki before after methodları TestBase'ye attık ve variable'leri declare ettik. before methodları beforetest anotation içinde yazdık.
+
+ExtentReports report; = declare ettik.
+
+
+ExtentHtmlReporter htmlReporter;
+
+
+ExtentTest extentLogger;
+
+
+     @BeforeMethod
+      public void setup(){
+          //initialize the class
+          report = new ExtentReports();
+
+          //create a report path
+          String projectPath = System.getProperty("user.dir");
+          String path = projectPath + "/test-output/report.html"; = Bunu yazdığımızda kodu çalıştırdığımızda solda yeni dosyalar oluşuyor. Test sonucu için open in chrome.
+
+          //initialize the html reporter with the report path
+          htmlReporter = new ExtentHtmlReporter(path);
+
+          //attach the html report to report object
+          report.attachReporter(htmlReporter);
+
+          //title in report
+          htmlReporter.config().setReportName("Vytrack Smoke Test");
+
+          //set environment information
+          report.setSystemInfo("Environment","QA"); = Key value pair'i içeriyor. sol taraf key. sağ taraf value. bu kısımlar report sonucunda sol tarafta başka sayfada gözüküyor.
+          report.setSystemInfo("Browser", ConfigurationReader.get("browser"));
+          report.setSystemInfo("OS",System.getProperty("os.name"));
+
+      }
+
+
+
+       @AfterMethod
+        public void teardown(){
+          //this is when the report is actually created
+          report.flush();
+
+      }
+
+---------------------------------------------------------------------------------------------------------------------------------
+
+public class NegativeLoginTestWithReport extends TestBase { = Yukarıdaki dosyaları TestBase'ye attığımız için extend ettik.
+
+    @Test
+    public void wrongPasswordTest(){
+        //name of the test
+        extentLogger = report.createTest("Wrong Password Test"); = Test case ismini yazdık. Yukarıdaki kısmı bir kere yazıyoruz ama burası tekrarlanabilir.
+
+        LoginPage loginPage = new LoginPage(); 
+
+        extentLogger.info("Enter Username: user1"); = Test stepleri. Hemen yukarıdaki LoginPage kısmına test step ismini koymuyoruz. Başkaları anlamayabilir.
+        loginPage.usernameInput.sendKeys("user1"); 
+
+        extentLogger.info("Enter Password: somepassword"); = Eğer burada hata olursa reportta en son bu test step yazar
+        loginPage.passwordInput.sendKeys("somepassword");
+
+        extentLogger.info("Click login Button");
+        loginPage.loginBtn.click();
+
+        extentLogger.info("Verify Page URL");
+        Assert.assertEquals(driver.getCurrentUrl(),"https://qa1.vytrack.com/user/login");
+
+        extentLogger.pass("Wrong Password Test is Passed"); = Test geçtiğinde çıkan mesaj --> Yukarıda String path kısmında oluşturulan report.html içinde gözükür bu sonuç
+
+    }
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+@AfterMethod
+    public void tearDown(ITestResult result) throws InterruptedException, IOException { = AfterMethod'da ilk kez içeriye parametre yazdık.
+        //if test fails
+        if(result.getStatus()==ITestResult.FAILURE){   = içinde sayılar var her sayı bir sonucu temsil ediyor. result ise açtığımız parametre.
+            //record the name of failed test case
+            extentLogger.fail(result.getName()); = Test case ismini verir.Test case ise Test steplerin bulunduğu methodun ismidir. Eğer if içinde fail varsa burada fail mesajı çıkar.
+                                                   (Test case ismi method ismi değil de kendi yazdığımız isim olabilir.)
+
+            //take the screenshot and return location of screenshot
+            String screenShotPath = BrowserUtils.getScreenshot(result.getName()); = BrowserUtils methodu ile path aldık.
+
+            //add your screenshot to your report
+            extentLogger.addScreenCaptureFromPath(screenShotPath); = path'i buraya yapıştırdık ve fotoğraf çektik. Fotoğraf reportta fail olan test case'in içinde aşağıda küçük simge.
+                                                                     fotoğrafı görebilmek için report.html ye open in browser değil de open in explorer ile açacağız.
+
+            //capture the exception and put inside the report
+            extentLogger.fail(result.getThrowable());   = hatayı yakalar ve reporta yazar. 
+
+        }
+        Thread.sleep(2000);
+        Driver.closeDriver();
+    }

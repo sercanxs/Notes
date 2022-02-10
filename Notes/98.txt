@@ -1,0 +1,121 @@
+   WebElement img1 = driver.findElement(By.tagName("img"));
+
+        Actions actions = new Actions(driver);
+
+ 
+
+        actions.moveToElement(img1).perform(); = çalışması için perform kısmını da yazmamız lazım. İçeri Webelement yolladık. 
+                                                 mouse'yi belli kısma yolladık.
+
+---------------------------------------------------------------------------------
+ Actions actions = new Actions(driver);
+
+actions.dragAndDrop(source,target).perform(); = source ve target --> Webelement = mavi kutuyu belli hedefe sürükledik.
+
+---------------------------------------------------------------------------------
+ actions.moveToElement(source).clickAndHold().moveToElement(target).release().perform(); = drag and drop olmadan mavi kutuyu belli hedefe 
+                                                                                           sürükledik.
+
+moveToElement --> mouse'yi sürükledik.
+clickAndHold --> mavi kutuya tıkladık ve elimizde tuttuk.
+release --> elimizde tuttuğumuz kutuyu bıraktık.
+
+----------------------------------------------------------------------------------
+List<WebElement> --> Error vermediği için kullanışlı ama içinde bir sürü Webelement barındırır.
+
+
+-----------------------------------------------------------------------------------
+WebElement dropdownlink = driver.findElement(By.linkText("Dropdown"));
+
+JavascriptExecutor jse = (JavascriptExecutor) driver; = driver'i castingledik.
+
+jse.executeScript("arguments[0].click();",dropdownlink); = bazen kodlar javascript ile yazıldığı için onlara tıklayamayız. Bu şekilde yazdığımızda tıklarız. arguments[0].click(); kısmını
+                                                           olduğu gibi yazıyoruz.
+
+-----------------------------------------------------------------------------------
+
+WebElement inputBox = driver.findElement(By.cssSelector("#input-example>input"));
+
+JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+String text = "Hello Disabled Input";
+
+jse.executeScript("arguments[0].setAttribute('value', '" + text +"')", inputBox); = içine yazı yazamadığımız input box'a javascript ile odaklanıp yazı yazdık. 
+                                                                                    parantezin içinin sol kısmı javascript code sağ kısmı Webelement
+
+-----------------------------------------------------------------------------------
+
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        jse.executeScript("window.scrollBy(0,250)"); = ekranı biraz aşağı kaydırır.
+
+        jse.executeScript("window.scrollBy(0,-250)"); = ekranı biraz yukarı kaydırır. sol kısım ise ekranı sağa kaydırır.
+
+------------------------------------------------------------------------------------
+
+        driver.get("https://www.amazon.com/");
+
+        WebElement eng = driver.findElement(By.id("icp-touch-link-language"));
+        
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+
+        jse.executeScript("arguments[0].scrollIntoView(true);",eng);  = Sayfayı belirtilen elemente direkt kaydırır.
+
+-------------------------------------------------------------------------------------
+
+How to get the Path of the file ? = Dosyanın adresini alma.
+
+WINDOWS
+1.Hold Shift button
+2.Right click on file
+3.Copy as Path        
+
+MAC
+1.Right click on the file
+2.Hold option key
+3.Select option Copy "file.txt" as Pathname
+
+--------------------------------------------------------------------------------------
+
+driver.get("http://practice.cybertekschool.com/upload");
+
+WebElement chooseFile = driver.findElement(By.name("file"));
+
+chooseFile.sendKeys("C:/Users/serca/OneDrive/Masaüstü/sads.txt"); = windowstan değerleri yapıştırırken slashlar \ şeklinde geliyor ve error veriyor çözümü = \ slashları \\ ya da / yapacağız
+                                                                  = gerekli dosyayı adresinden seçtik.
+
+
+
+
+----------------------------------------------------------------------------------------
+
+src.test'in içine resources package'i açtık. içine textfile.txt koyduk.
+
+textfile.txt'i copypath'den content olarak copyledik.
+
+            System.out.println(System.getProperty("os.name"));  = Windows 10;
+            
+            String projectPath = System.getProperty("user.dir"); = C:\Users\sercan\IdeaProjects\EU5TestNGSelenium --> Bir adress her bilgisayarda çalışmayabilir. bunun için dynamic olan kısmı
+                                                                                                                     kodlara aktardık. Ve String olarak kaydettik.
+            System.out.println("projectPath = " + projectPath);
+            
+            String filePath = "src/test/resources/textfile.txt"; = kopyaladığımız textfile'in content adresini buraya yapıştırdık.
+
+            String fullPath = projectPath + "/" + filePath; = Bunu yazdığımız zaman belli dosyanın adresi bütün bilgisayarlarda aynı olur. Dynamic kısım ile static kısmı birleştirdik.
+            
+            System.out.println(fullPath); = C:\Users\sercan\IdeaProjects\EU5TestNGSelenium/src/test/resources/textfile.txt
+
+
+
+ 
+
+
+
+ 
+
+
+        
+
+
+
+ 

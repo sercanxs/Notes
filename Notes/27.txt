@@ -1,0 +1,46 @@
+		for(int i=1;i<=5;i++) {
+			
+			if(i==4) {
+				
+				break;                   = break konulduğunda for'u geçiyoruz.
+			}
+			
+			System.out.println(i);
+			
+		}
+
+
+
+		for(int i=1;i<=5;i++) {
+			
+			if(i==4) {
+				
+				continue;               =continue konulduğunda condition kısmına ilerliyoruz.
+			}
+			
+			System.out.println(i);
+			
+		}
+
+iki tane for varsa break içerideki for'a aittir.
+
+labell=isim veriyoruz.
+
+
+int i=0;
+		outer:                                 =do'ya isim verdik.
+		do{
+			i=8;
+			inner:                         =while'ye inner ismini verdik.
+			while(true)	{
+			System.out.println(i--);
+			if(i==4) {
+				break outer;           =break'in  dışarıdaki loop'u bitirmesini istediğimizde ismini yazıyoruz.
+			}
+				
+			}
+				
+			
+		}
+		
+		while(true);

@@ -1,0 +1,16 @@
+Faker faker = new Faker();  = import var.
+        System.out.println(faker.name().fullName());     = rastgele ad soyad
+System.out.println(faker.harryPotter().character());     = harry potter karakterleri
+
+https://mvnrepository.com/ = gerekli araçlar için burayı kullanıyoruz.
+
+depencyler için ayrı olarak bir tane depencies açıyoruz.
+
+depencyler= pom.xml içinde
+Selenium Java » 4.1.0
+javafaker
+WebDriverManager 
+    
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver(); = C'si büyük
+        driver.get("https://www.youtube.com/"); = kırmızılar error değil. failed yazıyor ama error değil. Youtube'ye gidiyor.

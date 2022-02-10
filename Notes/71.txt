@@ -1,0 +1,63 @@
+"new" call the constructor and create the object
+
+Recktangle R1 = new Recktangle(); =constructor'ı çağırıyoruz ve class ismi taşır. Constructor methoddur.ama normal methodlarla yazılışta farkı var.
+ 
+contructor main purpose= intialize object variables
+constructor is having class name
+
+public Recktangle(){       =Constructor'ı Recktangle template'i içinde açtık. class ismi Recktangle. constructor hasn't return type.
+	
+	
+	
+}
+  public Recktangle(int a,int b){
+        		
+        		
+        		
+          }
+Recktangle R1 = new Recktangle(); = contructor'ı çağırdığımızda eğer yukarıdaki iki methodtan sadece aşağıdaki varsa error verir.
+                                    dolayısıyla içerisine paramater yazmalıyız.
+                                    Eğer yukarıdaki 2 method da yoksa error vermez.
+
+
+Recktangle R1 = new Recktangle(1,2);= avantajı R1.length R1.width diye sürekli yazmaya uğraşmamamız.
+
+public Recktangle(){ = kendimiz oluşturmadığımızda default constructor arka planda oluşur.kendimiz oluşturduğumuzda custom constructor with no value.
+	
+	
+	
+}
+
+
+
+public class Recktangle {
+
+	
+		double width;
+		double length;
+
+	
+          public Recktangle(double width,double length){
+        	this.length=length;                              = compiler anlamıyor. this yazmadığımızda length olarak parametreleri alıyor olabilir.
+        	this.width=width;                                 
+        		                                           
+        		
+          }
+}
+
+
+Class dosyası içinde sağ tıklayıp source'den generate constructor with using fields ile constructor oluşturuyoruz
+                        super(); dosyasını siliyoruz.
+
+Recktangle R1 = new Recktangle(1,2); = bu tarz dosyalar oluşturduğumuzda
+R1.methodname(); = sorun oluşturmayabilir. method ile constructor'ın yazılışı farklı. constructor has no return.
+
+
+
+
+public Recktangle(double width, double broad) {
+			this(30,30,30);                   = constructor'ı cagırıyoruz. başa yazılmazsa this(); error verir.
+			this.width = width;
+			this.broad = broad;
+		}
+

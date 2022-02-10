@@ -1,0 +1,20 @@
+             login -> developers : 2 points 
+             qa         : 5 points , 3? 
+
+             total      : 8 points
+       
+
+
+
+
+first day -> just take time to analyze stories / prepare test case etc doc
+last day is Demo, dev team do not work on any story 
+
+
+
+         1 week == total 5 days to work , only 3 days to work on stories         
+
+ what do testers do while waiting for developers to finish their part?
+ - write test case documents 
+
+

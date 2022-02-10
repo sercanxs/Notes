@@ -1,0 +1,71 @@
+Map interface does not extend Collection interface = Collection'ı extend etmediği için Map'te Collection inteface'in methodları yok.
+
+
+
+		Map<String,Double> items = new HashMap<>(); = Key and Value Pair'i oluşsun diye String ve Double yazdık.
+		
+		items.put("Apple", 3.56);   = put var.
+		items.put("flowers", 1.56);
+		items.put("Eggs", 4.56);
+		items.put("Milk", 6.56);
+		items.put("Cherries", 3.66);
+		
+		System.out.println(items.size());
+		
+		System.out.println(items.toString());
+		
+		System.out.println(items.isEmpty());
+
+                System.out.println(items.get("Apple"));  = pair ilişkisinden dolayı "Apple" yazınca fiyatı veriyor.
+		
+	        items.put("Apple", 5.56); = Apple sadece bir tane değer içerebilir. Zaten apple varken bunu açtığımızda Apple'in değeri
+                                            bu değere güncellenir.
+
+                items.replace("Eggs",3.43); = yukarıdaki ile aynı işlemi yapar.
+
+                items.remove("Apple");    = siler
+		
+		System.out.println(items.get("Apple")); = null
+
+                System.out.println(items.containsKey("Apple")); sonucu null olmayan böyle bir key var mı --> true false
+
+----------------------------------------------------------------------------------
+
+
+		Map<String,String> dataMap = new HashMap<>();
+		
+		dataMap.put("url", "sdasda.com");
+		dataMap.put("username", "sdasda66");
+		dataMap.put("password", "abc123");
+		dataMap.put("browser", "chrome");
+		dataMap.put("TruckDriver", "Bob");
+		dataMap.put("StoreManager", "John");
+		
+		
+		for(String a : dataMap.keySet()) {   = Key'ler soldakilerdi. keySet ile bütün Key değerlerini toplayabildik.
+			
+			System.out.println(a);
+			
+			
+		}
+
+                for(String b : dataMap.values()) {   = sağdakiler value'lerdi. values ile bütün value değerlerini topladık.
+                                                       ama düzgün sırayla yazılmazlar.   
+			
+			System.out.println(b);
+			
+			
+		}
+
+
+               dataMap.forEach((k,v) -> System.out.println(k+" | "+v)); = action kısmında iki değer yazdık.
+
+              
+		
+
+
+HashMap vs HashTable --> sayfa 35
+HashMap vs TreeTable --> sayfa 36
+
+
+

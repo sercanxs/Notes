@@ -1,0 +1,18 @@
+only return 1 value                                 =sadece bir değeri globala taşıyabiliriz.
+
+	public static void main(String[] args) {
+	int a=10;
+		srs(a,3);
+		System.out.println(srs(a,3));
+		int c=srs(a,3);
+System.out.println(c);
+	}
+
+	public static int srs(int a,int b) {             =void yerine int yazdık çünkü yukarıya taşıyacağımız dosya int.
+		int result=a+b;                           aşağı return yazdık.
+		System.out.println("result");
+		return b;                                =b'nin değerini yukarı taşıdık yani b 5 ise yukarı 5 değeri çıkar.
+		                                          alttaki println kısımları da int c olsun ya da yukarıdaki println kısımları
+	}                                                 olsun içine yazdığımızda return value ile birlikte okunur ama direk
+return breaking point.                                   srs(a,3); println kısımları okunur.
+Task 69 interview question.

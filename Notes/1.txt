@@ -1,0 +1,94 @@
+class note 
+
+Instructor : Asiya 
+
+=================
+
+software == applications == apps == projects == program 
+
+
+operating system : IOS , Windows,  Linux 
+
+
+browsers: chrome, safari, firefox, Internet explore (IE), Edge, Opera 
+
+
+End-user : a person who used a software 
+
+           game to learn A b c ..z -> end users are children, or it can be someone who learn English
+
+
+
+Client : app / software owner , the app idea is from the person 
+         
+
+feature : search an item in amazon 
+
+function : 1. you type item name on the search box 
+          2. you can click an item picture from the home page
+          3. go to Best seller module - 
+        
+
+features of discord app: 
+    create / delete channel 
+    text 
+    emoji 
+    search message / users 
+    pin 
+    create ticket 
+    add/delete/edit users 
+    download / upload file 
+
+
+functions of discord app's create / delete channel feature - 1. click create channel button - write channel name - assign role + add users 
+
+
+
+
+
+
+---------------
+
+feature : chat / communicate 
+
+             1.1 text message 
+             1.2 voice message / call
+             1.3 video message / call
+
+
+function : 1. type text message 
+           2. click "Enter" "return" keyboard 
+
+
+
+================
+
+summary : 
+
+software types: mobile  application  - instagram
+                web application      - amazon , zoom 
+                desktop application   - office , calendar, notes 
+                hybird / cross-platform - amazon , youtube , discord 
+
+
+
+ 
+
+
+     
+
+
+stakeholders : Client , customer , CEO , investor
+
+
+
+
+release : apple - release a new feature once a year == release cycle is 1 year
+
+          Cyber-punk - initiate release == version 1.0 
+
+
+
+                
+
+

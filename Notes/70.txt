@@ -1,0 +1,11 @@
+a.removeAll(b); = a'nın içinden b'de bulunan değerleri siliyor. b'de 5 , 6 değeri varsa, a'daki tüm 5 ve 6 değerlerini siliyor.
+a.equals(b); = a, b'ye eşitse true.
+a==b = aynı objeleri göstermeleri lazım. false.
+
+
+
+static Scanner sc=new Scanner(System.in); =main methoddan önce staticle birlikte yazarsak bütün alt methodlarda geçerlidir. ArrayListlerde
+                                           static yazmadan bu durum sağlanabilir.
+
+
+a.set(3, 233); = 4. sıradaki sayıyı 233 yapıyoruz.

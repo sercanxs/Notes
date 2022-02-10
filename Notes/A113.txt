@@ -1,0 +1,23 @@
+  Scenario Outline: Different user types
+    Given the user logged in as "<userType>"   =Scenariolar sürekli kendini tekrar ettiği için, sadece datalar değiştiği için Scenario Outline
+                                                ve Examples kullandık. Examples'in ilk sırası, given kısmında <> bu çizgileri koyduğumuz için
+    Examples:                                   sarı renkte gözüküyor ve test edilmiyor. Data driven testingle bu farklı dataları deniyoruz
+      | userType      |
+      | driver        |
+      | admin         |
+      | store manager |
+      | sales manager |
+
+
+  Scenario Outline: Login with different accounts <userType> = ilk sıraya isim vermek için <> yazdık.
+    Given the user logged in as "<userType>"
+    When the user navigates to "<tab>" "<module>"
+    Then the title contains "<title>"
+
+    Examples:
+      | userType      | tab        | module          | title                                                              |
+      | driver        | Fleet      | Vehicles Model  | Vehicles Model - Entities - System - Car - Entities - System       |
+      | driver        | Customers  | Accounts        | Accounts - Customers                                               |
+      | driver        | Customers  | Contacts        | Contacts - Customers                                               |
+      | driver        | Activities | Calendar Events | Calendar Events - Activities                                       |
+      | driver        | System     | Jobs            | Jobs - System           
