@@ -1,0 +1,76 @@
+git init = Bunu yazınca dosyamız'ın içinde görünmez .git açılıyor. Ve git işlemlerini yapabiliyoruz.
+
+.gitignore file oluşturduk.
+
+target
+.idea
+*.iml
+test-output
+
+dosyayı saveledik.(intellij'de save yapmak gerekli olmayabilir.)
+
+
+git status --> what is new in your repository. = değişiklikleri gösteriyor.
+
+git add . --> add everything                   = bütün değişiklikleri ekliyor.
+
+git commit -m 'First Commit' -->               = commit mesajı ile commit ettik.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+git'e geldik yeni repository oluşturduk. orada yeni açılan sayfada 
+
+git remote add origin https://github.com/sercanxs/gittraining.git kısmını kopyaladık
+
+git branch -M main
+
+git push -u origin main -->bunu da yazınca intellijde yetki veriyoruz.
+
+--------------------------------------------------------------------------------------------------------------------------
+
+git log --> commitlerle ilgili.(kullanma)
+
+git push --> commitleri pushluyor.
+
+git pull --> internette yeni eklenen değişiklikleri aldık.
+
+git remote -v = git'i clonelediğimizde doğru url mi anlamak için bu kodu yazıyoruz. 
+
+ 
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+fork'un özelliği --> başkasının repository'sini kendimize kopyaladık. yeni repository açılır. Yani değişiklik yapıp kendi repository'mize pushlayabiliriz. Ama clone'de kendi repository'miz
+sadece local'de oluşur. Uzaktaki repository ise başkasınındır ve değişiklik için onun izni gerekir.
+
+git branch --> branchleri gösterir.
+
+
+git merge branchadı --> yeni branch'de çalıştık. önceki branche checkout yaptık ve merge için yeni branchin adını yazdık.
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+git pull origin master --> master branch'ini çektik.
+
+git pull'da remote dan kodlarınızı local ortamınıza çekersiniz, default kendiliğinden merge işlemini yapar.
+
+git pull a benzer şekilde git fetch remote daki kodların kopyasını local e oluşturur, ancak merge yapmaz
+
+
+
+--------------------------------------------------------------------------------------------------------------------------
+
+intellij'lerden başka yerde işe yarayabilir.
+
+git commit = çıkılmaz bir sayfa çıkarsa  :q yazıp çıkıyoruz.
+
+
+
+
+
+
+
