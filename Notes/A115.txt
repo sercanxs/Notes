@@ -18,7 +18,7 @@ git commit -m 'First Commit' -->               = commit mesajı ile commit ettik
 
 -------------------------------------------------------------------------------------------------------------------------
 
-git'e geldik yeni repository oluşturduk. orada yeni açılan sayfada 
+github'a geldik yeni repository oluşturduk. orada yeni açılan sayfada 
 
 git remote add origin https://github.com/sercanxs/gittraining.git kısmını kopyaladık
 
