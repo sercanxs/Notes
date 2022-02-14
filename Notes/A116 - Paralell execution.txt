@@ -1,0 +1,81 @@
+Yeni branch oluşturduk. Bu branch'de Driver dosyasını değiştirdik ya da güncelledik.(paralel execution'a özel olabilir. Normal çalıştıracaksak bu kodlarla çalışmayabilir.)
+Yeni Driver dosyası diğer sayfada
+
+
+pom'da build kısmında ilgili yere bunları yapıştırdık.
+
+<parallel>methods</parallel>
+<useUnlimitedThreads>true</useUnlimitedThreads>
+
+pom build --> aşağıda.
+
+mvn verify ile ilgili taglari çalıştırırken her feature file için bir site oluşuyor.(paralel execution)
+
+
+------------------------------------------------------------------------------------------
+ 
+mvn verify -Dbrowser=firefox = bunu yazınca örneğin firefox'dan 3 tane site açılıyor.
+	 	 	 	 	
+
+Ctrl + c ile durduruyor (kod kısmına yazıyoruz.)
+
+
+
+------------------------------------------------------------------------------------------
+
+mvn verify -Dcucumberoption="--tags @smoke" =@smoke olan taglari test eder.
+mvn verify -Dcucumberoptions="--tags @smoke"
+
+
+
+------------------------------------------------------------------------------------------
+We can also change both tags and browser at the same 
+time.
+
+
+
+------------------------------------------------------------------------------------------
+
+
+ <build>
+        <plugins>
+            <plugin>               <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <parallel>methods</parallel>
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <runOrder>Alphabetical</runOrder>
+                    <includes>
+                        <include>**/*CukesRunner.java</include>
+                        <include>**/*FailedTestRunner.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>5.0.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Cucumber HTML Reports</projectName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>**/cucumber*.json</param>
+                            </jsonFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+------------------------------------------------------------------------------------------
