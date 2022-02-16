@@ -1,0 +1,65 @@
+google --> aws --> create aws account --> compute --> Ec2 --> instances --> launch instances
+-->search "cybertek" --> soldaki Community AMIs'ı seçiyoruz.(sağ üstte US East (N. Virginia)) yazması
+lazım --> Cybertek_LatestImage_1.0 --> sağ altta Next: Configure Instance Details'e geldik --> next
+--> next --> add Tag (Key=Name Value=my-jenkins-server) --> next -->selectte gerekli ruleler yoksa add rule --> bir sürü rule ekledik
+--> portları 1521,8000,8081,1000 --> source anywhere --> Description --> 1521= SQL Oracle database
+8000=Spartan app 8081=Jenkins 1000=ORDS --> review and launch --> launch --> proceed without a key pair
+select i acknowladge --> launch instances --> view instances 
+
+
+--> filter --> jenkins yazdık --> my-jenkins-server kendi oluşturduğumuzu seçtik --> 
+Public IPv4 address'i kopyaladık --> yeni sekme açtık boş yere yapıştırdık. yanına :8081 ekledik.
+--> enter (ilk seferde server hemen cevap vermez) --> password'u kopyaladık. --> contuine -->
+install suggested plugins --> bazıları ilk seferde yüklenmeyebilir sonra play markette yükleyebiliriz from jenkins
+--> Create First Admin User oluşturduk --> save and contuine --> save and finish --> start using jenkins
+
+
+Jenkins'de
+-->Dashboard --> Manage Jenkins --> global tool configuration --> add jdk --> unclick
+Install automatically --> name verdik JAVA --> path yazdık  C:\Program Files\Java\jdk-11.0.10 -->
+Git --> Add Git --> Git --> name=Default , path to git executable = git.exe --> Add Maven -->
+name -->M3 --> apply --> save
+
+
+-->Manage Plugins --> available --> search cucumber -->cucumber reports'un yanıdaki install
+kutusuna tıklıyoruz --> aşağıda Download now and install after restart'a tıklıyoruz. -->
+click restart jenkins. --> 
+
+
+:8081'li adressi girdik. --> new item --> enter name my-first-project --> freestyle project -->
+ok --> Source Code Management --> git --> github project'den  code clone HTTPS adressi
+kopyaladık --> jenkins'de repository'e yapıştırdık. --> aşağıda build'e geldik --> 
+Invoke top-level Maven targets'i seçtik --> goals = test --> post build actions -->
+cucumber reports --> apply --> save 
+
+
+Build now --> sol alta yüklenen şeye tıkladık. --> status'u console output'da görüyoruz. -->
+click the project name --> build history'de tamamlanmış build executionları görüyoruz. -->
+cucumber reports
+
+
+Dashboard --> new item  --> my first Pipeline --> ok --> Script --> click try sample Pipeline -->
+GitHub + Maven -->
+
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean package" = bunu comment'e attık
+
+
+-->       // Run Maven on a Unix agent.
+                //sh "mvn -Dmaven.test.failure.ignore=true clean package"
+
+-->
+        
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package" = bunu comment'ten aldık
+
+-->     // To run Maven on a Windows agent, use
+                 bat "mvn -Dmaven.test.failure.ignore=true clean package" 
+
+windows bat kullandığımız için bunu yazmalıyız.
+
+--> apply --> save -->build now --> build history --> click project --> console output -->
+click the project name --> click the project under the build history
+
+
+
