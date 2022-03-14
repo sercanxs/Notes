@@ -1,0 +1,56 @@
+windows_start_hub_and_node = çalıştırdık.
+
+chrome = http://localhost:4444/ (çalışmazsa 7777) enter ile bir site açıldı. --> console'e tıkladık.(Consolde çıkan internet simgeleri bir node için)
+
+windows_start_hub_and_node ile açılan 2 cmd = 2 server.
+
+intellij hazır olan final branch'e checkout yaptık. driver class'i açtık.
+
+yeni case ekledik -->
+
+    case "remote_chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.setCapability("platform", Platform.ANY);
+                    try {
+                        driverPool.set(new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"),chromeOptions)); = kendi bilgisayarımızda hub açtık. yan yana açılan siteler aynı bilgisayar
+                    } catch (MalformedURLException e) {                                                               üzerinden. yan yana açılan siteler için bir node yetiyor.
+                        e.printStackTrace();
+                    }
+
+case'e uygun configuration properties'i yazdık.
+
+Terminal mvn test ile çalıştırdık. bunu yazınca eğer hub and node'de bir şey olmazsa onlara gidip entere basıyoruz.
+http://localhost:4444/grid/console bu sitede kullanılan serverler gösteriliyor. kullanılanlar gri. refresh gerekiyor.
+
+5 firefox ,5 explorer, 5 chrome bir node için
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+hub ve nodeler için ayrı virtual machine kullanıyoruz ama çalışmak kolay olsun diye burada açılan hub ve nodeler kendi bilgisayarımızda.
+
+Bir tane hub açmak bütün nodeler için yetiyor.
+
+Selenium Grid -> it is a tool from selenium, that stands for remote execution. Remote means 
+you trigger test on one computer and test are actually running on other computers.(EC2,VM)
+
+How selenium grid looks like ? 
+It is a jar file that we have to run from command line. 
+
+Then we have to create network. Network should ova one hub and one or more nodes. 
+
+Hub-> machine that receives commands from your driver, responsible for managing nodes.
+
+Node-> machine that runs your tests. You cannot connect to node from your driver class directly, 
+node has to be connect to hub. 
+
+--------------------------------------------------------------------------------------------------------------------------------
+Jenkinsden project bağlarken branchin final olmasına dikkat ediyoruz ve builds kısmında goals --> test yazıyoruz. 
+
+Driver'i olan projecti jenkinse yönlendirdik. Driver içindeki hub adresinden belirli hub'a ilerledik. bu hub başka virtual machine olabilir. o hub'tan nodelere bağlantı kurduk.
+bir node içinde bir sürü site yan yana açılabilir. Her node bir virtual machine'i temsil eder. görevler bütün nodelere dağıtılır. Yani Her şey Jenkins ve diğer virtual machineler ile 
+halledilir.
+
+--------------------------------------------------------------------------------------------------------------------------------
+windows_start_hub_and_node = bu dosyayı direkt kapatmıyoruz. ctrl + c ile kapatıyoruz.
+
+Selenium grid gerekli dosyalar yukarıda
