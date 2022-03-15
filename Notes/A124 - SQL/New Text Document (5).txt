@@ -1,0 +1,108 @@
+
+Relational DATABASE = tables are related to each other using Primary and foreign keys
+
+Primary = Normalde değerler iki kere tekrar edebilir. Bunun için belli table'de her kişi için farklı değerler içeren column ekledik.
+foreign = Bir table için primary olan diğeri için foreign olabilir.
+
+Jobs(Table)
+
+job_id -- job_title -- min_salary --> job_id, Jobs(Table) için primary.  
+
+100        developer   3000
+
+110        accounter   3000
+
+120        Tester      3000
+
+Employees(Table)
+
+emp_id    -- first_name -- job_id
+
+1             Curtis       100    --> job_id, başka tableler için foreign. Çünkü değerler iki kere tekrar edebilir.
+
+2             John         100           
+
+3             Rick         110         
+--------------------------------------------------------------------------
+HR sayfasında 
+
+select * from employees;  yazıp çalıştıra tıkladık.
+
+select = bilgi almak
+
+ctrl + space = yazılabilecek şeyleri gösteriyor --> employees
+
+ctrl + enter = çalıştırmak için
+
+--------------------------------------------------------------------------
+
+select * from employees;  = mouse hangisinin üzerindeyse çalıştırdığımızda o veriler gözükür.
+
+select * from departments;
+
+--------------------------------------------------------------------------
+
+select * from employees; = böyle yazdığımızda belli tabledeki tüm veriler gelirken
+select first_name from employees; = bunda sadece aynı tabledeki first_name kısmı geliyor.
+
+select first_name,last_name,salary from employees; = first_name, last_name, salary geliyor.
+
+select distinct first_name from employees; = aynı değer iki kere gösterilmiyor.
+
+--------------------------------------------------------------------------
+file save.
+--------------------------------------------------------------------------
+Tools sql worksheet --> new worksheet oluşturduk.
+
+select first_name,salary,last_name from employees where first_name = 'David'; = firstname'i David olan table'deki bütün değerleri buluyor.
+
+select first_name,salary,last_name from employees where first_name = 'David' and last_name = 'Lee'; = iki tane koşul yazdık. or koyarsak ya da.
+
+
+select * from employees where salary > 7000; = salary'isi 7000'den büyük olanlar.
+
+select * from employees where salary between 7000 and 10000; = between ile 7000 ve 10000 de dahil aradaki değerleri aldık.
+
+select * from employees where salary in(7000,8000,10000); = 3 değerden birine sahip olanları buluyor.
+
+select count(*) from employees where salary in(7000,8000,10000); = bu şekilde yazınca bu 3 değerden birine sahip olan kaç tane değer olduğunu gösteriyor.
+
+count(column) = yıldız değil de column koyarsak eğer column'in değeri boşsa o değeri saymaz.
+
+select count(distinct first_name) from employees; = içeriye distinct ve column yazdık böylelikle hem boş değerleri almadık hem de aynı değerleri almadık.
+
+select * from employees order by salary desc; = salary'leri büyükten küçüğe sıraladık. A'dan z'ye sıralamak için de kullanabiliriz.
+
+select * from employees order by salary asc; = salary'leri küçükten büyüğe sıraladık. sadece order by ile stringler sıraya dizilebilir.
+
+select * from employees where first_name like 'C%'; = C ile başlayan bütün isimleri yazıyor.
+
+select * from employees where first_name like 'C_____'; = ilk harfi C diğerleri herhangi bir harf olabilir. Beş tane çizgi var --> CLAUDE.
+
+select * from employees where first_name like '_u%'; = harf sınırlaması yok. ikinci harfi u olan bütün first_name'ler.
+
+select * from employees where first_name like 'C_%'; = ilk harfi C olan ikinci harfi de herhangi bir değer olan bütün değerler.
+
+select min(salary) from employees; = minimum salary değerini gösteriyor --> 2100
+
+max()
+avg()
+sum()
+
+select round(avg(salary)) from employees; = çıkan sonucu yakın değere yuvarlar.
+
+select round(avg(salary),4) from employees; = virgülden sonra 4 hane gösteriyor.
+
+
+
+>=
+<=
+=
+>
+<
+!= ve <> = not equal
+AND
+OR
+
+
+

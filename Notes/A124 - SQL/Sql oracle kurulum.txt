@@ -1,0 +1,19 @@
+This pc --> c --> program files --> java --> jdk --> adressi kopyaladık --> C:\Program Files\Java\jdk-11.0.12
+
+Windows Search --> edit the system environment variables --> aşağıdaki environment variables'e tıkladık -->
+system variables --> new -->variable name= JAVA_HOME -->variable value = C:\Program Files\Java\jdk-11.0.12 -->
+System variables --> path --> edit --> new = C:\Program Files\Java\jdk-11.0.12\bin (bin de var)
+
+cmd --> javac -version = javac 11.0.12 --> java home yüklendi.
+        java -version = bundan farklı
+
+
+
+Kursun sitesinden sqldeveloper'i indirdik. çalıştırma dosyasını desktop'a shortcut ettik.
+
+oracle connections --> right click --> new connections --> Name=HR, Username=hr, password=hr -->
+click save password --> adrres olarak --> https://console.aws.amazon.com/ec2/v2/ bu kısımlarda -->
+bulunan ip adressi kopyalayıp teste basacağız --> status=succes olmalı. --> connect
+
+
+
