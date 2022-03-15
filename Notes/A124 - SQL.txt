@@ -1,3 +1,6 @@
+SQL kurulum yukarıda
+
+
 
 Relational DATABASE = tables are related to each other using Primary and foreign keys
 
