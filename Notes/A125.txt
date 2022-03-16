@@ -1,0 +1,37 @@
+select job_id,avg(salary) from employees group by job_id; = group by kullanınca sağ kısma job_id yazdığımızda belirli bir job_id birden fazla değeri temsil ediyor ve direkt salary gibi
+                                                            komutlar çalışmıyor. Birden fazla veri olduğu için sol tarafa avg(salary) yazarak her job_id'nin ortalama salary'sini bulduk.
+
+
+select job_id,avg(salary),count(*) from employees group by job_id having avg(salary)>5000; = group by kullanınca having ile birlikte ortalama maaşı 5000'den büyük olan grupları aldık.
+
+
+select * from employees where salary = (select max(salary) from employees); = salary'si en yüksek adamın bütün bilgilerini aldık. Bu durum query içinde query.
+ 
+select * from employees where salary = (select max(salary) from employees where salary < (select max(salary) from employees)); = 2. en yüksek maaş --> famous interview questions.
+
+select * from employees where rownum <6; = çıkan sonuçlardan sadece 5 tanesini gösteriyor.
+
+select * from (select * from employees order by salary desc) where rownum <11; = Employees yerine query yazdık.
+
+select first_name as "GivenName" from employees; = çıkan sonuçta column ismi farklı gözüküyor.
+
+select first_name||' '||last_name as "full name" from employees; = || işaret concat işareti. select kısmına virgülsüz birden fazla ekleme yaptık. column ismi karışık çıkmasın diye full name yaptık.
+                                                                   veriler first name + " " + last_name şeklinde gelir. 
+
+select lower(first_name||' '||last_name) as "full name" from employees; = lower ekleyince çıkan sonuçlar küçük görünür. lower'in tersi upper.
+
+select length(first_name||' '||last_name) as "length" from employees; = length kullanarak kelimelerin uzunluğunu bulduk.
+
+select length(first_name||' '||last_name) as "length" from employees order by "length" desc; = length ismini verince order by kısmında da length yazabildik.
+
+select first_name from employees order by first_name desc; = eğer isim vermezsek order by kısmında column ismini double quote ile yazmak hata verir. --> "first_name" = error.
+
+select substr(first_name,5,1) as "GivenName" from employees; = substr yazınca 5 numaradan itibaren yazmaya başladı ve toplamda bir tane harf yazdı.
+
+create view test1 as select substr(first_name,6,1) as "GivenName" from employees; = database'den bilgi almadık ama databaseye virtual table ekledik.
+                                                                                    virtual table'in tableden farkı data değil de data ile oluşturulan queryleri içerir.
+
+select "GivenName" from test1; = virtual table'den veri aldık ama GivenName kısmını double quote ile oluşturduğumuz için double quote ile aldık.
+
+                                                                                            
+                                                            
