@@ -1,0 +1,101 @@
+DDL: Data Definition Language = table'leri oluşturmak için kullanılır.
+DML: Data Manipulation Language = datalari manipule etmek için kullanılır.
+
+
+CREATE TABLE ScrumTeam(                  = Table oluşturduk. Aşağıda column ismi ve sağ tarafta sınırlamalar var.
+        Emp_ID Integer Primary Key,      = Integer ve Primary.
+        FirstName varchar(30) not null,  = 30 harf sınırı var ve boş olamaz.
+        LastName varchar(30),           
+        JobTitle varchar(20)
+);
+
+NOT NULL = boş olamaz.
+UNIQUE   = değerler tekrarlanamaz.
+PRIMARY KEY = değerler tekrarlanamaz ve boş olamaz.
+
+
+INSERT INTO ScrumTeam (emp_id,firstname,lastname,jobtitle) VALUES (1,'Mike','Smith','Tester'); = ScrumTeam table'inin column'larina değerler ekledik.
+INSERT INTO ScrumTeam values (2,'Harold','Finch','Developer');          = Bir kere column isimlerini yazınca bir daha yazmaya gerek yok. verilerin eklenmesi için kodları çalıştırmak lazım.
+INSERT INTO ScrumTeam values (3,'Samantha','Grooves','ScrumMaster');
+INSERT INTO ScrumTeam values (4,'Micheal','Scofield','PO');
+
+
+UPDATE scrumteam SET firstname = 'Michael' WHERE emp_id = 4; = belli kişinin verilerini değiştirdik. virgül koyarak birden fazla column değiştirilebilir.
+UPDATE scrumteam SET jobtitle='DevOps' WHERE emp_id = 4;  
+
+DELETE FROM scrumteam WHERE emp_id = 3; = belirli row'u sildik.
+
+
+bütün insertleri yaptıktan sonra commit work; yazmalıyız. yoksa veriler database'ye kaydedilmez.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE scrumteam add salary Integer; = yeni column ekledik. Sınırlaması ise integer.
+
+alter table scrumteam rename column salary to annual_salary; = column ismini değitirdik.
+
+alter table scrumteam drop column annual_salary; = column'u sildik.
+
+alter table scrumteam rename to agileteam; = table ismini değiştirdik.
+
+truncate table agileteam; = tabledeki bütün verileri siler ama table silinmez.
+
+drop table agileteam; = table'i siler.
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+select first_name,last_name,address,phone from customer join address on customer.address_id = address.address_id; = select kısmında address column'u var ama address column'u customer table
+                                                                                                                    içinde değil. dolayısıyla join kısmında address table'e bağlandık ve 
+                                                                                                                    ilgili row'u işaret ettik.  
+
+
+select first_name,last_name,address_id,address,phone from customer join address on customer.address_id = address.address_id; = iki table'deki address_id'yi bağlayınca select kısmında
+                                                                                                                               address_id error veriyor çünkü sistem anlamıyor hangisine ait
+                                                                                                                               olduğunu.
+
+select first_name,last_name,customer.address_id,address,phone from customer join address on customer.address_id = address.address_id; = select kısmına customer.address_id yazdığımızda 
+                                                                                                                                        address_id'nin table'ini belirttiğimiz için error
+                                                                                                                                        vermiyor.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+select first_name,last_name,c.address_id,address,phone from customer c join address a on c.address_id = a.address_id; = from ve join kısmında customer ve address'e kısa isimler verdiğimizde
+                                                                                                                        diğer kısımlarda c.address_id gibi yazması kolay oluyor.
+                                                                                                                        
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+select first_name,last_name,address,phone from customer inner join address on customer.address_id = address.address_id; = joinden önce inner yazınca address_id'ye göre eşleşenleri buluyor.
+                                                                                                                          Yani sadece join yazdığımızda çıkan sonuç çıkıyor.
+
+
+
+select first_name,last_name,address,phone from customer left outer join address on customer.address_id = address.address_id; = joinden önce left outer yazınca address_id'nin eşleştiklerini
+                                                                                                                               ve sol table'deki eşleşmeyenler de yazılıyor ama
+                                                                                                                               diğer tableden gelen columnlar null olarak gözüküyor.
+                                                                                                                               left outer'in tersi right outer. ikisini kapsayan full outer.
+
+where c.address_id is null or a.address_id is null; --> is null = boşları buluyor.
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+select first_name,last_name,department_name,city from employees e inner join departments d on e.department_id = d.department_id inner join locations l on d.location_id = l.location_id;
+
+--> iki kere join kullandık.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
