@@ -1,0 +1,18 @@
+insan kaynakları ya da aracı şirket arar.
+
+1 --> yes i am currently in the market
+
+2 --> it'ye nasıl başladım --> kendi iyi özelliklerini anlat --> iyi özelliklerini bekledikleri yer.
+
+3 --> isim vererek
+
+5 --> yüzde 50 automation 
+
+6 --> my contract is finished. i'm looking for new company.
+
+7 --> ne kadar maaş teklif ediyorsunuz diye sor. 2000$ yeni başlayanlar için ideal.
+
+8 --> 2 hafta ideal.
+
+
+11 --> what is your benefits.
