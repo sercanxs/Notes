@@ -1,0 +1,112 @@
+
+When I give you a story, can you tell me how will you test it in your framework? 
+
+- Framework name -> Cucumber BDD -> behavior driven development 
+                  
+                   why? 1. 3 amigos - BA/DEV/QA -> non-tech can understand 
+                        2. test a function from all 3 layers - ui/db/api
+                        3. easy to maintain  & non duplicate code 
+
+
+- build management tool -> Maven 
+- major programming langues is -> Java 
+
+- POM.xml file --> manage dependencies + plugins (for the reports)
+
+- configuration.properties -> it is KEY - VALUE format file 
+                             store project data, to centralize data 
+
+- in my framework, i have a resource with a features folder: 
+     
+     - create 1 feature file -> 1 user story 
+
+          - to write scenario + scenario outline with Gherkin language
+
+- I have a package called - Step_definition  
+     
+     - to write my test script (code) + with the correspond testing tools - selenium, jdbc, or restAssured + junit 
+
+     - Hooks class -> store before & after methods 
+
+
+- I have a runner package : 
+   
+    - cukesRunner class -> it is an empity class 
+                           use @Runwith [from Junit] 
+                               @cucumberOptions from cucumber 
+                           
+                            setup options: 
+                              1. provide feature file location 
+                              2. glue it with Step-definition
+
+                               I can select which feature / scenario to run:
+                              3. tag 
+                              4. DryRrun 
+
+                              very importantly :
+                              5. plugin for reports - html, json, rerun for fails
+
+                                 all the reports -> Target Package  
+
+- I have a utill package: many reusable methods 
+    
+      for example: config.reader -> a class + inputStream
+
+       developers may provide most used SQL queries to the QAs: queries 
+
+                  BrowserUtil -> so many methods - that I and other QAs created 
+
+- I have designed our framework with several design pattern: 
+       
+        1. Singleton -> under the utill - called Driver -> to create just 1 drover object 
+
+        2. POM - page object design -> pages package 
+              1 page class per page of our project 
+                   locate each webelemnts with @FindBy (Selenium)
+                   use pageFactory + initElement() 
+
+        3. POJO -> API class 
+
+        4. Abstraction -> abstract class ->basePage -> we do not need to create object of the class, just store common elements for all pages
+
+
+optional : 
+- big data -> data package 
+   
+    data in excel -> Apache POI 
+
+==========================
+
+how many framework do you have in your project? 
+
+-1. 1 cucumber framework -> all the 3 layers 
+        
+         UI_featutrs packages
+         DB_featutrs packages 
+        API_featutrs packages
+
+
+-2. 2 framework for the UI & backend 
+        UI cucumber framework 
+        backEnd (cucumber) framework 
+
+
+
+
+
+
+name convention : 
+
+1, project / package names -> lower case
+   class name -> upper case 
+   method name -> lower case + verb 
+
+   feature file name -> the same function + which layer 
+
+        loginFeature_UI
+        loginFeature_API
+        loginFeature_DB
+
+    
+
+
