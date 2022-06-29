@@ -1,0 +1,135 @@
+JDBC kurulum
+
+intellij --> file --> new project --> maven --> next --> Artifact cordinates --> Group id = com.cybertek
+--> Artifact id = eu3-jdbc-practice --> finish.
+
+----------------------------------------------------------------------
+
+Pom içinde java kısmı olmalı
+
+ <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties> 
+
+----------------------------------------------------------------------
+New dependency
+
+       <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>21.1.0.0</version>
+        </dependency>
+
+eğer reload yapınca build kısmında kırmızı hata gözüküyorsa repository yapıştırıyoruz.
+
+    </dependencies>
+    <repositories>
+        <repository>
+            <id>oracle</id>
+            <url>http://www.datanucleus.org/downloads/maven2/</url>
+        </repository>
+    </repositories>
+
+</project>
+
+
+----------------------------------------------------------------------
+
+src.test.java right click --> new package --> jdbctests --> new java class Main -->
+
+----------------------------------------------------------------------
+
+Connection String
+dbUrl = "jdbc:oracle:thin:@yourIPaddressandport:xe"; = intellij'den database'ye erişmek için bilgiler gerekli bu bilgileri işletmedekiler sağlıyor.
+dbUsername = "hr"; =admin access yoksa çok fazla yetki olmayabilir.
+dbPassword = "hr";
+
+
+-----------------------------------------------------------------------
+Birisi jdbc ile ilgili sorular soruyorsa bunları duymak istiyordur.
+
+Connection  = how to create a connection
+Statement = How to run a query. Slaytta yazıyor
+ResultSet = How to store your result ... 
+
+
+-----------------------------------------------------------------------
+
+
+String dbUrl = "jdbc:oracle:thin:@54.161.114.237:1521:xe"; = Bunlar javaclass içinde main method içinde yazıyor.
+String dbUsername = "hr";
+String dbPassword = "hr";
+
+
+Create a Connection
+
+Connection connection = DriverManager.getConnection(dbUrl,dbUsername,dbPassword); = connection java.sql'den geliyor. hata verirse hatanın üzerinden addexpection yapıyoruz.
+
+Create a Statement object
+
+Statement statement = connection.createStatement();
+
+Run query and get the result in resultset object
+
+ResultSet resultSet = statement.executeQuery("Select * from regions"); içeri query yazdık.
+
+Close All Connections
+
+resultSet.close();
+statement.close();
+connection.close();
+
+
+----------------------------------------------------------------------------------------------------------------
+ public static void main(String[] args) throws SQLException {
+
+        String dbUrl = "jdbc:oracle:thin:@54.161.114.237:1521:xe";
+        String dbUsername = "hr";
+        String dbPassword = "hr";
+
+        Connection connection = DriverManager.getConnection(dbUrl,dbUsername,dbPassword);
+
+        Statement statement = connection.createStatement();
+
+        ResultSet resultSet = statement.executeQuery("Select * from regions");
+
+        resultSet.next();                   = Default row'daydı, 1. row'a indik. 
+        resultSet.getString("region_name").sout = 1. rowda ilgili column'u yazdık. column kısmını index numarası ile de verebiliriz. getString yerine getInt yazarak integer alabiliriz.
+                                                  index numarası 1'den başlar.
+        resultSet.close();
+        statement.close();
+        connection.close();
+
+    }
+
+---------------------------------------------------------------------------------------------------------------
+
+ while(resultSet.next()){        
+
+
+            System.out.println(resultSet.getString("region_name"));
+        }
+
+resultSet.next() = bir alt row'a inerken aynı zamanda return olarak boolean veriyor bu da while'de kullanmaya yarıyor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
