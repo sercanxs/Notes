@@ -1,0 +1,198 @@
+new dependency
+
+ <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.1.0</version>
+            <scope>test</scope>
+        </dependency>
+----------------------------------------------------------------------------------------
+ResultSet Methods
+
+next()—> move to next row
+previous()—> move to previous row 
+beforeFirst()—> goes before the first row = default row'a gider
+afterLast()—>goes after last row 
+getRow()—> get the current row number 
+last()—> moves to last row 
+absolute() —> goes specific row
+
+Statement kısmına ilgili komutları yazınca yukarıdaki kodları kullanabiliyoruz.
+
+Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+ResultSet.TYPE_SCROLL_INSENSITIVE --> allow us to navigate up and down in query result. 
+
+ResultSet.CONCUR_READ_ONLY —> Read only, don’t update the database
+
+----------------------------------------------------------------------------------------
+
+jdbctests--> new java class --> jdbcexample
+
+jdbcexample main method yok.
+
+public class jdbcexample {
+
+    String dbUrl = "jdbc:oracle:thin:@54.161.114.237:1521:xe";
+    String dbUsername = "hr";
+    String dbPassword = "hr";
+
+    @Test
+    public void test1() throws SQLException {
+
+
+        Connection connection = DriverManager.getConnection(dbUrl,dbUsername,dbPassword);
+
+        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+
+        ResultSet resultSet = statement.executeQuery("Select * from regions");
+
+   resultSet.next();
+        System.out.println(resultSet.getString(1));
+        resultSet.next();
+        System.out.println(resultSet.getString(1));
+        resultSet.beforeFirst();
+        resultSet.next();
+        System.out.println(resultSet.getString(1));
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+
+
+
+
+    }
+
+
+}
+
+
+----------------------------------------------------------------------------------------
+   DatabaseMetaData dbMetaData = connection.getMetaData(); = DatabaseMetaData özelliklerini kullanıyoruz. Connection da var.
+
+        System.out.println(dbMetaData.getUserName());
+        System.out.println(dbMetaData.getDatabaseProductName());
+        System.out.println(dbMetaData.getDatabaseProductVersion());
+        System.out.println(dbMetaData.getDriverName());
+        System.out.println(dbMetaData.getDriverVersion());
+
+Çıktı = 
+
+HR           = Connectionla ilgili bilgileri aldık.
+Oracle
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
+Oracle JDBC driver
+21.1.0.0.0
+
+
+
+------------------------------------------------------------------------------------------
+
+ResultSetMetaData rsmd = resultSet.getMetaData(); = ResultSetMetaData özelliklerini kullanıyoruz.
+
+System.out.println(rsmd.getColumnCount()); = column sayısını bulabildik.
+
+rsmd.getColumnName(1).sout = içeriye indexi girince REGION_ID gibi en tepedeki column isimleri çıktı.
+
+
+
+------------------------------------------------------------------------------------------
+Sql'de key value structure var. first_name=key, Steven=value.
+
+Employee_id, first_name, last name, salary
+
+1            Steven      King       10000
+2            Lex         De Haan    10000
+3            Bruce       Ernst      10000
+
+
+Map<String,Object> row1 = new HashMap<>(); = Column names hep String olduğu için sol tarafa string yazdık. Object ise Stringle birlikte integerleri de kapsadığı için sağ tarafa yazdık.
+
+        row1.put("first_name","Steven");  = key value ekledik.
+        row1.put("last_name","King");
+        row1.put("salary",24000);
+        row1.put("job_id","AD_PRES");
+
+        System.out.println(row1.toString());
+        System.out.println(row1.get("salary")); = key yazınca value veriyor.
+
+List<Map<String,Object>> queryData = new ArrayList<>(); = List oluşturduk.
+
+queryData.add(row1);
+
+System.out.println(queryData.get(0).get("salary")); = listten 0 numaradaki mapten belirli key valueyi aldık.
+
+
+
+Map<String,Object> row3 = new HashMap<>(); 
+
+resultSet.next(); = database'den bilgi alacağımız için bunu yazdık.
+
+row3.put(rsmd.getColumnName(1),resultSet.getString(1)); = database'den aldığımız bilgileri map'e kaydettik. getString yerine getInt de kullanabiliriz. ikisi de int değerini alır.
+row3.put(rsmd.getColumnName(2),resultSet.getString(2));
+row3.put(rsmd.getColumnName(3),resultSet.getString(3));
+row3.put(rsmd.getColumnName(4),resultSet.getString(4));
+
+System.out.println(row3.toString());
+
+queryData.add(row3); = map'i liste ekledik.
+
+resultSet.getObject(1).sout = belirli column'in valuesini aldık. getString yerine getObject yazdık.
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+List<Map<String,Object>> queryData = new ArrayList<>();
+
+int colCount = rsmd.getColumnCount();           = column sayısını bulduk.
+
+while (resultSet.next()){                      = while içinde bütün rowlara indik.
+
+Map<String,Object> row = new HashMap<>();      = map oluşturduk.
+
+for (int i = 1; i <= colCount; i++) {
+
+row.put(rsmd.getColumnName(i),resultSet.getObject(i)); = Map'e databaseden veriler yükledik.
+            }
+            queryData.add(row); = Map'i liste ekledik.
+
+        }
+
+        for (Map<String, Object> row : queryData) {
+            System.out.println(row.toString());     = Listteki her map değerini yazdık.
+        }
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
+near jdbctests package --> new package --> utilities --> new java class --> DBUtils -->(DBUtils içindekiler diğer sayfada yazıyor. İp kısmının değiştirilmesi lazım.)
+
+Sürekli uğraşmamak için connection gibi kısımları DBUtils'e attık.
+
+        DBUtils.createConnection(); = Connection oluşturuyor.
+
+        DBUtils.destroy(); = Connection kapatıyor.
+
+
+ List<Map<String, Object>> queryResultMap = DBUtils.getQueryResultMap("select * from employees"); = List içine mapleri alırken hazır methodu kullandık. İçeriye query yazdık.
+
+        for (Map<String,Object> map : queryResultMap){
+            System.out.println(map.toString());
+
+        }
+
+
+     DBUtils.getRowMap("select * from employees "); = eğer query sadece bir tane row veriyorsa bu method kullanılabilir. Return'i ise map.
+
+
+
+
+
+
+
+
+        
+
+
+
+
