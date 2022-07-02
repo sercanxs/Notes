@@ -1,0 +1,111 @@
+Oracle'in default'u sadece oracle connectionslara izin veriyor --> Tools --> Preferences --> database -->
+3rd party jdbc driver --> add entry --> Yukarıdaki dosyadaki mysqlconnector'a bağlıyoruz --> ok
+
+Connections --> yeşil artı butonu --> databasetype --> MySQL --> Hostname: 52.23.232.254(vytrack ipsi)-->
+userName=qa_user, password=qa_user --> name=rastgele --> click choose database --> choose database : bitnami_orocrm --> test --> succes
+--> connect 
+
+---------------------------------------------------------------------------------------------------
+MvnRepository --> mysql jdbc driver --> MySQL Connector/J --> 8.0.29 --> add dependency to EU7cucumberselenium
+
+
+Utilities --> new java class --> DBUtils --> içindekiler yeni sayfada yazıyor. 
+
+----------------------------------------------------------------------------------------------------
+configuration.properties --> 
+
+spartan.DBUrl=jdbc:mysql://52.23.232.254:3306/bitnami_orocrm
+spartan.DBusername=qa_user
+spartan.DBpassword=qa_user
+
+branch'in final olması gerekebilir.
+----------------------------------------------------------------------------------------------------
+mvn test -Dusername=qa_user --> terminalde yazarken buradan da bilgi girilebilir.(configuration.properties içinde username girilse bile burada girilebilir.) 
+----------------------------------------------------------------------------------------------------
+
+Contacts.feautre aşağıdaki dosyaları oluşturduk. 
+
+Scenario: Contacts test with email
+
+      Given the user logged in as "sales manager"
+      And the user navigates to "customers" "contacts"
+      When the user clicks the "mbrackstone9@example.com" from contacts
+      Then the information should be same with database
+
+----------------------------------------------------------------------------------------------------
+ctrl+shift+f = @wip gibi değerlerin nerelerde kullanıldığını görmek için kullanışlı. 
+
+----------------------------------------------------------------------------------------------------
+
+Sql Developer --> VytrackQA2 --> right click --> open sql worksheets
+
+select concat(first_name, last_name) as full_name, e.email, phone from orocrm_contact c join orocrm_contact_email
+e on c.id=e.owner_id join orocrm_contact_phone p on e.owner_id=p.owner_id 
+where e.owner_id=67; = sqldeveloper gerekli bilgileri aldık. Select kısmında concat kullandık.
+
+
+----------------------------------------------------------------------------------------------------
+
+
+dry run true yeni step definitonlar ekledik.
+
+ContactsStepDefs -->
+  
+ @When("the user clicks the {string} from contacts")
+    public void the_user_clicks_the_from_contacts(String email) {
+        BrowserUtils.waitFor(10);
+
+        ContactsPage contactsPage = new ContactsPage();
+       contactsPage.getContactEmail(email).click();     = Sitede belirli emaile tıkladık.
+
+    }
+
+
+
+
+    @Then("the information should be same with database")
+    public void the_information_should_be_same_with_database() {
+
+        ContactInfoPage contactInfoPage = new ContactInfoPage();
+        String actualFullName = contactInfoPage.contactFullName.getText(); =UI'dan gerekli textleri aldık.
+        String actualEmail = contactInfoPage.email.getText();
+        String actualPhoneNumber = contactInfoPage.phone.getText();
+
+        System.out.println(actualFullName);
+        System.out.println(actualEmail);
+        System.out.println(actualPhoneNumber);
+
+        DBUtils.createConnection();
+
+        String query = Bu kısma query yapıştırdık. Query --> select concat(first_name," ", last_name) as full_name, e.email, phone from orocrm_contact c join orocrm_contact_email
+e on c.id=e.owner_id join orocrm_contact_phone p on e.owner_id=p.owner_id where e.owner_id=67;
+
+        Map<String, Object> rowMap = DBUtils.getRowMap(query); = databaseden gerekli row'u aldık.
+
+        String expectedFullName = (String) rowMap.get("full_name"); =databaseden gerekli bilgileri aldık. Sağ taraf object olduğu için String'e castingledik.
+        String expectedEmail = (String) rowMap.get("email");
+        String expectedPhoneNumber = (String) rowMap.get("phone");
+
+        Assert.assertEquals("full name isn't the same",expectedFullName,actualFullName); = UI ile databaseyi karşılaştırdık.
+        Assert.assertEquals("email isn't the same",expectedEmail,actualEmail);
+        Assert.assertEquals("phone number isn't the same",expectedPhoneNumber,actualPhoneNumber);
+
+
+        DBUtils.destroy();
+
+
+    }
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+    @Before("@db")                 = Hooks class içine bunları attık. Eğer test case fail verirse connection kapatmaya yarıyor. Cukesrunner'de @db yazmasa bile scenariolarda @db tagi varsa bu kod çalışır.
+    public void connectDB(){
+        DBUtils.createConnection();
+    }
+    @After("@db")
+    public void closeDB(){
+        DBUtils.destroy();
+    }
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+Query yazarken where kısmındaki kodu dynamic hale getirebiliriz.
+
