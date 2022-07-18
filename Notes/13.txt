@@ -14,7 +14,7 @@ if(a==1) {
 
 Nested if statements              = if içinde if kullanmak.
 
- if(carType==1) {
+ if(carType==1) {                        =String kullanılacaksa == yerine .equals() kullanılır.
     	 if(isRushHour==true) {
     		 price=30;
     		}else {
