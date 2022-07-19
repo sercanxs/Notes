@@ -1,0 +1,169 @@
+http://api.cybertektraining.com/swagger-ui.html = api training sitesi.
+
+http://cybertektraining.com
+
+------------------------------------------------------------------------
+3.80.189.73:1000/ords/hr --> BaseURL, not changing,same all the time. Ords = api.
+
+/regions,/employees,/departments --> end points, api methods.
+
+------------------------------------------------------------------------
+2 types of parameters
+1.Path Parameters
+2.Query Parameters
+
+1.Path Parameter
+It is part of url and followed by end point.
+
+baseurl/students/{id}
+{id} --> path parameter
+
+
+------------------------------------------------------------------------
+
+api.cybertektraining.com/student/all = postman'da get ile kullandık.
+
+54.***.***.***:1000/ords/hr = base url'i kaydetmek için sağ üstteki environment quick look'a tıkladık.
+                              global --> add --> variable: hrurl -->inital ve current value'ye url'yi girdik .
+                              --> save.
+
+artık yukarıdaki environment quick looka tıkladığımızda baseurl gözükecek.
+------------------------------------------------------------------------
+
+url kısmına {{hrurl}} yazdığımızda bu base url'i temsil ediyor.
+
+{{hrurl}}/regions
+
+-------------------------------------------------------------------------
+/student/{id} = burada path parameter var.
+
+{{cturl}}/student/32881 = student id girdik.
+
+{{cturl}}/student/name/:studentname yazınca paramsda path variables oluştu ve value girdik.
+
+------------------------------------------------------------------------- 
+
+/student/1 = primary key yazarak genellikle bilgi alabiliriz.
+
+------------------------------------------------------------------------- 
+
+2.Query Parameter
+it is NOT part of the url and passed in key=value format
+{{hrurl}}/employees?limit=100
+
+? --> means end of the url
+& --> add another query parameters, seperate query parameters
+{{hrurl}}/employees?limit=100&offset=10
+
+
+{{hrurl}}/employees?limit=100 = limit 25'i aşağıdaki query kısmında limit 100 yazarak artırdık.
+
+------------------------------------------------------------------------- 
+https://www.google.com/search = url kısmı
+?                             = soru işaretinden sonra key and value structure.
+q=selenium
+&rlz=1C5CHFA_enUS846US846
+&oq=selenium
+&aqs=chrome..69i57j0i271.3352j0j1
+&sourceid=chrome
+&ie=UTF-8
+
+--------------------------------------------------------------------------
+
+http://54.***.***.***:8000/ = yazarak arattık.
+
+Api dan kendi bilgilerimizi aldık.
+
+{{surl}}/api/spartans/search?gender=Male = documentste parameterler yazıyor. Bu parameterlere göre sonuçları değiştirebiliyoruz.
+
+/api/spartans = yukarıdaki gender=Male kısmı burada çalışmıyor. 
+
+--------------------------------------------------------------------------
+Headers kısmında key = Accept value = application/xml yazınca sonuç xml olarak geliyor.
+
+
+HEADERS
+Additional information about request and response
+It works like a map, key and value strucutre
+
+What we send with headers?
+-Data types(application/json,application/xml,...)
+-Credentials(username,password,token etc)
+
+
+Request Headers
+
+Accept, application/json --> hey api, please send me json response
+Accept, application/xml --> hey api, please send me xml response
+Credentials we can also send with request headers
+
+Response Headers
+
+Content-type, application/json --> hey client, I am sending you json response body
+              application/xml --> hey client, I am sending you xml respone body
+
+--------------------------------------------------------------------------
+new dependency
+
+İntellij e3jdbcprojects --> java --> new package = apitests
+
+mvn repository --> rest assured --> siyah yeşil REST Assured - io.rest-assured --> dependencyi diğer dependencylerin üstüne koyduk.
+
+--------------------------------------------------------------------------
+apitests --> new java class = simpleGetRequest
+
+
+public class simpleGetRequest {
+
+    String hrurl = "http://54.***.***.***:1000/ords/hr/regions"; = başında http kısmı ile url girdik.
+
+    @Test
+    public void test1(){
+        Response response = RestAssured.get(hrurl); = Url'ye bağlanırken return olarak da response verdi. 
+
+        System.out.println(response.statusCode()); = 200
+
+        response.prettyPrint(); = json formattaki kısmı yazdı.
+
+    }
+
+@Test
+    public void test2(){
+
+    Response response = RestAssured.given().accept(ContentType.JSON).when().get(hrurl); = given ve when kullanarak accept olarak JSON yazdık ve url'ye bağlandık.
+  
+    System.out.println(response.getContentType()); = json
+    System.out.println(response.contentType()); = json
+
+
+}
+@Test
+    public void test3(){
+        RestAssured.given().accept(ContentType.JSON)   =BDD framework'e göre yazdığımız için given when then kullandık.
+                .when().get(hrurl)
+                .then().assertThat().statusCode(200)   = Bu statusCode response ile oluşturulmadığı için burada karşılaştırma var.
+                .and().contentType("application/json");
+
+
+
+}
+import static io.restassured.RestAssured.*; = static olarak import edince RestAssured.given() kısmını sadece given() olarak yazabiliyoruz.
+
+@Test
+    public void test4(){
+    Response response = given().accept(ContentType.JSON).when().get(hrurl + "/2");
+
+    Assert.assertTrue(response.body().asString().contains("Americas")); = postman body kısmında yazanlar America'yi içeriyor mu.
+
+
+}
+
+
+
+
+
+}
+
+                                       
+
+                              
