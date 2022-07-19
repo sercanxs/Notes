@@ -1,0 +1,63 @@
+3.80.189.73:1000/ords/hr --> BaseURL, not changing,same all the time
+
+/regions,/employees,/departments --> end points, api methods.
+
+PARAMETERS
+Parameters are options you can pass with endpoint(such as specifiying the response format or the amount retured) to influence the response
+
+2 types of parameters
+1.Path Parameters
+2.Query Parameters
+
+1.Path Parameter
+It is part of url and followe by end point.
+
+baseurl/students/{id}
+{id} --> path parameter
+
+baseurl/regions/{id}
+{id}--> path parameter
+
+if you add :id to your url in postman it will create path variables part under Params tab
+you can change the id value from there too without changing your url
+
+
+https://www.google.com/search
+?
+q=selenium&
+rlz=1C5CHFA_enUS846US846
+&oq=selenium
+&aqs=chrome..69i57j0i271.3352j0j1
+&sourceid=chrome
+&ie=UTF-8
+
+2.Query Parameter
+it is NOT part of the url and passed in key=value format
+{{hrurl}}/employees?limit=100
+
+? --> means end of the url
+& --> add another query parameters, seperate query parameters
+{{hrurl}}/employees?limit=100&offset=10
+
+
+HEADERS
+Additional information about request and response
+It works like a map, key and value strucutre
+
+What we send with headers?
+-Data types(application/json,application/xml,...)
+-Credentials(username,password,token etc)
+
+Request Headers
+Accept, application/json --> hey api, please send me json response
+Accept, application/xml --> hey api, please send me xml response
+Credentials we can also send with request headers
+Response Headers
+Content-type, application/json --> hey client, I am sending you json response body
+application/xml --> hey client, I am sending you xml respone body
+
+ 
+
+ 
+
+ 
