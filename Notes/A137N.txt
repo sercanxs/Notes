@@ -1,0 +1,44 @@
+What are the part of GET REQUEST AND RESPONSE ?
+
+GET REQUEST
+-BaseUrl + Endpoints(api methods)
+-Parameters
+1.Path Parameters /{id} --> it is a part of the URL
+2.Query Parameters (Key and Value) --> it is NOT part of the url, we separete with ?
+-Headers
+Accept,application/json,xml, .. --> hey api, please send me json, xml response body
+Auth,credentials(username,password,token,key..)
+
+GET RESPONSE
+-Status code
+-2xx --> successful
+-4xx --> client error
+-5xx --> server error
+-Body
+-json
+-xml
+-text
+-html
+-....
+-headers
+Content-type, application/json,xml .. --> hey client, here your json response body
+xml response body
+================================
+we manually test api with Postman.
+we used Rest Assured library for automation.
+we use swagger documentation to understand api.
+
+if we want to verify existince of any header
+response.headers().hasHeaderWithName("yourHeaderName") --> it will return boolean
+this method will reutrn you true if the headers exists
+
+if you want to get any header value
+-response.header("yourHearderName")
+=============================
+how to navigate through Json and read values from keys ?
+there are multiple different ways of navigationg through json body/payload
+
+-using path() method
+-using JsonPath
+-using deseralization to collection
+-using desearalization to Java Custom Classes(POJO)
