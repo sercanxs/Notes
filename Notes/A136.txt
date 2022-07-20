@@ -76,7 +76,7 @@ Api dan kendi bilgilerimizi aldık.
 
 {{surl}}/api/spartans/search?gender=Male = documentste parameterler yazıyor. Bu parameterlere göre sonuçları değiştirebiliyoruz.
 
-/api/spartans = yukarıdaki gender=Male kısmı burada çalışmıyor. 
+/api/spartans = yukarıdaki gender=Male kısmı burada çalışmıyor.
 
 --------------------------------------------------------------------------
 Headers kısmında key = Accept value = application/xml yazınca sonuç xml olarak geliyor.
