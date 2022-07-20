@@ -1,0 +1,116 @@
+response.header("Content-Length").sout = Response header'de key girince value geldi.
+
+response.headers().hasHeaderWithName("date").sout = bu key varsa true.
+
+
+    
+
+----------------------------------------------------------------------------------------------
+
+asString ile toString farklı
+
+    System.out.println(response.asString()); = Hello from Sparta
+    System.out.println(response.toString()); = io.restassured.internal.RestAssuredResponseImpl@7f92b990
+
+----------------------------------------------------------------------------------------------
+
+System.out.println(response.asString());
+System.out.println(response.body().asString());  = ikisi aynı sonucu veriyor.
+
+----------------------------------------------------------------------------------------------
+
+@BeforeClass
+    public void beforeclass(){
+
+    baseURI= "http://54.***.***.***:8000"; = baseurl'i kaydettik. baseURI kendi verdiğimiz isim değil.
+
+}
+
+@Test
+    public void test1(){
+
+    Response response = given().accept(ContentType.JSON).when().get("/api/spartans/5"); = sadece end point yazdık
+    
+}
+
+
+Response response = given().accept(ContentType.JSON).and().pathParam("id",5).when().get("/api/spartans/{id}"); = 5 yerine {id} yazdık. pathParam ekledik.
+
+
+given().accept(ContentType.JSON).and().queryParam("gender","Female")
+            .and().queryParam("nameContains","e")                     =burada queryParam kullandık.
+            .when().get("/api/spartans/search");
+
+
+
+----------------------------------------------------------------------------------------------
+
+@Test
+    public void test3(){
+
+    Map<String,Object> queryMap = new HashMap<>();
+    queryMap.put("gender","Female");
+    queryMap.put("nameContains","e");
+    
+
+    Response response = given().accept(ContentType.JSON)
+                        .and().queryParams(queryMap) = =queryParams içine map koyduk. map birçok değeri içerdiği için param --> params oldu.
+                        .when().get("/api/spartans/search"); 
+
+
+
+}
+
+
+
+----------------------------------------------------------------------------------------------
+
+
+ response.path("id").toString().sout = body kısmında json formatında yazan kısımdan key yazarak value aldık.
+
+ response.path("name").toString().sout
+
+        
+
+int a = response.path("id");          =toString() kullanmadan bilgileri kaydettik ve yazdık.
+String b = response.path("name");
+
+System.out.println(a);
+System.out.println(b);
+
+
+
+----------------------------------------------------------------------------------------------
+{{hrurl}}/employees?q={"job_id":"IT_PROG"}
+
+query key = q                          = q --> ords api'a ait bir kod. IT_PROG olanlar listelendi.
+      value = {"job_id":"IT_PROG"}
+
+
+----------------------------------------------------------------------------------------------
+Postman test kısmında postman'a özel automation testleri yapılabilir.
+
+
+
+----------------------------------------------------------------------------------------------
+
+we manually test api with Postman.
+we used Rest Assured library for automation.
+we use swagger documentation to understand api.
+
+
+how to navigate through Json and read values from keys ?
+there are multiple different ways of navigating through json body(payload)
+
+-using path() method
+-using JsonPath
+-using deseralization to collection
+-using desearalization to Java Custom Classes(POJO)
+
+
+
+
+
+
+
+
