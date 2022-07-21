@@ -42,3 +42,17 @@ there are multiple different ways of navigationg through json body/payload
 -using JsonPath
 -using deseralization to collection
 -using desearalization to Java Custom Classes(POJO)
+
+path() and JsonPath they both use Gpath syntax.
+
+"items.findAll {it.region_id==2}.country_name"
+
+look all the values inside the items and if region_id equals to 2 get country_name
+
+findAll is kind of keyword to filter the result
+{it.region_id==2} --> "it" is kind of iterator, for each region_id
+check one by one and when region_id equals to 2
+
+.country name --> put country name to the list
+
+ 
