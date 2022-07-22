@@ -1,0 +1,129 @@
+ 
+
+ "contact": {                                         =json object. Phone number'i almak için student.contact[0].phone[0] olarak yazmaya gerek yok. Çünkü contact array değil.
+                "contactId": 32801,
+                "phone": "7738557985",
+                "emailAddress": "aaa@gmail.com",
+                "premanentAddress": "123 main str"
+            },
+
+--------------------------------------------------------------------------------------------------------------
+
+ "items": [                                           =Array
+        {
+           "country_id": "AR",
+            "country_name": "Argentina",
+            "region_id": 2,
+          
+        }
+],
+
+
+--------------------------------------------------------------------------------------------------------------
+
+String firstName = response.path("students.firstName"); =respons.path burada hata veriyor. array içinden bilgi alınırken students.firstName[0] olarak index girilmesi lazım.
+System.out.println(firstName);
+
+String frstName = jsonPath.getString("students.firstName"); = jsonPath hata vermiyor.
+System.out.println(frstName); = [Vera]
+
+
+
+
+String firstName = response.path("students.company[0].address.zipCode"); =response.path ile integer String'e castinglenemiyor.
+
+
+String frstName = jsonPath.getString("students.company[0].address.zipCode"); =jsonPath ile integer String'e castingleniyor.
+
+
+
+--------------------------------------------------------------------------------------------------------------
+
+
+import static org.hamcrest.Matchers.*;  = import edince Matchers.equalTo sadece equalTo olarak yazılabildi.
+
+
+@Test
+    public void test1(){
+given().accept(ContentType.JSON).pathParam("id",15)
+        .when().get("http://54.161.114.237:8000/api/spartans/{id}")
+        .then().statusCode(200)
+        .and().assertThat().contentType("application/json")    =json kısmını silsek de kod çalışır. Ama baştaki harfleri silince kod hata verir. Tüm harfleri karşılaştırmak için equalTo gerekir.
+        .and().assertThat().body("id",Matchers.equalTo(15),    =body'den equalTo kullanarak karşılaştırma yaptık.
+                                      "name",equalTo("Meta"), 
+                                  "gender",equalTo("Female"),
+                                 "phone",equalTo(1938695106));
+
+--------------------------------------------------------------------------------------------------------------
+.and().header("Content-Length",equalTo("275")); = header methodunda sağ tarafa integer yazılamadığı için String yazdık.
+
+ .and().header("Date",notNullValue()); = Matchers'in methodunu kullandık. Boş değilse true.
+
+  .and().assertThat().body("teachers.firstName[0]",equalTo("Leonel") =body'den array içerisinden değer aldık.
+                            ,"teachers.teacherId[0]",equalTo(21887));
+
+
+ .log().all(); = headers ve body'i de içeren birçok bilgi veriyor. When().get()'den önce kullanınca request bilgilerini görüyoruz.
+
+
+--------------------------------------------------------------------------------------------------------------
+
+.and().body("teachers.firstName",Matchers.hasItems("Camry","Jack")); = sağ tarafa list yazdık. bunlar varsa true.
+
+--------------------------------------------------------------------------------------------------------------
+New Dependency
+
+https://mvnrepository.com/ --> gson --> com.google.code.gson üstündekini seç
+
+--------------------------------------------------------------------------------------------------------------
+
+
+Map<String,Object> jsonDataMap = response.body().as(Map.class); = body json kısmını map olarak kaydettik. Converting Json response to Java Collection/data structure.
+
+
+BigDecimal phone = new BigDecimal(String.valueOf(jsonDataMap.get("phone"))); = phone number'i bu şekilde düzgün yazabildik.
+System.out.println(phone);
+
+
+--------------------------------------------------------------------------------------------------------------
+VERIFY RESPONSE BODY/PAYLOAD
+
+1-using contains method(not recommended)
+
+2-using path() method
+
+3-using JsonPath class
+
+4-Hamcrest Matchers with chaining restassured methods. We can do assertions in single statement by chaining method in RestAssured.
+to find values in the body, we use the same path syntax(Gpath syntax). then we use hamcrest matchers assertions to do validation.
+
+.and().assertThat().body("id",equalTo(15),
+"name",equalTo("Meta"),
+"gender",equalTo("Female"),
+"phone",equalTo(1938695106));
+
+5-Converting Json response to Java Collection/data structure
+
+response body() --> java collection
+
+{
+"id": 15,
+"name": "Meta",
+"gender": "Female",
+"phone": 1938695106
+}
+
+De-serialization --> convertion your JSON to Java Collection
+
+Gson --> is objectMapper, jsonparser,databinding library which does de serialization and serialization. we added our pom.xml then restasstured as method uses it to de serialize and serialize.
+
+Serialization --> converting your Java Collection to JSON
+
+
+
+
+
+
+
+ 
+
