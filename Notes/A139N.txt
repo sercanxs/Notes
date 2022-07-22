@@ -1,0 +1,58 @@
+Response Validations
+
+so far, we send all request and stored responses into Response object, then did validations(status code,header,body)
+we can also do all of those actions in sinle statement by Hamcrest Mathers.
+
+if we are getting one value we can use equalTo("expectedValue") method.
+for working with multiple values we have hasItems("value1","value2",.."valueN") method
+
+
+VERIFY RESPONSE BODY/PAYLOAD
+
+1.using contains method(not recommended)
+--treat the response json as a String and do contains assertion on it.
+response.body().asString().contains("ExpectedValue");
+
+2.using path() method
+Extract values from json body using path() method, then use TestNG for assertion
+String city = response.path("items.city[0]");
+assertEquals(city,"New York");
+3.using JsonPath class
+Convert Response data into JsonPath then use jsonpath getter methods to extract values.
+Used TestNG for assertion.
+JsonPath jsonPath = response.jsonPath();
+assertEquals(json.getString("gender"),"Male")
+4.Hamcrest Mathcers with chaining restassured methods.
+we can do assertions in single statement by chaining method in RestAssured.
+to find values in the body, we us the sam path syntax(Gpath syntax).
+then we use hamcrest matchers assertions to do validation
+.and().assertThat().body("id",equalTo(15),
+"name",equalTo("Meta"),
+"gender",equalTo("Female"),
+"phone",equalTo(1938695106));
+
+5.Converting Json response to Java Collection/data structure
+
+response body() --> java collection
+
+{
+"id": 15,
+"name": "Meta",
+"gender": "Female",
+"phone": 1938695106
+}
+
+Map<String,Object> jsonDataMap = response.body().as(Map.class);
+
+
+De-serialization --> convertion your JSON to Java Collection
+
+Gson --> is objectMapper, jsonparser,databinding library which does de serialization and serialization. we added our pom.xml then restasstured as method uses it to de serialize and serialize.
+
+Serialization --> convertiong your Java Collection to JSON
+
+ 
+
+ 
+
+ 
