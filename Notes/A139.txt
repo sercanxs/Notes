@@ -1,7 +1,7 @@
  
 
  "contact": {                                         =json object. Phone number'i almak için student.contact[0].phone[0] olarak yazmaya gerek yok. Çünkü contact array değil.
-                "contactId": 32801,
+                "contactId": 32801,                     Student array olduğu için contact'a index verilir ama contact array değil phone'a index verilmez.
                 "phone": "7738557985",
                 "emailAddress": "aaa@gmail.com",
                 "premanentAddress": "123 main str"
