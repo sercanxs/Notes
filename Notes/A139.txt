@@ -46,7 +46,7 @@ import static org.hamcrest.Matchers.*;  = import edince Matchers.equalTo sadece 
 @Test
     public void test1(){
 given().accept(ContentType.JSON).pathParam("id",15)
-        .when().get("http://54.161.114.237:8000/api/spartans/{id}")
+        .when().get("http://54.***.***.***:8000/api/spartans/{id}")
         .then().statusCode(200)
         .and().assertThat().contentType("application/json")    =json kısmını silsek de kod çalışır. Ama baştaki harfleri silince kod hata verir. Tüm harfleri karşılaştırmak için equalTo gerekir.
         .and().assertThat().body("id",Matchers.equalTo(15),    =body'den equalTo kullanarak karşılaştırma yaptık.
