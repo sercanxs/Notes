@@ -1,0 +1,50 @@
+6.JSON to POJO(Custom class)
+
+POJO --> Plain Old Java Object
+
+{
+"schoolName":"Cybertek",
+"city":"McLean",
+"state":"VA"
+}
+
+public class School{
+
+private String schoolName;
+private String city;
+private String state;
+
+//getters and setters
+//constructor
+
+}
+
+School school1 = response.body().as(School.class);
+
+assertEquals(school1.getCity(),"McLean");
+school1.getState() ---> VA
+
+@SerializedName("region_id") --> this annocation can be used while creating pojo classes and if instance variable name is different from json key name, it will map the json to your variable.
+
+POST METHOD
+PART OF POST REQUEST
+-BaseURL+Endpoint
+-Request JSON BODY
+{
+"gender": "Male",
+"name": "MikeSmith",
+"phone": 1231232133
+}
+-headers
+-Accept,application/json --> hey api, I want json response from you.
+-Content-Type --> hey api, I am SENDING JSON BODY to you.
+-Auth(if we any)
+POST successful status code is 201
+
+
+PART OF POST RESPONSE
+-status code --> most of the time 201 created
+-headers --> custom header to verify or Content type(similar to get)
+-body
+-some succesfful message to show we post correctly
+-same data that we send mos of the time
