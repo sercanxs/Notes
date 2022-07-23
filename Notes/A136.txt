@@ -3,7 +3,7 @@ http://api.cybertektraining.com/swagger-ui.html = api training sitesi.
 http://cybertektraining.com
 
 ------------------------------------------------------------------------
-3.80.189.73:1000/ords/hr --> BaseURL, not changing,same all the time. Ords = api.
+3.***.***.**:1000/ords/hr --> BaseURL, not changing,same all the time. Ords = api.
 
 /regions,/employees,/departments --> end points, api methods.
 
