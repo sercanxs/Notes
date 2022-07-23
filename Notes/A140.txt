@@ -1,0 +1,124 @@
+List<Map<String,Object>> allSpartanList = response.body().as(List.class); = json body'i list olarak aldık.
+
+System.out.println(allSpartanList.get(1).get("name"));
+
+-----------------------------------------------------------------------------------------
+
+Map<String,Object> regionMap = response.body().as(Map.class);  = Bütün json kısmını Map olarak kaydettik.
+
+List<Map<String,Object>> itemsList = (List<Map<String, Object>>) regionMap.get("items"); = Map içinden items'i seçtik. List olarak kaydettik.
+
+
+-----------------------------------------------------------------------------------------
+Spartan class oluşturduk. json'daki bir tane map'in keylerini private olarak ekledik.
+Generateden gettersetter,constructor with all value, constructor with no value, toString ekledik.
+
+
+
+Spartan spartan15 = response.body().as(Spartan.class); =Map'i spartan.class'a kaydettik. 
+
+                                                        
+
+System.out.println(spartan15); = spartan15.toString ile aynı sonucu veriyor.
+System.out.println(spartan15.toString());
+System.out.println(spartan15.getName()); = isim yazdık.
+System.out.println(spartan15.getPhone());
+
+-----------------------------------------------------------------------------------------
+Google-->jsontopojo--> https://www.jsonschema2pojo.org
+
+{
+    "id": 15,
+    "name": "Meta",
+    "gender": "Female",
+    "phone": 1938695106
+}                              =siteye yapıştırdık. gerekli bilgileri girince pojo için oluşturduğumuz class'in içeriğini veriyor.
+
+
+
+Bütün json kısmı için bu siteyi kullandığımızda 4 tane class açıldı. Birinci kısım en üstteki json kısmı için diğerleri de arrayler için.
+
+Bu class dosyaları buradan indirilebilir.
+
+
+-----------------------------------------------------------------------------------------
+Generated hatasını çözmek için new Dependency -->
+
+<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version>
+</dependency>
+
+
+-----------------------------------------------------------------------------------------
+Regions regions = response.body().as(Regions.class);
+
+    System.out.println(regions.getCount());
+    System.out.println(regions.getOffset());
+
+regions.getItems().get(0).getRegionName().sout =POJO classlardan bilgi aldık.
+
+
+-----------------------------------------------------------------------------------------
+
+    @SerializedName("region_id") =Normalde private variable'lerin ismi json body'deki keyler ile aynı olmalıydı ama bu anotation ile buna gerek kalmıyor. 
+    @Expose                      
+    private Integer regionId;
+    @SerializedName("region_name")
+    @Expose
+    private String regionName;
+    @SerializedName("links")
+    @Expose
+    private List<Link> links = null;
+
+
+-----------------------------------------------------------------------------------------
+
+    Gson gson = new Gson();
+
+    String myJsonData ="{\n" +
+            "    \"id\": 15,\n" +
+            "    \"name\": \"Meta\",\n" +
+            "    \"gender\": \"Female\",\n" +
+            "    \"phone\": 1938695106\n" +
+            "}";
+    Map<String,Object> map = gson.fromJson(myJsonData, Map.class); =Gson kullanılırken arka planda olanlar. Json to java collection or pojo. Deserialize
+    System.out.println(map);
+
+
+        Spartan spartan = new Spartan(921392, "frederic", "male", 123123123);
+
+        String jsonSpartan = gson.toJson(spartan);               =java collection or pojo to json. Serialize
+        System.out.println(jsonSpartan);
+
+
+-----------------------------------------------------------------------------------------
+post methodu seçtik --> Url: {{surl}}/api/spartans.
+
+Request body'den raw'i işaretledik. text'i json yaptık.
+
+documents'te yazan kodu yapıştırdık.
+
+{
+  "gender": "string",
+  "name": "string",
+  "phone": 0
+}
+
+Accept, application/json       = response'i json yapma  
+Content-Type, application/json = request'i json yollama
+
+
+-----------------------------------------------------------------------------------------
+How to connect spartandatabase,
+
+Soldaki artıya tıkladık --> name:SpartanDB --> username, password:SP -->local host:54.***.***.***--> test --> connect 
+
+
+
+
+
+
+
+
