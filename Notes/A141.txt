@@ -1,0 +1,72 @@
+String jsonBody ="{\n" +
+                "  \"gender\": \"Male\",\n" +
+                "  \"name\": \"JohnAB\",\n" +
+                "  \"phone\": 2132131122\n" +
+                "}";
+
+
+Response response = given()
+                    .accept(ContentType.JSON)
+                    .and().contentType(ContentType.JSON)
+                    .and().body(jsonBody).when().post("http://54.***.***.***:8000/api/spartans"); = Post ile data oluşturduk. Not recommended
+
+
+---------------------------------------------------------------------------------------------------------------------
+  Map<String,Object> requestMap = new HashMap<>();
+
+        requestMap.put("name","John");
+        requestMap.put("gender","Male");
+        requestMap.put("phone",1231231234l);
+
+
+        Response response = given().accept(ContentType.JSON)
+                           .and().contentType(ContentType.JSON)
+                           .and().body(requestMap)                 = Map kullanarak post ile data oluşturduk.
+                           .when().post("http://54.***.***.***:8000/api/spartans");  
+
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+
+        given().accept(ContentType.JSON)
+                         .and().contentType(ContentType.JSON)
+                         .and().body(requestMap)
+                         .when().post("http://54.***.***.***:8000/api/spartans")
+                         .then().statusCode(201) 
+                         .and().contentType("application/json")
+                         .and().body("success",equalTo("A Spartan is Born!"), = equalTo yerine "is" de kullanılabilir.
+                                                "data.name",equalTo("John"),
+                                           "data.phone",equalTo(1231231234));
+
+
+
+---------------------------------------------------------------------------------------------------------------------
+then kısmından sonra .log().all() yazınca response kısmını yazıyor.
+
+{
+    "success": "A Spartan is Born!",
+    "data": {
+        "id": 117,
+        "name": "John",
+        "gender": "Male",
+        "phone": 1231231234
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------------
+
+Spartan spartan = new Spartan();  = body kısmına pojo class yazılarak post ile data oluşturulabilir.
+
+        
+
+spartan.setName("John");        
+spartan.setGender("Male");
+spartan.setPhone(1231231234l);
+
+
+---------------------------------------------------------------------------------------------------------------------
+https://www.mockaroo.com/ = dummy date veriyor. 
+
+
+
