@@ -1,0 +1,68 @@
+VERIFYING JSON RESPONSE
+1.Contains
+2.Path
+3.JsonPath
+4.Chaining with Hamcrest
+5.JSON to Java collection
+6.JSon To Pojo
+
+ 
+
+POST METHOD
+PART OF POST REQUEST
+-BaseURL+Endpoint
+-Request JSON BODY
+{
+"gender": "Male",
+"name": "MikeSmith",
+"phone": 1231232133
+}
+-headers
+-Accept,application/json --> hey api, I want json response from you.
+-Content-Type --> hey api, I am SENDING JSON BODY to you.
+-Auth(if we any)
+POST successful status code is 201
+
+
+PART OF POST RESPONSE
+-status code --> most of the time 201 created
+-headers --> custom header to verify or Content type(similar to get)
+-body
+-some succesfful message to show we post correctly
+-same data that we send mos of the time
+
+3 different ways to POST with IntelliJ Rest Assured library
+
+1.Sending json as a String
+String jsonBody ="{\n" +
+" \"gender\":\"Male\",\n" +
+" \"name\":\"MikeEU\",\n" +
+" \"phone\":8877445596\n" +
+" }";
+
+we created json structure manually and saved in one string, using .body method in the request part, we can send json body.
+
+JSON to Java Collection/class --> de-serialization ( we use for converting json response to maps,customer pojos ...)
+
+Java Collection/class to JSON -->> serialization (we use for post,put,patch method to send json)
+
+
+2.Sending JSON as a Map
+
+//create a map to keep request json body information
+Map<String,Object> requestMap = new HashMap<>();
+//adding value that we want to post
+requestMap.put("name","MikeEU2");
+requestMap.put("gender","Male");
+requestMap.put("phone",8877445596l);
+
+we put request body information inside the one map, then .body method automatically serialized the map to the JSON and send to the api.
+
+3.Using POJO Classes
+
+Spartan spartanEU = new Spartan();
+spartanEU.setName("MikeEU3");
+spartanEU.setGender("Male");
+spartanEU.setPhone(8877445596l);
+
+.body method also serialize our custom pojo classes to JSON .
