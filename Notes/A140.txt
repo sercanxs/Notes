@@ -89,7 +89,7 @@ regions.getItems().get(0).getRegionName().sout =POJO classlardan bilgi aldık.
 
         Spartan spartan = new Spartan(921392, "frederic", "male", 123123123);
 
-        String jsonSpartan = gson.toJson(spartan);               =java collection or pojo to json. Serialize
+        String jsonSpartan = gson.toJson(spartan);               =java collection to json. Serialize
         System.out.println(jsonSpartan);
 
 
