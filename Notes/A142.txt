@@ -107,6 +107,12 @@ AUTHORIZATION --> verifies if you have access/permission to certian API/actions.
 Spartan we have basic auth, other populer types of autharizations is OAuth1 or 2 , bearer etc..
 
 
+---------------------------------------------------------------------------------------
+
+POST returns 201 most of the time (%99)
+PUT might be 200 or 204 (up to developers)
+
+
 
 
 
