@@ -1,0 +1,114 @@
+request type put'u seçtik.
+
+Address: {{surl}}/api/spartans/:id
+
+{                          =body'den raw ve json'i seçtik. 
+    "name": "Adan",
+    "gender": "Male",
+    "phone": 9998887776
+}
+
+
+----------------------------------------------------------------------------------------
+Request Type Patch.
+
+Address: {{surl}}/api/spartans/:id
+
+{
+
+
+    "phone": 1112223334  
+}
+
+----------------------------------------------------------------------------------------
+
+WHAT IS DIFFERENCE BETWEEN PUT AND PATCH ?
+When we ure using PUT method, we have to send all parameters such as name,gender,phone even if we only
+update one of them, but if we use PATCH we can only send the parameters(json key) that we want to update, we DO NOT
+need to send rest of the keys.
+
+----------------------------------------------------------------------------------------
+
+      Map<String,Object> putRequestMap = new HashMap<>();  = Map ile put request gönderdik.
+
+        putRequestMap.put("name","john");
+        putRequestMap.put("gender","Male");
+        putRequestMap.put("phone",1231231239);
+
+        given().log().all()
+                .and().accept(ContentType.JSON)
+                .and().contentType(ContentType.JSON) = contentType girilmezse kod hata veriyor.
+                .and().pathParam("id",89)
+                .and().body(putRequestMap)          = serialize, de serialize body kısmında oluyor.
+                .when().put("/api/spartans/{id}")
+                .then()
+                .log().all()
+                .and().assertThat().statusCode(204);
+   
+----------------------------------------------------------------------------------------
+given().pathParam("id",116)
+                .delete("/api/spartans/{id}") = Request type = Delete.
+        .then().statusCode(204).log().all();              
+
+
+---------------------------------------------------------------------------------------
+@Test(priority = 1) --> bu şekilde testlere sıra verilebilir.
+
+
+---------------------------------------------------------------------------------------
+Status code 2** olsa bile delete gerçekleşmeyebilir. Developerler kodu bu şekilde ayarlayabilirler.
+
+
+---------------------------------------------------------------------------------------
+
+given().accept(ContentType.JSON)
+        .and().auth().basic("admin","admin") = kullanıcı bilgileri girdik.
+        .when().get("/api/spartans")
+        .then()
+        .statusCode(200).and()
+        .log().all();
+
+
+---------------------------------------------------------------------------------------
+
+https://cybertek-reservation-api-qa2.herokuapp.com/api/campuses = postman'da kullanınca "empty or invalid sign" çıkıyor.
+
+
+https://cybertek-reservation-api-qa2.herokuapp.com/sign?email=jalabaster7f@drupal.org&password=terimapam = yeni endpoint ve querry parameterler ile giriş yaptık. giriş yapınca token kodu verdi.
+
+
+https://cybertek-reservation-api-qa2.herokuapp.com/api/campuses = url'yi girdikten sonra auth-->bearer token kısmına yukarıda aldığımız token kodu girdik. ve veriler geldi.
+
+https://cybertek-reservation-api-qa2.herokuapp.com/api/students
+
+
+eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxMzAiLCJhdWQiOiJzdHVkZW50LXRlYW0tbGVhZGVyIn0.3YSCwcTXRcEygBm7LvBLb6_D8jU5WXjAD6E3VA9oh0o = bu kodlar kişiye özel. 
+
+---------------------------------------------------------------------------------------
+
+Auth bilgileri girildiğinde header hidden kısmında yazılar oluşuyor.
+
+Response response = given().header("Authorization", "Bearer "+token) =intellij'den token girebildik.
+                .when().get("/api/campuses");
+
+
+---------------------------------------------------------------------------------------
+
+
+AUTHENTICATION and AUTHORIZATION
+
+AUTHENTICATION --> verifies if you are who you say you are.
+
+AUTHORIZATION --> verifies if you have access/permission to certian API/actions.
+
+401 --> invalid crendentials, api doesnt know who you are
+403 --> valid credentials but not enough access level/permission to do action
+
+Spartan we have basic auth, other populer types of autharizations is OAuth1 or 2 , bearer etc..
+
+
+
+
+
+
+
