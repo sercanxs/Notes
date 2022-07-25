@@ -11,9 +11,9 @@
 
             String str= ("it will display the array of the size");
 		
-	    String[] arr= str.split(" ");   = boşlukların başına virgül koyarak ayırır.
+	    String[] arr= str.split(" ");   = Boşluklar yok olur. Kalan değerler ise ayrılır.
 	    
-	    System.out.println(Arrays.toString(arr));  =  [it, will, display, the, array, of, the, size]
+	    System.out.println(Arrays.toString(arr));  =  [it, will, display, the, array, of, the, size] = Buradaki boşluklar Arrays.toString(arr) methodundan.
 
 
        
