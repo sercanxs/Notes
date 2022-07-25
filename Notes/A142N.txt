@@ -1,0 +1,33 @@
+HTTP REQUESTS
+GET --> retrieve, read data
+POST --> create, insert data
+PUT --> update the existing records, data in api
+PATCH --> partial update of existing data
+DELETE --> remove records from api
+
+WHAT IS DIFFERENCE BETWEEN PUT AND POST ?
+we use POST method to create data in api for the FIRST TIME.Adding new students,customers,teachers,spartans
+if we want to UPDATE existing data from api, we use PUT METHOD.
+
+POST returns 201 most of the time (%99)
+PUT might be 200 or 204 (up to developers)
+
+WHAT IS DIFFERENCE BETWEEN PUT AND PATCH ?
+When we ure using PUT method, we have to send all parameters such as name,gender,phone even if we only
+update one of them, but if we use PATCH we can only send the parameters(json key) that we want to update, we DO NOT
+need to send rest of the keys.
+===========================================
+AUTHENTICATION and AUTHORIZATION
+
+AUTHENTICATION --> verifies if you are who you say you are.
+
+AUTHORIZATION --> verifies if you have access/permission to certian API/actions.
+
+401 --> invalid crendentials, api doesnt know who you are
+403 --> valid credentials but not enough access level/permission to do action
+
+Spartan we have basic auth, other populer types of autharizations is OAuth1 or 2 , bearer etc..
+
+copy paste following link to postman and send get request to get accesstoken;
+
+https://cybertek-reservation-api-qa2.herokuapp.com/sign?email=sbirdbj@fc2.com&password=asenorval
