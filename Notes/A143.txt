@@ -1,0 +1,96 @@
+sqldeveloper --> tools --> preferences --> database plus sign --> third party JDBC driver -->
+add entry --> yukarıdaki dosyadaki postgres'e bağladık --> ok --> click plus sign --> Database Type
+--> PostgreSQL -->
+
+Hostname: room-reservation-qa.cxvqfpt4mc2y.us-east-1.rds.amazonaws.com/room_reservation_qa? 
+Name: bookitQA2
+Port: 5432
+User: qa_user
+Password: Cybertek11! --> save_password
+choose database: room_reservation_qa2
+
+test-->connect
+
+----------------------------------------------------------------------------------------------------------
+bookitQA2'de table'in içinde dosyalar var. Bu dosyalar table olduğu için select ile kullanılabilir.
+
+select * from users;
+
+----------------------------------------------------------------------------------------------------------
+
+https://github.com/Cybertek-EU7/eu7-bookit-project = fork. intellij'le açtık java version =11;
+
+configuration.properties = url'ler qa2 olacak
+
+
+
+----------------------------------------------------------------------------------------------------------
+
+new dependency
+
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.10</version>
+        </dependency>
+
+
+
+----------------------------------------------------------------------------------------------------------
+google --> json schema --> https://www.jsonschema.net --> get started --> continue as guest
+
+Bu site tahmini json schema veriyor. Sol tarafa json kısmını yazıyoruz. json schema veriyor. Şirketlerde json schema'yi developerler veriyor.
+
+
+
+----------------------------------------------------------------------------------------------------------
+
+https://www.jsonschemavalidator.net/ = sol tarafa json schema yazıp sağ tarafa ise json body kısmından bir kısım yazarak manuel testing yapabiliyoruz.
+
+
+	[{                               = json schema'nın kurallarını karşılıyor.     
+        "id": 39,
+        "firstName": "Kanya",
+        "lastName": "Bang",
+        "role": "student-team-leader"
+    }
+     ]
+
+Json'ı jsonschema'ya [] olmadan dönüştürürsek aşağıdaki kısım yeni json schema'nın kurallarını karşılar.     
+
+{                             
+        "id": 39,
+        "firstName": "Kanya",
+        "lastName": "Bang",
+        "role": "student-team-leader"
+    }
+
+
+
+----------------------------------------------------------------------------------------------------------
+(eu3jdbcpractice) test-->right click --> test resources root açtık --> new file SingleSpartanSchema.json --> içine jsonschema yapıştırdık.
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+new dependency
+
+(eu3jdbcpractice) --> https://mvnrepository.com/ --> json schema validator --> JSON Schema Validator(io.rest-assured)
+
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+given().accept(ContentType.JSON).and().pathParam("id",10)
+        .when().get("/api/spartans/{id}")
+        .then().statusCode(200)
+        .and().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("SingleSpartanSchema.json")); = içeriye class dosyasının ismi kopyaladık. Böylelikle json schema ile json body'yi kontrol
+                                                                                                     ettik.
+
+
+
+
+
