@@ -1,0 +1,42 @@
+Json Schema Validation
+
+Json Schema
+--> description of the json data
+
+{
+"id": 10,
+"name": "Lorenza",
+"gender": "Female",
+"phone": 3312820936
+}
+
+id --> required, integer, up to 4 digits
+name --> required, String, up to 30 char,
+gender --> optional, Male or Female
+phone --> optional , long ,default 0
+
+
+STEPS FOR VALIDATION
+1.Generate Json Schema form the json data (ask from developers)
+2.Save it in json file within resousrces folder in the maven project.
+3.Add Json Schema Validator depedency
+<!-- https://mvnrepository.com/artifact/io.rest-assured/json-schema-validator -->
+<dependency>
+<groupId>io.rest-assured</groupId>
+<artifactId>json-schema-validator</artifactId>
+<version>4.3.2</version>
+</dependency>
+
+5.Then perform api request and validate teh response against the json schema
+given()
+.accept(ContentType.JSON)
+.and()
+.pathParam("id",10).
+when()
+.get("/api/spartans/{id}")
+.then()
+.statusCode(200)
+.and()
+.body(JsonSchemaValidator.matchesJsonSchemaInClasspath("SingleSpartanSchema.json"));
+
+ 
