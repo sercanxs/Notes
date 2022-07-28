@@ -1,0 +1,246 @@
+Google --> karate framework --> karatelabs/karate: Test Automation Made Simple - GitHub --> Burada karateframework ile ilgili her şey yazıyor.
+
+---------------------------------------------------------------------------------------------
+EU7-KarateFramework-->fork
+
+
+---------------------------------------------------------------------------------------------
+pom'da java'yi 11 yaptıktan sonra aşağıdaki gizli yerde 1.8'i 11'e değiştiriyoruz.
+
+ <source>11</source>
+ <target>11</target>
+
+
+---------------------------------------------------------------------------------------------
+  @scenario
+  Scenario: How to print      = Feature Runner'de çalıştırınca
+    Given print "Hello World" = Hello World yazdı. print kısmı karate'den geliyor.
+    When print 'database'    
+    * print "postman","restAsured" = virgül koyunca, iki kısmı birleştirip araya boşluk koyuyor.
+    * print 2+2  = 4
+    
+
+      * def name = "Mike" = data type girmeden variable kaydettik.
+      * def id = 10
+      * print name+id = + kullanınca concat. virgüldeki gibi boşluk bırakmıyor.
+
+      * def student = {'name':'Mike',"id":100} = 2 tane key value kaydettik.
+      * print student = student'i json formatında yazdık.
+      * print student.name = student'dan name'i yazdık.
+
+      * def student =
+        """
+        {
+             "name":"Mike",
+              "id":100,          = bu şekilde de json object kaydedebiliriz.
+              "age":30
+        }
+        """
+
+
+---------------------------------------------------------------------------------------------
+
+         * def student =
+        """
+       [
+        {
+             "name":"Mike",
+              "id":100,
+              "age":30
+        },
+        {
+             "name":"Steven",
+              "id":150,
+              "age":40              = arrays of json object.
+        }
+       ]
+        """
+
+           
+           * print student[0].name = birinci sıradakinin ismini yazdı.
+           * print student
+
+
+---------------------------------------------------------------------------------------------
+   * def name = 'Severus Snape'
+   * match name == 'Severus Snape' -->equal. Variable ile içerideki değer eşleşiyorsa consolda bir şey yazmaz.
+   * match name != 'Tom Riddle' -->not equal.
+
+---------------------------------------------------------------------------------------------
+    * def employee =
+  """
+    {
+      "first_name":"TJ",
+      "salary":24001,
+      "active":true
+    }
+    """
+    * def emp_name = employee.first_name = json'dan değer aldık.
+    * match emp_name == 'TJ'
+   
+    * match employee.first_name == '#string' = içerideki değer stringse true.
+    * match employee.salary == '#number'
+    * match employee.active == '#boolean'    
+    * match employee.last_name == '#notpresent' = böyle bir değer yoksa true.(null=null)
+
+
+---------------------------------------------------------------------------------------------
+
+ * def employees =
+  """
+  [
+     {
+      "first_name":"TJ",
+      "salary":24001,
+      "active":true
+     },
+     {
+      "first_name":"Steven",
+      "salary":2100,
+      "active":false
+     }
+    ]
+    """
+
+    * def length = employees.length = içeride 2 tane object var lenght = 2.
+
+    * match employees contains {"first_name":"TJ","salary":24001,"active":true } = json bu objecti içeriyorsa true.
+
+
+---------------------------------------------------------------------------------------------
+    Given url 'https://petstore.swagger.io/v2/store/inventory' =postman'da manuel olarak baktığımız url'yi aldık.
+    When method GET
+    Then status 200 = 200'se true
+    And match header Content-Type == 'application/json' = headers verification.
+    And match header Connection == 'keep-alive'
+    And match header Date == '#present'          =böyle headers varsa true.
+
+    And print response                           = response body kısmını yazdık
+    And print response.avaliable                 
+   
+    And match response.avaliable == 1            = response body'den karşılaştırma yaptık.
+    And match response.status == '#present'
+
+
+
+
+file:/C:/Users/serca/OneDrive/Belgeler/Github/
+EU7-KarateFramework/target/surefire-reports/karate-summary.html = konsolda yazan bu kısmı internete kopyaladığımızda karate report geliyor.
+
+---------------------------------------------------------------------------------------------
+
+Feature:  Parameters examples
+
+  Background:
+    * def baseUrl = 'https://petstore.swagger.io/v2/store' = urlleri kaydettik.
+    * def spartanUrl = 'http://54.***.***.***:8000/'
+    * def hrUrl = '54.***.***.***:1000/ords/hr'
+
+Scenario: get all spartans with path
+    Given url spartanUrl
+    And path "api/spartans"  = sadece end point girdik. Slash yoksa bile karate kendisi koyuyor.
+    When method get
+    Then status 200
+    And print response
+
+---------------------------------------------------------------------------------------------
+
+
+Scenario: get ones spartan only
+    Given url spartanUrl
+    And path "api/spartans"
+    And path "9"            =address'e yeni endpoint ekledik.
+    When method get
+   
+    And print response
+    And match response == {  "id": 9,  "name": "Florrie",  "gender": "Female",  "phone": 1702025787  } = json body.
+
+* def expectedSpartan =
+  """
+   {
+    "id": 9,
+    "name": "Florrie",
+    "gender": "Female",
+    "phone": 1702025787
+}
+    """
+
+
+And match response == expectedSpartan --> karşılaştırma bu şekilde de yapılabilir.
+
+---------------------------------------------------------------------------------------------
+ Scenario:  query parameters
+    Given url spartanUrl
+    And path "api/spartans/search"
+    And param nameContains = 'j'     =parametreler ekledik
+    And param gender = 'Female'
+    When method GET
+    Then status 200
+
+     
+    And match each response.content contains {"gender":"Female"} = her map "gender":"Female" 'i içeriyor mu.
+ 
+    And match each response.content[*].gender == 'Female' = yukarıdaki ile aynı.
+    And match response.content[0].name == 'Jaimie' = birinci mapi seçtik.
+
+    And match each response.content[*].phone == '#number'
+
+
+---------------------------------------------------------------------------------------------
+  Given url spartanUrl
+    And path "api/spartans"
+    And header Accept = 'application/json' = request kısmında header ve accept kullandık.
+    When method GET
+    Then status 200
+
+---------------------------------------------------------------------------------------------
+    Given  url spartanUrl
+    And path "api/spartans"
+    And header Accept = 'application/json'
+    And header Content-Type = 'application/json'
+    And request                                     =request kısmına json yazdık.
+  """
+    {
+        "gender": "Female",
+         "name": "Lorenza",
+         "phone": 3123781237
+    }
+    """
+    When method POST                                =post'u kullandık.
+    Then status 201
+    And print response
+
+---------------------------------------------------------------------------------------------
+utilities package -->create SpartanDataGenerator
+
+ public static Map<String,Object> createSpartan(){
+
+    Faker faker = new Faker();  // bunun için dependency gerekti.
+
+        String name = faker.name().firstName(); 
+        String gender = faker.demographic().sex();
+        long phone = Long.parseLong(faker.numerify("##########"));    =rastgele spartan bilgileri oluşturduk. Map'e kaydettik.
+
+        Map<String,Object> newSpartan = new HashMap<>();
+        newSpartan.put("name",name);
+        newSpartan.put("gender",gender);
+        newSpartan.put("phone",phone);
+
+        return newSpartan;
+}
+
+---------------------------------------------------------------------------------------------
+ Scenario: Create a spartan with Random Data (JAVA)
+    * def SDG = Java.type('utilities.SpartanDataGenerator') = java class'a bağlandık.
+    * def newSpartan = SDG.createSpartan() = mapteki bilgileri variable'e kaydettik.
+  
+    Given  url spartanUrl
+    And path "api/spartans"
+    And header Accept = 'application/json'
+    And header Content-Type = 'application/json'
+    And request newSpartan = map yazdık.
+    When method POST
+    Then match response.success == 'A Spartan is Born!'
+    
+    And match response.data.name == newSpartan.name
+
