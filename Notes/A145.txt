@@ -1,0 +1,155 @@
+Feature: get user token = access tokeni aldığımız feature'i oluşturduk.
+  
+@Test
+    Scenario: get one user token
+      Given url 'https://cybertek-reservation-api-qa2.herokuapp.com/'
+      And path 'sign'
+      And header Accept = 'application/json'
+      And param email = 'jalabaster7f@drupal.org'
+      And param password = 'terimapam'
+      When method GET
+      Then status 200
+      And print response.accessToken
+      And def token = response.accessToken
+      And def name = 'steven'
+
+
+---------------------------------------------------------------------------------------------------
+Background:
+      * def baseUrl = 'https://cybertek-reservation-api-qa2.herokuapp.com/'
+     
+      * def AuthFeature = call read('classpath:features/BookItAuth.feature') = yukarıdaki feature'i kaydettik.
+      * def accessToken = AuthFeature.token = featureden değişkeni aldık.
+   
+      * print 'Token From Background',accessToken
+
+
+
+---------------------------------------------------------------------------------------------------
+        Given url baseUrl
+        And path 'api/campuses'
+        And header Authorization = 'Bearer ' + accessToken
+        And header Accept = 'application/json'
+        When method GET
+        Then status 200
+        And print response
+        
+        And def expectedCampuses = read('classpath:data/campuses.json') = campuses.json dosyasının içine json kısmını yolladık.
+        And match response == expectedCampuses = json'lari karşılaştırdık.
+
+
+
+
+---------------------------------------------------------------------------------------------------
+ Given url 'https://cybertek-reservation-api-qa2.herokuapp.com/'
+    And path 'sign'
+    And header Accept = 'application/json'
+    And param email = '<email>'                    = Data driven with karate.
+    And param password = '<password>'
+    When method GET
+    Then status 200
+    And print response.accessToken
+    And def token = response.accessToken
+
+    Examples:
+  | email                       | password           |
+  | jalabaster7f@drupal.org     | terimapam          |
+  | htwinbrowb4@blogspot.com    | kanyabang          |
+  | dfrederickb5@yellowbook.com | engraciahuc        |
+  | apainb6@google.co.jp        | rosettalightollers |
+  | fbawmeb7@studiopress.com    | sherilyngohn       |
+
+---------------------------------------------------------------------------------------------------
+users.csv file oluşturduk. içinde yazanlar
+
+email,password
+mnewbatt8o@utexas.edu,opalcave
+wamiss8p@businesswire.com,olagrills
+mstacey8r@imdb.com,skylargiblin
+
+---------------------------------------------------------------------------------------------------
+    Examples:
+  |read('data/users.csv')| = email ve passwordu bu şekilde alabiliriz.
+
+---------------------------------------------------------------------------------------------------
+DBUtils'de  url name password'u ayarladık.
+
+ public static Map<String, Object> getRowMap(String query) {
+        createConnection();
+        Map<String,Object> map = getQueryResultMap(query).get(0); = getRowMap methoduna eklemeler yaptık.
+        destroyConnection();
+        return map;
+    }
+
+
+---------------------------------------------------------------------------------------------------
+
+  Scenario: get user information verification(Database vs API)
+
+    * def DBUtils = Java.type('utilities.DBUtils')    = java class'ina bağlandık.
+    * def query = "select firstname,lastname,role from users where email = 'sbirdbj@fc2.com'" = Query girdik.
+    * def dbResult = DBUtils.getRowMap(query)   = Map aldık.
+
+    * print 'DATABASE RESULT',dbResult
+    Given url 'https://cybertek-reservation-api-qa3.herokuapp.com/'
+    And path 'sign'
+    And header Accept = 'application/json'
+    And param email = 'sbirdbj@fc2.com'
+    And param password = 'asenorval'
+    When method GET
+    Then status 200
+    And print response.accessToken
+    And def token = response.accessToken
+    Given url 'https://cybertek-reservation-api-qa3.herokuapp.com/'
+    And path 'api/users/me'
+    And header Authorization = 'Bearer ' + token
+    And header Accept = 'application/json'
+    When method GET
+    Then status 200
+    And print response
+    And match response.firstName == dbResult.firstname
+    And match response.lastName == dbResult.lastname
+    And match response.role == dbResult.role
+
+
+---------------------------------------------------------------------------------------------------
+
+* def query = "select id,firstname,lastname,role from users where email = '<email>'" = query kısmında '<email>' yazarak data driven uygulayabiliriz.
+
+
+---------------------------------------------------------------------------------------------------
+ParallelRunner class'dan kodları çalıştırırsak cucumber-html-reports oluşur.
+
+
+
+Target cucumber html reports kısmında reporta bakılabilir.
+
+
+---------------------------------------------------------------------------------------------------
+        given()
+                .relaxedHTTPSValidation()         = Bunu yazarak güvenilmez kaynaklara giriyoruz.
+                .when().get("https://untrusted-root.badssl.com/")
+                .prettyPrint();
+
+
+---------------------------------------------------------------------------------------------------
+
+        given()
+                .keyStore("pathoffile","password") = Site sertifacete ise bunları yazıyoruz.
+                .when().get("myapi");
+
+----------------------------------------------------------------------------------------------------
+HTTP vs HTTPS
+HTTPS -> Secure HTTP
+Anytime you visit a website which is https, secured and encrypted connection will be setup between you and the server.
+It means when you type card numbers, San, data cannot be stolen on the way.
+Sometimes api also require certificates.
+2. Options
+Given.relaxedHTTPSValidation() —> is to trust the api without providing certificate
+Given.keyStore(KEySotreFile path, password)
+For postman —> Preferences,Certificate,Add Certificate
+
+
+
+
+
