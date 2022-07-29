@@ -1,0 +1,25 @@
+HTTP vs HTTPS
+HTTPS -> Secure HTTP
+Anytime you visit a website which is https, secured and encrypted connection will be setup between you and the server.
+It means when you type card numbers, San, data cannot be stolen on the way.
+Sometimes api also require certificates.
+2. Options
+Given.relaxedHTTPSValidation() —> is to trust the api without providing certificate
+Given.keyStore(KEySotreFile path, password)
+For postman —> Preferences,Certificate,Add Certificate
+===============================================
+How do you test rest api?
+ I verify if each REST API endpoint is working as expected.
+I send GET, POST,PUT,PATCH,DELETE type of requests and verify response status code and response body, header. I also do positive and negative testing of API.
+ When I do positive testing, I send valid request parameters , valid headers, valid request json body and verify that response status code is 200 successful and Json response body data is also matching the expected.
+ When I do negative testing, I send invalid request parameters , or invalid headers, or invalid request json body and verify that response status code is not 200 and Json response body contains error message.
+ How does API Authentication work in your application ? I send a get request to special api endpoint with providing valid credentials (username,password or email,password), then it returns AccessToken. I use that token in my request header and access other api endpoints. I always send accesstoken with all of my requests through headers.
+======================== 
+
+DOCUMENTATION OF API:
+
+SWAGGER UI 
+
+MANUAL TESTING OF API: POSTMAN,SOAP UI 
+
+AUTOMATED TESTING OF API: REST-ASSURED LIBRARY IN JAVA
