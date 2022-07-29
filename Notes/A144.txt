@@ -232,7 +232,7 @@ utilities package -->create SpartanDataGenerator
 ---------------------------------------------------------------------------------------------
  Scenario: Create a spartan with Random Data (JAVA)
     * def SDG = Java.type('utilities.SpartanDataGenerator') = java class'a bağlandık.
-    * def newSpartan = SDG.createSpartan() = mapteki bilgileri variable'e kaydettik.
+    * def newSpartan = SDG.createSpartan() = mapteki bilgileri variable'e kaydettik.(json olarak kaydediliyorsa serialize burada oluyor.)
   
     Given  url spartanUrl
     And path "api/spartans"
@@ -243,4 +243,12 @@ utilities package -->create SpartanDataGenerator
     Then match response.success == 'A Spartan is Born!'
     
     And match response.data.name == newSpartan.name
+
+    And def idToDelete = response.data.id
+    Given url spartanUrl   = then kullandıktan sonra tekrar given kullandık.
+    And path 'api/spartans',idToDelete = end pointi girdik.
+    When method DELETE  = delete methodunu kullandık.
+    Then status 204
+
+
 
