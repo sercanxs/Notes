@@ -1,0 +1,4 @@
+Driver'de constructor'i private yaptık dolayısıyla new keywordle object açamadık.
+private static ile new object açtık. staticle açtığımız için bu object class'a ait ve hep bu object'i
+kullanıyoruz. Hep aynı driver'i kullanıyoruz. Object açamadığımız için methodlar public static şeklinde.
+ve methodlar static olunca class ismi ile erişebiliyoruz. Singleton design.
