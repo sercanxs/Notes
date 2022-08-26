@@ -1,0 +1,55 @@
+Starting with the tools that I used
+First of all I use Java as a language and I use Maven as a build management tool
+I use Selenium Web Driver for Browser Automation and 
+I use JDBC and Rest Assured libraries for Database testing and API testing respectively
+I also use Junit for executing test and also test assertions
+I use Cucumber Report as a reporting tool as well as some embadded screenshots inside of the reports
+I can say I build up my framework using IntelliJ IDE
+
+Designed side actually since I following BDD approach I use Cucumber Framework
+Cucumber have three main elements: First one is Feature file
+				   Second one is Step Definition Class
+				   Third one is Runner Class which makes the connection between these two
+So similarly in my framework I have a features folder I store my feature files and every single feature file represents a user story and inside of this feature files I have some scenarios
+and every single scenario has test steps. All these test steps are written in English language together with some Gherkin keywords so that they can be understood by all the stakeholders 
+even without technical background.
+
+And on the Step definitions side  I have a step definitions package where I store all my step definition classes so inside of this class there are methods every single step already defined
+inside of the feature files.
+In addition to these I have also Hooks class inside of this package and this Hooks class includes @Before and @After methods which will be executed right before and right after every 
+single scenario respectively. And inside of this after method I have some code in order to take a screenshot in case of any failed test situation.
+
+And for the third element which is Runner Class I have runners package also inside there is a Cukes Runner class which is the main runner one. And then it has a Cucumber Options like 
+feature path for the feature files and the glue for step definitions and it makes the connection between these two as well as some plugins and also some tags to be able to run some feature
+files or some scenarios selectively. And when this Cukes Runner has been executed actually in the end it create rerun.txt file which stores path for the scenarios that have been failed in 
+this last execution and this rerun.txt file is used by another runner class which is Failed Test Runner and it uses this txt file and it understands which scenarios have been failed. And
+it once again automatically goes through this feature files respective scenarios and there are test steps together with the step definition classes and re-execute in order to be sure about 
+failed test situation.
+
+Other than this 3 main element I have also Pages package inside of my framework because  I am using Page Object design pattern. It provides a lot of flexibilty ease of use of its maintenance
+and a lot of reusability thats why I am using Page Object Design Pattern. Inside of this package I have one page class for every single pages of my web application and if those pages they have 
+some common features such as navigation menu or bar maybe login or logout buttons I have Base Page Class which is an abstract class and inside of this class I store a constructor which has
+the PageFactory  that initElements method which means it makes the connection between my driver and all this web elements. As well as all those common web elements and all the other Page Classes
+extend to this BasePage so that do not need to repeat again and again every single web element and common amongs them.
+
+And there is another package which is the Utilities package actually inside of this package I store all my utilities classes such as BrowserUtilities, DatabaseUtilities as well as Driver Class
+and also ConfigurationReader Class. 
+Talking about Driver Class actually I use Singleton Design Pattern for the Driver Class so it returns me every single time the same driver that has been already created unless I like to
+execute parallel execution which in this case it returns a seperate driver from DriverPool for every single different thread.
+And for the ConfigurationReader Class this is the only class which has a direct access to my configuration.properties file where I store all my critical information such as like Browser type,
+URL, usernames, password as Key=Value pairs. So any other class is able to use all those critical informations using the ConfigurationReader Class. 
+Other than all these I have also a target folder where I store all my reporting as I mentioned I am using Cucumber Reports as well as some embadded screenshots I also create default html reports
+folder over there.
+	This is basically my framework actually it is very reusable, a centralized, easy to use , easy to maintain and less redundancy framework.
+
+
+
+
+
+
+
+
+
+
+
+
