@@ -81,19 +81,6 @@ System.out.println(b);
 
 
 ----------------------------------------------------------------------------------------------
-{{hrurl}}/employees?q={"job_id":"IT_PROG"}
-
-query key = q                          = q --> ords api'a ait bir kod. IT_PROG olanlar listelendi.
-      value = {"job_id":"IT_PROG"}
-
-
-----------------------------------------------------------------------------------------------
-Postman test kısmında postman'a özel automation testleri yapılabilir.
-
-
-
-----------------------------------------------------------------------------------------------
-
 we manually test api with Postman.
 we used Rest Assured library for automation.
 we use swagger documentation to understand api.
