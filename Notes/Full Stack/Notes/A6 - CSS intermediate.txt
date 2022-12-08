@@ -1,0 +1,503 @@
+.box {
+    border: 1px solid red;
+    height: 300px;
+    width: 300px;
+    padding: 30px;
+    box-sizing: border-box; = border-box kullandığımızda padding kutunun boyutunu artırmıyor. content-box'da artırıyor. kutunun boyutunu artıran padding dışında başka etkenler olabilir. 
+                              border-box bunları engelliyor.
+}
+
+--------------------------------------------------------------------------------------------------------------------------------
+.box {
+    border: 1px solid red;
+    height: 300px;
+    width: 300px;
+    padding: 30px;
+    box-sizing: content-box;
+    outline: 5px solid black; = outline borderin dışındaki borderdir.
+    outline-offset: 10px;     = outline bordere birleşikti. Bu şekilde uzaklaştırdık.
+}
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+ .box{
+     font-size: 40px;                  = yazı boyutunu yükseltir.
+     text-shadow: 2px 2px 5px yellow;  = text-shadow ile yazıya gölge ekledik. x y blur color şeklinde ilerliyor. x ve y gölgenin yazıdan ne kadar sonrasına düşeceğini belirliyor.
+                         
+ }
+
+
+min-width, max-width'in tersidir.
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+ .box{
+       width: 300px;
+       height: 300px;
+       border: 1px solid red;
+       position: relative;  = Relative Positioning'de top'a değer vermek resimi aşağı kaydırır.
+       top: 30px;          
+       left: 30px;
+ }
+
+--------------------------------------------------------------------------------------------------------------------------------
+<div class="box">
+  <div class="second-box">
+    Top right
+  </div>
+</div>
+
+
+.box{
+       width: 300px;
+       height: 300px;
+       border: 1px solid red;
+       position: relative;    = divler arasında parent-child ilişkisi varsa ve parent element relative ise child'da absolute kullanabiliriz.
+       top: 30px;
+       left: 30px;
+ }
+ .second-box{
+  position: absolute;         = Absolute positioning'de kutu içinde kutu açtık.
+  border: 3px solid blue;
+  right: 0;                   = right'a 0 değerini verince kutu sağ tarafa gidiyor.
+  bottom: 0;
+  width: 50%;
+  height: 50%;
+ }
+
+--------------------------------------------------------------------------------------------------------------------------------
+body{
+  margin: 0px;
+  padding: 0px;
+  height: 3000px; = sayfayı aşağı kaydırabilmek için body'e height ekledik.
+}
+
+
+ .box{     
+       background-color: aliceblue;
+       border-bottom: 2px solid red;
+       position: fixed;              = fixed position'da sayfayı aşağı kaydırırken kutu da aşağı gelir.
+       top: 0;                       = kutuyu yukarı yapıştırdık.
+       left: 0;
+       width: 100%;                  
+          
+ }
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+  <div class="box">                 = parent child relationship kurduk.
+    <div class="second-box"></div>
+      <p> ipsum dolor sit amet consectetur adipisicing elit. Dolor amet magnam quasi illum, eum, 
+        repellendus illo nam assumenda architecto tempora molestias error necessitatibus quos tenetur odio nemo aspernatur ab ut!</p>
+  </div>
+
+
+body{
+  margin: 0px;
+  padding: 0px;
+  height: 3000px;
+}
+ 
+.second-box{     
+   position: sticky;           =sticky yapınca child div'i kutu olarak kullandık ve sayfayı aşağı kaydırırken kutu da geldi ama parent element bitince kutu da kayboluyor.
+   background-color: teal;
+   border-bottom: 2px solid teal;
+   padding: 20px;
+   top: 0;                     = bu kısmı yazmak gerekir.
+
+   }
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+.box{
+  width: 300px;
+  height: 300px;     
+  border: 10px solid black;
+  overflow: auto;           = box için kutu oluşturduk. Kutunun içindeki yazılar kutunun altına gittiği için scroll özelliği ekledik.
+ }
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+ .box{
+  width: 400px;
+  height: 400px;     
+  border: 10px solid black;
+  margin-left: auto;        = kutuyu sağa yapıştırdık.
+  margin-right: auto;       = margin-left ile birlikte kullanılınca kutu ortaya geldi.
+  margin: 50px auto;        = Bu şekilde yazarak önceki değerlere overwrite ederiz. 50px top ve bottom'ı, auto ise left ve right'i temsil eder.
+ }
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+Descendant selector
+
+ #parent .box{          = id'si parent olanın içine bakıyor.
+  height: 20px;     
+  border: 1px solid blue;
+ }
+ #parent > .box{        = bu şekilde de yazılabilir. Eğer birden fazla selector yazılırsa daha specific olanlar dikkate alınabilir.(parent child olarak işaret edilenler)
+  height: 20px;     
+  border: 1px solid blue;
+ }
+
+ #parent .box + .box {  = adjacent selector kullanıldığında ilk box'in rengi boyanmadı ama diğerleri boyandı.
+   background-color: red;
+ }
+
+ #parent .box ~ .box {  = bunu kullandığımızda ilk box'in rengi boyanmadı ama diğerleri boyandı.
+   background-color: red;
+ }
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+Pseudo selectors
+
+
+ .box:hover {             = hover pseudo class'tir.             
+  background-color: grey; = hover yazınca kutunun üstüne gelince kutu gri oldu.
+
+ }
+  
+ .box:not(.dontselectme) = box:not kullanınca belirli element hariç diğer hepsine background color etki etti. background-color'ı görmek için hover'deki gibi kutunun üstüne gelmeye gerek yok.
+ {                              
+  background-color: blue;
+ }
+
+--------------------------------------------------------------------------------------------------------------------------------
+Yukarıdaki iki kodun birlikte çalışması için kodların yerini değiştirdik. CSS kodları yukarıdan aşağıya okur.
+
+
+
+ .box:not(.dontselectme)
+ {
+  background-color: blue;
+ }
+
+   .box:hover {
+  background-color: grey;
+
+ }
+
+
+------------------------------------------------------------------------------------------------------------------
+ .box:nth-child(4){         = aynı özelliğe sayılan elementlerden 4. sünü seçti.
+  background-color: yellow; 
+ }
+
+
+------------------------------------------------------------------------------------------------------------------
+Pseudo elements
+
+.box{
+  margin: 50px auto;
+  width: 300px;
+  height: 300px;
+  border: 10px solid black;
+  position: relative;
+  background-color: black;
+}
+.box::before{               = fake element oluşturduk. inspectte element ::before şeklinde gözüküyor.
+  content: " ";             = elementin okunması için bu kısıma boşluk bırakmalıyız.
+  display: block;
+  border: 10px solid red;   = bu kısımı yaptığımızda dikdörtgen oluşur ama aradaki boşluk ince çizgidir.
+  width: 100%;              = oluşan küçük kutu büyük kutunun içinde büyük kutuya birleşikti. Bunu yazarak küçük kutunun kenar uzunluğu büyüğe eşitlendi ve yanlamasına kenarları büyük kutunun dışına taştı.
+  height: 100%;             = kutunun yüksekliği büyük kutuya kıyasla çok küçüktü. bu şekilde büyük kutunun yüksekliğine ulaştı.
+  position: absolute;       = kutuyu hareket ettirmek için kullandık.
+  top: -30px;
+  left: -30px;
+  z-index: -1;              = z index'e yüksek rakam verilen elementin önceliği yüksek oluyor.
+  }
+  .box::after{              = after ise before'in aynısıdır.
+    content: " ";     
+  display: block;
+  border: 10px solid blue;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: -30px;    
+  right: -30px;
+  z-index: -1;
+  }
+
+------------------------------------------------------------------------------------------------------------------
+
+ a{
+    text-decoration: none;  = bunu yazınca linklerdeki mavileri ve çizgileri sıfırlıyoruz.
+    color: black;
+    position: relative;     = fake child elementte absolute kullanmak için bunu yazdık.
+   }
+   a::before{               = fake element yazdık. height'e düşük değer verdik ve bottoma yapıştırdık. Böylece linkin altında mavi çizgi oluştu.
+    content: " ";
+    width: 100%;
+    height: 4px;
+    background-color: blue;
+    position: absolute;      
+    bottom: 0;
+    left: 0;
+   }
+   a:hover::before{         = fake olarak açtığımız element için hover selector'unu kullandık. Bunlar pseudo selectorleri ve elementleridir.
+    height: 14px;           = linkin üzerine geldiğimizde linkin height'i arttı.
+    z-index: -1;
+   }
+
+
+
+------------------------------------------------------------------------------------------------------------------
+ p::first-letter{
+ font-size: 50px; = first-letter kullanarak ilk harfi büyüttük.
+ float: left;     = ilk harfi paragrafın soluna kaydırdı.
+ margin: 5px;
+ }
+
+ p::first-line{
+  font-weight: bold; = first line kullanarak ilk sırayı bold yaptık.
+ }
+
+------------------------------------------------------------------------------------------------------------------
+ ::selection{
+  background-color: green; = selection ile mouse kullanarak seçtiğimiz kısmı ayarlıyoruz.
+  color: white;
+ }
+
+------------------------------------------------------------------------------------------------------------------
+
+a{
+ background-color: #fff;
+ display: inline-block;
+ padding: 5px 15px;
+ color: black;
+ text-decoration: none;
+ border: 1px solid black;
+ transition: all 1.1s;     = transition ile bir durumdan başka duruma yavaşça geçilir. all kısmı bütün kısımları temsil eder. 1.1s ise saniyeyi temsil eder. 
+}
+a:hover{                   = transition ile hovere direkt geçemedik.
+  background-color: black;
+  color: #fff;
+  padding: 10px 30px;      = Bu kısım aşağıdaki transition ile düzgün görünür.
+}
+
+ transition: background-color 2s, color 5s, padding 2s;  transition bu şekilde ayrı ayrı ayarlanabilir.
+
+------------------------------------------------------------------------------------------------------------------
+.gradient{
+ 
+      background-image: linear-gradient(to right, black, yellow); = linear gradient oluşturduk. soldan siyah başlayıp sağ kısımda sarı olarak biten resim oluştu.
+      height: 500px;
+      width: 100%;
+
+}
+
+background-image: linear-gradient(45deg, black, yellow); = 45deg ekleyince gradient sol aşağıdan sağ yukarıya doğru gidiyor.
+
+https://cssgradient.io/ = gradient tasarlamak için site.
+
+
+------------------------------------------------------------------------------------------------------------------
+
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+
+   background-image: linear-gradient(180deg, rgba(0,0,0,0.3) 
+                                        0%,rgba(0,0,0,0.8) 100%),
+                                        url("");                  = url ile diğer sitelerden resim alabiliyoruz. url, linear kısmı ile birlikte girilirse linear resimi daha çok karartabilir.
+color: white;
+font-size: 90px;
+text-align: center;
+                            
+}
+
+------------------------------------------------------------------------------------------------------------------
+
+https://fonts.google.com/ = font bakmak için site.
+
+<link rel="preconnect" href="https://fonts.googleapis.com">             = ilgili fontu işaret etmek için gerekli bilgileri aldık ve style'in üstüne yapıştırdık.
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nerko+One&display=swap" rel="stylesheet">
+
+<style>
+
+  body {
+    font-family: 'Nerko One', cursive;  = sitede gösterilen font-family'i yazdık ve yazı tipi değişti.
+    font-size: 45px;
+
+}
+
+------------------------------------------------------------------------------------------------------------------
+.box {
+    width: 300px;
+    height: 300px;
+    border: 10px solid black;
+    margin: 50px auto;
+    transform: translate(100px, 100px); = translate, kutuyu bulunduğu yerden belirli yöne kaydırır.
+
+                            
+  }
+
+transform: translate(200px, 200px) rotate(45deg); = rotate kutuyu döndürdü.
+transform: scale(2);                              = scale kutuyu iki katına çıkardı.
+transform: skew(20deg,20deg);                     = skew kutuyu çarpık hale getirdi. yazılar da yamuk gözüktü. Sol kısım x, sağ kısım ise y'dir.
+
+------------------------------------------------------------------------------------------------------------------
+  .box {
+    width: 300px;
+    height: 300px;
+    border: 10px solid black;
+    border-radius: 50%;        = border-radius yazınca daire oluştu.
+    position: absolute;        = Kutunun hareket edebilmesi için absolute yazdık.
+    top: 0;
+    left: 0;
+    animation-name: slideMe;             = aşağıdaki animation ismini kutuya bağladık.
+    animation-duration: 4s;              = animation süresini ayarladık.
+    animation-iteration-count: infinite; = infinite yazınca animation sürekli tekrar ediyor.
+    animation-direction: alternate;      = alternate ile animation gittikten sonra geri geliyor.
+}
+
+@keyframes slideMe{                      = animation ismi.
+  from{
+      top: 0;
+      left: 0;
+  }
+  to{
+    top: 100%;
+    left: 100%;
+
+  }
+
+----------------
+
+@keyframes slideMe{
+  0%{                               = animation'ı yüzdeler halinde de yazabiliriz.
+      top: 0;
+      left: 0;
+      background-color: black;      = kutunun rengi siyah oldu.
+  }
+  50%{
+  
+    background-color: blue;         = renk kademeli olarak maviye dönüştü.
+
+  }
+  100%{
+    left: 100%;
+    background-color: yellow;
+  }
+
+------------------------------------------------------------------------------------------------------------------
+<div id="container">
+  <div>Left</div>
+  <div>Right</div>
+</div>
+
+#container{
+          display: flex;   = Left ve Right birleşerek LeftRight oldu.   
+}
+   
+
+#container div{
+           border: 1px solid red;
+           flex-basis: 50%;       = LeftRight'da Left ve Right için borderler artık ayrı ayrı sayfanın yüzde 50'sini kullanıyor.
+
+}
+
+#container div.right{             
+          flex-basis: 75%;        = Right'ı class ile işaret ederek yukarıdaki flex-basisi de dikkate alarak ağırlıklı ortalamasına göre sayfa alanı kullandı.
+}
+
+----------------------------------------
+
+#container div{
+           border: 1px solid red;
+           flex-basis: 50%;
+           flex-grow: 0;         = grow ve shrink yazınca left'in değeri özel olarak değiştirilmedikçe, right gibi diğer divler lefti değiştiremiyor. yukarıdaki right kısmı ile birlikte
+           flex-shrink: 0;         sayfanın genişliği 125%'e çıkıyor.
+
+}
+
+------------------------------------------------------------------------------------------------------------------
+
+<div id="container">
+  <div>Left</div>
+  <div>Right</div>
+  <div>Mid</div>                 = 3 tane div oluşturduk
+</div>
+
+
+#container{
+          display: flex; 
+          flex-wrap: wrap;      
+}
+   
+
+#container div{
+           border: 1px solid red;
+           flex-basis: 50%;       = Left Right ve Mid'e 50% verince sayfanın genişliği 150%'ye çıkıyor. Bunu engellemek için yukarıya flex-wrap kısmını yazdık ve sayfa genişliği 100%'ü
+}                                   geçerse Left, Right ve Mid alt alta sıralanıyor. Alt alta sıralanmasının sebebi 50% + 1px olduğu için kutular sayfaya sığmayıp bir alt satıra geçiyor.
+                                    Bunu engellemek için aşağıdaki border-box kısmını yazdık. Böylelikle flex ile sayfayı düzenleyebildik.
+
+ *{
+   box-sizing: border-box;
+}
+
+
+------------------------------------------------------------------------------------------------------------------
+<div id="grid">
+  <div class="item item1">1</div> = elementler üzerinde çalışmayı kolaylaştırmak için 2 tane class ile çalıştık.
+  <div class="item item2">2</div>
+  <div class="item item3">3</div>
+  <div class="item item4">4</div>
+  <div class="item item5">5</div>
+  <div class="item item6">6</div>
+  <div class="item item7">7</div>
+  <div class="item item8">8</div>
+  <div class="item item9">9</div>
+</div>
+
+  
+*{
+  box-sizing: border-box;
+   }
+
+
+ #grid{                                        =grid de flex gibidir. sayfayı düzenleriz. Yukarıdaki parent divi aldık.
+          display: grid;                           
+          grid-template-columns: auto auto auto; = 3 tane column oluşsun diye 3 kere auto yazdık. 
+          grid-column-gap: 20px;                = her yanyana hücre arasında boşluk oluştu.
+          grid-row-gap: 20px;                   = her alt alta hücre arasında boşluk oluştu.
+        }
+
+.item{                                        
+          border: 1px solid red;
+     }
+.item1{
+            grid-column-start: 1;              = bir tane hücre bir satırı kapladı.
+            grid-column-end: 4;
+
+     }
+
+-------------------------------------------
+
+ .item1, .item9{                              = Birden fazla elementi işaret ettik.
+            grid-column-start: 1;
+            grid-column-end: 4;
+
+        }
+
+
+------------------------------------------------------------------------------------------------------------------
+Pinterest --> web design inspiration = Web sitesi oluşturmak için design örnekleri.
+
+
+
+
+
+
+

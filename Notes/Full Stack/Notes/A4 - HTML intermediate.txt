@@ -1,0 +1,173 @@
+<p>
+   <span style="text-decoration: underline;"> ipsum dolor sit, amet consectetur adipisicing elit.</span> =Underline yapmak için css kodunu kullanırız çünkü sitede incelede style'e
+</p>                                                                                                      tıkladığımızda underline'i kaldırabiliriz.
+
+<h3 id="bottom">Bottom of the page</h3> = ilgili kısma id verdik.
+
+href= Hypertext reference
+
+<a href="#bottom">Scroll the bottom of page</a> = Link kısmında id kullanarak site içinde yönlendirme yaptık.
+
+Favicons = Title'nin yanındaki küçük ikon favicondur.
+
+head kısmında link:favicon yazıp entere tıkladık.
+
+<link rel="shortcut icon" href="homepage.png" type="image/png"> = html dosyası ile png dosyasını aynı klasörde topladık. Resim olarak png kullandığımız için type'i png ayarladık.
+                                                                  href'e ise png dosyası yazdık. Eğer favicon gözükmüyorsa inspect, consolde hataya bakarız.
+
+<link rel="shortcut icon" href="favicons/homepage.png" type="image/png"> = png resmini bir dosyanın içine attık. png ile html aynı dosyada olmadığı için derin dosyayı işaret ettik.
+                                                                           yukarı dosyalara çıkmak için ../ kullanılır.
+
+------------------------------------------------------------------------------------------------------------------------
+
+<table border="1" width="100%"> = bordere 1 değerini verince table'in sınırlarında çizgi oluşuyor. Width kısmı ise table'in sınır çizgilerinin ne kadar geniş olacağını gösteriyor.
+        <tr>                    = tr is table row.
+        <td>Row 1 cell 1</td>   = td is table data cell. Her tr bir satırı temsil ediyor. tbody yazmasak bile sitede <tbody> kısmı gözüküyor.
+        <td>Row 1 cell 2</td>
+        <td>Row 1 cell 3</td>
+        </tr>
+        <tr>
+        <td>Row 2 cell 1</td>
+        <td>Row 2 cell 2</td>
+        <td>Row 2 cell 3</td>
+        </tr>
+        <tr>
+        <td>Row 3 cell 1</td>
+        <td>Row 3 cell 2</td>
+        <td>Row 3 cell 3</td>
+        </tr>
+</table>
+
+------------------------------------------------------------------------------------------------------------------------
+
+<td colspan="3">Row 1 cell 1</td> = colspan="3" yazdığımızda bir td 3 tane columnu kaplıyor. Aşağıdaki 2 td ile birlikte toplam 5 tane columnu kaplıyorlar.
+<td>Row 1 cell 2</td>
+<td>Row 1 cell 3</td>
+
+------------------------------------------------------------------------------------------------------------------------
+
+<td rowspan="2">Row 2 cell 1</td> = rowspan="2" yazdığımızda bir td 2 tane rowu kaplıyor. Aşağıdaki yeri alınan td bu sefer aşağı kaymak yerine sağa kayar ve column sayısı belirli rowda 1
+                                    artar.
+
+
+------------------------------------------------------------------------------------------------------------------------
+<td width="20%">Row 2 cell 1</td> = td'ye width ekleyince belirli hücrenin kapladığı alanı yazıyoruz.
+
+<thead>
+    <th colspan="3">New Table</th> = thead içinde th oluşturduk. colspan kısmını yazmak gerekir.
+</thead>
+
+
+------------------------------------------------------------------------------------------------------------------------
+<div style="padding: 40px; color: azure; background-color: black;"> = Htmlde style attribute yazarak css kullandık. padding ise css'in declare edilmesiyle ilgili. 40 olması örneğin arkaplanın
+                                                                      yazının ne kadar yukarısına, aşağısına yayılacağını gösterir.
+    rose
+</div>
+
+------------------------------------------------------------------------------------------------------------------------
+
+<style>         
+    .sampleclass {  = Yeni classlar oluşturduk.
+      padding: 40px;
+      color: azure;
+      background-color: black;
+    }
+    .changingText {
+        text-transform: uppercase;
+  }
+   #testingId {    = Yeni id'ler oluşturduk.
+    border: 15px solid red;
+  }
+</style>
+
+<div class="sampleclass changingText"> = Bu şekilde html'e css class isimleri yazarak css'i yer kaplamadan kullandık.
+<div id="testingId">    = Bu şekilde htmlde css id'leri yazarak css kullandık. Birden fazla id yazılamaz.
+
+------------------------------------------------------------------------------------------------------------------------
+Code'i formatlamak için <pre> ya da <code> kullanabiliriz.
+
+<pre>                         = pre, pre formatted texti ifade eder. pre, whitespacelere dikkat eder ve sitede boşluklarla birlikte görünür. Buna monospacing denir.
+     Some stuff here
+ second line             here
+
+
+</pre>
+
+
+<p>
+<code>Lorem ipsum dolor sit amet consectetur adipisicing elit.</code>  = <code> kısmında yazılan boşluklar dikkate alınmaz. Code ve pre'de yazı tipi değişir.
+Delectus voluptates consequatur qui minima id
+soluta ipsam sit dignissimos debitis nam exercitationem 
+fugit itaque aliquid, maiores sapiente dolor, culpa ea ipsum.
+</p>
+
+------------------------------------------------------------------------------------------------------------------------
+HTML entities kullandığımızda "<b>This is bold text</b>" kodunun <b> gibi kısımlarının da sitede görünmesini sağlayabiliyoruz.
+
+&lt; = less than
+&gt; = greater than
+
+&lt;b&gt;This is bold text&lt;/b&gt;
+
+&copy; = copyright simgesi.
+
+------------------------------------------------------------------------------------------------------------------------
+Forms are how we send data to a server.
+
+<input type="text"> = text alır.
+<input type="text" value="Hello world" placeholder="Enter your name"> = value kısmına yazı yazılınca site açılınca inputun içinde bu yazı gözükür. placeholder kısmına yazı yazılınca
+                                                                        site açılınca inputun içinde tıklanınca yok olan yazı oluşur.
+
+<input type="password"> = password oluşturmak için.
+
+<textarea cols="30" rows="10" placeholder="Enter text"> = textarea uzunca metin yazmak için kullanılır. içinde default value oluşması için opening ve closing tag arasına yazı yazarız.
+Lorem, ipsum dolor sit amet consectetur adipisicing elit.                      
+</textarea>
+
+<button type="reset">reset this form</button> = reset, formdaki inputları, textareaları default haline getirir.
+
+-------------------------------------------------------------------------------------------------------------------------
+
+<form method="get" action="somepage.html"> = get methodunu kullandık. action ise submit buttonuna tıkladığımızda nereye gideceğini gösterir.
+
+<input type="password">
+
+<button type="submit">submit this form</button> = etkili yöntem değildir. Her türlü bilgi google tarafından url kısmından ?password=12345&name=Mark olarak kaydedilir. input ve textareaya
+                                                  name attribute verildiğinde url bu şekilde görülür.
+
+-------------------------------------------------------------------------------------------------------------------------
+<select name="Selection">
+  <option value="" disabled="disabled">Select value</option> = Tıklanamayan dropdown oluşturduk.
+  <option value="1">This is the value 1</option>
+  <option value="2" selected="selected">This is the value 2</option> = selected attribute kullandığımızda ilk bu gözükür yoksa ilk okunan option gözükür.
+  <option value="3">This is the value 3</option>
+  <option value="4">This is the value 4</option>
+  <option value="5">This is the value 5</option>
+</select>
+
+<input required name="password" type="password"> = required kullandığımızda inputların doldurulması zorunlu oluyor.
+
+-------------------------------------------------------------------------------------------------------------------------
+<iframe src="../Second_Page.html" frameborder="1"></iframe> = iframe başka sitelerden parçaların bir site içerisinde kullanılmasına izin verir. frameborder ise iframe kısmının etrafındaki
+                                                              çizgiyi gösterir. Örnek olarak youtube içerisinde share kısmından embed urlsini src kısmına kopyalayabiliriz.
+
+
+HTML için kitap önerisi: https://books.goalkicker.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,108 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> = responsive web design için bu kısım gerekli.
+
+Responsive web tasarımı yani duyarlı web tasarımı, kullanıcı web sitenizi bir bilgisayarda görüntülüyorken büyük ekrana, bir akıllı telefonda görüntülüyorken küçük ekrana uyum sağlamasıdır.
+
+  <style>
+     body{
+      background-color: blue;
+     }
+    @media(max-width: 640px){     = ekran genişliği 640px'e düştüğünde arkaplan kırmızıya dönüyor. Inspectte toggle kısmından bakılabilir.
+      body {
+        background-color: red;
+      }
+
+    }
+
+  </style>
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Mobile-first = internet sitesini önce telefonda güzel gözükecek şekilde ayarlamaktır.
+
+   <style>
+     body{
+      background-color: blue;  = normaldeki arkaplan
+     }
+    @media(max-width: 640px){  = diğer koşullarda arkaplan 
+      body {
+        background-color: red;
+      }
+
+    }
+
+  </style>
+ 
+------------------------------
+   <style>
+     body{
+      background-color: red;  = mobile first olunca ilk olarak telefonu ayarladık.
+     }
+    @media(min-width: 640px){ = daha sonra diğer cihazları ayarladık.
+      body {
+        background-color: blue;
+      }
+
+    }
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+<img src="https://images.unsplash.com/photo-1670302598172-867e5b543536?ixlib=rb-4          =imageler genelde responsive değildir. Küçük ekranlarda resim sayfanın daha büyük alanını kaplar.
+.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80" 
+alt="Painting">
+
+ img{
+      width: 50%;    = bunu yazınca resim responsive oluyor ve sayfanın 50%'sini kullanıyor.
+      height: auto;
+    }
+
+-----------------------------------------------------------------------------------------------------------------------
+
+<div class="container"> = embed code'i responsive yapmak için div içinde kullandık.
+
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/hw93qlrLDMw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+   clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+ 
+</div>
+
+
+    .container{             = div'e style ekledik.
+        position: relative;
+        overflow: hidden;     kutunun dışına taşmaları önlemek için yazdık.            
+        width: 100%;
+        padding-top: 56.25%; = 9/16 aspect ratioyu verdiği için böyle yazdık.                  
+  }
+    .container iframe{     = iframe'e style ekledik.
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%; 
+  }
+
+-----------------------------------------------------------------------------------------------------------------------
+  .box{
+        width: 400px;
+        height: 400px;
+        border: 10px solid black;
+        margin: 50px auto;
+        border-radius: 0;
+  }
+  @media (max-width: 1000px) and (min-width: 700px){ = media querylerini yanyana kullandık.
+    .box{
+      border-radius: 50%;
+    }
+    
+  }
+
+-----------------------------------------------------------------------------------------------------------------------
+https://goalkicker.com/CSSBook/CSSNotesForProfessionals.pdf = CSS için önerilen kaynak.    
+
+    
+
+
+
+
+

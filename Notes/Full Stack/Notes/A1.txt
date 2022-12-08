@@ -1,0 +1,8 @@
+Web Sites 4 components:
+1- HTML: The "bone structure" of your webpage
+2- CSS: The part that makes your website look beautiful and full of colour etc.
+3- JavaScript: The interactivity that happens when you click a button or you type in a box and something else happens etc.
+4- Server-Side: This is the hidden code that executes on a server when your browser loads a website. Ex: Python, PHP, Node.js
+
+Download Google Chrome, Mozilla Firefox, Microsoft Edge for Windows.(Also Safari for Mac)
+Download Vs Code.

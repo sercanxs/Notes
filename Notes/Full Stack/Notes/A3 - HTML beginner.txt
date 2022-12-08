@@ -1,0 +1,175 @@
+HTML: HyperText Markup Language
+It's the backbone behind every website.
+
+<element title="second attribute"> = Element adında tag oluşturduk ve title adında attribute ve onun value'sini oluşturduk. We can also use '' instead "".
+some text in here                  = Bu kısma mesajlar yazabiliyoruz.
+</element>                         = This is closing tag.
+
+----------------------------------------------------------------------------------------------------------------------
+When we create new file we need to change the plain text to html.(Save as a .html or click the plain text)
+
+html:5 gives html structure.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+
+Alt tuşu ile head ve body'i seçip tab ile sağa kaydırabiliriz.
+
+<!DOCTYPE html> --> It says it is an html page.
+<title>Document</title> --> It shows title of the page.
+<head></head> --> It gives extra information.
+<body></body> --> It is what people are going to see.
+
+----------------------------------------------------------------------------------------------------------------------
+<body>
+Some text here = It shows some text on the page.
+</body>
+
+<p></p> = Opening and closing tag birlikte elementi oluşturur.
+
+<p></p> = paragraf yazdık boşlukları bir saydı.
+
+<p>
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis fuga quos, libero quae accusamus debitis cumque, 
+corporis necessitatibus enim, iure cum dicta? 
+Cupiditate aliquam, voluptatem officia nisi dolore debitis delectus!
+</p>
+
+----------------------------------------------------------------------------------------------------------------------
+h1 yazıp entere tıkladık.
+
+<h1>HTML101</h1> = Büyük ölçekli yazı oluştu.
+
+<h1>HTML101</h1>
+<h2>Subtitle</h2> = Alt başlıklar açarken h2 gibi terimler kullandık.
+<h6>Subtitle</h6>
+
+----------------------------------------------------------------------------------------------------------------------
+<div>                           = <body>, <head>, <div> gibi elementler iç içe geçebilir. Paragrafları div içine yazmadığımızda bütün kod ekranı paragraflar ile doluyor. div elementi
+this is the first element         kodlar üzerinde çalışmayı kolaylaştırıyor.
+<div>                           = div içinde div.
+    this is the nested element
+</div>
+
+</div>
+
+----------------------------------------------------------------------------------------------------------------------
+<b> which is in the <p>, makes the related part bold.
+
+<p>
+        <b> 
+        ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum officia culpa dolore sapiente provident, 
+        obcaecati dolorem ipsum iure facilis reprehenderit in numquam, u
+        nde optio est aspernatur sint aliquam dignissimos iusto.
+        </b>
+</p>
+
+Nested <i> makes the related part italic.
+Nested <u> underlines the related part.
+<p>
+        <i> ipsum dolor sit amet consectetur, adipisicing elit. Voluptatum officia culpa dolore sapiente provident, 
+        obcaecati</i><u> dolorem ipsum iure facilis reprehenderit in numquam, u
+        nde optio est aspernatur sint aliquam dignissimos iusto.</u>
+       
+</p>
+
+We can use bold, italic, underline together.
+
+     <p>
+        <b>
+            <i>
+                <u>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </u>
+            </i>
+        </b>
+     </p>
+
+----------------------------------------------------------------------------------------------------------------------
+Block elements vs Inline elements
+Inline elementler yazarken birbirlerine eklenirler. Block elementler ise yeni satırdan başlarlar.
+Block elementi inceleye tıkladığımızda 30 kelime yer kaplasa bile bütün kullanılan satırlar baştan sona mavi gözükür. Inline elementte sadece yazı yazılan kısım mavi gözükür. 
+<p> ve <div> block element iken <b>, <i>, <u> inline elementtir.
+
+
+----------------------------------------------------------------------------------------------------------------------
+<a href="https://google.com/">NewLink1</a> = href kısmına hypertext sunucusu yazdık ve sitede görünecek NewLink1 ismini vererek link oluşturduk.
+ 
+<a href="Second_Page.html"> = http ile başlayan linkler absolute linktir ve her bilgisayarda çalışır. Bilgisayardaki dosyalara ulaşmak için relative link kullanılır. Çünkü bir dosyanın 
+Go to second page             addressi her bilgisayarda aynı değildir. Dolayısıyla dosyanın tam adını yazarız. Başında http:// olmadığı için bu relative link olarak algılanır ve 
+</a>                          linkin dynamic addressi kendisi eklenir. Desktopta olmayan dosyalar için ayrı olarak slashlar koyarak dosyanın konumunu belirtmek gerekebilir.
+
+<a href="https://google.com/" target="_blank">NewLink1</a> = target attribute eklendiğinde bu linke tıkladığımızda yeni site yeni sekmede açılır.
+
+----------------------------------------------------------------------------------------------------------------------
+pexels.com --> bedava resim veriyor.
+
+<img src="image.jpg" width="300" height="100" alt="Not valid"> = Siteye resim ekledik. img kısmı sadece resim olduğu için <img> text </img> gibi yazmadık.
+                                                                 Resim çok yer kapladığı için width ya da heighte değer vererek resimi küçültebiliriz. 
+                                                                 width ve heighte birlikte değer verirsek resim orantısız biçimde küçülür. alt ise resim bulunamadığında sitede çıkacak 
+                                                                 alternatif mesajı gösterir.
+
+
+<a href="https://google.com"> = anchor'un içine img koyduğumuzda resim linke dönüşüyor.
+               
+     <img src="image.jpg" 
+          width="300"
+     >
+
+</a>
+
+----------------------------------------------------------------------------------------------------------------------
+<hr> = Horizantal rule koyduğumuzda sitede yatay çizgi oluşuyor.
+
+<p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        <br>                                                      = Paragraf yazarken bir alt satıra kaymak istediğimizde break kullanıyoruz.
+        Nobis fuga quos, libero quae accusamus debitis cumque, 
+        corporis necessitatibus enim, iure cum dicta? 
+        Cupiditate aliquam, voluptatem officia nisi dolore debitis delectus!
+</p>
+
+
+----------------------------------------------------------------------------------------------------------------------
+<!-- some comments here--> = Kodlara yorum yapmak için kullanılır. Sitede sadece source code'de gözükür.
+
+Listler ikiye ayrılır.
+
+<ol>
+        <li>USA</li>
+        <li>UK</li>
+        <li>Turkey</li>
+</ol>                     = Ordered Listte, oluşturulan liste 1,2,3 olarak sıraya girer. 
+
+Çıktı=
+
+1. USA
+2. UK
+3. Turkey
+
+<ul>                      = Unordered Listte, oluşturulan liste sıraya girmez.
+    <li>USA</li>
+    <li>UK</li>
+    <li>Turkey</li>
+</ul>
+
+Çıktı=
+
+* USA  = Soldaki yıldızlar, noktayı temsil ediyor. Bu noktalara bullet point deniyor.
+* UK
+* Turkey
+
+https://codepen.io/ = kod paylaşmak için site.
+
+
+

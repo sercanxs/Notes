@@ -1,0 +1,9 @@
+Vs code'de extension olarak Material Theme süsleme paketi içeriyor.
+Material Theme icons ise iconları içeriyor.
+
+Extensions:
+-Code Spell Checker: It prevent Typos when write comments. 
+-code-python-isort: Imports are written in orders.
+
+CTRL + P dosya aramayı kolaylaştırıyor.
+Alt + left cursor = Bir yazı ile bir çok yere yazılabiliyor.

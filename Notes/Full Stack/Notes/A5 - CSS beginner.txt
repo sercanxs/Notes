@@ -1,0 +1,331 @@
+CSS stands for cascading style sheets.
+
+Css can be written in 3 different ways:
+-Inline with the style HTML attribute
+-Internal with the <style> element
+-External .css files
+
+
+Inline CSS
+
+<h1 style="color: red;">This is an h1</h1> = HTML'de style attribute yazarak inline CSS oluşturduk.
+
+Internal CSS
+
+<style> = Head kısmında style element ile CSS oluşturduk.
+      h1 {          = h1 tagında olanlara CSS özellikleri ekledik. h1 kısmı selector kısmıdır.
+        color: red; = Color kısmı property, red kısmı ise value'dir. property + value kısmı declaration'dır.
+      
+      }
+
+</style>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+   
+    .blue { = CSS class'i kullanarak css oluşturduk.
+     color: blue;
+
+    }
+
+</style>
+
+
+<body>
+  <h1 class="blue">This is an h1</h1> = body'e class isimlerini yazınca css özelliklerini kullandık.
+  <div class="blue">This is a div</div>
+  
+</body>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+
+  #dr { = dr id'sine sahip olanlara css özellikleri ekledik.
+
+    text-decoration: underline;
+  }
+   
+</style>
+
+
+<h1 class="blue" id="dr">This is an h1</h1> = Id'si dr olan bir element.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+    
+  h1, div { = Birden fazla tag ismi yazarak birçok element select ettik.
+
+    color: blue;
+      
+  }
+
+</style>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+p strong{ = Bu şekilde virgülsüz p strong yazınca p içindeki strong'a özellikler ekliyoruz. Diğer stronglar etkilenmiyor.
+
+    color: blue; 
+      
+}
+
+<div>
+      <p>
+          <strong>ipsum, dolor sit amet</strong> consectetur adipisicing elit. 
+      </p>
+      <strong>This is a bold</strong>
+</div>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+  <style>
+    /*                    
+    This is a CSS comment = CSS'de yorum yapmak için kullanılır.
+    */
+  </style>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+<style>
+p strong{
+      color: blue;
+      font-size: 50px; = Yazı boyutunu büyütür.
+        }
+</style>
+
+Color değiştirme yöntemleri:
+- color: blue;
+- color: #ff0000;
+- color: rgb(125, 125, 125); = rgb'de red, green ve blue'ye değer veririz.
+- color: rgba(125, 125, 125, 0.5); = rgba'da red, green, blue ve alphaya değer veririz. Alpha yazının saydamlığını gösterir ve 1 ve 0 arasında olabilir.
+
+<style>
+    
+     a{    
+
+     color: red;
+
+     }
+     a:hover{     = mouse linkin üzerine geldiğinde linkin rengi maviye değişti.
+
+       color: blue;
+     }
+     a:active{
+       color: black; = linke basılı tuttuğumuzda linkin rengi siyaha değişti.
+     }
+     a:visited{
+       color: yellow; = linki ziyaret edip geri tuşuna bastığımızda linkin rengi sarıya değişti.
+     }
+
+</style>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+
+ h1.small{            = h1 tagı ve nokta kullanarak oluşturduğumuz class sadece h1 tagında olanlara izin veriyor.
+   font-size: 10px;   
+ }
+
+
+</style>
+
+<h1 class="small">
+Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+</h1>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+
+  body {
+    background-color: #fff; =arka plan rengi ekledik.
+    background-image: url(favicons/garden.jpg);  = arkaplana resim ekledik.
+  }
+
+</style>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+body {
+
+  background-color: #fff;
+  background-image: url(favicons/garden.jpg);
+  background-size: contain;                   = contain ekleyince arkaplan resimi sitede birsürü kez tekrar ediyor.
+
+}
+body {
+
+  background-color: #fff;
+  background-image: url(favicons/garden.jpg);
+  background-size: cover;                     = cover ekleyince resim örneğin yanlamasına siteyi kaplar ama aşağı taraf sitenin görünmeyen kısmına gidebilir.
+}
+
+h1 {     = herhangi bir yazıya arkaplan resimi ekleyebiliriz. Ama bu resimin sadece yazıyı kaplayacak kadar kısmı gözükür. Bunun için coverin yanına height ekledik.
+
+  background-color: #fff;
+  background-image: url(favicons/garden.jpg);
+  background-size: cover;
+
+  height: 500px; = resimin ne kadarının görüneceğini ayarladık. coveri, contain yaparsak resim yanlamasına birden fazla tekrar edebilir ya da resimin bir kısmı yanlamasına dışarıda kalır.
+
+}
+
+h1 {
+
+  background-color: #fff;
+  background-image: url(favicons/garden.jpg);
+  background-size: contain;                   
+  background-repeat: no-repeat;       = contain eklerken no-repeat eklersek resim sadece bir kere tekrar eder.
+  background-position: center center; = position ile x ve y kordinatı girerek resimi sayfanın merkezine koyduk.
+
+  height: 500px;
+}
+
+
+Unsplash.com = resim için önerilen site.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+h1#small{
+ text-align: center; = text'i sitenin ortasına kaydırdık.
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+div.red-border{
+border-width: 5px;    = border kısmını oluşturunca yazının etrafında oluşan çizginin genişliğini belirledik. Borderin etkilediği element block element ise border yanlamasına bütün
+                        sayfayı kaplar.
+border-style: dashed; = border çizgisi kesikli gözüküyor. Solid olursa çizgide kesik olmuyor.
+border-color: red;
+border: 1px solid black; = sadece border yazarak bütün bilgileri birlikte verebiliriz ama önceden verilen değerlerin üzerine overwrite edilir.    
+}
+
+
+border-radius: 10px; = sınırların köşeleri dik açı yerine daire gibi eğimli olur.
+
+div.red-border{
+border-width: 5px;
+border-style: solid;
+border-color: red;
+border-radius: 50%;  = radius yüzde olarak verilirse, verilen yüzde kadar kısım eğime dahil edilir. Width ve height aynı olursa ve radius 100% ise border daire olur.
+width: 100px;
+height: 100px;
+}
+
+border-top-left-radius: 5px; = Eğimler her kenar için ayrı olarak ayarlanabilir.
+border-top-right-radius: 50%;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 50%;
+
+border-radius: 5px 50% 5px 50%; = Her kenarın eğimi bu şekilde ayarlanabilir. Kenarlar saat yönünde ayarlanır.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<style>
+  div {
+  display: inline;       = block elementleri display ile inline yapabiliriz.
+  border: 1px solid red;
+  }
+</style>
+
+div {
+display: inline-block; = inline yerine inline-block kullanırsak width ve height ile border sınırlarını ayarlayabiliriz.
+border: 1px solid red;
+width: 200px;
+height: 200px;
+}
+
+div.halfwidth = class ismi ile tag yazıp entere tıklayınca element oluşuyor.
+
+<div class="half-width"></div>
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+div.half-width {
+  width: 30%;    = bu şekilde yazınca block element bütün satırı kaplar ama border ve yazılar belirli kısımda bulunur.
+  border: 1px solid red;                       
+}
+
+width'deki kurallar height için de geçerli.
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<div id="box"></div> = kutu tasarlamak için div oluşturduk.
+
+#box{
+width: 200px;
+height: 200px;
+border: 2px solid black;                      = div'e border verdik.
+background-image: url(favicons/garden.jpg);   = resim ekleyip boyutunu ayarladık.
+background-position: center center;
+background-size: cover;
+border-radius: 0 50% 0 50%;
+box-shadow: 5px 5px red;                      = kutuya gölge verdik.
+}
+
+box-shadow: 5px 5px 5px red; = box shadowa bu şekilde 4 tane değişken verirsek 3.sü bulanıklığı temsil ediyor. Bulanıklık öne ve arkaya kaydığı için bulanıklığa yüksek değer vermek
+                               resimin etrafının parlamasını sağlar.
+
+box-shadow: 2px 2px 15px inset #444444; = inset ekleyince, bulanıklık ve gölge kutunun dışına taşmaz sol üstten içeriye gölge oluşur.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+#box{
+width: 200px; 
+height: 200px;
+border: 1px dashed blue;
+padding: 10px;            = yazı kısmı 200x200'dü. Padding ekleyerek kutunun kenarları yazıdan 10px uzaklaştı. Yani kutu sınırları 210x210 oldu.
+}
+
+<div id="box">example of text</div>
+
+
+padding: 10px 50px 60px 0px; = padding'te her kenarı ayrı olarak belirleyebiliriz. Kare olan kutu böyle durumda artık kare olmaz.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+margin: 30px; = margin, padding gibidir ama kutunun dışarısında geçerlidir. sol kısım 30 uzunluğundayken sağ kısmın fazla olmasının sebebi block element kullanılmasıdır. inline-block ile
+                bu sorun çözülür. 
+
+margin: auto; = margine auto yazmak kutuyu kullanılan alanın ortasına getirir. block element ile kullanışlıdır.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+#box{
+display: inline-block;
+border: 1px solid red;
+max-width: 500px;     = max-width, inline-block ile kullanılırsa yazılan yazılar arttıkça kutu genişleyerek sağa kayar ama bir noktadan sonra aşağı satıra geçer.
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+#box{
+display: block;
+border: 1px solid red;
+width: 200px;
+height: 200px;
+margin: 50px auto;
+background-color: white;
+color: black;
+text-align: center;
+padding: 25px;
+opacity: 0.5;         = Saydamlığı ayarlıyoruz. Background-colour kısmında rgba ile sadece background'ın saydamlığı ayarlanıyor ve yazıların saydamlığı değişmiyor.
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+CSS dosyası oluşturmak için VS Code kullanılır.
+
+<link rel="stylesheet" href="css/style.css"> = head kısmında link ile CSS dosyasını işaret ettik. CSS dosyasının içine <style> yazmadan CSS komutları yazılır.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+<img src="favicons/garden.jpg" width="200"> = width css ile oluşturulmamışsa px yazmaya gerek yok.
+
+<img src="favicons/garden.jpg" width="200" style="float: right; margin: 10px;"> = Paragraf içinde float right yazınca resim sayfanın sağ kısmına yerleşiyor ve paragraf soldan devam ediyor.
+<img src="favicons/garden.jpg" width="200" style="float: right; margin: 10px;"> = 2 tane img float right yazınca iki resim yanyanayken bir resimin bir blok aşağıda olma riski var.
+
+
+
+
+
