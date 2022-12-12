@@ -1,0 +1,333 @@
+JavaScript is the programming language used in front end web development.
+JavaScript is what makes your site interactive and makes your web site feel like an app.
+
+Sitede bir kutuyu alıp sürüklemek, bir taba tıklayınca yeni moduller gelmesi JavaScript'ten kaynaklı.
+
+
+JavaScript playgrounds
+
+- https://codepen.io/
+- inspect --> console 
+- VS Code
+
+-------------------------------------------------------------------------------------------------------------------
+JavaScript oluşturma yöntemleri
+
+- head ya da body'e <script> yazmak.
+- External JavaScript file kullanmak.
+
+-------------------------------------------------------------------------------------------------------------------
+
+console.log("Write anything in here"); = sitede bir şey gözükmez ama site konsolunda yazı oluşur.
+console.warn("This is a warning");     = uyarı mesajı çıkar.
+console.error("This is an error");     = hata mesajı çıkar.
+
+-------------------------------------------------------------------------------------------------------------------
+Vs code ile .js file oluşturduk.
+
+<script src="javascript/script.js"></script> = body içinde external file kullandık.
+
+-------------------------------------------------------------------------------------------------------------------
+var website ="https://www.google.com/"; = String variable oluşturduk. "" yerine '' kullanılabilir. iki tane "" arasına bir tane daha " yazmak için başına ters slash konulur. --> \"
+
+console.log(website);                   = variable yazdık.
+
+
+let apples = 1; = sitede consolde apples yazınca 1 değeri çıkıyor.
+
+const height = "6'0"; = constant variable'ler değiştirilemez.
+
+if içinde var açılınca, var if dışında kullanıldığında hata vermez. let ve const hata verir.
+
+-------------------------------------------------------------------------------------------------------------------
+
+// write some comments here = yorum yapmak için // kullanılır.
+
+/*
+write some comments here = birden fazla satır için yorum yaptık.
+*/
+
+-------------------------------------------------------------------------------------------------------------------
+Operators
+
+= --> asignment operator.
+
+const name = "Barbarossa";
+
++ --> addition operator.
+
+let num1 = 10;
+console.log(num1+20)
+
+
+- --> subtraction operator.
+/ --> division
+* --> multiplication
+** --> exponent operator'da bir sayının üssü alınıyor.
+% --> modulus.
+num1++ --> incrementler variable'in önünde kullanılırsa bulunduğu satırda değeri değişir.
+--num1 --> decrement
+
+-------------------------------------------------------------------------------------------------------------------
+JavaScript Data Types
+
+const str ="String"; = String
+const num = 3;       = Number
+const flt  = 3.14;   = float
+const bool = true;   = boolean
+const list = ["item 1", 2, "item 3", 3.14, []]; = Array
+const thing = null;  = has nothing in it.
+const notDefined = undefined; = Currently holds no value.
+const getAge = function(){ return 20;} = function
+const obj = {         = object
+    "key": "value",
+    "city": "Alexandria"
+}
+
+-------------------------------------------------------------------------------------------------------------------
+if(city=="Alexandria"){         = if statements.  
+     
+    console.log("Andromeda");
+
+}else if(city=="Valley") {      = else if
+
+    console.log("Milky way");
+
+}else {                         = else
+
+    console.log("Starry night");
+
+}
+
+Comparison Operators
+
+== 
+>= 
+<=
+!=
+> 
+<
+
+-------------------------------------------------------------------------------------------------------------------
+DOM --> Document Object Model, parent child ilişkisiyle ağaç oluşturulmuş element yapısıdır. Elementlere node de denir.
+
+             (Document)
+       (head)         (body)
+   (meta) (title)    (div) (p)
+
+-------------------------------------------------------------------------------------------------------------------
+const a = document.getElementById("box");  = elementi id'si ile seçtik. Site konsolunda a yazınca box id'sine sahip bütün div gözüküyor. html dosyasında  
+                                             "<script src="javascript/script.js"></script>" kısmı body'nin en aşağısında yazılması gerekir yoksa kod çalışmaz.
+
+a.innerText="Something new"                = innerText sadece text'e izin verir. elementin içindeki yazı değişir.
+
+a.innerHTML="Something <strong> new </strong> is bolded" = innerHTML içinde html komutları çalışır.
+
+-------------------------------------------------------------------------------------------------------------------
+let person = {}
+
+typeof(person).log = değişkenin türünü gösteriyor. -->object.  
+
+
+person = {        
+    "key": "value",
+    "city": "Alexandria",
+    "age": 240
+}
+
+person["city"].log = key yazınca value geldi.
+
+-------------------------------------------------------------------------------------------------------------------
+String Methods
+
+const city = "Alexandria";
+
+city.length = length uzunluğu verdi.--> 10
+
+city.search("e") = 2 --> ilk bulduğunu gösterir.
+
+city[0] = A --> 0 yazınca ilk karakteri gösterdi.
+
+city.slice(5,9) --> 5 dahil 9 dahil değil.
+
+city.substring(0,2) --> 0'dan başladı. Toplamda iki karakter yazdı.
+
+city.replace("A","e") --> ilk bulduğu A'yı e ile değiştirdi.
+
+city.toUpperCase() --> karakterler büyük harf olur.
+
+city.trim() --> baştaki ve sondaki boşlukları yokeder.
+
+const lst = city.split(" "); = boşluk olan kısımlardan stringi parçalara ayırdık. Her parçayı listte topladık boşluklar yok oldu.
+
+typeof(lst) = lst'in türünde object yazsa da Array'dir.
+
+-------------------------------------------------------------------------------------------------------------------
+Castings
+
+const age = "30";   = age string'tir.
+
+console.log(age*7); = age'in değeri, string olmasına rağmen numbere casting edilir ve 7 ile çarpılır. "30A" gibi bir String değeri numbere casting edilemez. NaN --> Not a number.
+
+age = Number(age); = number'e casting ettikten sonra age'e kaydettik. Age artık number oldu.
+
+age=30; = age'i number yapmanın kolay yolu.
+
+age = Object(age) = age object olur. ama key value'siz garip bir object olur.
+
+age = Array(age); = age, 30 tane data taşıyabilen Array'e dönüştü. Herbir hücreye değer atanmadığı için değerler boştur.
+
+Boolean(0) = 0, Boolean'e castinglenirse false olur. diğer numberler ise true olur.
+
+age=String(age); = age'i String'e castingledik.
+
+-------------------------------------------------------------------------------------------------------------------
+Concatenations
+
+console.log(age+" is age"); = eski yöntem concat.
+
+`My age is ${age} and` = template literal yönteminde değişkeni $ işareti ile ekledik. Bu şekilde okunması daha kolay.
+
+
+-------------------------------------------------------------------------------------------------------------------
+const lst = ["one", 2,"three",{}];
+
+lst.push("new item"); = Array'e yeni item ekledik.
+
+const newItem = lst.pop(); = pop() yazınca yeni eklenen item silindi. Silinmeden önce kaydettik.
+
+
+-------------------------------------------------------------------------------------------------------------------
+const arr = [1,2,3,4];
+
+for(let i=0;i<arr.length;i++){  = for loop.
+    console.log(i);
+}
+
+i,arr[i] = virgül konunca concat olur ama araya bir boşluk girer. iki değer number olsa bile çıkan sonuç örneğin 3 değil 1 2'dir.
+
+
+arr.forEach(i => { = foreach kullanarak iteration kullandık.
+    console.log(i);
+})
+
+
+-------------------------------------------------------------------------------------------------------------------
+  <div class="this-class">This is a class1</div>
+  <div class="this-class">This is a class2</div>
+  <div class="this-class">This is a class3</div>
+  <div class="this-class">This is a class4</div>
+  <div class="this-class">This is a class5</div>
+
+const elems = document.querySelector(".this-class"); = aynı isimde classlardan ilkini seçebildik.
+console.log(elems.innerText);                        = innerText ipucu olarak gözükmese de yazılabildi.
+
+const elems = document.querySelectorAll(".this-class"); = aynı isimde classlardan hepsini seçtik.
+console.log(elems);                                     = innerText olmadan yazınca bütün elementlerin bilgilerini aldık.
+
+const elements = document.querySelectorAll("li"); = bütün li tagina sahip olanları aldık. Konsolda innerText kısmını kontrol ederek doğru elementin seçildiği kontrol edilebilir.
+                                                    innerText ise opening and closing tag arasına yazılan kısım.
+
+elements.forEach(i =>{
+    i.innerText="This is changed";  = innerText'i değiştirdik.
+})
+
+elements.forEach((node, index) =>{  = fonksiyonu bu şekilde yazınca soldaki kısım elementi temsil ediyor. Sağdaki kısım ise sayıları gösteriyor.
+    
+})
+
+elements.forEach((node, index) =>{
+    node.classList.add("custom-class","second-class") = elementlere class ekledik.
+})
+
+
+-------------------------------------------------------------------------------------------------------------------
+DRY = Don't repeat yourself.
+
+DRY principle'de kodlar dynamic yazılır. Bir sürü yerden kodları tek tek değiştirmek yerine bir yerden değiştirilir.
+
+
+function numbers(param1, param2) {  = function oluşturduk.
+    
+    const total = param1+param2;
+
+    return total;
+}
+
+
+const addedTotal =numbers(5,3); = function ismi ve parametreleri girerek return aldık.
+                                  numbers isminde function'ın içeriğini değiştirerek bu function'ın kullanıldığı bütün kısımlar için DRY principle uygulayabiliriz.
+
+
+function numbers(...parameters) { = parameters kısmını bu şekilde yazarsak array gibi davranır ve birden fazla değeri kabul eder.
+    
+    for(index in parameters){          = for each'in farklı yöntemi. index elementi değil de sayıları temsil eder.
+        console.log(parameters[index])
+    }
+ 
+}
+
+
+numbers(5,3);                        = parameter array olduğu için bu ve aşağıdaki kod hata vermedi.
+const addedTotal2 =numbers(5,3,7,6);
+
+function numbers(name,...parameters) = Burada name single parameter, parameters ise rest parameter'idir.
+
+const addedTotal2 =numbers("Andromeda",5,3,7,6); = Sol kısım name'in değeridir. Sağ kısım ise Array'in değerleridir.
+
+-------------------------------------------------------------------------------------------------------------------
+
+
+
+const person = {
+     "name": "Andromeda",
+     "age": "30",
+     "height": "6.0",
+     "speak": function() {        = function oluşturduk ama object içinde kullandığımız için function name'e gerek kalmadı.
+        console.log("English");
+     }
+}
+
+
+person.speak(); = speak function'ı temsil ettiği için speak() şeklinde yazıyoruz.
+
+------------------------------------------------------------------------------------------------------------------
+
+const person = {
+     "name": "Andromeda",
+     "age": "30",
+     "height": "6.0",
+     "speak": function() {      
+        console.log("English");
+     },
+     talk(){                      = object, function'ı tek başına işaret etmek için yeterli olduğu için key yazmadık. Böyle durumda function yazmak yerine function ismi yazmak yetti.
+        console.log("talk");
+     }
+}
+
+person.talk();                    = direkt object ve function ismi ile function'ı çağırdık. function'ı object ile çağırmaya object literal denir.
+
+
+
+function(want="fly") = function içinde parameter'e default value verilebilir. 
+person.speak("dive"); = default value değiştirilebilir.
+
+
+
+person["city"] = "Alexandria"; = Object içinde yeni key value oluşturduk.
+
+console.log(person["city"]);
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
