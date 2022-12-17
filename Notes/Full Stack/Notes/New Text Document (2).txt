@@ -1,0 +1,191 @@
+window.onload = function(){ = bütün html kodları yüklendikten sonra JavaScript kodu çalışır. JavaScript kodları buranın içine yazılır.
+
+}
+
+window.onbeforeunload = function(){          = return kısmını da yazınca, site refreshlenirken uyarı çıkıyor.
+   console.log("before unload");             = refreshlenmeden önce konsolda yazıyor.
+   return "Are you sure you want to leave";  
+
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+Strict comparison
+
+"0"===0  --> false = Strict comparison'da sol taraf string sağ taraf number ise sonuç falsedir.
+
+---------------------------------------------------------------------------------------------------------------------------
+if (true) {
+   var varName="sr";    = var, if dışında geçerli oluyor.
+}
+
+function name(params) {
+   var varName ="sr";   = var, function dışında geçerli olmuyor.
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------
+console.log(varName); = değişken önceden ya da sonradan declare edilirse bu kısım hata vermez.(Hoisting)
+
+var varName; = assign etmediğimizde undefined variable oluşuyor.
+console.log(varName); = undefined.
+
+
+---------------------------------------------------------------------------------------------------------------------------
+JavaScript is event driven language. = Bir şeyler olması için örneğin birisinin bir şeye tıklaması lazım.
+
+
+console.log("Waiting 2.5 seconds"); = primary function.
+
+setTimeout(function () {                    = Callback function çalışırken diğer functionların da çalışmasına izin verir. Böylelikle bir function yüzünden işlemler aksamaz.
+    console.log("Do this thing in here");      
+}, 2500); 
+
+console.log("Last line"); = yukarıdaki kısım 2.5 saniye bekleyeceği için önce bu kısım yazıldı.
+
+---------------------------------------------------------------------------------------------------------------------------
+"use strict"; = strict kullandığımızda sitede hata olarak gözükmeyen yazım hatalarını yakalayabiliyoruz.
+
+x = "Thing"; = hata olarak yazılan x'i strict ile yakaladık.
+
+---------------------------------------------------------------------------------------------------------------------------
+
+setInterval(function () {
+    console.log(" sdsd");  = 2 saniye aralıklarla aynı mesajı yazıyor.
+}, 2000);
+
+----------------------------
+
+let count =0;
+
+const interval1 = setInterval(function () { = interval'ı değişken olarak kaydettik.
+    console.log(" sdsd");
+    count++;                               
+
+    if(count===3){
+        
+        clearInterval(interval1);           = belirli koşul sağlanınca interval'ı kapattık.
+        console.log("That was the last one");
+
+    }
+}, 2000);
+
+
+---------------------------------------------------------------------------------------------------------------------------
+let x =0;
+
+while (x<10) {   = While loop
+x++;
+console.log(x);
+    
+}
+
+---------------------------
+
+while (true) {
+
+let name = prompt("What is your name?");   = bilgi sitenin ön yüzünden alınıyor.
+
+if(name==="android"){
+break;                                     = koşul sağlanınca while loop kapatılıyor.
+}
+    
+}
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+let d = new Date(2025,0,20); = date oluşturduk. Aylar 0'dan başladı.
+
+d.getFullYear().log = yılı verdi.
+
+d.getDate() = gün
+
+d.setYear(2030); = yılı tekrar ayarladık.
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+Destructuring an Array
+
+
+const months = ["January","February","March"]; = Array'de 3 tane değer var.
+
+const[jan,feb] = months;                       = Bu şekilde jan ve feb değişkeni oluşturarak Array'den January ve February'i aldık.
+
+console.log(jan,feb);                          = jan ve feb yazınca January ve February gözüküyor.
+
+
+-------------------------------------
+
+const person3 = {                              = Object açtık.
+    "name":"Andromeda",
+    "city":"Alexandria",
+    "something else":"something else"
+}
+
+const{name,city}=person3;                      = name ve city değişkenlerini kolayca yazarak object'teki key valuelerini aldık. Yazılan değerler keylerle uyuşmalı yani name123 çalışmaz.
+
+console.log(name);
+console.log(city);
+
+
+
+---------------------------------------------------------------------------------------------------------------------------
+const person3 = {
+    "name":"Andromeda",
+    "city":"Alexandria",
+    "something else":"something else"
+}
+
+delete person3["city"];                 = JavaScriptte değişkenler silinemez ama objectin özellikleri silinebilir.
+
+delete person3;                         = bu kısmın hata vermesi için strict kullanmak lazım.
+
+---------------------------------------------------------------------------------------------------------------------------
+let num1 = Math.round(4.6); --> yakına yuvarlar = 5.
+
+let num1 = Math.pow(3,2); --> 3 üzeri 2 = 9.
+
+let num1 = Math.sqrt(9); --> 9'un karekökü = 3.
+
+let num1 = Math.max(1,4,232); --> En yüksek değeri veriyor.
+
+let num1 =Math.floor(23.7); --> aşağı yuvarlar = 23.
+
+let num1 =Math.ceil(23.1); --> tavana yuvarlar = 24.
+
+---------------------------------------------------------------------------------------------------------------------------
+let num1 =Math.random(); = 0 ve 1 arasında rastgele numara veriyor.
+
+let num1 =Math.floor(Math.random()*100); = 0 ve 100 arasında rastgele numara verir.
+
+
+---------------------------------------------------------------------------------------------------------------------------
+try {                                    = try, catch ile hata yakalanabilir. Try, catch dışındaki kodlar okunmaya devam eder. finally de kullanılabilir.
+    functionThatDoesntExist();
+} catch (error1) {                       = error1 variable ismidir.
+    console.warn(error1);                = error1 yazınca gerekli hata mesajı yazdı.
+}
+
+console.log("Show me!!!");
+
+
+---------------------------
+
+try {
+    throw "custom error";                  = Custom error oluşturduk.
+} catch (error1) {                          
+    console.warn("ERROR LOGGING:", error1); = Yukarıdaki custom error yazısı bu kısıma eklendi.
+}
+
+console.log("Show me!!!");
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+
+
+ 
+
+
+
