@@ -1,0 +1,17 @@
+Can you describe your daily activity? 
+• My daily activities at work, Mostly, I go to work early in the morning and check result report of Smoke test to make sure 
+that environment is up and running and the application is stable or not for the day. 
+• If something goes wrong, I will send out an email to my team so they can take care of it asap before everyone comes to 
+work, to reach maximum productivity. 
+• And then I check my email if there are any important tasks or notices, also check my schedule if there are any meetings 
+for the day and also check Jira to review what needs to be done that day in which priority. 
+• Then I go to attend daily standup meeting with my scrum team to talk about what I did yesterday, what we will do today 
+and are there any impediments in my way. This meeting takes about 15 minutes. 
+• After that, I go back to my desk and start automating test cases from regression suits. And also, I automate test cases 
+from sprint backlog after doing manually if it is passed. We are end of our sprint and we are finishing our automating, test 
+execution, reporting, preparing for and conducting Sprint Demo 
+• Also, once a week, we have Code Review meetings, to review the code. this is really helpful 
+• Most fulfilling for me, is my mentoring sessions with junior testers or developers in which i train them on automation and 
+sometimes non-technical skills. we do this as a brown bag lunch, and it really helps us increase our overall productivity, 
+saving the company resources and money but also, gives us the valuable opportunity to get to know our coworkers and at 
+the end of the day, the most important thing to me in my opinion, is the people I work with
