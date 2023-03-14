@@ -182,6 +182,240 @@ console.log("Show me!!!");
 
 
 ---------------------------------------------------------------------------------------------------------------------------
+const person5 = {
+       
+    "name":"Andromeda",
+    "city":"Alexandria",
+    speak(){
+      console.log(`My name is ${person5["name"]}`);  = person5 key'ini kendi objectinde kullandık.
+    }
+}
+
+person5.speak();
+
+const person5 = {
+       
+    "name":"Andromeda",
+    "city":"Alexandria",
+    speak(){
+      console.log(`My name is ${this.name}`);  = this.name yazarak direkt objectin içi işaret edilebilir.
+    }
+}
+
+person5.speak();
+
+function counter() {
+    
+    if(this.total===undefined){  = function içinde de this kullanılabilir. const let var ile total oluşturulursa this.total çalışmaz.
+        this.total=1;
+    }
+    console.log(this.total);
+}
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+const Hello = () => {             = arrow function let us write shorter code.
+    
+   console.log("hi");
+
+}
+Hello();
+
+
+const Hello = () => "Hello from one line function"; = 1 satırlık function yazdığımızda bu kısımı return olarak aldı. console.log() yazarsak return olarak almaz.
+
+console.log(Hello());
+
+
+
+const Hello = (city) => `Hello from ${city}`;       = parametre kullandık.
+
+console.log(Hello("Andromeda"));
+
+
+const function1 = function counter(num1) {   = isimli function değişken olarak kaydedilebilir.
+    console.log("1");
+}
+
+const function2 = function(num1) {           = isimsiz function değişken olarak kaydedilebilir.
+    console.log("5");
+}
+
+
+
+const Hello = () => {           = arrow function'ında this aranırken diğer functionların içine bakılır ve gerekli değer bulunur.
+
+    this.numOlder=5;
+
+console.log(this.numNewer);    
+                             
+}
+                             
+
+const function2 = function aa() {
+  
+    
+   
+    console.log(this.numOlder); = normal function'da this aranırken diğer functionların içine bakılmaz.
+    
+    this.numNewer=10;
+}
+
+
+function2();
+Hello();
+
+-------------------------------
+
+let me = {              = Object oluşturduk.
+
+ 
+ name:"Andromeda",      
+ 
+  thisInArrow: () => {    
+   console.log("sadasd "+ this.name);   = arrow function'da this çalışmaz.                   
+  },
+            
+    
+    thisInReqular() {   
+    console.log("sadasd "+this.name);   = regular function'da this çalışır.
+  
+  }
+  
+}
+
+
+
+me.thisInArrow();
+me.thisInReqular();
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+class Name1 {               = class oluşturduk. Object oluşturmanın diğer yolu classlardir.
+   speak(){                 = function ekledik.
+    console.log("1234");
+   }
+
+} 
+
+const thing = new Name1();  = Yeni object oluşturduk ve değişkene kaydettik.
+thing.speak();
+
+---------------------------------------
+
+class Name1 {
+  setName(name){
+    this.name=name;           = bir function içinde this.name'e değer verdik.
+  }
+   speak(){
+    console.log(this.name);   = diğer function'da this.name'i kullandık.
+   }
+
+} 
+
+const thing = new Name1();
+
+thing.setName("Andromeda");
+thing.speak();
+
+---------------------------------------------------------------------------------------------------------------------------
+
+class person {
+
+     constructor(name){                          = constructor oluşturduk.
+         this.name=name;
+     }
+     city(){
+           console.log(`2sde ${this.name}`);
+     }
+
+} 
+
+
+const person1 = new person("Andromeda");         = new keyword call the constructor and create the object.
+person1.city();
+
+
+---------------------------------------------------------------------------------------------------------------------------
+JSON --> JavaScript Object Notation. 
+Bir programlama dili, JSON kullanarak başka programlama dili ile konuşabilir.
+
+
+const object = {       = JavaScript objectin başındaki kısım silindiğinde JSON olur.
+   
+   "city":"Tokyo",
+   "year":"1990",
+   "age":34
+
+
+}
+
+
+{                      = JSON.
+   "city":"Tokyo",
+   "year":"1990",
+   "age":34
+}
+
+---------------------------------------------------------------------------------------------------------------------------
+fetch("https://swapi.dev/api/people/1")     = AJAX oluşturmanın yollarından biri fetch'dir. AJAX'la daha az kod kullanılır ve gerektikçe JSON çağırılır.
+.then(response => response.json())          = response'i json olarak aldık.
+.then(data1 => {
+  console.log(data1);                        = Gerekli data'yı JSON response olarak yazdı. data1 kendi verdiğimiz isim.
+})
+
+
+---------------------------------------------------------------------------------------------------------------------------
+
+<div id="name"></div>                    
+<div id="birthyear"></div>
+<div id="eyecolor"></div>
+
+<button class="getRandomCharacter">Randomize</button> = button oluşturduk.
+
+
+-------------------------------------
+
+const name = document.getElementById("name");                   = JavaScript dosyasında div'lere bağlandık.
+const birthyear = document.getElementById("birthyear");
+const eyecolor = document.getElementById("eyecolor");
+
+
+const button = document.querySelector(".getRandomCharacter");   = button'a bağlandık.
+button.addEventListener('click', (e) => {                       = addEventListenerde bir olay olduğunda bir durum gerçekleşiyor.
+  e.preventDefault();                                           = Eğer element başka bir internet sitesine gitmek gibi bir olaya programlanmışsa preventDefault bunu engeller.
+  console.log("clicked");                                       
+
+  const randomNumber = Math.ceil(Math.random()*83);
+
+  fetch("https://swapi.dev/api/people/"+randomNumber)
+  .then(response => response.json())
+  .then(character1 => {
+    console.log(character1); 
+    name.innerHTML = character1["name"];                        = JSON response'den alınan bilgilerle kutuları doldurduk.
+    birthyear.innerHTML = character1["birth_year"]       
+    eyecolor.innerHTML = character1["eye_color"]            
+  })
+    
+})
+
+
+---------------------------------------------------------------------------------------------------------------------------
+Kitap önerileri = Eloquent JavaScript
+                  GoalKicker
+
+
+
+
+
+
+
+
+
+
+
 
 
 
