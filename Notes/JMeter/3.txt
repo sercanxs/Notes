@@ -1,0 +1,19 @@
+- Add a thread group under Test Plan.
+
+- Add samplers under thread group.
+  http request açtık. https, cydeo.com, get kullandık.
+
+- Add a listener under Test Plan.
+  View result tree'i seçtik. Sonuçları buradan izliyoruz.
+
+- Add assertion to samplers.
+  Response assertions kullandık. Text response add Login ya da response code add 200 denenebilir.
+
+- Save the Test Plan and run the scenario.
+
+- Check the test results from the listener added
+
+
+---------------------------------------------------------------------------------------------------
+
+JMeter plugin manager yüklenerek Custom Thread Groups kullanılabilir.

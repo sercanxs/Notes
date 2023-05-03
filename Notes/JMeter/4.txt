@@ -1,0 +1,25 @@
+
+Chrome'de yeni sekme açtık. inspect'ten network'e geldik. Bunu chrome dev tools kullanmak için yaptık.
+
+https://petstore.octoperf.com/actions/Account.action?signonForm= --> linke tıklayınca network'te yazılar gözüktü.
+
+isim ve şifre girdik.
+
+j2ee
+j2ee
+
+dogs --> Golden Retriever --> add to cart --> proceed --> continue --> confirm
+
+network'te save all as HAR with content'e tıkladık.
+loglar birikimli kaydedilmiyorsalar network'ün üstündeki 3 nokta yanındaki settings'ten preserve log yapıyoruz.
+
+https://converter.blazemeter.com/ --> HAR'i jmx'e değiştirdik.
+
+jmx'i bin'e attık.
+
+JMeter'de file open'e gelerek jmx'i açtık.
+
+Thread Group'ta get, post gibi http requestler var. Css'leri gifleri siliyoruz. Actionlara kısa isimler verilebilir.
+Thread Group'tan user sayısı ayarlanabilir. (Actionlar 400 bad request hatası veriyor. Şimdilik css ve gifleri silmeye gerek yok.)
+
+Test plan altına listener ekledik.

@@ -1,0 +1,10 @@
+Threads'i 100 yapıp
+Ramp up'i 10 yapıp load test denedik.
+
+Connect Time and Latency should be as low as possible, ideally less than 1 second.
+
+Listener olarak Aggregate Graph'ta istatistik terimleri var. Sample, Average, Median, Error percentage gibi
+
+Response Time low, Throughput High ise server hızlı çalışıyordur.
+
+Headless listeners such as Simple Data Writer and Backend Listener are designed to work when JMeter is run from the command line.

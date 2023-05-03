@@ -1,0 +1,46 @@
+Timers, requestler arasındaki beklemeleri ayarlar.
+
+Constant Timer --> belirli süre bekletir.
+Uniform Random Timer --> rastgele süre bekletir.
+
+Timers --> Test Plan, Thread Group ya da request seviyesinde kullanılabilir. Bir request için birden fazla timers varsa değerler toplanır.
+
+
+-------------------------------------------------------------------------
+
+Thread Group altına CSV Dataset Config açtık.
+
+Browse'den csv dosyasını seçtik. csv'ler excel dosyasını temsil eder.
+
+variable names kısmına username,password yazdık.
+
+ignore first line --> true yaptık.
+
+Login için oluşturulan http requestte keylerin value kısmına ${username} ${password} yazdığımızda bu csv file'i işaret ediyor.
+
+
+-------------------------------------------------------------------------
+
+Powershell'e geldik.
+
+location'da bin'e geldik.
+
+jmx'in adress'ini işaret ettik ve jmeter.bat'i çalıştırdık.
+
+.\jmeter.bat -n -t C:\Users\serca\OneDrive\Masaüstü\apache-jmeter-5.5\bin\spartan.jmx -l C:\Users\serca\OneDrive\Masaüstü\apache-jmeter-5.5\bin\spartan.jtl
+
+test tamamlanınca Powershell'de istatistik verileri oluştu.
+
+JMeter'de summary report ekledik ve oluşan jtl dosyasını okuduk.
+
+yeni kodlar hata vermesin diye jtl'i sildik ve html report oluşturmak için aşağıdaki kodu yazdık.
+
+.\jmeter.bat -n -t C:\Users\serca\OneDrive\Masaüstü\apache-jmeter-5.5\bin\spartan.jmx -l C:\Users\serca\OneDrive\Masaüstü\apache-jmeter-5.5\bin\spartan.jtl -e -o C:\Users\serca\OneDrive\Masaüstü\report
+
+html report oluştu.
+
+
+
+
+
+
