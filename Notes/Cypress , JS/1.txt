@@ -1,0 +1,28 @@
+NodeJS için https://nodejs.org/en/download sitesinden lts kısmını kullanıyoruz.
+
+command prompt'da node --version yazınca v18.16.0 çıkıyor.
+
+npm --version yazınca yine versiyon çıkıyor.
+
+---------------------------------------------------------------------------------------------------
+
+Visual Studio Code yüklüyoruz.
+
+Javascript code'leri direkt VS Code'de çalıştırmak için Extension'dan Code Runner yükledik.
+Dosya üzerinde sağ üstten kodlar çalıştırılabilir.
+
+
+
+
+---------------------------------------------------------------------------------------------------
+
+Command Prompt --> cd desktop --> mkdir cydeoCypressTests --> cd cydeoCypressTests --> npm init --> Çıkan yeni şeylerin hepsine enter tıkladık --> dir yazınca
+artık package.json'i görebiliyoruz --> npm install cypress --> found 0 vulnerabilities çıktı --> dir yazınca node_modules, package-lock.json, package.json gözüktü.
+--> npx cypress open yazınca cypress açıldı.
+
+E2E --> continue --> bilgisayarda chrome varsa burada chrome gözüküyor --> chrome seçiyoruz --> cypress test running environment açıldı. --> scaffold example specs'e tıkladık. --> okay
+--> cydeoCypressTests dosyasında cypress oluştu.
+
+cypress runtime env'de todo'ya tıkladık. --> Example test çalıştı. --> Buradan örnek testin yapısı incelenebilir.
+
+visual studio code --> file --> open folder --> cydeoCypressTest'i seçtik.

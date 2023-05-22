@@ -1,0 +1,297 @@
+visual studio code .js yazarak javascript dosyası oluşturulabilir.
+
+Code-runner extensions'da settings'den clear previous output ile her çalıştırmada önceki outputlar silinir.
+
+
+---------------------------------------------------------------------------
+
+console.log("Hello"); = consolda hello yazdı. log + enter ile console.log(); oluşturulabilir. "" ya da '' kullanılmasının önemi yoktur. semicolon olmadan da kod çalışır.
+
+
+Kodların çalışması için savelemek gerekir. autosave eklenebilir.
+
+// Single comment line
+
+/** 
+ *  Multiple comment line
+ * 
+ */
+
+---------------------------------------------------------------------------
+// decalaring variables
+/**
+ * JS is dynamic typing languge
+ */
+
+let a;
+console.log(typeof a); = a'ya değer vermeyince burası undefined çıkıyor.
+
+a = 5;  // infers that a is number
+console.log(typeof a);
+
+a = 'BootCamp'; // infers that a is String
+console.log(typeof a);
+
+a = true;// infers that a is boolean
+console.log(typeof a);
+
+
+
+let x = 5, y = 'Oscar';
+console.log(x+y); // concatenation : 5Oscar
+console.log(x*y); // NaN
+
+
+
+const number = 35; = const variableler değiştirilemez.
+console.log(number);
+
+
+
+// Naming Rules : same with JAVA naming rules
+
+---------------------------------------------------------------------------
+
+let str1 = 'Java';
+let str2 = "Script";
+let str3 = "awesome";
+
+let result;
+
+result = "the result variable is: "+ str1 + str2 +' '+ str3;
+
+console.log(result);
+
+// difference from Java: backticks for variable insertion
+
+result =`the result variable is: ${str1}${str2} ${str3}` = backtick kullanınca string içinde değişken yazabildik.
+console.log(result);
+
+---------------------------------------------------------------------------
+
+
+// Order of operators in JS is same with JAVA
+console.log(4 + 4 * -1 - 8 / 2);
+
+// assignment operators
+
+x += 5;
+x -= 4;
+
+
+
+// comparison: similar to JAVA with some difference: == and === signs
+
+let one = 1;
+let one_again = 1;
+let one_string = "1";
+let two_string = "2";
+
+console.log(one == one_again); // true
+console.log(one == one_string); // true --> değeri karşılaştırıyor.
+console.log(one === one_string); // false --> değeri ve data type'i karşılaştırıyor.
+
+
+// logical operators same like JAVA: 2 tane && yazılabilir 1 tane & yazılamaz.
+console.log(5 < 2 && 2 < 5); // false
+
+
+
+// control flow statements: if, if else, switch, break, continue same with Java
+let num1 = 100;
+let num2 = 10;
+if (num1 > num2) {
+  console.log("number 1 is bigger");
+} else {
+  console.log("number 2 is bigger");
+}
+
+
+
+// ternary operator = Soru işareti ile oluşturulan operator.
+let age = 25;
+let isEligible = age > 18 ? true : false;
+console.log(isEligible); // true
+
+
+
+// switch operator
+let month = 2;
+let dayCount;
+switch (month) {
+  case 1:
+  case 3:
+  case 5:
+  case 7:
+  case 8:
+  case 10:
+  case 12:
+    dayCount = 31;
+    break;
+  case 4:
+  case 6:
+  case 9:
+  case 11:
+    dayCount = 30;
+    break;
+  case 2:
+    dayCount = 28;
+    break;
+  default:
+    dayCount = -1;
+    break;
+}
+console.log(dayCount);
+
+
+
+---------------------------------------------------------------------------
+
+for (let i = 0; i < 5 ; i++){ = for loop
+    console.log(i);
+}
+
+
+for(var j = 0; j < 5 ; j++){ =var'la oluşturulan değişkenler loop'un dışarısında çalışır.
+    console.log(j);
+}
+console.log(j); 
+
+
+
+let n1 = 0;
+while (n1 < 3) {       = while ile loop
+    console.log(n1);
+    n1++;
+}
+
+let n2 = 0;
+do {                   = do while ile loop
+    console.log(n2);
+    n2++;
+} while (n2 < 3);
+
+
+
+
+---------------------------------------------------------------------------
+
+/**
+ * There is no Collection in JS. In JS we only have Arrays and Map
+ * NOT Fixed size
+ * There are two important Brackets in JS 
+ * 1. [] ----> creates an Array
+ * 2. {} ----> creates an object
+ */
+
+let scores = new Array(); // creates an empty Array
+let numbers = new Array(10); // creates an array with initial size 10
+let emptyArray = []; // creates an empty Array
+let myNumbers = new Array(1,2,3,5,8,13);
+let colors = ['red','green','blue'];
+
+
+console.log(scores);
+console.log(numbers);
+console.log(emptyArray);
+
+
+// print third element in an array
+console.log(colors[2]); // indexed based
+
+// add element to an Array at the end
+colors.push("white");
+console.log(colors);
+
+// add element to beginning of the Array
+colors.unshift("orange"); 
+console.log(colors);
+
+console.log(colors.pop()); // giving the last element and removing at the same time: white
+console.log(colors); 
+
+// the size of the array
+console.log(colors.length);
+
+
+// loop with values of Array
+for (let value of colors) {
+    console.log(value);
+}
+
+colors.forEach(element => {    // second way
+    console.log(element);
+});
+
+// can we add multiple type of Data? YES
+let soupOfData = [5, "Oscar", true, undefined]; // you can also put Map, Object, Functions inside Array
+
+
+
+---------------------------------------------------------------------------
+Functions
+
+
+// no access modifier, no method overloading
+function add(a,b) {  // parameters of function
+    console.log("Total is : "+(a+b));
+}
+
+add(10,20); // call a function -- argument we are passing
+
+function multiply(a,b) { 
+    return (a*b);         = return kullandık.
+}
+
+console.log(multiply(10,20));
+
+
+add(10,20,30,200); // ignores after the second parameter
+
+/**
+ * 
+ * They call functions as first class citizens of Javascript
+ *  1. you can pass a function as an argument to other functions = functionların parametre kısmına function yazılabilir.
+ * 2. you can return a function from a function                  = return kısmına function yazılabilir.
+ * 3 . you can store a function into a varible                   = functionlar variable olarak kaydedilebilir.
+ */
+let divide = function (a,b) {  = function'ı değişken olarak kaydettik.
+    return a/b;  
+}
+
+console.log(divide(30,5)); = değişken ismi ile function çağırdık.
+
+let anyFunction = divide; --> Bir değişken diğer değişkeni işaret edebilir.
+
+console.log(anyFunction(30,5));
+
+// pass a function as an argument to other functions
+
+function sum(a,b) {
+    return a+b;
+}
+
+function average(a,b,fn) { = Parametre olarak function aldık. fn yazmak şart değil.
+    return fn(a,b)/2;      = alınan functiondaki parametrelere değer verdik.
+}
+
+let aveResult = average(10,20,sum);
+console.log(aveResult);
+
+aveResult = average(10,20,multiply);
+console.log("average result from multiplication : "+aveResult);
+
+
+---------------------------------------------------------------------------
+
+We have installed Node.js so that we can run our JS codes directly in the code editor
+
+
+
+
+
+
+
+
+ 
+

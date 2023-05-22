@@ -1,0 +1,219 @@
+
+/***
+ * in Java: make Database connection and get some data, then you use this data inside your code
+ * --- Connect DB
+ * --- gets data
+ * --- is waiting until the data is received 
+ * --- then executes rest of the code
+ * in JS: 
+ *  --- while trying to connect DB
+ *  --- the rest of the functions does not wait -- async code
+ */
+
+function waitingForSomeServerToAct() {
+    let dataNeeded;
+    setTimeout(() => {                                              = setTimeout ile belirli kısım 5 saniye bekledikten sonra çalıştı. async problemi olduğu için diğer kodlar çalışmaya
+        console.log("BackEnd Information Have Just Been Received");   devam etti.
+        dataNeeded = "Cydeo";
+        console.log(dataNeeded);
+    }, 5000);
+    return dataNeeded;
+}
+
+function functionThatNeedsBackEndData(info) {
+    console.log("I need to use BackEnd Data "+info);
+}
+
+let data = waitingForSomeServerToAct(); = function çalışırken return valuesini kaydettik.
+functionThatNeedsBackEndData(data);  // this function does not wait for the result of previous action
+
+
+--------------------------------------------------------------------------------------------------
+
+function waitingForSomeServerToAct(myCallback) { = async problemini çözmek için bir function'i diğerinin içine parametre olarak yazdık. içeriye yazılan function callback function oldu.
+    let dataNeeded;
+    setTimeout(() => {
+        console.log("BackEnd Information Have Just Been Received"); 
+        dataNeeded = "Cydeo";
+       myCallback(dataNeeded); = callback function'i bir işlemin sonucuna bağlayarak async sorununu çözebiliriz. Buradaki örnek hatalı olabilir. tester olarak bilmek pek gerekmiyor.
+    }, 5000);                    
+    return dataNeeded;
+}
+
+function functionThatNeedsBackEndData(info) {
+    console.log("I need to use BackEnd Data "+info);
+}
+
+waitingForSomeServerToAct(functionThatNeedsBackEndData);
+
+
+
+
+--------------------------------------------------------------------------------------------------
+
+let person = {                 = Object oluşturduk.
+    firstName : "Joe",         = Key, value girdik. Son key'e kadar aralarda virgül var.
+    lastName : 'Doe'
+}
+
+console.log(typeof person);    = Object
+console.log(person);           = { firstName: 'Joe', lastName: 'Doe' }
+console.log(person.firstName); = Key yazınca value geldi --> Joe
+
+let address = {
+    'building no' : 5555,      = Key'ler string ile oluşturulabilir.
+    street : 'Keowee',
+    state : 'Kentucky'
+}
+
+console.log(address['building no']); = Yukarıda key'lerin valuesini alırken nokta kullanırken bir diğer yöntem [] ile yazdık. 
+console.log(address['street']);        Key'ler stringle oluşturulsa da oluşturulmasa da "" yazılarak alınabilir.
+
+// add new property to object
+person.age = 30;                     = Objecte yeni key ekledik.
+console.log(person);// { firstName: 'Joe', lastName: 'Doe', age: 30 }
+
+// delete a property
+delete person.age;                   = Objectten key sildik.
+console.log(person);// { firstName: 'Joe', lastName: 'Doe' }
+
+// check a property if it exists     =  Object belirli key'e sahipse true.
+console.log('street' in address); // true
+
+// you can put arrays inside objects = Objectin içine array koyduk.
+let course = {
+    name : 'JS',
+    url : 'www.cydeo.com',
+    subjects : ['Objects','Arrays','Functions','Live Server']
+}
+console.log(course);
+
+
+// loop using keys of the object     = Objectteki key değerlerini aldık.
+for (let key in course) {
+   console.log(key+" : "+course[key]); = Key, value yazdık.
+}
+
+
+let myCar = {
+    make : 'Dacia',
+    color : 'orange',
+    year : 2022,
+    engine : {                       = Object içinde object
+        cylinders : 3,
+        size : 1.0
+    },
+    extras : ['AC','Cruise Control','Sound Sytem'],
+    drive : function () {            = Objectin içine function koyduk.
+        console.log("Running on LPG");
+    }
+}
+
+myCar.drive(); = Objectteki function'i çağırdık.
+
+console.log(myCar.extras[1]); = Objectte array içinden değer yazdık.
+
+
+--------------------------------------------------------------------------------------------------
+
+let x = function (a) {
+    return 5*a;
+}
+
+// ES6
+let y = a => 5*a;      = arrow expression kullanarak function oluşturduk. (Lambda arrow expressions)
+console.log(y(5));
+
+// map function that comes with arrow expressions = map function kullanarak array'deki değerleri çarptık.
+let arr = [5,10,20];
+let newArr = arr.map(x => x*2); 
+console.log(newArr);
+
+
+let mid = [3,4];
+let arr2 = [1,2,...mid,5,6]; = varArgs kullanınca bir array'i diğeri içinde yazabildik.
+console.log(arr2); // [ 1, 2, 3, 4, 5, 6 ]
+
+function howManyElements(...theArgs) { = varArgs array olduğu için array komutları çalışır.
+    console.log(theArgs.length);       = uzunluğunu aldık. 
+}
+
+howManyElements();
+howManyElements(5);
+howManyElements(3,4,7,8,9);
+
+
+let str = 'CYDEO';
+let chars = [...str];                 = String varArgs olarak yazılınca her harf array oluşturuyor.
+console.log(chars); // [ 'C', 'Y', 'D', 'E', 'O' ]
+
+
+
+--------------------------------------------------------------------------------------------------
+
+// we are using new Promise(function(resolve,reject))
+
+let stateOfTheWebPage = function (state) {
+    return new Promise(function (resolve,reject) { = Promise oluşturduk. async problemine karşı promise kullanılabilir.
+        if(state){
+            resolve('Page is loaded')             
+        }else{
+            reject('Page is NOT loaded yet')
+        }
+    })
+}
+
+console.log(stateOfTheWebPage(true).then(function(result) { = state'e true verince then kısmının yazılması lazım. state true olunca resolve parametresi çalışıyor. 
+    console.log(result);                                      
+}));
+console.log(stateOfTheWebPage(true).then((result) => {     
+    console.log(result);
+}));
+
+console.log(stateOfTheWebPage(false).catch(function(errorMsg) { = state kısmı false ise hata oluşur ve hatayı yakalamak için catch gerekir. 
+    console.log(errorMsg);                                       
+}
+));
+console.log(stateOfTheWebPage(false).catch((errorMsg) => {
+    console.log(errorMsg);
+}
+));
+
+
+
+
+
+
+
+
+
+
+new Promise((resolve,reject) => {      = 2. örnek
+    setTimeout(() => {
+        resolve(1)
+    }, 3000);
+}).then((result) => {           
+    console.log(result);  // 1
+    return result*2;            
+}).then((result2) => {
+    console.log(result2); // 2
+    return result2*2;
+}).then((result3) => {
+    console.log(result3); // 4
+    return result3 * 2; // the value increased to 8 but we did not use it to log
+})
+
+
+
+--------------------------------------------------------------------------------------------------
+
+https://javascript.info/ = javascript bilgileri
+
+
+
+
+
+
+
+
+
