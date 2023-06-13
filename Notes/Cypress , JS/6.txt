@@ -1,0 +1,103 @@
+/// <reference types="cypress" />
+
+describe('Input Forms Tests', () => {
+    beforeEach('Navigate to registration page', () => {
+      cy.clearCookies();
+      cy.visit('/registration_form');
+    });
+  
+    it('Check different input box fields and verify', () => { 
+     
+      cy.get('input[name="firstname"]').type('Mike');          = inputlara değer verdik.
+      cy.get('input[name="lastname"]').type('Brown');
+      cy.get('input[name="username"]').type('CrazyHeart');
+    
+
+      
+      
+      const email = `formtest${Math.floor(100000 + Math.random() * 900000)}@cydeo.com`; = Math.random 0 ve 1 arasında değer ürettiği için çarpmak gerekir.
+      cy.get('input[name="email"]').type(email);
+
+      const password = `test${Math.floor(100000 + Math.random() * 900000)}`; = Math.floor sayıyı aşağıya yuvarlar. Backtick kullanarak string içinde rastgele numara yazdık.
+      cy.get('input[name="password"]').type(password);
+
+
+    });
+
+
+    it('Check different radio button actions', () => {
+      cy.get('.radio')         = div elementini bulduk.
+        .find('[type=radio]')  = divin içindeki birçok radio buttons'ı seçtik.
+        .then((radio) => {
+          /
+          cy.wrap(radio).first().check().should('be.checked'); = first ile ilk radio button'ı seçtik. check ile radio button'a tıkladık. should('be.checked') ile tıkladığımızı kontrol ettik.
+       
+          cy.wrap(radio).eq(1).check().should('be.checked'); = eq(1) yazıp 2. elementi seçtik.
+
+          cy.wrap(radio).eq(2).should('not.be.checked'); = 3. elementin seçili olmaması lazım.
+        });
+    });
+
+
+
+    it('Check different checkbox actions', () => {
+    
+      cy.get('[type="checkbox"]').then((checkbox) => {
+
+        cy.wrap(checkbox).eq(1).check().should('be.checked');
+        
+        cy.wrap(checkbox).eq(1).uncheck().should('not.be.checked'); = checkbox'a tıkladıktan sonra uncheck edebiliyoruz.
+
+        cy.wrap(checkbox).eq(2).should('have.value', 'javascript').check().should('be.checked'); = value adında attribute olabilir.
+ 
+      });
+    });
+
+
+
+
+    it('Check selection of a single choice from a select dropdown', () => {
+      // select one element
+      cy.get('select[name="job_title"]').select('SDET');        = select dropdown'da select methodunu kullandık.
+    
+      cy.get('select[name="job_title"]').contains('SDET');      = bir elementi seçtikten sonra SDET textine sahip daha derindeki elementi seçtik.
+    });                                                           .should('contain', 'text'); = assertion, contains("SDET") = locator
+
+
+    it('Check selection of all select dropdowns options', () => {
+     
+      cy.fixture('departments').then((departments) => {                            = fixtures folder içindeki departments.json'ı kullandık.
+   
+        cy.get('select[name="department"] > option').each((option, index) => {     = option parametresi list'i temsil eder.
+    
+          const optionText = option.text();            = içinde bulunan option'ın textini aldık.
+
+                      
+          cy.log(departments[index]);                  = departments.json'da key yazınca value veriyor.
+
+
+          cy.get('select[name="department"]')         
+            .select(optionText)                       
+            .should('have.value', option.val())        = .val(), value'yi veriyor.
+            .contains(departments[index]);            
+        });
+      });
+    });
+  });
+
+
+
+departments.json = dropdown'ı kontrol etmek için yazılan kodu değiştirmiyoruz ama json dosyasını değiştiriyoruz.
+
+{
+    "0" : "Select your Department/Office",
+    "1" : "Department of Engineering",
+    "2" : "Department of Agriculture",
+    "3" : "Accounting Office",
+    "4": "Tresurer's Office",
+    "5":"MPDC",
+    "6":"MCTC",
+    "7":"MCR",
+    "8":"Mayor's Office",
+    "9":"Tourism Office"
+}

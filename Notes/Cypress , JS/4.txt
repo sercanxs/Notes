@@ -1,0 +1,130 @@
+vs code'de e2e altına testStructure.cy.js oluşturduk.
+
+
+/// <reference types="cypress" /> = todo'dan reference kısmını kopyaladık.
+
+
+describe('Context: My First Tests', () => {  
+  before(() => {
+    // runs once before all test cases in this describe block
+  });
+  beforeEach(() => {
+    // run before each test case
+    cy.clearCookies();
+  });
+  after(() => {
+    // runs once after all tests finished
+  });
+  afterEach(() => {
+    //  run after each test case
+  });
+  it('Opening a web application', () => {
+    cy.visit('/registration_form'); = baseUrl ekleyince bu kısmı yazmak yetiyor. websitesini açtık.
+  });
+  it('Test 2', () => {
+    expect(false).to.equal(false); = 2 değer eşitse true.
+  });
+  it('Test 3', () => {
+    expect(false).not.to.equal(true); = 2 değer eşit değilse true.
+  });
+  it.skip('Test 4', () => { = it.skip ile belirli testi geçtik. 
+    expect(5).to.equal(5);
+  });
+  it.only('Test 5', () => { = it.only yazınca sadece bu test çalışıyor.
+    expect(true).to.equal('5' == 5);
+  });
+  });
+
+-------------------------------------------------------------------------------------------------
+
+
+support --> e2e.js file'e aşağıdaki kodu kopyaladık.
+Cypress.on('uncaught:exception', () => false); = Bazı sitelerde consolde errorler gözüküyor. Test caseler hata vermesin diye yazdık.
+
+
+cypress.config.js'de key value kaydettik.
+
+e2e: {
+    baseUrl: 'https://practice.cydeo.com/',   = baseUrl ekledik.
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
+
+
+-------------------------------------------------------------------------------------------------
+
+
+/// <reference types="cypress" />
+
+describe('Find or Get Elements by Using Different Locators', () => { 
+    beforeEach(() => {
+      cy.clearCookies();                                 
+      cy.visit('/login');
+    });
+  
+    it('Check different locators strategies', () => {
+
+      // By CSS locator = css locator yazarken iki kere '' kullanmak sorun oluşturabilir. Dışarıdaki "" olursa sorun çözülür.
+      cy.get("input[name='username']").type('Mark'); // type ile input girdik. every statement creates an object to be interacted, and next command makes operation to the object 
+                                                        created at the previous statement
+
+      // attribute key and value
+      cy.get("[type='text']").clear(); // clear what is typed
+  
+      // tagName
+      cy.get('input').each((item, index, list) => { = cy.get bir element yakalayabildiği gibi bir sürü element de yakalayabilir. each yazınca parametreler itemi indexi ve listi temsil
+        // assert the length of the list is 2         eder.
+        expect(list).to.have.length(2);             = input tag'ine sahip 2 element vardı. listin lengthi 2 olur.
+        expect(item).to.have.attr('type');          = 2 tane item, attribute olarak type'e sahip mi kontrol ediyoruz.
+      });
+  
+      // by attribute name
+      cy.get('[type]');
+  
+      // by className
+      cy.get('.btn.btn-primary');  = class'da arada boşluk varsa 2 kere nokta koyuyoruz. Assertionslarda 2 noktaya gerek yok.
+  
+      // By id
+      cy.get('#wooden_spoon');
+  
+      // if I want to use text
+      cy.get('button').should('contain', 'Login').click(); = text kullandık. should, assertion'dır. Yanlış buttona tıklamamak için should'i locate amacıyla kullandık. 
+    });
+  
+    it('Check finding elements by traveling through DOM', () => {
+
+      cy.get('input[name="username"]')      = Önce elementi bulduk.
+        .parents('form')                    = parent'e çıktık.
+        .find('button')                     = child'e indik.
+        .should('contain', 'Login')         
+        .click();                           
+    });
+  
+    
+
+// Cypress itself bundles assertions provided by Chai, Sinon and jQuery libraries
+     
+
+      it('Check Different Type of Assertions', () => {
+      
+      cy.get('#wooden_spoon').should('contain', 'Login').and('have.class', 'btn btn-primary'); // Should Assertion: does the assertion directly on the object itself.
+                                                                                                  contain ve have.class kullandık. should ve and, implicit assertions'dır.
+
+
+     
+      cy.get('#wooden_spoon').then((buttonElement) => {  // expect assertion: creates a subject of our test, then you implement different actions. expect ve assert, explicit assertion 
+                                                            olarak kullanılabilir.
+
+        expect(buttonElement).to.have.text('Login');           
+        expect(buttonElement).to.have.class('btn btn-primary');
+      });
+    });
+  });
+
+
+
+
+
+
+

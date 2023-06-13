@@ -1,0 +1,171 @@
+
+Cypress.Commands.add('textExists', (text) => { = command.js içinde cypress komutları oluşturabiliyoruz.
+    cy.contains(text).should('exist');
+  });
+  // textExists is the command name, when we are calling this function from another test class:
+  // cy.textExists('parameter'), kind of like utility methods we used before, plus it overrides existing command
+
+
+
+--------------------------------------------------------------------------------
+support içinde pages folder oluşturduk. pages içinde auth.js ve navigation.js oluşturduk.
+
+--------------------------------------------------------------------------------
+auth.js içinde yazanlar
+
+class Auth { = Javascriptte class oluşturduk. class name ile file name aynı olmamalı. Bir file'e birden fazla class konulabilir.
+
+   
+    login(user_name, password) {        = login function
+      cy.get('[name="username"]').type(user_name);
+      cy.get('[name="password"]').type(password);
+      cy.get('#wooden_spoon').click();
+    }
+  
+    logout() {
+      cy.contains('Logout').should('be.visible').click();
+    }
+  }
+  
+  const auth = new Auth(); // Class'i kullanabilmek için object oluşturduk.
+  
+  class Locators {
+   
+  
+    get userName() {
+      // userName is the webelement variable name
+      return cy.get('[name="username"]', { timeout: 10000 }); = belirli element için timeout ayarladık.
+    }
+  
+    get password() {   = normalde function oluştururken get kullanmıyorduk. burada get kullanınca password function ismi değil de variable ismi oldu.
+      return cy.get('[name="password"]', { timeout: 10000 }); =  return'u webelement.
+    }
+  
+    get submit() {
+      return cy.get('#wooden_spoon');
+    }
+  }
+  
+  const locators = new Locators();
+  
+  module.exports = { = bu objectleri kullanabilmek için export gerekir.
+    auth,
+    locators,
+  };
+
+--------------------------------------------------------------------------------
+navigation.js içinde yazanlar
+
+export class NavigateTo { = direkt class kısmına export yazılabilir.
+    loginPage() {
+      cy.visit(Cypress.env('login')); = cypress.config.js içinde env kısmında key yazınca value veriyor.
+    }
+  }
+  
+  export const navigateTo = new NavigateTo(); = object oluşturup, export ettik.
+
+--------------------------------------------------------------------------------
+cypress.config.js içinde yazanlar.
+
+
+
+const { defineConfig } = require("cypress");
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'https://practice.cydeo.com/',
+    env: {                                  = env kısmı.       
+      login:"/login",
+     
+    },
+    video: false,
+    retries: 1,
+    defaultCommandTimeout: 5000,
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
+});
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+login.cy.js içinde yazanlar
+
+
+import { auth } from '../../support/pages/auth';                   = auth file'indeki auth object'ini import ettik.
+import { navigateTo } from '../../support/pages/navigation';    
+
+const LoginLocators = require('../../support/pages/auth'); = Bu şekilde yazınca auth file'indeki bütün objectleri import ettik.
+
+describe('Auth: Login user with different ways', () => {
+
+  beforeEach('navigate to login page', () => {
+    cy.clearAllCookies();
+    navigateTo.loginPage(); // navigation'daki loginPage function'ı çalıştı.
+  });
+
+  it('Happy Path scenario using POM FUNCTION', () => {
+ 
+    cy.fixture('user').then((user) => {
+      auth.login(user.user2.username, user.user2.password); = auth'daki login function'ı kullanırken username ve password'u user.json'dan aldık.
+    });
+
+    cy.textExists('You logged into a secure area!'); = Kendi oluşturduğumuz cypress komutunu kullanarak text'i kontrol ettik.
+    auth.logout();
+  });
+
+  it('Happy Path scenario using POM Locators', () => {
+    
+    cy.fixture('user').then((user) => {
+    
+      LoginLocators.locators.userName.type(user.user2.username); = auth file'indeki locators objectini kullandık. require ile oluşturduğumuz import'u değişkene kaydettiğimiz için
+      LoginLocators.locators.password.type(user.user2.password);   objecti değişkenden işaret ettik.
+      LoginLocators.locators.submit.click();
+    });
+  
+    cy.textExists('You logged into a secure area!');
+    auth.logout();
+  });
+  it('Check invalid user credentials', () => {
+    auth.login('invalid234', 'invalid234');   
+    // verify error message
+    cy.textExists('Your username is invalid!');
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

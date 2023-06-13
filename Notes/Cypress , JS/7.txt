@@ -1,0 +1,170 @@
+
+
+npm install -dev cypress-file-upload = cypress'te upload edebilmek için plugin yükledik.
+
+import 'cypress-file-upload'; = commands.js içine yazdık.
+
+
+    
+/// <reference types="cypress" />
+
+describe('Cypress File Upload Tests', () => {
+    
+    beforeEach('Navigate to upload page', () => {
+      cy.clearCookies();
+      cy.visit('/upload');
+    });
+  
+    it('Check Upload Action', () => {
+      // locator for choose file button
+      cy.get('input#file-upload').attachFile('pic.png'); = dosyayı upload ettik. test edilecek dosyalar fixture içinde olmalı.
+
+      // click on upload button
+      cy.get('#file-submit').click();
+
+      // assert that path message is displayed
+      cy.get('#uploaded-files').then(() => {
+        cy.contains('pic.png').should('be.visible'); 
+      });
+    });
+  });
+
+
+---------------------------------------------------------------------------------------------------
+
+/// <reference types="cypress" />
+
+describe('Cypress WebTable Tests', { baseUrl: 'https://demoqa.com' }, () => {
+  /**
+   * If you need to navigate to a URL other than your baseUrl, you define it at describe block or in the it block
+   */
+  beforeEach('Navigate to upload page', () => {
+    cy.clearCookies();
+    cy.visit('/webtables');
+  });
+
+  it('Check finding and editing a record', () => {
+    /**
+     * locate table body - then naviagte through this element to find Alden, then update info with another person
+     * 1. get me table body
+     * 2. get me the row that contains Alden
+     * 3. store it into a jquery element
+     */
+    cy.get('.rt-tbody')
+      .contains('.rt-tr-group', 'Alden') = Sol tarafa css selector, sağ tarafa text yazdık. ilk bulduğu ve en derindeki elementi seçer. text bulunan elementin alt elementlerinde olabilir.
+      .then((row) => {                     Bir text parent-child ilişkisinden dolayı birden fazla elemente ait olabilir. ama attributeler her elemente özel olabilir.
+      
+        cy.wrap(row).find('[title="Edit"]').click(); = bazen incele direkt ilgili elementi göstermiyor.
+
+ 
+        cy.wrap(row).find('.rt-td').eq(0).should('contain', 'Harvey'); = find bir sürü element bulabilir. eq ile element seçtik.
+        cy.wrap(row).find('.rt-td').eq(1).should('contain', 'Specter'); 
+      });
+  });
+
+  it('Check search for different age records', () => {
+    // define age groups
+    const ageGroup = [29, 39, 45, 77];
+
+    cy.wrap(ageGroup).each((age) => { = Javascript Array'i cypress'te kullanabilmek için wrap gerekti.
+
+      cy.get('#searchBox').clear().type(age);
+    
+      if (age === 77) {
+        // negative scenario
+        cy.get('.rt-tbody').find('.rt-tr-group').first().should('not.contain', age); = not.contain
+        cy.get('.rt-noData').should('contain', 'No rows found').should('be.visible');
+      } else {
+        // positive scenario
+        cy.get('.rt-tbody').find('.rt-tr-group').first().should('contain', age);
+        cy.get('.rt-tbody').contains('.rt-tr-group', age).should('have.length', 1); = have.length ile kaç tane element seçildiğini kontrol ettik.
+      }
+    });
+  });
+
+
+
+  it('Adding a new record - Better Aproach', () => {
+    // click on add button
+    cy.get('#addNewRecordButton').click();
+    cy.fixture('user').then((user) => {   = fixture'den user.json kullandık.
+      const columnNames = Object.keys(user.user1); = Userdeki user1 objectinin keylerini kaydettik.
+      const userData = Object.values(user.user1);  = user1 objectinin value'lerini kaydettik.
+      cy.wrap(columnNames).each((columnName, index) => {
+        //  cy.log(columnName);
+        //  cy.log(userData[index]);
+        cy.get(`#${columnName}`).type(`${userData[index]}`); = key value girerek inputları doldurduk.
+      });
+      cy.get('#submit').click();
+    
+
+
+      // assert that new record is added
+      cy.get('.rt-tbody')
+        .contains('.rt-tr-group', userData[0])
+        .then((row) => {
+          cy.wrap(userData).each((value, index) => {
+            cy.wrap(row).find('.rt-td').eq(index).should('contain', value); 
+          });
+        });
+    });
+  });
+});
+
+
+user.json içinde yazanlar
+
+{
+    "user1":{
+    "firstName" : "Harvey",
+    "lastName":"Specter",
+    "age" : "40",
+    "userEmail" : "specter@example.com",
+    "salary": "70000",
+    "department" : "legal"
+    },
+    "user2": {
+        "username": "tomsmith",
+        "password": "SuperSecretPassword"
+      }
+}
+
+
+
+---------------------------------------------------------------------------------------------------
+
+
+/// <reference types="cypress" />
+
+describe('Alerts in Cypress Test Environment', { baseUrl: 'https://demoqa.com' }, () => { = cypress alertleri otomatik handle eder. Farklı yöntemle alertleri test ederiz.
+  beforeEach(() => {
+   
+    cy.clearCookies();
+    cy.visit('/alerts');
+  });
+
+  it('Check alert confirmation', () => {
+    /**
+     * Browser Commands, window:alert, window:confirm, window:on etc...
+     *
+     *  */
+    const stub = cy.stub(); // created a stub function
+
+    cy.on('window:confirm', stub); // when this confirmation command initiated store and give the control to stub function
+
+    cy.get('#confirmButton')
+      .click()
+      .then(() => {
+        expect(stub.getCall(0)).to.be.calledWith('Do you confirm action?'); ) alertte çıkan mesajı kontrol ettik.
+      });
+
+    cy.on('window:confirm', () => true); // confirm the alert
+
+    cy.contains('You selected Ok').should('be.visible');
+ 
+
+    cy.on('window:confirm', () => false); // cancel the alert confirmation
+
+    cy.contains('You selected Cancel').should('be.visible');
+  });
+});

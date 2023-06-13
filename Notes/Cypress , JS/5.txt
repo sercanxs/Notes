@@ -1,0 +1,55 @@
+npx cypress run = vs code'de yazılınca bütün testler görünmez browser'de test ediliyor.
+
+npx cypress run --spec .\cypress\e2e\locators.cy.js = belirli dosyayı test ettik.
+
+npx cypress run --headless -b chrome = electron değil de chrome'de test ettik.
+
+
+cypress.config.js içine eklemeler yaptık.
+
+
+module.exports = defineConfig({
+  e2e: {
+    baseUrl: 'https://practice.cydeo.com/',
+    video: false,                                = cypress görünmez browser'de yapılan testler video olarak depolanıyor. Bu da performans sıkıntısı oluşturduğu için bunu yazıyoruz.
+    retries: 1,                                  = test hata verirse bir kez daha test ediyor.
+    defaultCommandTimeout: 5000,                 = Normalde 4000'di, 5000 yaptık. Bir elementi bulmak için 5 saniye bekliyor.
+    setupNodeEvents(on, config) {
+      // implement node event listeners here
+    },
+  },
+});
+
+
+--------------------------------------------------------------------------------------------------
+
+ it('Check Different Button Actions', () => {
+      // select a button with text
+      cy.contains('Button 2').should('be.visible').click();        = contains kullandık ve elementi text'inden bulduk. should('be.visible') ile görünürlüğünü kontrol ettik.
+      cy.contains('Clicked on button two!').should('be.visible');    
+  
+      // find element with class attribute and create a list then select 3rd element from the list
+      cy.get('.btn.btn-primary').then((buttons) => {               = bir sürü element aldık. then yazıldığında JQuery list oluştu.
+        cy.wrap(buttons).eq(2).click();                              JQuery list'i cypress liste çevirmek için wrap gerekti. cypress liste çevirince 3. elementi seçtik.
+       
+        cy.contains('Clicked on button three!').should('be.visible');
+      });
+      
+      cy.get('button').each((item, index, list) => { = tagName ile bütün buttonları topladık.
+     
+        expect(list).to.have.length(6);
+        expect(item).to.have.attr('onclick');
+      });
+  
+      
+      cy.get('button').each((item) => {
+        if (item.text() === 'Button 4') { = eğer element'in texti button 4'se elemente tıkla.
+          cy.log(item.text()); // this command write the text at the test console
+          
+          cy.wrap(item).click(); = wrap gerekti.
+          cy.contains('Clicked on button four!').should('be.visible');
+        }
+      });
+  
+   
+    });
