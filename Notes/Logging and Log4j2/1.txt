@@ -1,0 +1,190 @@
+Log is information what's happening when run the application
+
+
+Gherkin ve Cucumber for Java pluginlerinin yüklü olması lazım.
+
+
+
+Yeni dependency ekledik.
+
+      <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.17.2</version>
+        </dependency>
+
+      <dependency>                                           = lombok yükleyince 15 tane getter setter oluşturmak yerine bir tane @Getter @Setter sorunu çözer.
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+
+@Slf4j = lomboktan geldi. 
+public class Google_StepDefinitions {
+
+    GoogleSearchPage googleSearchPage = new GoogleSearchPage();
+
+ 
+    //Logger log = LoggerFactory.getLogger(this.getClass()); = @Slf4j bunu temsil ediyor. @Slf4j yazınca bunu yazmaya gerek kalmıyor.
+
+    @Given("user is on the Google search page")
+    public void user_is_on_the_google_search_page() {
+        log.info("Navigate to Google");                      = Kendimiz log oluşturduk. log'un konsolda gözükmesi için ayarlanması lazım.
+        Driver.getDriver().get("https://www.google.com");
+        //googleSearchPage.rejectCookieButton.click();
+        BrowserUtils.sleep(1);
+    }
+
+    @When("user enters {string} in the Google search box")
+    public void userEntersInTheGoogleSearchBox(String searchKey) {
+        log.info("filling the search box");
+        googleSearchPage.searchBox.sendKeys(searchKey);
+        BrowserUtils.sleep(1);
+    }
+
+    @Then("user clicks on the search button")
+    public void userClicksOnTheSearchButton() {
+        log.info("Clicking on the search box");
+        googleSearchPage.searchBox.click();
+        googleSearchPage.searchBox.sendKeys(Keys.ENTER);
+        BrowserUtils.sleep(1);
+    }
+
+    @Then("user should see {string} in the title")
+    public void userShouldSeeInTheTitle(String expectedTitle) {
+
+        log.info("Verifying the title");
+        BrowserUtils.verifyTitleContains(expectedTitle);
+    }
+
+}
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+@Slf4j                   = Hooks class'a @Slf4j yazdık. 
+public class Hooks {
+
+@Before
+    public void setupMethod() {
+       log.info("@Before: RUNNING BEFORE EACH SCENARIO"); = System.out.println'leri log.info ile değiştirdik.
+    }
+
+    @BeforeStep
+    public void beforeStep() {
+        System.out.println("@BeforeStep: RUNNING BEFORE EACH STEP");
+    }
+
+    @AfterStep
+    public void afterStep() {
+        System.out.println("@AfterStep: RUNNING AFTER EACH STEP");
+    }
+
+    @After
+    public void teardownMethod() {
+
+        System.out.println("@After: RUNNING AFTER EACH SCENARIO");
+
+        BrowserUtils.sleep(1);
+        Driver.closeDriver();
+
+    }
+
+}
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+Pattern Layouts
+
+Date And Time: %d{yyyy-MM-dd HH:mm:ss.SSS}                                = tarih ayarladık.
+Log Level: %level                                                         = log'in önemini gösterir.
+Process ID: %pid or %processId                                           
+Thread Name: %t                                                           = thread name
+Logger Name: %c or %c{1} - %c{2} - %c{3} …                                = %c{1} yazınca sadece sadece class ismi gözükür. Numarayı arttırdıkça daha parentler de gözükür.
+Message: %msg                                                             = mesaj gözükmesi için bunu yazdık.
+Format Modifiers: %5level - %-6pid - %20.30c - %-20.-30c etc…             = %5level yazınca log level'de 5 harf sınırı oluşur.
+
+------------------------------------------------------------------------------------------------------------
+
+test resources içine log4j2.properties oluşturduk. içinde yazanlar aşağıda.
+
+
+
+property.path=logs/     = Kodlar çalışınca logs/ dosyası oluşur.
+
+name=PropertiesConfig
+status=DEBUG            = DEBUG olarak ayarlanırsa debug ve üzeri log'lar kullanılır.
+
+appenders=consoleAppender, rollingAppender = 2 tane appender oluşturduk. Rastgele isim verdik. isimleri aşağıda kullanarak appenderleri ayarladık.
+
+appender.consoleAppender.type=Console = log'lar console'de gözüksün diye console yazdık.
+appender.consoleAppender.name=STDOUT  = Logger objecti ile appenderi bağlamak için appender'e referans ismi verdik.
+appender.consoleAppender.layout.type=PatternLayout = pattern layout kullandık.
+appender.consoleAppender.layout.pattern=[%-5level] [%pid] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%c{1}] - "%msg"%n = pattern layout'in içeriğini belirledik. %n --> go to next line
+
+
+
+
+
+appender.rollingAppender.type=RollingFile = rolling file'lerde loglar birçok file'e kaydediliyor.
+appender.rollingAppender.name=ROLL
+appender.rollingAppender.fileName=${path}automation-app.log   = path ile birlikte girerek ilk çalıştırmadaki logların kaydedildiği dosyayı ayarladık.
+
+
+appender.rollingAppender.filePattern=${path}automation-app/%d{yyyy-MM-dd HH-mm-ss}.log =  Bunu yazınca her çalıştırmada önceki .log dosyası doluysa yeni .log dosyası oluşuyor 
+                                                                                          ve içerisine loglar kaydediliyor.
+                                                                                         
+
+#appender.rollingAppender.filePattern=${path}automation-app/%d{yyyy-MM-dd}_%i.log = %i, integeri temsil eder. %i yazınca yeni açılan .log'larda 1 2 3 gibi numaralar gözükür.
+                                                                                    Bu kısım # ile başladığı için properties dosyası içinde comment olarak gözükür.
+
+
+
+appender.rollingAppender.layout.type=PatternLayout                                = Pattern Layout kullandık.
+appender.rollingAppender.layout.pattern=[%-5level] [%processId] [%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] [%c] - "%msg"%n
+
+appender.rollingAppender.policies.type=Policies                                   = Policies kullandık.
+
+appender.rollingAppender.policies.size.type=SizeBasedTriggeringPolicy           
+appender.rollingAppender.policies.size.size=2Kb                                   = .log dosyası 2Kb olunca bir dahaki çalıştırmada yeni .log dosyası oluşur.
+appender.rollingAppender.strategy.type=DefaultRolloverStrategy
+#appender.rollingAppender.strategy.min=2                                          = min ve max'ın %i ile bağlantısı olabilir. Burada %i, 2 3 4 değerlerini alabilir.
+#appender.rollingAppender.strategy.max=4                                            Bu kısmın otomatik silme mekanizması ile bir bağlantısı olabilir.  
+
+
+loggers=rollingLogger                          = her logger objecti bir appender'e bağlanabilir.
+
+logger.rollingLogger.name=com.cydeo.step_definitions                           = sadece package name yazdık. Buradaki bilgiler kullanılır. konsolda bir sürü bilgi gözükürken
+                                                                                 .log dosyasında gözükmeme sebebi konsoldaki bilgilerin package'inin burada ayarlanana ait olmaması.
+
+#logger.rollingLogger.name=com.cydeo.step_definitions.Google_StepDefinitions
+
+logger.rollingLogger.level=DEBUG                                               = .log'larda debug ve üzeri gözükür.
+logger.rollingLogger.appenderRefs=rollingAppenderRef                          
+logger.rollingLogger.appenderRef.rollingAppenderRef.ref=ROLL                   = Logger objecti rollingAppender'e bağladık.
+
+rootLogger.level=DEBUG                         = default logger object. Consolde debug ve üzeri gözükür.
+rootLogger.appenderRefs=consoleAppenderRef
+rootLogger.appenderRef.consoleAppenderRef.ref=STDOUT = Logger objecti consoleAppender'e bağladık.
+
+
+------------------------------------------------------------------------------------------------------------
+
+log.info = info seviyesinde log oluşturur. info yerine diğer leveller yazılabilir.
+
+
+
+
+
+
+
+
