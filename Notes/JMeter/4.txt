@@ -20,6 +20,7 @@ jmx'i bin'e attık.
 JMeter'de file open'e gelerek jmx'i açtık.
 
 Thread Group'ta get, post gibi http requestler var. Css'leri gifleri siliyoruz. Actionlara kısa isimler verilebilir.
-Thread Group'tan user sayısı ayarlanabilir. (Actionlar 400 bad request hatası veriyor. Şimdilik css ve gifleri silmeye gerek yok.)
+Thread Group'tan user sayısı ayarlanabilir.
+Requestler hata veriyorsa, Thread Group'ta requestlerde HTTP Header managerler var. Bunları disable ediyoruz.
 
 Test plan altına listener ekledik.
