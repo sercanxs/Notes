@@ -1,0 +1,370 @@
+
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.options.UiAutomator2Options;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.options.XCUITestOptions;
+import io.appium.java_client.remote.AutomationName;
+
+
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Pause;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.Duration;
+import java.util.Arrays;
+import java.util.Collections;
+
+    public class AndroidTest {
+
+
+    @Test
+    public void androidLaunchTest() throws MalformedURLException, InterruptedException {
+        UiAutomator2Options options = new UiAutomator2Options();                                  = options yazdık.
+        options.setPlatformName("Android"); //optional
+        options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+        options.setDeviceName("Pixel_34");                                                        = virtual device ismi yazdık.
+
+        options.setApp(System.getProperty("user.dir") + "/apps/Android-MyDemoAppRN.1.3.0.build-244.apk"); = apk adresi verdik.
+
+
+
+        AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);            
+
+        driver.findElement(AppiumBy.accessibilityId("open menu")).click();  = accesibility id kullanarak locate ettik. inspect çok karışık olabilir.
+
+         /*new WebDriverWait(driver, Duration.ofSeconds(10))                = wait plugini yükleyince explicit wait'e gerek kalmıyor. plugin elementleri otomatik kontrol ediyor.
+        .until(e->e.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"menu item log in\"]")));*/               
+
+
+
+
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"menu item log in\"]"))      = elemente tıkladık. xpath yazdık.
+                .click();
+
+        driver.findElement(AppiumBy.accessibilityId("Username input field")).sendKeys("wfwdfg");          = mesaj yazdık.
+        driver.quit();                                                                                    = uygulamayı kapattık.
+
+
+    }
+    @Test
+    public void tap() throws MalformedURLException, InterruptedException {
+        UiAutomator2Options options = new UiAutomator2Options();
+        options.setPlatformName("Android"); //optional
+        options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+        options.setDeviceName("Pixel_34");
+
+        options.setApp(System.getProperty("user.dir") + "/apps/Android-MyDemoAppRN.1.3.0.build-244.apk");
+
+
+        AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+        WebElement openMenu = driver.findElement(AppiumBy.accessibilityId("open menu"));
+        tap(driver, openMenu);                                                                           = tap methodunu kullandık. 
+        //Assertion                                                                                       
+    }
+
+    private void tap(AndroidDriver driver, WebElement element) {
+        Point location = element.getLocation();                                                         = location ile belirli elementin yerini aldık. (Pointe kaydettik.)
+        Dimension size = element.getSize();                                                             = size ile belirli elementin boyutunu aldık. (Dimension'a kaydettik.)
+
+        Point centerOfElement = getCenterOfElement(location, size);                                     = elementin merkez noktasını hesapladığımız method oluşturduk.
+
+        PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");                    = mouse atadık.
+        Sequence sequence = new Sequence(finger1, 1)                                                    = sequence ile sıra oluşturduk. mouse'i içine yazdık.
+                .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement)) = mouse'i belirli elemente sürükledik.
+                .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))                          = sol mouse'e tıkladık. 
+                .addAction(new Pause(finger1, Duration.ofMillis(200)))                                                = biraz bekledik.
+                .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));                           = sol mouse'i kaldırdık. (tap hareketi oluşturduk.)
+
+        driver.perform(Collections.singletonList(sequence));                                                          // tek sequence çalıştırırken singletonList yazıyoruz.
+
+    }
+
+    private Point getCenterOfElement(Point location, Dimension size) {                                  = elementin merkez noktasını hesapladığımız method.
+        return new Point(location.getX() + size.getWidth() / 2,
+                location.getY() + size.getHeight() / 2);
+    }
+
+        @Test
+        public void doubleTap() throws MalformedURLException, InterruptedException {
+            UiAutomator2Options options = new UiAutomator2Options();
+            options.setPlatformName("Android"); //optional
+            options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+            options.setDeviceName("Pixel_34");
+            options.setApp(System.getProperty("user.dir") + "/apps/Android-MyDemoAppRN.1.3.0.build-244.apk");
+
+            AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+            WebElement openMenu = driver.findElement(AppiumBy.accessibilityId("open menu"));
+            doubleTap(driver, openMenu);                                                                = double tap methodu.
+            //Assertion
+        }
+        private void doubleTap(AndroidDriver driver, WebElement element) {
+            Point location = element.getLocation();
+            Dimension size = element.getSize();
+
+            Point centerOfElement = getCenterOfElement(location, size);
+
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(100)))                      // ilk tıklamadaki bekleme
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg())) 
+                    .addAction(new Pause(finger1, Duration.ofMillis(100)))                     
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(100)))                     // ikinci tıklamadaki bekleme
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            driver.perform(Collections.singletonList(sequence));
+        }
+
+        @Test
+       public void longPress() throws MalformedURLException {
+            UiAutomator2Options options = new UiAutomator2Options();
+            options.setPlatformName("Android"); //optional
+            options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+            options.setDeviceName("Pixel_34");
+            options.setApp(System.getProperty("user.dir") + "/apps/ApiDemos-debug.apk");
+
+            AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+
+            driver.findElement(AppiumBy.xpath(".//*[@text='Views']")).click();                       // appium'da texti attribute olarak işaret ediyoruz.
+            driver.findElement(AppiumBy.xpath(".//*[@text='Expandable Lists']")).click();
+            driver.findElement(AppiumBy.xpath(".//*[@text='1. Custom Adapter']")).click();
+            WebElement element = driver.findElement(AppiumBy.xpath(".//*[@text='People Names']"));
+            longPress(driver, element);                                                              // longPress methodunu kullandık.
+            //new Actions(driver).clickAndHold(element).perform();                                   // kolay yöntem. basılı tuttuk.
+            //Assertion
+        }
+        private void longPress(AndroidDriver driver, WebElement element) {
+            Point location = element.getLocation();
+            Dimension size = element.getSize();
+
+            Point centerOfElement = getCenterOfElement(location, size);
+
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofSeconds(2)))                           // 2 saniye basılı tuttuk.
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            driver.perform(Collections.singletonList(sequence));
+        }
+
+
+        @Test
+        public void zoom() throws MalformedURLException, InterruptedException { // yakınlaştırma hareketi uyguladık.
+            UiAutomator2Options options = new UiAutomator2Options();
+            options.setPlatformName("Android"); //optional
+            options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+            options.setDeviceName("Pixel_34");
+            options.setApp(System.getProperty("user.dir") + "/apps/Android-MyDemoAppRN.1.3.0.build-244.apk");
+
+            AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+            driver.findElement(AppiumBy.accessibilityId("open menu")).click();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"menu item drawing\"]"))
+                    .click();
+            WebElement element = driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"drawing screen\"]"));
+            Point centerOfElement = getCenterOfElement(element.getLocation(), element.getSize());
+
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            PointerInput finger2 = new PointerInput(PointerInput.Kind.TOUCH, "finger2");                                     // toplam 2 tane mouse oluşturduk.
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))    // 1. mouse'i  belirli noktaya hareket ettirdik.
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))                             // tıkladık.
+                    .addAction(new Pause(finger1, Duration.ofMillis(200)))    
+                    .addAction(finger1.createPointerMove(Duration.ofMillis(200),                                             // yeni location'a hareket ettirdik. point yazmak yerine
+                            PointerInput.Origin.viewport(), centerOfElement.getX() + 100,                                       x ve y kordinatı girilebilir.
+                            centerOfElement.getY() - 100))
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            Sequence sequence2 = new Sequence(finger2, 1)                                                                    // 2. mouse hareketi.
+                    .addAction(finger2.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), centerOfElement))
+                    .addAction(finger2.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger2, Duration.ofMillis(200)))
+                    .addAction(finger2.createPointerMove(Duration.ofMillis(200),
+                            PointerInput.Origin.viewport(), centerOfElement.getX() - 100,
+                            centerOfElement.getY() + 100))
+                    .addAction(finger2.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+            driver.perform(Arrays.asList(sequence, sequence2));                                                               // 2 tane sequence aynı anda çalışsın diye array yazdık.                              
+                                                                                                                                 
+            //Assertion
+        }
+
+        @Test
+       public void swipeOrScroll() throws MalformedURLException {
+            UiAutomator2Options options = new UiAutomator2Options();
+            options.setPlatformName("Android"); //optional
+            options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+            options.setDeviceName("Pixel_34");
+            options.setApp(System.getProperty("user.dir") + "/apps/ApiDemos-debug.apk");
+
+            AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+
+            driver.findElement(AppiumBy.xpath(".//*[@text='Views']")).click();
+
+            Dimension size = driver.manage().window().getSize();
+            int startX = size.getWidth() / 2;
+            int startY = size.getHeight() / 2;
+            int endX = startX;
+            int endY = (int) (size.getHeight() * 0.25);                                                               // sayfayı belirli oranda aşağı kaydırdık.
+            PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                    .addAction(finger1.createPointerMove(Duration.ofMillis(100), PointerInput.Origin.viewport(), endX, endY)) // belirli noktaya basılı tutup yukarı kaydırdığımızda ekran aşağı iniyor.
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));                               // if komutu ile element visible oluncaya kadar aşağı kaydırma uygulanabilir.
+
+            driver.perform(Collections.singletonList(sequence));
+            //Assertion
+        }
+
+
+        @Test
+        public void dragAndDrop() throws MalformedURLException {                                     // drag and drop oluşturduk.
+            UiAutomator2Options options = new UiAutomator2Options();
+            options.setPlatformName("Android"); //optional
+            options.setAutomationName(AutomationName.ANDROID_UIAUTOMATOR2);//optional
+            options.setDeviceName("Pixel_34");
+            options.setApp(System.getProperty("user.dir") + "/apps/ApiDemos-debug.apk");        
+
+            AndroidDriver driver = new AndroidDriver(new URL("http://127.0.0.1:4723"), options);
+
+            driver.findElement(AppiumBy.xpath(".//*[@text='Views']")).click();
+            driver.findElement(AppiumBy.xpath(".//*[@text='Drag and Drop']")).click();
+
+           WebElement source = driver.findElement(AppiumBy.id("io.appium.android.apis:id/drag_dot_1"));
+           WebElement target = driver.findElement(AppiumBy.id("io.appium.android.apis:id/drag_dot_2"));
+
+           Point sourceElementCenter = getCenterOfElement(source.getLocation(), source.getSize());
+           Point targetElementCenter = getCenterOfElement(target.getLocation(), target.getSize());
+
+           PointerInput finger1 = new PointerInput(PointerInput.Kind.TOUCH, "finger1");
+            Sequence sequence = new Sequence(finger1, 1)
+                    .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), sourceElementCenter))
+                    .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                    .addAction(new Pause(finger1, Duration.ofMillis(500)))
+                    .addAction(finger1.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), targetElementCenter))
+                    .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+
+            driver.perform(Collections.singletonList(sequence)); 
+
+
+
+        }
+
+
+
+
+        @Test
+        public void saucelabs() throws MalformedURLException, InterruptedException {         = SauceLabs sitesinde sanal ve gerçek telefonlar bulunuyor. 
+
+            MutableCapabilities caps = new MutableCapabilities();                                          = sitede gösterilenleri yaptık.
+            caps.setCapability("platformName", "Android");
+            caps.setCapability("appium:app", "storage:filename=Android-MyDemoAppRN.1.3.0.build-244.apk");  = app yazdık.
+            caps.setCapability("appium:deviceName", "Android GoogleAPI Emulator");
+            caps.setCapability("appium:deviceOrientation", "portrait");
+            caps.setCapability("appium:platformVersion", "12.0");
+            caps.setCapability("appium:automationName", AutomationName.ANDROID_UIAUTOMATOR2);
+            MutableCapabilities sauceOptions = new MutableCapabilities();
+            sauceOptions.setCapability("username", "sercanxs");
+            sauceOptions.setCapability("accessKey", "165399da-5ced-4795-b37e-f58f5d19d8cd");               = accessKey yazdık
+            sauceOptions.setCapability("build", "appium-build-SZLSN");
+            sauceOptions.setCapability("name", "<your test name>");
+            caps.setCapability("sauce:options", sauceOptions);
+
+            URL url = new URL("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub");                 
+            AndroidDriver driver = new AndroidDriver(url, caps);
+
+            WebElement openMenu = driver.findElement(AppiumBy.accessibilityId("open menu"));
+            tap(driver, openMenu);
+
+            driver.quit();                             =   bu kısmı yazınca saucelabs sitesinde hata çıkmıyor.
+            //Assertion
+
+    }
+
+        @Test
+        public void saucelabs123() throws MalformedURLException, InterruptedException {
+
+            MutableCapabilities caps = new MutableCapabilities();
+            caps.setCapability("platformName", "iOS");                                                     = iOS testi yaptık.
+            caps.setCapability("appium:app", "storage:filename=iOS-Simulator-MyRNDemoApp.1.3.0-162.zip");
+            caps.setCapability("appium:deviceName", "iPhone XS Simulator");
+            caps.setCapability("appium:deviceOrientation", "portrait");
+            caps.setCapability("appium:platformVersion", "13.2");
+            caps.setCapability("appium:automationName", "XCUITest");
+            MutableCapabilities sauceOptions = new MutableCapabilities();
+            sauceOptions.setCapability("username", "sercanxs");
+            sauceOptions.setCapability("accessKey", "165399da-5ced-4795-b37e-f58f5d19d8cd");
+            sauceOptions.setCapability("build", "appium-build-SZLSN");
+            sauceOptions.setCapability("name", "<your test name>");
+            caps.setCapability("sauce:options", sauceOptions);
+
+
+            URL url = new URL("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub");
+            IOSDriver driver = new IOSDriver(url, caps);
+
+            driver.quit();
+
+
+
+
+
+        }
+        @Test
+        public void saucelabsBrowser() throws MalformedURLException, InterruptedException {
+
+            MutableCapabilities caps = new MutableCapabilities();
+            caps.setCapability("platformName", "iOS");
+            caps.setCapability("browserName", "Safari");                              = app bilgisi yerine browserName girdik.
+            caps.setCapability("appium:deviceName", "iPhone XS Simulator");
+            caps.setCapability("appium:deviceOrientation", "portrait");
+            caps.setCapability("appium:platformVersion", "13.2");
+            caps.setCapability("appium:automationName", "XCUITest");
+            MutableCapabilities sauceOptions = new MutableCapabilities();
+            sauceOptions.setCapability("username", "sercanxs");
+            sauceOptions.setCapability("accessKey", "165399da-5ced-4795-b37e-f58f5d19d8cd");
+            sauceOptions.setCapability("build", "appium-build-SZLSN");
+            sauceOptions.setCapability("name", "<your test name>");
+            caps.setCapability("sauce:options", sauceOptions);
+
+
+            URL url = new URL("https://ondemand.eu-central-1.saucelabs.com:443/wd/hub");
+            IOSDriver driver = new IOSDriver(url, caps);
+
+            driver.get("https://www.cybertekschool.com");                              = browser bilgisi girince direkt selenium komutları kullandık. Bilgisayar ve telefonda sitedeki
+                                                                                         elementlerin özellikleri değişik olabilir.
+                                                                                         HTML üzerinden locate etmek için Mobile Chrome Browser'i incelemek gerekir. Ama bu inceleme
+                                                                                         https://inspector.appiumpro.com/ sitesinden değil.
+            Thread.sleep(2000);
+
+            driver.quit();                                    
+
+
+
+
+
+        }
+        
+
+
+
+
+
+
+
+    }

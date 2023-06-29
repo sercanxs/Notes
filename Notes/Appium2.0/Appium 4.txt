@@ -1,0 +1,45 @@
+We can put the server on a different machine than our tests are running 
+on. We can write test code and rely on a cloud service like Sauce Labs, BrowserStack to 
+receive and interpret the commands.
+
+
+
+
+BrowserStack'te yazan talimatları uyguladık. Appium testini cloud'da test ettik. BrowserStack'in kendi appium serveri var. Localde appium serveri açmaya gerek yok.
+
+Windowsta sanal iOS cihazı açılamaz. cloud'da iOS cihazlar bulunduğu için iOS testi yapılabilir. 
+
+SauceLabs sitesinde de talimatlar var. 
+
+
+---------------------------------------------------------
+
+Selenium Grid: EC2, SauceLabs, BrowserStack'e bağlanabilir.
+
+---------------------------------------------------------
+
+setCapability("app","https://cybertek-appium.s3.amazonaws.com/etsy.apk"); = girilen app cloud'da olabilir.
+
+
+//options.setAppActivity() = telefonda yüklü uygulamaları açmak için bu komutlar kullanılabilir. Bir uygulamayı telefona sürükleyince otomatik yükleniyor.
+//options.setAppPackage()
+
+
+Native app'lerde id her zaman unique değildir. accessibility id uniquetir.
+
+driver.findElement(By.id("com.android.calculator2:id/digit_2")); = id locator.
+
+
+Types of applications
+
+Native apps
+Mobile web apps
+Hybrid apps
+
+Appium is an opensource tool for automating native, mobile web, and hybrid applications on iOS mobile, Android mobile, and Windows desktop platforms.
+
+Appium server receives connection from a client, listens for requests and execute them on devices, in turn sends back responses as a result of command executions.
+
+
+
+

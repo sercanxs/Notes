@@ -1,0 +1,53 @@
+
+JDK yükledik.
+
+appium'u yükledik. (npm i -g appium@next)
+
+appium driver install uiautomator2
+
+command prompt'a appium yazdık.
+
+Welcome to Appium v2.0.0-rc.3 yazısı gözüktü. (ctrl-c yaparak appium kapatılıyor.)
+
+
+
+---------------------------------------------------------
+
+Android Studio'yu yükledik.
+
+https://developer.android.com/studio = indirilen adres. 
+
+Android Studio'da Welcome ekranında nextlere tıkladık.
+
+more actions'dan SDK manager'e girdik.
+
+SDK Platformsda Android API 34 yüklü          = Son sürüm olduğu için otomatik yüklü.
+SDK toolsda Android SDK Build-Tools 34 yüklü
+
+more actions'dan virtual device manager'e tıkladık.
+
+create device --> Pixel 4a --> next --> 
+
+Targette android api 34'ü yükledik. (son sürüm) -->
+
+API 34'e gelip next'e tıkladık. --> AVD Name = Pixel_34 --> finish.
+
+Pixel_34'ü çalıştırdık.
+
+C:\Users\serca\AppData\Local\Android\Sdk = Android studio'da SDK manager'de Android SDK location'ı kopyaladık.
+
+This pc --> right click --> properties --> Advanced system settings --> env variables --> New System Variables -->
+Name = ANDROID_HOME   Value =  Yukarıda kopyaladığımızı buraya yapıştırdık --> ok --> path(system variable) --> edit -->
+new --> %ANDROID_HOME%\tools --> new --> %ANDROID_HOME%\platform-tools --> ok
+
+Powershell'de adb devices çalışmıyorsa aşağıdakileri yapıyoruz.
+
+Env variables --> user variables --> path --> edit --> adb dosyasının bulunduğu adresi kopyaladık. C:\Users\serca\AppData\Local\Android\Sdk\platform-tools
+
+Pixel_34'ü çalıştırıp powershell'de adb devices yazınca emulator-5554 yazısı gözüküyor.
+
+
+
+
+
+

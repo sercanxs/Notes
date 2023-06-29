@@ -1,0 +1,73 @@
+intellij --> new project --> AppiumAutomation, maven --> create
+
+
+appium ve JUnit dependency'leri yükledik.
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/io.appium/java-client -->
+        <dependency>
+            <groupId>io.appium</groupId>
+            <artifactId>java-client</artifactId>
+            <version>8.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+-------------------------------------------------------------------------
+appium --allow-cors = appium'u bu kodu yazarak açtık.
+
+Pixel_34'ü çalıştırdık.
+
+https://inspector.appiumpro.com/ sitesini açtık.
+
+Desired Capabilities'de gerekli bilgileri girdik.
+
+appium:deviceName            Pixel_34
+appium:automationName        UiAutomator2
+appium:app                   C:\Users\serca\OneDrive\Belgeler\GitHub\AppiumAutomation/apps/Android-MyDemoAppRN.1.3.0.build-244.apk
+platformName                 android
+
+Start Session'a tıkladık.
+
+sitede mavi select elemente tıklayıp app'deki ilgili elementi işaret ettik. ilgili elementi işaret etmek için inspect kısmı kullanılabilir.
+
+Sitede bir şeye tıkladığımızda telefonda da tıklıyoruz ve sitede refresh'e tıkladığımızda tıkladığımız sayfa geliyor. Böylelikle derinleri locate ediyoruz.
+
+Sitede bir şeye tıklamak için searchteki tap kullanılabilir.(telefondan tıklamak kolay olanı)
+
+element valid ve unique'mi anlamak için sitede search'e yapıştırıyoruz. Bir tane element geliyorsa unique'tir.
+
+
+
+
+-------------------------------------------------------------------------
+appium plugin list --> pluginleri gösteriyor.
+
+appium plugin install element-wait = böyle bir plugin yok.
+
+appium plugin install --source=npm appium-wait-plugin = ilgili plugini başka şekilde yükledik.
+
+appium plugin list --installed = yüklenen pluginleri gösteriyor.
+
+appium --use-plugins=element-wait --allow-cors  = plugini aktif ettik. artık appium'u bu şekilde açıyoruz.
+
+adb uninstall io.appium.uiautomator2.server.test = Eğer kodlar çalışırken artık hata veriyorsa bu kodu yazmak bir çözüm olabilir.
+
+
+
+
+
+
+
+ 
+
+
+
+
