@@ -98,6 +98,29 @@ alt="Painting">
   }
 
 -----------------------------------------------------------------------------------------------------------------------
+
+@media(max-width: 640px){    
+  body {
+    background-color: white;
+  }
+  #sidebar, #content{
+    flex-basis: 100%;           = width 640'ın altında ilgili flexlerin genişliği 100% oldu.
+    border-right: 0;            = oluşturulan border yok oldu.
+  }
+
+}
+
+
+@media(max-width: 475px){    
+
+  #sidebar{
+    display: none;              = width 475'in altında ilgili flex yok oldu.
+  }
+
+}
+
+
+-----------------------------------------------------------------------------------------------------------------------
 https://goalkicker.com/CSSBook/CSSNotesForProfessionals.pdf = CSS için önerilen kaynak.    
 
     
