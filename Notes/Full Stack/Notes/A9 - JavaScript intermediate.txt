@@ -36,14 +36,14 @@ JavaScript is event driven language. = Bir şeyler olması için örneğin biris
 
 console.log("Waiting 2.5 seconds"); = primary function.
 
-setTimeout(function () {                    = Callback function çalışırken diğer functionların da çalışmasına izin verir. Böylelikle bir function yüzünden işlemler aksamaz.
+setTimeout(function () {                    = Callback functions
     console.log("Do this thing in here");      
 }, 2500); 
 
-console.log("Last line"); = yukarıdaki kısım 2.5 saniye bekleyeceği için önce bu kısım yazıldı.
+console.log("Last line"); 
 
 ---------------------------------------------------------------------------------------------------------------------------
-"use strict"; = strict kullandığımızda sitede hata olarak gözükmeyen yazım hatalarını yakalayabiliyoruz.
+"use strict"; = strict kullandığımızda hata olarak gözükmeyen yazım hatalarını sitede yakalayabiliyoruz.
 
 x = "Thing"; = hata olarak yazılan x'i strict ile yakaladık.
 
