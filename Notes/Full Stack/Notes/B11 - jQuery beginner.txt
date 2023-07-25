@@ -1,0 +1,471 @@
+jQuery is a fast, small, and feature-rich JavaScript library.
+JQuery ile yazılan javascript kodları her browser destekler.
+
+https://jquery.com/ --> download --> Other CDNs --> jsDelivr CDN --> scripti kopyaladık.
+
+---------------------------------------------------------
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script> =body'e yapıştırdık. jquery scripti bizimkinin üstünde olmalı.
+<script src="javascript/script.js"></script>                                      
+
+$(document).ready(function() {               = selector olarak bütün documenti seçtik. hazır olduğunda log yazdı. (callback function)
+        console.log("JQuery is loaded")    
+})
+
+
+
+$(document).ready(function() { = JQuery kodlarını bunun içine yazdık. $(document) kısmı ise JQuery selector.
+       
+
+})
+
+---------------------------------------------------------
+
+$(document).ready(function() {        = $() içine css selectorleri yazılabilir.
+    
+    $("h1").text("changed");                               = elementi tag ile seçtik.     
+    $("#customId").text("change me");                      = id kullandık.
+    $(".custom-class").html("<strong>change</strong>");    = class kullandık.
+    $("div, span").text("changed");                        = 2 farklı element seçtik.
+
+   })
+
+---------------------------------------------------------
+
+$(".custom-class").html("<strong>change</strong>"); = html elementi yazdık.
+$("strong").text("new");                            = yeni oluşturulan elementi işaret ettik.
+
+
+
+
+$("#customId").text("<b> vs <strong>");        = texti değiştirdik. html kısımları da text olarak görünür.
+$(".custom-class").html("<b> vs <strong>");    = text yerine html yazınca html kodlarını yanlış yazınca aşağıdaki gibi düzeltti.
+
+
+<p class="custom-class"><b> vs <strong>new</strong></b></p>
+
+
+---------------------------------------------------------
+
+<input type="text" value="Hello World"> = input elementi. inputların closing tagleri olmadığı için kutuların içinde yazan texti değiştirmek zor olabilir.
+
+
+$(document).ready(function() {
+    
+  const msg = $("input").val();        = direkt val yazarak inputların valuesini(attribute) aldık.
+                                         
+  console.log(msg);                    = input valuesini yazdık.
+
+  $("input").val("changed");           = input value'sini değiştirdik.
+
+  const nw = $("input").val();
+
+  console.log(nw);
+
+  const a = $("span").text();          = text yazıp parametre girmeyince elementte yazan texti kaydettik. Konsolda boşluklarla birlikte görünür.
+
+  console.log(a);
+
+  const b = $("span").html();          = text yerine html yazınca <strong> gibi html elementleri de görünüyor. text'de html elementleri görünmüyor.
+
+  console.log(b);
+
+   })
+
+---------------------------------------------------------
+ <h1>some text </h1>
+
+
+$(document).ready(function() {
+    
+   $("h1").append("<u>this is underline<u>"); = html'in içine yeni html element ekledik.
+   
+   $("h1").prepend("<u>this is underline<u>"); = html'in içine yeni html element'i baştan ekledik.
+
+   $("h1").append("<u>this is underline<u>").prepend("<i>this is italics<i>"); = chain kullandık.
+  
+})
+
+
+  <div id="top-1">some text</div>
+
+$(document).ready(function() {
+    
+
+  $("#top-1").before("<div>this is a div</div>"); = seçilen elementin üstüne yeni element ekledik.
+  $("#top-1").after("<div>this is</div>");        = seçilen elementin altına yeni element ekledik.
+
+})
+
+---------------------------------------------------------
+ <p class="top-2">This is a paragraph</p>
+
+$(document).ready(function() {
+    
+
+  $(".top-2").remove(); = ilgili elementi sildi.
+
+
+})
+
+---------------------------------------------------------
+
+  <div id="top-1">
+
+    <div>this is a child element</div>
+    <strong>bolded word</strong>
+    <p class="top-2">This is a paragraph</p>
+
+  </div>
+
+
+$(document).ready(function() {
+    
+
+  $("#top-1").empty();           = ilgili elementin içindeki her şeyi sildi ama elementi silmedi.
+
+  
+})
+
+const a =$("#top-1"); = JQuery selector'unu değişkene kaydettik.
+
+a.empty(); = değişkenden kullandık.
+
+
+---------------------------------------------------------
+
+<button>Click me</button>
+
+
+$(document).ready(function() {
+    
+
+
+
+  $("button").click(function() { = click event listeners'de buttona tıkladığımızda konsolda yazı yazdı. function, callback function'dır.
+    console.log("I am clicked");
+    
+  })
+
+   $("button").on("click", function(){ = click event listeners oluşturmak için ikinci yöntem.
+    
+    console.log("I am clicked");
+
+  })
+
+   $(document).on("click","button",function() { = 3. yöntemde içeri 3 tane parametre girdik. Eğer button kısmını sonradan JQuery ile açmışsak
+                                                  ilk iki yöntem button'ı görmeyecek ve clickleri çalışmayacaktır. Ama 3. yöntem documente odaklandığı
+      console.log("I am clicked");                için derinlerde button eklenince bunu yakalar.
+    })
+
+   $("body").html("<button>Click me</button>"); = yeni button elementi açtık.
+
+})
+
+---------------------------------------------------------
+$(document).ready(function() {
+    
+
+
+ $("#box").on("mouseenter", function () {               = elementin üstüne geldiğimizde konsolda yazı yazar.
+
+  console.log("your mouse is hovering over this box");
+  
+ }).on("mouseleave", function () {                      = mouse'i elementin dışına çıkardığımızda konsolda yazı yazdı.
+  console.log("you left the box area");                   chain kullandık.
+  
+ })
+  
+
+})
+
+
+
+---------------------------------------------------------
+
+<input type="text" class="select-me" value="Hello World">
+
+
+$(".select-me").on("keyup",function () { = keyup kullanınca input alanında klavye tuşlarına basınca konsolda yazı oluşuyor.
+  console.log("you pressed a key");
+  
+})
+
+$(".select-me").on("keyup",function () { 
+  console.log($(this).val());            = $(this) yazınca bu kısım $(".select-me") selectorunu temsil ediyor.  $(this) kısmının çalışması için function keyword'unun eklenmesi gerekebilir.
+
+})
+
+---------------------------------------------------------
+
+<textarea name="mytextarea" id="" cols="30" rows="10"></textarea>
+
+$("[name='mytextarea']").on("focus", function () { = focus kullanınca textarea ya da inputun üstüne tıkladığımızda konsolda yazı çıkıyor.
+
+     console.log("you focus into text area");
+
+})
+
+
+ $("input").on("blur", function () {              = blur kullanınca inputa tıkladıktan sonra dışarı tıklayınca konsolda yazı çıkıyor.
+
+     console.log("you are blurred away from this input area");
+  })
+---------------------------------------------------------
+
+
+ <form>
+  <input type="text" placeholder="Your name" name="name">  
+  <button type="submit">Submit This Form</button>
+ </form>
+
+
+
+  $("form").on("submit", function (event) {      = submit yazıp buttona tıklayınca konsolda yazı gözüktü. Ama bu sefer parametre ve preventDefault() kullanarak 
+     event.preventDefault();                       button'un default özelliklerini engelledik. Sadece buttona tıklayabiliyoruz. Url'de name=name kısımları gözükmedi. 
+     console.log("Form was not submitted");     
+  })
+
+
+  $("form").on("click", function (event) {      = click de submit amacıyla kullanılabilir. form yerine button da select edilebilir.
+     event.preventDefault();
+     console.log("Form was not submitted");
+  })
+
+
+---------------------------------------------------------
+
+<div id="box"></div>
+<button id="clickme">Hide element</button>
+<button id="button1">show element</button>
+
+
+$("button").on("click", function (e) {
+     e.preventDefault();
+     $("#box").hide();                     = hide yazıp buttona tıklayınca div elementi yok oldu.
+})
+
+$("#button1").on("click", function (e) {
+    e.preventDefault();
+    $("#box").show();                      = show yazınca yok olan element geri geldi.
+    
+})
+
+---------------------------------------------------------
+
+<div class="box"></div>
+
+
+$(".box").addClass("blue"); = elemente yeni classlar ekleyebiliriz. Ama box kısmını id olarak verirsek her ne kadar blue class'i eklense de
+                              box'in komutları çalışabilir.
+
+$(".box").removeClass("blue"); = elementten class sildik.
+
+
+
+
+<div class="box"></div>
+<button class="toggle-blue-class">Toggle blue</button>
+
+
+
+$(".toggle-blue-class").on("click", function () {
+    $(".box").toggleClass("blue");                   = toggleClass kullanınca elementte blue class yoksa ekleniyor, varsa kaldırılıyor.
+})                                                     buttona tıkladıkça blue class eklenip kaldırıldı.      
+
+---------------------------------------------------------
+
+
+$(".box").css("background-color", "red")
+            .css("width","100px")                    = css ekledik.
+            .css("height","100px")                   
+            .css({                                   = css'i object içinde key value olarak ekledik.
+                  borderRadius: "50%",                 
+                  border: "5px solid blue",
+                  backgroundColor: "yellow"          = background-color, bu şekilde yazıldı.
+            })
+
+
+---------------------------------------------------------
+
+  $(".box").fadeOut();  = seçilen element solar ve yok olur.
+
+  $(".box").fadeIn();   = seçilen element tekrar oluşur.
+
+  $(".box").fadeOut(4500); = 4.5 saniyede soldu.
+
+
+  $(".toggler").on("click", function () {
+
+    $(".box").fadeToggle();                = fadeToggle() element varsa solduruyor, yoksa tekrar oluşturuyor.
+    
+  })
+
+
+
+   $(".box").toggle(); = direkt toggle yazarsak soldurmadan yok ediyor. yoksa tekrar oluşturuyor.
+
+
+   $(".box").slideUp(); = element yukarı kayarak yok oldu.
+   $(".box").slideDown(); = element yoksa tekrar oluştu.
+
+   
+
+$(".toggler").on("click", function () {
+
+ $(".box").slideToggle(); = toggle'in slide versiyonu.
+
+})
+  
+
+
+
+---------------------------------------------------------
+Bir olay olduğunda çalışan functionlar callback function'dır.
+
+
+
+$(".toggler").on("click", function () { = callback function
+
+  $(".box").fadeOut(4500, function () { = fadeOut içine function yazdık. fadeOut tamamlanınca çalışır. Bu function callback function'dır.
+      
+    console.log("fadeOut is complete");
+      
+  });
+})
+
+
+
+---------------------------------------------------------
+Her özelliği JQuery'de animate edemeyiz.
+
+500px, 499px 498px ... 300px'e gider.
+ama f5f5f5, ffffff'e nasıl kademeli gideceğinin animation'i jQuery'de yok.
+
+
+
+
+$(".toggler").on("click", function () {
+
+  $(".box").animate({ = animasyon ayarladık.
+     opacity: 0.5,
+     width: "500px",
+
+  }, 4000);           = 4 saniyede gerçekleşti.
+})
+
+
+
+
+---------------------------------------------------------
+
+$(".box").width().log        = padding dahil edilmeden kutunun boyutu
+$(".box").innerWidth()       = paddingler dahil
+$(".box").outerWidth()       = borderler dahil
+$(".box").outerWidth(true)   = marginler dahil
+
+widthler için geçerli olan heightler için de geçerli.
+
+$(window).height() = selector olarak bütün ekran seçilebilir.
+  
+
+
+$(window).on("resize", function () { = ekranı toggle ile büyütüp küçültünce konsolda yazı yazıyor.
+
+ console.log($(window).width(), "x", $(window).height()); = ekran genişliği ve yüksekliğini yazdık.
+  if($(window).width()<300){                              = ekran genişliği 300'ün altına düşünce backgroud-color black oldu.
+      $("body").css("background-color","black");
+   }else{
+    $("body").css("background-color","white");
+   }
+
+
+    
+})
+
+---------------------------------------------------------
+
+ $("li") = selector birden fazla element seçebilir.
+
+ $("li:first").text("new text"); = ilkini seçti.
+ $("li:last").text("new text");  = sondakini seçti.
+
+
+  $("li").each(function (index, element) {            = elementleri loopladık. index sayıları, element ise elementleri temsil eder.
+  $(element).text(`${index + 1} new item here`);      = içinde bulunulan elementin textini değiştirdik.
+     if(index==2){
+         $(element).css({                             = css ekledik.
+          backgroundColor: "black",
+          height: "40px"
+         })
+     }
+  
+ })
+
+---------------------------------------------------------
+
+ $("input").attr("type");                = type attribute'nin valuesini veriyor. --> text
+
+ console.log($("input").attr("type"));
+
+ $("input").attr("type","password");     = iki tane parametre verirsek type attribute'nin value'sini değiştiririz.
+
+ console.log($("input").attr("type")); 
+
+
+---------------------------------------------------------
+
+ $.get("https://swapi.dev/api/people/1/", function (data) { = ajax get request in jQuery
+
+      console.log(data);
+
+      console.log(data["name"]); = key yazınca value verdi.
+  
+ })
+
+
+
+ $.post("https://httpbin.org/post",                         = ajax post request
+        {"Hello": "world"},                                 = JSON
+          function (data) {
+            console.log("post was complete");
+            console.log(data);                              = response data
+            
+          }
+ 
+ 
+ )
+
+
+---------------------------------------------------------
+
+jQuery için kitap önerisi = https://books.goalkicker.com/
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
