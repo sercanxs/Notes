@@ -1,0 +1,433 @@
+Node.js yükledik.
+
+npm install -g create-react-app = react-app'i globally yükledik.
+
+npx create-react-app myapp = Vs codede yeni folder açıp terminale yazdık.
+
+terminalde cd myapp yazarak location değiştirdik.
+
+myapp'in olduğu locationda npm start yazınca local hostu kopyalayıp internete yapıştırdık.
+
+
+------------------------------------------------
+
+JavaScript içinde jsx yazabildik.
+
+
+import logo from './logo.svg'; = ilgili kısmı import ettik. sağdaki kısımda string içinde address yazdık.
+import React from 'react';     = addressi relative olarak vermedik. react farklı dosyanın içinde yer alıyor.
+
+export default App; = take this App function and export it.
+import App from './App'; = And that allows it to be importable.
+
+index.js, app'in renderlenmeye başladığı noktadır.
+index.html, app'in çalışmaya başladığı noktadır.
+
+------------------------------------------------
+
+import React from "react"; = App.js içinde import ettik.
+
+class Item extends React.Component{       = component oluşturduk. React component kullanılırken React import edilmeli.
+  render(){
+       return(
+        <h1>Hello World</h1>              = returnledik.
+       )
+  }
+
+}
+
+
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        
+        <Item />                                             = componenti burada kullandık. Burası JSX kodu.
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
+
+------------------------------------------------
+
+import React from "react";                  = App.js içindeki kodları yeni açtığımız MyItem.js'e kopyaladık. 
+
+
+class Item extends React.Component{
+    render(){
+         return(
+          <h1>Hello World</h1>
+         )
+    }
+  
+  }
+
+  
+  export default Item;                      = export gerekti. component'ler farklı dosyalarda tutulunca çalışması kolay oluyor.
+
+
+
+
+import Item from "./MyItem"; = App.js içinde import ettik. js uzantısı yazmasak da react'de js dosyaları anlaşılabiliyor.
+
+
+------------------------------------------------
+React components use props to communicate with each other. Every parent component can pass some information to its child components by giving them props. 
+Props might remind you of HTML attributes, but you can pass any JavaScript value through them, including objects, arrays, and functions.
+
+<App /> = component
+<App attr="value" prop="value"/> = componente attribute value eklediğimizde Reactte buna prop deniyor. Yani attr ve prop kısımları prop'ı temsil ediyor. propları
+                                   javascript variable olarak kullanabiliyoruz.
+
+
+<Item name="Gully" /> = App.js içinde prop oluşturduk.
+
+ 
+
+
+class Item extends React.Component{
+    render(){
+         return(
+          <h1>Hello World {this.props.name}</h1> = MyItem.js içinde prop'ı kullandık. Gully'i buraya ekledik.
+         )
+    }
+  
+  }
+
+ <Item name="Gully" />     
+ <Item name="Rhubarb" /> = component, reusable oldu.Sadece prop'u değiştirdik. sitede aşağıdaki ikisi de gözüktü 
+
+ Hello World Gully
+ Hello World Rhubarb
+------------------------------------------------
+
+class Item extends React.Component{
+
+    clickMe(){                             = function oluşturduk.
+            console.log("I was clicked");    
+    }
+
+
+    render(){
+         return(
+          <h1 onClick={() => this.clickMe()}>Hello World {this.props.name}</h1> = click gerçekleştiğinde function çalışıyor. clickMe'de parantezler konmazsa bu değişken olarak algılanır. 
+         )                                                                        sitede ilgili kısma tıkladığımızda konsolda yazı oluştu.                                                                       
+    }
+  
+  }
+
+
+{} --> jsx'de bunu kullandığımızda içeriye javascript, react yazıyoruz.
+
+------------------------------------------------
+state, component'in içinde oluşturuluyor. component kullanıldıkça kullanana özel yeni state açılıyor. Yani iki kere  <Item /> yazarsak iki kere state açılır. Bir itemde statede değişiklik
+yaparsak diğer itemdeki state etkilenmez.
+
+
+class Item extends React.Component{
+
+    constructor(props){        = constructor açtık.
+       super(props);           = extends varsa super gerekebilir. Bu örnekte parametreye gerek yok.
+
+       this.state = {          = state oluşturduk. object kullandık.
+           clicks: 1,
+           totalRemaining: 50
+       }
+    }
+
+    clickMe(){
+            this.setState({    = setState ile statede ayarlamaya gittik.
+               clicks: this.state.clicks + 1    = her tıklama olunca, state objecttinde clicks'i 1 arttırdık.
+            })
+
+    }
+
+    render(){
+         return(
+          <div>      = return kısmında birden fazla element yazarken div içine koymak gerekebilir. 
+
+                 <h1 onClick={() => this.clickMe()}>Hello World {this.props.name}</h1>
+                <span>{this.state.clicks} is the number of clicks</span>                  = statedeki clicksi siteye aktardık. böylelikle tıklanma sayısını sitede gördük.
+                                                                                            
+          </div>
+        
+         )
+    }
+  
+  }
+
+
+------------------------------------------------
+   {/* <Item name="Rhubarb" /> */} = jsx'de yorum yaparken {} kullandık ve içerisine javascript code yazdık. 
+
+   // import Item from "./MyItem"; = import kısmı jsx ile yazılmadığı için iki slash yetti.
+
+
+   
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header"> =  bu kısımdaki kodlara ihtiyaç olmadığı için sildik ve kendi jsxlerimizi yazdık. headerde güzel styleler olduğu için silmedik. 
+
+      this is a test = jsx içinde yazdık.
+    
+      <StarWars/>  = component ekledik.
+ 
+      </header> = header ile head aynı şey değil.
+    </div>
+  );
+}
+
+
+------------------------------------------------
+
+
+class StarWars extends React.Component{ 
+
+    constructor(){
+        super();        
+        
+        this.state = {
+            name: null,              = statede null değerler ekledik.
+            height: null,
+            homeworld: null,
+            films: []                = empty array
+    }
+    }
+
+
+    getNewCharacter(){
+
+        console.log("get new character");
+        this.setState({
+            name: "luke",                     = function'da state objectine değerler verdik.
+            height: 172,
+            homeworld: "Tatooine",
+            films: ["film 1","film 2"]
+        })
+    }
+
+
+
+    render(){return(
+        <div>
+                 <h1>{this.state.name}</h1>               = state'deki değerleri yazdık.        
+                 <p>{this.state.height}</p>
+                 <p>Homeworld: {this.state.homeworld}</p>     = jsx kodları
+                 <ul>
+                    <li>{this.state.films}</li>
+                 </ul>
+                 <button 
+                    type="button" 
+                    onClick={() => this.getNewCharacter()} = onClick ekleyip function yazdık. Button'a tıklayınca sitede yazı gözüktü. 
+                    className="btn"                        = class javascriptte kullanılan kelime olduğu için class yerine className yazdık.
+                >
+                    Randomize Character
+                </button>
+        </div>
+         
+        )
+    }
+}
+
+
+
+App.css içinde eklemeler yaptık.
+
+.btn{                             = ilgili class'i select ettik. jsx elemente css ekledik.
+  background-color: black;
+  border: 1px solid yellow;
+  color: yellow;
+  padding: 20px;
+  font-size: 25px;
+}
+.btn:active{
+  background-color: green;
+}
+
+
+------------------------------------------------
+
+class StarWars extends React.Component{ 
+
+    constructor(){
+        super();
+        
+        this.state = {
+            loadedCharacter: false,              = state objectine key yazdık.
+            name: null,
+            height: null,
+            homeworld: null,
+            films: []
+    }
+    }
+
+
+    getNewCharacter(){
+
+        console.log("get new character");
+        this.setState({
+            name: "luke",
+            height: 172,
+            homeworld: "Tatooine",
+            films: ["film 1","film 2"],
+            loadedCharacter: true                = function çalıştığında key'in değeri true oldu.
+        })
+    }
+
+
+
+    render(){return(
+        <div>
+            {
+               this.state.loadedCharacter==true &&   = her ne kadar buraya javascript kodu yazılsa da if else çalışmıyor. jsx, içinde belki çoğu javascript koduna izin vermiyor. 
+                 <div>                                 && kullanınca içerideki koşul true olursa alttaki elementleri sitede yazıyor. javascript function içinde if oluşturulup
+                   <h1>{this.state.name}</h1>          state objectine değerler verilerek sitede görülecek yazılar ayarlanabilir. Ama böyle durumda ilk sefer için sitede görünmeyecek
+                   <p>{this.state.height}</p>          olan bu tarz jsx elementleri görülebilir.
+                   <p>Homeworld: {this.state.homeworld}</p>
+                   <ul>
+                      <li>{this.state.films}</li>
+                   </ul>   
+                 </div>
+            }
+                
+                 <button 
+                    type="button" 
+                    onClick={() => this.getNewCharacter()}  = sitede buttona tıkladık. function çalışınca state objectindeki loadedCharacter true oldu.
+                    className="btn"                           ve böylece if kısmı true olunca sitede ilgili jsx kodları yazdı.
+                >
+                    Randomize Character
+                </button>
+        </div>
+         
+        )
+    }
+}
+
+------------------------------------------------
+
+
+                   <ul>
+                      {
+                        this.state.films.map(film =>{   = jsx içinde looplamak için map kullandık. bir parametre konursa film arraydeki değerleri temsil ediyor.
+                            return <li>{film}</li>      = films arrayından her değeri listlerde yazdı.
+                        })
+                      }
+                   </ul>
+
+             
+
+
+
+
+class FilmItemRow extends React.Component{
+    render(){
+        return(
+            <li><a href={this.props.url}>Film {this.props.num}</a></li> = class component oluşturduk. içinde 2 tane props kullandık. bir props'u href'e diğerini ise 
+        )                                                                 text kısmına yazdık.
+    }
+}
+
+class StarWars extends React.Component{ 
+
+    constructor(){
+        super();
+        
+        this.state = {
+            loadedCharacter: false,
+            name: null,
+            height: null,
+            homeworld: null,
+            films: []
+    }
+    }
+
+
+    getNewCharacter(){
+        const randomNumber = Math.floor(Math.random()*82);            = rastgele numara oluşturduk.
+        console.log("get new character");
+        const url="https://swapi.dev/api/people/"+randomNumber+"/";   = numarayı url'e ekledik.
+        fetch(url)                                                    = fetch, get request için kullanılır.
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.setState({
+                    name: data["name"],                               = response data ile state objectine değerler verdik.
+                    height: data.height,
+                    homeworld: data.homeworld,
+                    films: data.films,
+                    loadedCharacter: true
+                })
+            })
+      
+    }
+
+
+
+    render(){
+        
+    const movies = this.state.films.map((url, i) =>{     = map kullandık. içine 2 parametre koyduk. url, arrays'deki değerleri temsil ediyor. i ise index'i temsil ediyor.
+         return <FilmItemRow key={i} num={i} url={url}/> = component'te içeriye yollayacağımız propları belirledik. componentlerin unique olması gerekebilir.
+    })                                                     key={i} yazarak component'i unique yaptık. sitede consoldeki kırmızı warning yok oldu. 
+                                                           key={i} ve num={i} arasındaki fark key özel kelime olabilir ve içeriye prop olarak yolladığımızda çalışmayabilir ama
+                                                           num={i}'yi içeriye yolladık ve çalıştı.
+        
+    
+    
+    return(
+        <div>
+            {
+               this.state.loadedCharacter==true  &&
+                 <div>
+                   <h1>{this.state.name}</h1>
+                   <p>{this.state.height}</p>
+                   <p><a href={this.state.homeworld}>Homeworld</a></p>   = href içine {} açıp içine javascript koyarak link oluşturduk. (state objecti koyduk.)
+                   <ul>
+                      {movies}                                           = javascript değişkeni ekledik. render içinde bulunan değişken çalıştı.
+                   </ul>   
+                 </div>
+            }
+                
+                 <button 
+                    type="button" 
+                    onClick={() => this.getNewCharacter()}               = buttona tıkladıkça yeni starwars karakteri oluştu.
+                    className="btn"
+                >
+                    Randomize Character
+                </button>
+        </div>
+         
+        )
+    }
+}
+
+
+------------------------------------------------
+
+React is a JavaScript library for building user interfaces.
+JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file.
+JSX and React are two separate things. JSX is a syntax extension, while React is a JavaScript library. 
+React, JSX olmadan da kullanılabilir ama genelde JSX kodları içerir.
+JSX stands for JavaScript XML.
+ 
+XHTML XML standartlarında yazılmış HTML dosyalarıdır.
+XHTML = Extensible HyperText Markup Language
+XHTML ve HTML hemen hemen aynıdır.
+
+------------------------------------------------
+
+React için kitap önerisi = https://books.goalkicker.com/
+
+
+
+
+
