@@ -1,0 +1,1163 @@
+there are two ways to write React
+
+Class Based Components — which is technically the "harder" way to write components.
+Function Based Components, which comes with some nice magical functions, but can also be a steeper learning curve. 
+
+
+---------------------------------------------------
+App.css içindeki her şeyi sildik.
+
+
+
+
+import './App.css';
+
+
+function App() {
+  return (
+    <div>                     =  App.js'i temizledik.
+ 
+     
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"           = index.html'e bootstrap ekledik. (sadece css kısmını ekledik.)
+integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+
+---------------------------------------------------
+
+function Navbar() {       = functional component
+  return(
+       <div>
+
+
+       </div>
+  )
+  
+}
+
+---------------------------------------------------
+
+
+
+function Navbar() {    = Bootstrap Navbar component ekledik.
+    
+    return(
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Movie Browser</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Link</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />  = jsx'de closing tag'i olmayan input'un sonuna / ekledik.
+              <button className="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+    )
+    
+  }
+  
+
+
+Bütün elementler jsx veya xhtml olabilir. hata yazısında hatanın nerede olduğu biraz yanlış verilebilir. Bazı uyarıları bir süre görmezden geliyoruz.
+
+<hr>          <hr />       =  jsx'de closing tag'i olmayan hr'in sonuna / ekleyince hata düzeldi.
+<br>          <br />
+<input>       <input />
+<img>         <img  />
+
+
+
+
+sitede konsoldaki errorları düzeltiyoruz.
+
+react-dom.development.js:86 Warning: Invalid DOM property `class`. Did you mean `className`? = yazdı. class'ları className yaptık. (Vs Code'de Add Next Occurence kullanışlı)
+
+
+
+Dropdown kısmını kullanmayacağımız için sildik.
+Sol üstteki Navbar yazısını Movie Browser yaptık.
+
+
+src'de components folder oluşturduk. İçine Navbar.js ekledik. içine Navbar'i bulunduran functional componenti kopyaladık.
+
+
+
+const Navbar = () => {                                             = component oluşturmanın diğer yöntemi const değişkeni açmaktır.
+    
+    return(
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Movie Browser</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">Link</a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link disabled" aria-disabled="true">Disabled</a>
+              </li>
+            </ul>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+              <button className="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+    )
+    
+  }
+
+export default Navbar; = export ettik.
+
+import Navbar from './components/Navbar'; = App.js içinde import ettik.
+
+function App() {
+  return (
+   <div>
+      <Navbar />         = componenti ekledik
+      <h1>Hello</h1>  
+
+   </div>                = return sadece bir jsx elementini returnluyor. bu yüzden her şeyi div'in child'i şeklinde yazıyoruz. 
+   
+
+  )
+}
+
+---------------------------------------------------
+
+function App() {
+  return (
+   <div>
+      <Navbar />  = App.js içinde kodlar birikmesin diye componentlerle çalıştık.
+      <Home />
+   </div>
+   
+
+  )
+}
+
+
+const Home = () => {
+    return(
+       <>                  = div yazmak yerine returnde bu kısım yazılabilir.       
+         <h1>Hello123</h1>
+       </>
+
+    )
+}
+
+---------------------------------------------------
+router is basically how we route from different pages.
+
+
+npm install react-router-dom = Erouter yükledik.
+npm install react-router-dom@5.2.0 = kodlar çalışmazsa bu da yazılabilir.
+
+
+import { BrowserRouter } from 'react-router-dom';                    = index.js içinde import kullandık.
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+    <App />             = App'i BrowserRouter tag'inin içine yazdık.
+    </BrowserRouter>
+    
+  </React.StrictMode>
+);
+
+
+App.js içinde olanlar
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';   = Switch ve Route'yi import ettik.
+
+
+
+function App() {
+  return (
+   <div>
+     <Navbar />
+    <Switch>                   = Switch'i if statements olarak kullandık.
+      <Route path="/" exact>   = url'e hiçbir şey yazmazsak veya / eklersek Home componenti çalışır. exact yazmazsak url'e /about yazsak bile /about içinde /'yi bulundurur
+       <Home />                  ve /about için eklediğimiz component değil de bu component çalışır. exact sonraki router versionlarında kaldırılmış olabilir.
+      </Route>
+      <Route path="/about" component={AboutView} /> = Route oluşturmak için ikinci yöntem. url'e /about yazınca AboutView componenti gözüktü.
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+---------------------------------------------------
+
+
+import { Link } from "react-router-dom/cjs/react-router-dom.min"; = Navbar.js'de import ettik.
+
+
+
+
+<a className="navbar-brand" href="#">Movie Browser</a> = normalde link böyleydi.
+
+
+<Link className="navbar-brand" to="/">Movie Browser</Link> = a kısımlarını Link ile değiştirdik. href yerine to yazdık. böylelikle bu linke tıklanırsa switch içinde route path
+                                                             çalışacak. Sayfanın içindeki component değişecek. Bütün javascript reload olmuyor. Sadece ilgili
+                                                             component ekleniyor.
+
+
+---------------------------------------------------
+
+
+const Hero = () => {                              = Hero.js içinde yeni component açtık.
+    return(
+      <header className="bg-dark text-white p-5"> = bootstrap düzenlemesi yaptık.
+            <h1>This is a hero component</h1>
+      </header>
+    )
+}
+
+export default Hero;                              = export ettik.
+
+
+
+
+
+
+
+import Hero from "./Hero";                       = import ettik.
+
+
+const Home = () => {
+    return(
+       <>
+         <Hero />                = componenti diğeri içinde kullandık. 
+         <h1>Hello123</h1>
+       </>
+
+    )
+}
+
+export default Home;
+
+---------------------------------------------------
+
+
+import Hero from "./Hero";
+
+
+const Home = () => {
+    return(
+       <>
+         <Hero text="Welcome to the Hero component" /> = Hero componente text prop'ı yolladık.
+         <h1>Hello123</h1>                              
+       </>
+
+    )
+}
+
+export default Home;
+
+
+
+const Hero = ({text}) => {                    = text'i bu şekilde aldık. prop'ı de-structure ederek kullanmış olabiliriz.
+    return(
+      <header className="bg-dark text-white p-5">
+            <h1>{text}</h1>                   = text'i kullandık.
+      </header>
+    )
+}
+
+export default Hero;
+
+
+
+import Hero from "./Hero";
+
+const AboutView = () => {
+     return(
+        <>
+        <Hero text="Welcome to the About Us page" /> = Hero componenti burada da kullandık. Böylelikle Hero componenti farklı componentlere göre yazı yazdı. Bu component
+        <h2>About Us</h2>                              içeriye farklı text yolladı.
+        </>
+     )
+
+}
+
+
+export default AboutView;
+
+---------------------------------------------------
+
+
+import Hero from "./Hero";
+
+
+const SearchView = () => {                               = Yeni component oluşturduk export ettik.
+    return(
+       <>
+         <Hero text="You are searching for" />            
+        
+       </>
+
+    )
+}
+
+export default SearchView;
+
+
+
+
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import SearchView from './components/SearchView';                            = App.js içinde import ettik.
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+
+
+
+function App() {
+  return (
+   <div>
+     <Navbar />
+    <Switch>
+      <Route path="/" exact>
+       <Home />
+      </Route>
+      <Route path="/about" component={AboutView} />
+      <Route path="/search">
+        <SearchView />                                   = Switch kısmına yeni component ekledik.
+      </Route>
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+---------------------------------------------------
+
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import SearchView from './components/SearchView';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { useState, useEffect } from 'react';                                    = import ekledik.
+
+
+
+function App() {
+     
+  const [searchResults, setSearchResults] = useState([]);                 = bu kısımları yazdık. destructring array
+  const [searchText, setSearchText] = useState("");                       = nothing by default.
+
+  console.log(searchText+"searchText is the default");
+  
+  setTimeout(() => {
+    setSearchText("test1");                                               = default olan searchText'e, setSearchText ile değer verdik. Ama setSearchText çalışınca bütün component
+    console.log(searchText+"is the new searchText");                        rerender edilir. tekrar render edilirken tekrar setSearchText ile karşılaşılır. Tekrar render edilir.
+  }, 2000);                                                                 Sitede birkaç kez tekrar ediyor. Sonra duruyor. Bu kısmı setTimeout içinde yazmayınca sitede hata veriyor.
+                                                                            
+
+                                                                            classlarda this.state kullanırız. Functionlarda useState kullanırız.
+  
+ 
+
+
+  return (
+   <div>
+     <Navbar />
+    <Switch>
+      <Route path="/" exact>
+       <Home />
+      </Route>
+      <Route path="/about" component={AboutView} />
+      <Route path="/search">
+         <SearchView keyword={searchText} searchResults={searchResults} />   = yukarıdaki searchText'i buraya ekledik. prop olarak kullandık.
+      </Route>
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+
+
+
+
+
+
+import Hero from "./Hero";
+
+
+const SearchView = ({keyword, searchResults}) => {  = destructure ettik.
+
+     const title = "You are searching for "+keyword; = değişkenleri kullandık.
+     console.log(searchResults+" is the results");   = bu kısım site konsolunda iki kere okunuyor.
+    return(
+       <>
+         <Hero text={title} />
+        
+       </>
+
+    )
+}
+
+export default SearchView;
+
+
+---------------------------------------------------
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import SearchView from './components/SearchView';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { useState, useEffect } from 'react';
+
+
+
+function App() {
+     
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+  
+
+
+  return (
+   <div>
+     <Navbar searchText={searchText} setSearchText={setSearchText} />  // prop yolladık.
+    <Switch>
+      <Route path="/" exact>
+       <Home />
+      </Route>
+      <Route path="/about" component={AboutView} />
+      <Route path="/search">
+        <SearchView keyword={searchText} searchResults={searchResults} />
+      </Route>
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+
+
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
+const Navbar = ({ searchText, setSearchText }) => { --> destructure ettik.
+
+  const updateSearchText = (e) =>{
+    console.log(e.target.value);   = Bu function'ı input elementinden çağırdık. input elementinin value'sini konsola yazdık.
+    setSearchText(e.target.value); = input kısmına yazılan harfler sitede inputa eklenmiyordu. bir tane harfe tıklayınca bu function çalıştı. inputun valuesi + bir tane harf
+  }                                  setSearchText'e eklendi. input'un value kısmına searchText ekleyerek de inputun içinde yazan yazının değişmesini sağladık.
+    
+    return(
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">Movie Browser</Link>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/about">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/about">Link</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link disabled" aria-disabled="true">Disabled</Link>
+              </li>
+            </ul>
+            <form className="d-flex" role="search">
+              <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" 
+              value={searchText} onChange={updateSearchText}                                              =onChange ekleyince input alanında bir harfe basınca yukarıdaki function çalıştı. 
+              />                                                                                           value olarak {searchText} ekledik.
+              <button className="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+    )
+    
+  }
+
+  export default Navbar;
+
+
+---------------------------------------------------
+
+themoviedb'ye üye olduk.
+
+https://www.themoviedb.org/settings/api/request kısmına geldik. Api key oluşturduk.
+
+https://developer.themoviedb.org/docs = bu siteye geldik.
+
+Api reference --> movies --> details
+
+movie_id = 11
+
+Try it'e tıkladığımızda Response 200 çıkıyor. movie_id 1 yazarsak Response 404 çıkıyor. (Api key oluşturduk ama pek gerek yok gibi)
+
+
+------
+Api reference --> search --> movie
+
+query = star wars
+
+try it'e tıkladık Response 200 çıktı.
+
+
+---------------------------------------------------
+
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import SearchView from './components/SearchView';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { useState, useEffect } from 'react';
+
+
+
+function App() {
+     
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
+
+  useEffect(()=>{                                            = useEffect ekledik.
+   console.log(searchText,"is the searchText");              = text değiştikçe konsolda mesaj yazdı.
+
+  },[searchText])         = searchText değiştikçe useEffect tetiklenecektir.
+  
+
+
+  return (
+   <div>
+     <Navbar searchText={searchText} setSearchText={setSearchText} />
+    <Switch>
+      <Route path="/" exact>
+       <Home />
+      </Route>
+      <Route path="/about" component={AboutView} />
+      <Route path="/search">
+        <SearchView keyword={searchText} searchResults={searchResults} />
+      </Route>
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+
+
+Api sitesinde movies details'e gelip movie_id=11 yazınca sağ tarafta Node'i seçip ilgili kodları kopyaladık. 
+
+npm install node-fetch@2 --save = sitede yazdığı için yükledik.
+
+internetten alınan response'in yapısı incelenebilir.
+
+[object, object] gözüken sonuçlar için JSON.stringify kullanılabilir. Ama objectler tümden açılacağı için çok fazla yazı karmaşası olur.
+
+
+-------
+
+import './App.css';
+import Navbar from './components/Navbar';
+import Home from './components/HomePage';
+import AboutView from './components/AboutPage';
+import SearchView from './components/SearchView';
+import { Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { useState, useEffect } from 'react';
+
+
+
+function App() {
+
+  const [searchResults, setSearchResults] = useState([]); // search resultin array olma sebebi kolayca looplanması
+  const [searchText, setSearchText] = useState("");
+  
+  const fetch = require('node-fetch'); api sitesinde yazan kodu kullandık.
+
+
+  const url = `https://api.themoviedb.org/3/search/movie?query=${searchText}`; // dynamic hale getirdik. searchText'i koyduk arama yaptıkça aramalar url'e eklendi.
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZDRjNzNiNWYwOTVlZTlmYjliM2NhY2NmOWRmMTcwYyIsInN1YiI6IjY0Yzc0YzFlNjNlNmZiMDBjNDA5Y2I5MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7eoPj1CmxXmfEIGj6mMOHA9ZTWJ4NpT0QwNH7I1fpZs'
+    } = Api key kullanmadık ama Bearer token kullandık.
+  };
+
+useEffect(()=>{
+   console.log(searchText,"is the searchText");
+   fetch(url, options)
+  .then(res => res.json())
+  .then(json => {                   = kodları yazdık.
+      
+    console.log(json);
+    setSearchResults(json.results); = setSearchResults'a responseden kısım ekledik. text değiştikçe bu kod çalıştı.
+  
+  })
+  .catch(err => console.error('error:' + err)); 
+   
+
+  },[searchText])                
+  
+
+
+  return (
+   <div>
+     <Navbar searchText={searchText} setSearchText={setSearchText} />
+    <Switch>
+      <Route path="/" exact>
+       <Home />
+      </Route>
+      <Route path="/about" component={AboutView} />
+      <Route path="/search">
+        <SearchView keyword={searchText} searchResults={searchResults} />
+      </Route>
+    </Switch>
+   </div>
+   
+
+  )
+}
+
+export default App;
+
+
+---------------------------------------------------
+
+import { useHistory, Link } from "react-router-dom/cjs/react-router-dom.min"; = Navbarda import ekledik. 
+
+const Navbar = ({ searchText, setSearchText }) => {
+
+  const history = useHistory(); = use history ekledik.
+
+
+  const updateSearchText = (e) =>{
+    history.push("/search");       = search bar'da bir harfe tıklanıldığı zaman search page açılıyor.
+    setSearchText(e.target.value);
+  }
+
+
+
+
+---------------------------------------------------
+useEffect(()=>{
+  if(searchText) {                                   = if içinde sadece searchText yazdık. searchText null değilse veya boş değilse içeriyi yapar. Sitede hata çıkmaz. Bizde catch olduğu
+   console.log(searchText,"is the searchText");        için belki yine hata çıkmaz ama garantiye aldık.
+   fetch(url, options)
+  .then(res => res.json())
+  .then(json => {
+
+    setSearchResults(json.results);
+  
+  })
+  .catch(err => console.error('error:' + err));
+   
+    }
+  },[searchText])          
+
+
+------
+
+
+import Hero from "./Hero";
+
+
+const SearchView = ({keyword, searchResults}) => {
+
+     const title = "You are searching for "+keyword;
+     const resultsHtml = searchResults.map((Obj, i) => {  = map kullanarak searchResult'i loopladık.
+
+      return <div key={i}>{Obj.original_title}</div>       // objectten childlari sitede gösterdik. Bütün objectlerin childlari gözüktü.
+                                                              //Sitede hata çıkarsa key={i} kısmını yazabiliriz.
+
+     })
+
+    return(
+       <>
+         <Hero text={title} />
+         {resultsHtml}              
+       </>
+
+    )
+}
+
+export default SearchView; 
+
+
+----------------------------------------------------------
+
+console.log(searchResults+" is the results");  --> sonuçlar böyle geliyor --> [object Object],[object Object],[object Object]... is the results 
+
+console.log(searchResults); --> (20) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+
+
+----------------------------------------------------------
+jsx'de style kullanırken hata çıkarsa sitede çözüme bakarız.
+
+
+
+
+import Hero from "./Hero";
+
+
+const MovieCard = ({ movie }) => {                                            = yeni component oluşturduk.
+  const posterUrl = "https://image.tmdb.org/t/p/w500"+movie.poster_path; = resim ekledik. w500 yazınca sitede resmin düşük kalitelisini aldık.
+  return(                                                                
+    <div className="col-lg-3 col-md-3 col-2 my-4">       = my-4 --> margin on y axis
+ <div className="card">                                  = style kısmı lazım olmadığı için sildik. 
+    <img src={posterUrl} className="card-img-top" alt={movie.original_title} />  = bootstrap card bilgileri oluşturduk.
+    <div className="card-body">
+      <h5 className="card-title">{movie.original_title}</h5>
+      <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="#" className="btn btn-primary">Show Details</a>
+    </div>
+  </div>
+  </div>
+
+  )
+}
+
+
+const SearchView = ({keyword, searchResults}) => {
+
+     const title = "You are searching for "+keyword;
+     const resultsHtml = searchResults.map((Obj, i) => {  
+
+      return <MovieCard movie={Obj} key={i} />;  = componente prop yolladık. Bunları yapınca sitede film bilgileri içeren bir sürü kart oluştu. Arama yaptıkça kartlar değişti.  
+     })
+
+    return(
+       <>
+         <Hero text={title} />
+         {resultsHtml &&
+           <div className="container"> = Bu kısmı yazınca siteyi dolduran resimler biraz daha az yer kaplıyor. 
+             <div className="row">
+                {resultsHtml}     = resultsHtml'i divler içinde kullandık. 
+             </div>
+
+           </div>
+         
+         }                       
+       </>
+
+    )
+}
+
+export default SearchView; 
+
+----------------------------------------------------------
+<Route path="/movies/:id" component={MovieView} /> yeni route ve import ekledik. movies:id ekleyince url'e /movies/11 yazınca MovieView componenti ekleniyor.
+
+
+
+
+import Hero from "./Hero";
+import { Link } from "react-router-dom"; = Link kullanacağımız için import ettik.
+
+
+const MovieCard = ({ movie }) => {                                           
+  const posterUrl = "https://image.tmdb.org/t/p/w500"+movie.poster_path; 
+  const detailUrl = "/movies/"+movie.id;                                  = responseden id'yi aldık. url'e ekledik.
+  return(
+    <div className="col-lg-3 col-md-3 col-2 my-4">
+ <div className="card"> 
+    <img src={posterUrl} className="card-img-top" alt={movie.original_title} /> 
+    <div className="card-body">
+      <h5 className="card-title">{movie.original_title}</h5>
+      <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <Link to={detailUrl} className="btn btn-primary">Show Details</Link>   = Link kullandık ve yukarıdaki url'i buraya ekledik. Buttona tıkladığımızda ilgili filmin sayfasına gidiyoruz.
+    </div>
+  </div>
+  </div>
+
+  )
+}
+
+
+const SearchView = ({keyword, searchResults}) => {
+
+     const title = "You are searching for "+keyword;
+     const resultsHtml = searchResults.map((Obj, i) => {  
+
+      return <MovieCard movie={Obj} key={i} />;      
+     })
+
+    return(
+       <>
+         <Hero text={title} />
+         {resultsHtml &&
+           <div className="container"> 
+                  <div className="row">
+                {resultsHtml}
+             </div>
+
+           </div>
+         
+         }              
+       </>
+
+    )
+}
+
+export default SearchView; 
+
+----------
+
+import Hero from "./Hero";
+import { useParams } from "react-router-dom/cjs/react-router-dom";  = import ettik.
+import { useEffect, useState } from "react";
+
+const MovieView = () => {
+   const { id } = useParams();                                      = useParams kullanınca sitedeki girilen id'nin kaç olduğunu bulduk. /movies/:id = /movies/11 ise 11 değerini verdi.
+   console.log(id);
+   const fetch = require('node-fetch');
+   const url = 'https://api.themoviedb.org/3/movie/'+id;            = url'e id'yi ekledik.
+   const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZDRjNzNiNWYwOTVlZTlmYjliM2NhY2NmOWRmMTcwYyIsInN1YiI6IjY0Yzc0YzFlNjNlNmZiMDBjNDA5Y2I5MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7eoPj1CmxXmfEIGj6mMOHA9ZTWJ4NpT0QwNH7I1fpZs'
+      }
+    };
+
+   const [movieDetails, setMovieDetails] = useState({});  = object olarak ayarladık. state oluşturduk.
+   useEffect(() => {
+        console.log("make an api request", id);
+        fetch(url, options)
+         .then(res => res.json())
+         .then(json => {
+            console.log(json)
+            setMovieDetails(json); = Response'i setMovieDetails'e kaydettik.  
+         
+         
+         
+         })
+         .catch(err => console.error('error:' + err));
+
+   },[id] )                                             = id değiştikçe useEffect tetiklendi.
+
+     return(
+        <>
+        <Hero text={movieDetails.original_title} /> = movieDetails'i burada kullandık. url'e movies/11 yazınca  ya da filmlerde show detailse tıkladığımızda
+                                                      ilgili filmin bilgileri açıldı.
+        </>
+     )
+
+}
+
+
+export default MovieView;
+
+----------------------------------------------------------
+
+
+
+
+import Hero from "./Hero";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
+import { useEffect, useState } from "react";
+
+const MovieView = () => {
+   const { id } = useParams();
+   console.log(id);
+   const fetch = require('node-fetch');
+   const url = 'https://api.themoviedb.org/3/movie/'+id; 
+   const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiZDRjNzNiNWYwOTVlZTlmYjliM2NhY2NmOWRmMTcwYyIsInN1YiI6IjY0Yzc0YzFlNjNlNmZiMDBjNDA5Y2I5MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7eoPj1CmxXmfEIGj6mMOHA9ZTWJ4NpT0QwNH7I1fpZs'
+      }
+    };
+
+   const [movieDetails, setMovieDetails] = useState({}); 
+   const [isloading, setIsLoading] = useState(true);         = state ekledik. default değeri true.
+   useEffect(() => {
+        console.log("make an api request", id);
+        fetch(url, options)
+         .then(res => res.json())
+         .then(json => {
+            console.log(json)
+            setMovieDetails(json);
+            setIsLoading(false);                 = Response geldiğinde değeri false'e değişti.
+         
+         
+         })
+         .catch(err => console.error('error:' + err));
+
+   },[id] ) 
+
+   function renderMovieDetails() {
+      if(isloading){                              = isloading true ise return olarak burayı yazıyor. filme tıklayınca detaylar gelirken sayfada birkaç saniye boşluk oluyor. onu doldurduk.
+           return(
+            <Hero text="Loading..." />
+           )
+      }
+      if(movieDetails){                           = Response geldiğinde movieDetails artık içinde değer bulundurduğu için if kısmı true olur ve sitede bu kısım görünür.
+        return <Hero text={movieDetails.original_title} />;
+      }
+      
+   }
+
+     return renderMovieDetails(); //returne function yazdık. 
+
+}
+
+
+export default MovieView;
+
+
+----------------------------------------------------------
+
+   function renderMovieDetails() {
+      if(isloading){                           
+           return(
+            <Hero text="Loading..." />
+           )
+      }
+      if(movieDetails){  
+         const posterPath = "https://image.tmdb.org/t/p/w500"+ movieDetails.poster_path; = resimin url'ini aldık.                       
+        return <>          
+        
+        <Hero text={movieDetails.original_title} />
+        <div className="container my-5">                     = filmin detaylarına biraz içerik ekledik.
+           <div className="row">
+             <div className="col-md-3">
+               <img  src={posterPath} alt="..." className="img-fluid shadow rounded"/> 
+               
+               </div>
+             <div className="col-md-9">
+               <h2>{movieDetails.original_title}</h2>
+               <p className="lead">{movieDetails.overview}</p> 
+               </div>
+
+
+           </div>
+        </div>
+             
+
+          
+        </>
+       
+      }
+      
+   }
+
+     return renderMovieDetails(); 
+}
+
+
+export default MovieView;
+
+
+----------------------------------------------------------
+
+   function renderMovieDetails() {
+      if(isloading){                           
+           return(
+            <Hero text="Loading..." />
+           )
+      }
+      if(movieDetails){  
+         const posterPath = "https://image.tmdb.org/t/p/w500"+ movieDetails.poster_path; 
+         const backdropUrl = "https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path;  = resim ekledik.                  
+        return <>          
+        
+        <Hero text={movieDetails.original_title} backdrop={backdropUrl} /> = resimin url'sini prop olarak yolladık.
+        <div className="container my-5">
+           <div className="row">
+             <div className="col-md-3">
+               <img  src={posterPath} alt="..." className="img-fluid shadow rounded"/>
+               
+               </div>
+             <div className="col-md-9">
+               <h2>{movieDetails.original_title}</h2>
+               <p className="lead">{movieDetails.overview}</p>
+               </div>
+
+
+           </div>
+        </div>
+             
+
+          
+        </>
+       
+      }
+      
+   }
+
+     return renderMovieDetails(); 
+}
+
+
+export default MovieView;
+
+
+-----
+
+
+
+const Hero = ({text, backdrop}) => {   = destructure ettik. aşağıda kendi classlarımızı yazdık.
+    return(
+      <header className="bg-dark text-white p-5 hero-container"> 
+            <h1 className="hero-text">{text}</h1>
+            {
+              backdrop &&                                                                    = if statements kullandık.
+              <div className="hero-backdrop" style={{backgroundImage: "url("+backdrop+")"}}></div> = backgroundImage ekledik.
+            }
+            
+      </header>
+    )
+}
+
+export default Hero;
+
+----------
+
+.hero-container{        = css ekledik.
+    position: relative;
+    z-index: 100;
+}
+.hero-text{
+    position: relative;
+    z-index: 200;
+}
+.hero-backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.4;
+}
+
+
+----------------------------------------------------------
+
+Anlatılmayan ama yapılabilecek ödevler.
+-->
+
+There is no 404 page                               = http://localhost:3000/missing-page yazdığımızda sitede bir route'e denk gelmiyor. Böyle bir sayfa yok çıkması lazım.
+Sometimes search results doesn't have an image     = resimi olmayan filmler için generic image eklenebilir.
+There is no handler if there are no search results = arama sonuçlarında bir şey çıkmadığında bir şey yazmıyor.
+The search button in the navigation doesn't work
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
