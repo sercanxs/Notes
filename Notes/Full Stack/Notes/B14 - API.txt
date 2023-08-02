@@ -1,0 +1,5 @@
+An API, which stands for application programming interface, is a set of protocols that enable different software components to communicate and transfer data. 
+Developers use APIs to bridge the gaps between small, discrete chunks of code in order to create applications that are powerful, resilient, secure, and able to meet user needs.
+
+
+HTTP requests = GET, POST, PUT, PATCH, DELETE
