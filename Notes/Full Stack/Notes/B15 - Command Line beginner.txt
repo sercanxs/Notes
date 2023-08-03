@@ -1,0 +1,30 @@
+
+date --> tarih verdi.
+
+pwd --> print working directory.
+
+start . --> içinde bulunulan dosyayı açtı.
+
+dir --> derinleri gösteriyor.
+
+ls --> dir ile aynı.
+
+cd --> change directory
+
+cd .. --> Brings you one directory up from your current directory. 
+
+cd ~ --> Brings you back to your home directory.
+
+dir | Findstr m --> m harfine sahip olan file folderleri gösteriyor.
+
+ren rers.txt abc.txt --> ren ile txt dosyasının ismini abc'ye değiştirdik.
+
+copy newfile.txt a123.txt --> belirli dosyayı kopyaladık. ismini değiştirerek yapıştırdık.
+
+mkdir --> make directory --> folder oluştu.
+
+new-item this_is_my_first_file.txt --> new-item ile yeni dosya oluşturduk.
+
+type .\this_is_my_first_file.txt --> type dosyanın içinde ne yazdığını gösteriyor.
+
+remove kodunu yazmadık. Çünkü dosyalar bilgisayardan direkt siliniyor. 
