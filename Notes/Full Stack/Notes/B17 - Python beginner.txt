@@ -1,0 +1,500 @@
+https://www.python.org/ --> download --> download the latest version for windows.
+
+python'u yükledik.
+
+py --version
+Python 3.11.4
+
+-----------------------------------------------------------------------
+
+vs code ile .py dosyası oluşturduk.
+
+py .\Hello_World.py = Konsola yazınca python dosyası çalıştı.
+
+py yazınca python terminal açılıyor ve pwd cd gibi komutlar çalışmıyor. quit() yazarak çıkıyoruz.
+
+5+5 --> toplama
+99-11 --> çıkarma
+4*4 --> çarpma
+10 / 2 --> bölme
+4 ** 4 --> 4 üzeri 4
+10 % 3 --> bölümden kalanı veriyor.
+
+
+>>> import os
+>>> clear = lambda: os.system('cls')
+>>> clear() --> python terminal'de bunu yazınca konsol yazıları temizleniyor.
+
+-----------------------------------------------------------------------
+
+course = "Python"   = değişken oluşturduk. 
+
+print(course) = değişkeni yazdık.
+
+
+
+course = "Python" = Python semi colonlara dikkat etmiyor. Pythonda indentation var. Yeni değişkeni yeni satırdan açtık.
+name = "Mark"
+
+
+if course=="Python": = Pythonda parantezler, curly braceler yok.
+    print("true")    = bu kısmı içe kaydırdık. içerdeki kodlar if'e ait. dışarıdaki kodlar bu if'e ait değil.
+
+if name=="Mark":     = colon görmedikçe kodlar içeri kaydırılmamalıdır. Yoksa indentation error veriyor.
+    print("true")    
+
+
+if course=="Python": = colon gördükçe indent uygulayabildik.
+    print("true")
+    if course=="Python":
+        print("false")
+        if name=="Mark":
+            print("True")
+
+
+if name=="Mark":
+    print("true")    
+
+-----------------------------------------------------------------------
+
+#write some comments here = yorum yazdık.
+
+course = "Python" #another code comment = diğer yorum.
+name = "Mark"
+
+-----------------------------------------------------------------------
+Data types
+
+string = "A sentence"                      = string
+integers = 99                              = integer
+floats = 3.14                              = float
+list = ["Item 1", floats, integers]        = list
+tuple = ("Item 1", floats, integers)       = tuple
+sets = {"Item 1", "Item 2", "Item 3"}      = set
+dictionary = {                             = dictionary
+    "key": "value",
+    "key2": "value2",
+}
+booleans = True                            = booleans
+none = None                                = none
+
+
+
+-----------------------------------------------------------------------
+Integer, float numeric data types'dir.                  
+
+items = 4
+price = 19.97
+total = items * price  = integer ile float çarpılabildi. Sonuç = 79.88.
+print(total)            
+
+items = 4
+price = "192"
+total = items * price  = integer ile string çarpılınca string tekrar tekrar yazıldı. --> 192192192192
+print(total)
+
+
+num1 = 1_000_000_000 = sayının kaç basamaklı olduğunu anlamak için bu şekilde underscore koyabiliriz.
+
+
+-----------------------------------------------------------------------
+
+sentence = "A sentence in here"  
+sentence = 'A sentence in here' = "" yerine '' kullanılabilir.
+
+sentence = """  A sentence in here = String'i birçok satırda yazabilmek için """ gerekir.
+
+                              = konsolda boşluklarla birlikte görünür.
+Add on a new line     """
+
+sentence.upper() = harfler büyük oldu.
+sentence.lower() = harfler küçük oldu.
+type(sentence)   = Değişkenin ne olduğunu gösteriyor. str yazıyorsa değişken string'tir.
+
+
+-----------------------------------------------------------------------
+
+
+lst = ["String", 1, 3.14, ["A new item"], "Kalob"] = list keyword olduğu için list yerine lst yazdık. pythonda array'e list denir. Listler, içinde birden çok data type bulundurabilir.
+                                                     list içine list eklenebilir.
+lst1 = ["First item"] = tek itemli list.
+
+print(lst) = list yazdık.
+
+
+for item in lst:
+    print("The item is:", item) = virgül araya boşluk koyarak ekliyor.
+
+
+lst.append("John") = liste yeni değer ekledik.
+
+lst.remove("John") = listten değer sildik.
+
+lastName = lst.pop() = son eklenen değeri sildik. silerken kaydettik.
+
+print(lst)
+
+print(lastName) = silinmiş son değeri yazdık.
+
+
+
+-----------------------------------------------------------------------
+person = {              = A dictionary is a kind of data structure that stores items in key-value pairs. JSON'a benziyor. dictionary içinde dictionary olabilir.
+    "key": "value",
+    "name": "Kalob",
+    "drink": "water"
+}
+
+
+print(person)          = dictionary'deki bütün key valueleri yazdı.
+print(person["drink"]) = key yazınca value verdi.
+
+person["city"] = "Alexandria" = yeni key ekledik.
+
+del person["city"] = key değerini sildik. 
+
+print(person)
+
+
+
+
+-----------------------------------------------------------------------
+
+tuple immutable'dir. Yani değerleri değiştirilemez. list'te değiştirilebilir.
+
+
+animals = ["cat","dog","zebra","aardvark"] = list oluşturduk.
+
+animals.sort() = değerleri sıraladı. Büyük harfle başlayanlar küçük harfle başlayanlara göre öne geldi.
+
+print(animals)
+
+foods = ("pizza","apple","orange","pasta") = tuple oluşturduk.
+foods = ("pizza","apple","orange","pasta",) = önceki python versionlarında bu tuple algılanmayacağı için en son kısma , koyuyorduk. 
+
+print(foods) = tuplelerde sort(), append(), remove(), pop() çalışmıyor. çünkü tuple değerleri değiştirilemez.
+
+for item in foods:             = loopladık.
+    print("The food is", item)
+
+
+
+
+-----------------------------------------------------------------------
+
+s = {"item 1", "item 2","item 2", "item 3"} = set'te yazan değerler sıralı değildir. Konsolda rastgele görünürler. Aynı değerler iki kere tekrarlanmaz.
+
+
+s.add("item 4")    = yeni değer ekledik.
+s.remove("item 3") = değeri sildik.
+
+print(s)
+
+
+-----------------------------------------------------------------------
+
+b = True --> Boolean
+print(b)
+
+n = None --> None içinde bir şey yok demek. Kendimiz None ekleyebiliriz.
+
+print(n)
+
+
+
+-----------------------------------------------------------------------
+lst = ["one","two","three","four","five"]
+
+print(lst[0])    = list subscriptable'dir yani listte index kullanabiliriz.
+print(lst[0:3])  = 0'dan başlar 3'ü yazmaz.
+print(lst[2::])  = 2'den sona kadar her değeri yazar.
+print(lst[-1])   = negatif değer verince okumaya tersten başlar. --> 5
+print(lst[-4])   = 2
+print(lst[-2::]) = 4'ün sağındakileri yazdı. --> 4, 5
+
+
+s = "Andromeda"  = stringler iterable'dir.
+
+print(s[0])  --> A
+print(s[5])  --> m
+
+
+-----------------------------------------------------------------------
+
+age = input("What is your age ") = konsolda yazı yazdı ve user input kullandık ama değerleri string olarak alır.
+print(age)
+
+
+Typecasting is changing one data type to another data type.
+
+
+age = input("What is your age ")
+     
+print(int(age)*7) = integer'e castingledik. sayı değil de harf girilirse bu kısım hata verebilir.
+
+grocery_list = ["Apples","Oranges","Bananas","Apples"] = List oluşturduk
+
+grocery_list = set(grocery_list) = list'i set'e castingledik.
+
+
+-----------------------------------------------------------------------
+
+city = "alexandria"
+welcome_message = "The city is {}. This is old city".format(city) = printi formatladık. city'i string içinde yazdık.
+
+print(welcome_message)
+
+welcome_message = f"The city is {city}. This is old city" = ikinci yöntem
+
+print(welcome_message)
+
+welcome_message = "The city is %s. This is old city" % city = eski yöntem. s kısmı stringi temsil ediyor olabilir.
+
+print(welcome_message)
+
+
+-----------------------------------------------------------------------
+
+city = "alexandria"
+
+
+if city == "alexandria":     = if statements
+    print("hello world")
+else:                        = else
+    print("false")
+
+
+
+name = input("What is your name? ")
+if name == "Bob":
+    print("Welcome Bob!")
+    bring_food = "Pizza"                                = if içinde değişken oluşturduk.
+elif name == "Kalob":
+    print("Welcome to your teacher portal")
+    bring_food = "Tacos"
+elif name == "Nathan":                                  = elif, else if'i temsil ediyor.
+    print("Welcome to the Gym")
+    bring_food = "Weigh protein"
+else:
+    print("You're not bob get outta here")
+    bring_food = "Salmon"
+
+print(f"You are eating {bring_food}")
+
+
+
+Comparison Operators
+
+>
+>=
+<
+<=
+== 
+!= 
+
+-----------------------------------------------------------------------
+
+none = None                = None if kısmına false olarak geçer.
+
+if none:                    
+    print("This is true")
+else:
+    print("This is false")
+
+
+
+something = "A string in here" = string if kısmına true olarak geçer.
+
+if something:                  
+    print("This is true")
+else:
+    print("This is false")
+
+
+something = "" = empty string false olarak geçer.
+something = 0  = sıfır değeri false olarak geçer. Diğer değerler true'dur.
+
+
+-----------------------------------------------------------------------
+
+age = 35
+name = "Kalob"
+
+if age==35 and name=="Kalob": = and kullandık.
+    print("This is true")
+else:
+    print("This is false")
+
+
+if age==35 or name=="Kalob1": = or kullandık.
+    print("This is true")
+else:
+    print("This is false")
+
+
+-----------------------------------------------------------------------
+
+fav_foods = ["Pizza","Tacos","Salmon"]
+
+for food in fav_foods:
+    print(food)            = listi loopladik. listteki her değer yazıldı.
+
+
+name = "Mark"
+
+for letter in name:        = string looplanabilir. stringdeki bütün harfler tek tek yazıldı.
+    print(letter)
+
+
+person = {
+    "name": "Kalob",
+    "age": 35,
+    "city": "London"
+}
+
+for key in person:            = dictionary'den keyleri looplayabildik.
+    print(key, person[key])   = key value yazdık.
+
+
+for key, value in person.items():    = key value yazmak için 2. yöntem. items() kullandık. deconstruct ettik.
+    print(key, value)
+
+for key in person.keys():     = sadece keyleri aldık.
+    print(key)
+
+for value in person.values(): = sadece valueleri aldık.
+    print(value)
+
+
+-----------------------------------------------------------------------
+
+num = 0
+
+while num<10:                        = while loop'ta true oldukça içeriyi yapar. 
+    print(f"The number is {num}")
+    num=num+1
+
+-----------------------------------------------------------------------
+
+items = ["one","two","three","four","five"]
+
+for item in items:    
+    if item=="two":
+        continue        = for loop'ta continue kullandık.
+    print(item)
+
+
+for item in items:    
+    if item=="three":
+        break           = break
+    print(item)
+
+
+-----------------------------------------------------------------------
+
+function'larda kodu bir kere yazarız. Tekrar tekrar kullanırız.
+
+
+def func1():                          = function oluşturduk.
+    print("This is a function")     
+
+func1()                               = function'ı çağırdık.
+
+
+
+
+
+def func1(name):            = function'a parametre ekledik.                  
+    print(f"Hello {name}")     
+
+func1("Gully")   
+
+
+
+
+
+def func1(name, city="London"):                  = parametrelerden birine default value ekledik.                        
+    print(f"Hello {name}. You are in {city}")     
+
+func1("Gully") 
+func1(name="Gully", city="Madrid")               = function'ı çağırırken parametrelere bu şekilde değer verebiliriz.   
+
+
+
+
+
+def func1(name, city="London"):                   
+    
+    food = "Oranges"                             = function içinde değişken açtık.
+
+    print(f"Hello {name}. You are in {city}")   
+
+
+
+
+def func1():                     
+    food = "Oranges"
+    return food         = function içinde değişkeni returnledik. Default olarak None değeri returnlenir.
+
+food123 = func1()       = return değerini değişkene kaydettik.                         
+
+print(food123)  
+
+-----------------------------------------------------------------------
+
+def myfunc():           = if'lerde functionlar'da içerisine hiçbir şey yazılmadığında hata çıkıyor. pass yazarak bu boşluğu dolduruyoruz.
+    pass
+
+print("hi")
+
+
+
+def myfunc():
+    name="Kalob"        = function içinde oluşturulan değişkenler. function dışında geçerli değildir.
+
+print(name)
+
+
+
+name="Mark"
+
+def func1():                         
+    print(f"Hello {name}")   = function içinde name değişkeni yoksa dışarıdaki name değişkeni içeride geçerlidir.
+
+func1()                      = dışarıdaki değişken bu kısmın altında olursa kod hata verir.
+
+
+
+name="Kalob"
+
+def myfunc():
+     name = "new name"      
+
+myfunc()   = function çalışınca dışarıdaki name değeri içeridekine overwrite edilmiyor. Çünkü dışarıdaki ile içerideki farklı değişkenler.
+print(name)     
+
+
+
+-----------------------------------------------------------------------
+
+py -m http.server = local python server kurduk.
+
+http://localhost:8000/ = Bunu yazınca siteye girdik. index.html oluşturulunca html sitesi gözüküyor. index dışında başka bir isim kullanınca html sitesi gözükmüyor.
+                         belirli lokasyondaki dosyalar gösteriliyor.
+
+
+
+import random  = random packageini import ettik.
+
+rc = random.choice(["Rock","Paper","Scissors"])   = listten belirli değeri random seçti.
+
+print(rc)
+
+
+
+                                                                    
+
+
+
+
+
