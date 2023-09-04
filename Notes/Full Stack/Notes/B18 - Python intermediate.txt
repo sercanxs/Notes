@@ -1,0 +1,356 @@
+names = ["Kalob","Jon","Gully"]
+
+print("Kalob" in names)         = in operator kullandık. listte belirli değer varsa true yazar.
+
+
+
+key = "name"
+person = {                       
+    "name": "Kalob",
+    "profession": "Coding teacher",
+}
+
+if key in person:              = dictionary'de name key'i varsa true.
+    print("Name is a valid dictionary key in the person object")
+
+
+
+
+-------------------------------------------------------------------------------------
+
+my_thing=False
+
+print(not my_thing)       = not kullanınca false true oldu.
+
+if not my_thing:          = if'te not kullandık.
+    print("Print a statement in here")
+
+
+name="Kane Ezki"
+
+if name not in ["Kalob","Jon","Gully"]: = in'de not kullandık.
+       print("Kane is not in the list")
+
+
+-------------------------------------------------------------------------------------
+readme.txt oluşturduk içine yazılar yazdık.
+
+
+
+with open("readme.txt","r") as file: = r, read'i temsil ediyor. file değişken ismi
+    print(file.read())               = txt dosyasının içindekileri yazdık. file değişkeni sadece bu indentte çalışır.
+    content123=file.read()           = file.read() bir kere çalışınca ikinci kez çalışmıyor. file.read()'i bir değişkene kaydedince with dışında kullandık.
+
+
+print(content123)  
+
+
+-------------------------------------------------------------------------------------
+
+with open("writing_files.txt","w") as file:    = w --> write
+    file.write("Hello World")                  = yeni dosya oluşturup içine yazı yazdık.
+
+
+with open("writing_files.txt","a") as file:    = a --> append
+    file.write(" dim")                         = dosyaya yeni yazılar ekledik.
+
+
+with open("writing_files.txt","a") as file: 
+    file.write("\n dim")                       = \n yazınca yeni yazılar yeni satırdan ekleniyor. n--> new line
+    file.write("\n\t This is tabbed")          = \t yazınca yazılar içeriden yazıldı.             t--> tab
+
+
+-------------------------------------------------------------------------------------
+with open("writing_files.txt","r") as file: 
+    print(file.readlines())                    = readlines kullanınca list oluştu. Her satır listin bir değerini temsil ediyor.
+
+
+
+
+with open("writing_files.txt","r") as file: 
+    emails = file.readlines()
+
+for email in emails:
+    print("Looking for gmail account")
+    if "gmail" in email:                       = string içinde string var mı kontrol etmek için in yazabiliriz.
+        print(email)                   
+
+
+
+
+        print(email.rstrip())       = readlines ile list'in değerlerine bakarken hepsinin sonunda \n gördük. Bunu engellemek için rstrip() yazdık. rstrip right strip'i temsil eder ve
+                                      sağdaki boşluklar yok olur. Print zaten bir alt satırdan yazarken \n ile birlikte iki satır aşağıdan yazıyorlardı bunu engelledik.
+
+
+
+-------------------------------------------------------------------------------------
+In python everything is called an object. files, packages, functions everything is object
+
+
+def thing1(name):                           = function içinde function açtık. name değişkeni bütün alt functionlarda kullanılabilir ama function'ın dışında kullanılamaz.
+    print("Welcome to thing 1", name)
+
+    def thing2():
+        print("Welcome to thing 2", name)
+    thing2()
+
+thing1("Jacob")
+
+
+-------------------------------------------------------------------------------------
+pip is a package-management system written in Python and is used to install and manage software packages. 
+
+
+python setup'ı açtık. modify'e tıkladık. pip dahil optional features'ler seçiliydi. next dedik. Add Python to env variables'e tıkladık. next dedik.
+
+pip -V yazınca pip versiyonu gözüktü.
+
+Python env variable'e eklendiği için artık py yerine python komutu çalışıyor.
+
+pip install requests 
+
+
+-------------------------------------------------------------------------------------
+
+
+import requests                           = requests package'inin pip ile yüklenmesi lazım. Yüklenince burada import ettik.
+import time
+
+req = requests.get("https://kalob.io")    = http get request kullandık.
+print(req.status_code)                    = status code'i verdi. --> 200
+
+
+time.sleep(5)                             = time.sleep kullanınca 5 saniye bekledi. time'i import ettik.
+
+print("Mark")
+
+-------------------------------------------------------------------------------------
+
+import requests
+
+req = requests.get("https://swapi.dev/api/people/2/")
+person = req.json()        = json response alacağımız için bunu yazdık. Dictionary'e çevirdi.
+print(person)
+print(person["name"])      = response'de key girince value aldık.
+print(type(person))        = dictionary çıktı. dictionary'den JSON'a çevirmek için aşağıda dump kullandık.
+print(f'Birth year: {person["birth_year"]}')
+
+
+for film in person['films']: = json response'de films array'di. içindeki değerleri loopladık.
+    req = requests.get(film) = Değerler url olduğu için bu url'leri kullanarak yeni get request yolladık.
+    film = req.json()
+    print("Film is: ", film['title'])
+
+
+
+-------------------------------------------------------------------------------------
+
+import json                               = import ettik.
+
+c3p0 = '''{                               = String içine JSON yapıştırdık. JSON yerine dictionary yapıştırılırsa aşağıdaki kodlar hata verir.
+	"name": "Owen Lars",
+	"height": "178",
+	"mass": "120",
+	"hair_color": "brown, grey",
+	"skin_color": "light",
+	"eye_color": "blue",
+	"birth_year": "52BBY",
+	"gender": "male",
+	"homeworld": "https://swapi.dev/api/planets/1/",
+	"films": [
+		"https://swapi.dev/api/films/1/",
+		"https://swapi.dev/api/films/5/",
+		"https://swapi.dev/api/films/6/"
+	],
+	"species": [],
+	"vehicles": [],
+	"starships": [],
+	"created": "2014-12-10T15:52:14.024000Z",
+	"edited": "2014-12-20T21:17:50.317000Z",
+	"url": "https://swapi.dev/api/people/6/"
+}'''
+
+c3p0 = json.loads(c3p0)     = json.loads içinde json bulunan string'i alıyor dictionary'e çeviriyor. loads --> load a string'i temsil ediyor.
+
+c3p0['name'] = "Kane Ezki"  = dictionary'de name'i değiştirdik.
+c3p0_str = json.dumps(c3p0) = dictionary'i string'e çevirdik. String içinde JSON yazıyor. dumps-->dump string. 
+print(c3p0_str)
+
+
+-------------------------------------------------------------------------------------
+
+def thing(name, *args):
+
+  print(type(args)) = *args tupledir. İçine sayısız argument(değer) alır. ilk değerler varsa başka değişkenlere, geriye kalan argumentler args'a
+  print(args)        verilir. değişkenin önüne yıldız koymak yeterli.
+                  
+thing(1,2,3,4)
+
+
+
+
+-------------------------------------------------------------------------------------
+
+def person(name1, **kwargs):                      = kwargslar dictionary'dir. iki yıldız koymak yeterli. key value şeklinde keyword argumentsleri kaydettik.
+  print(kwargs)
+  print(type(kwargs))
+
+  print(kwargs.get("age"))                  
+
+
+person("mor", name="Jacob", age=True, brain="Huge") = key value yerleştirirken : kullanmak yerine = kullandık.
+
+
+-------------------------------------------------------------------------------------
+mutable - immutable = changeable - unchangeable
+
+
+string = "Mark"                                 = stringler değiştirilemez.
+print(string.upper())                           = upper string'i değiştirmedi.
+print(string)                                   = Mark
+
+string = "John" = Mark silinmedi John açıldı. Değişken John'ı işaret etti.
+
+names = ["Kalob", "Jacob", "Gully", "Amanda"]    = lists mutable'dir.
+names.append("Rhubarb")                          = append list'i değiştirdi. list'e yeni değer eklendi.
+print(names)
+
+
+-------------------------------------------------------------------------------------
+
+animals = ["Gully", "Rhubarb", "Zephyr", "Henry"]
+
+
+for animal in enumerate(animals): = enumerate değerlere index veriyor. bir değişken ekleyince değer ve indexler tuple olarak geliyor. --> (1, 'Rhubarb')
+    print(animal)
+
+
+
+
+for index, animal in enumerate(animals): = 2 tane değişken ekleyince, birincisi index'i ikincisi değeri temsil ediyor.
+
+    print(f"{index+1}.\t{animal}")
+
+
+
+-------------------------------------------------------------------------------------
+
+numbers = []
+
+
+numbers = [num*2 for num in [1, 3, 5, 7, 9]] = List comprehension kullanarak listteki tüm değerleri 2 ile çarpıp başka liste ekledik.
+
+print(numbers)
+
+
+
+
+for num in [1, 3, 5, 7, 9]:   = aynı işlem loop kullanarak yapılabilir.
+    numbers.append(num*2)
+
+print(numbers)
+
+
+-------------------------------------------------------------------------------------
+
+names =[("name", "Kalob"), ("occuppation", "Coder")] = List oluşturduk. İçinde tuple'ler var.
+
+d={}
+
+for key, value in names:        = list içinde tuple'deki değerleri deconstruct ettik. dictionary'e kaydettik.
+    d[key]=value
+
+print(d)
+
+
+d1={}
+d1={key: value for key, value in names} = dictionary comprehension kullanarak aynı işlemi kolayca gerçekleştirdik.
+
+print(d1)
+
+
+d1= dict(names)   = dictionary comprehension kullanmadan casting yapmak da aynı işlevi görür.
+print(d1)
+
+
+-------------------------------------------------------------------------------------
+
+courses = {
+    "js": "JavaScript 101",
+    "python": ["Python 101", "Python 201"],
+    "html": "HTML 101"
+}
+
+print(courses.get("js", None)) = dictionary'de get kullanılabilir. key girince value veriyor. Eğer ilgili key yoksa sağdaki değer yazıyor. None default değeri olduğu için yazmaya gerek yok.
+print(courses.get("css", "CSS 101")) 
+
+
+if courses.get("css", None):
+    print("You are enrolled in CSS 101")
+
+
+-------------------------------------------------------------------------------------
+
+py -m venv .venv   = bunu yazınca yeni virtual environment kuruldu. .venv dosyası oluştu.
+
+Set-ExecutionPolicy Unrestricted -Scope Process = her vs code açılışında bunu yazmak lazım. command promptta yazmaya gerek yok.
+
+.\.venv\Scripts\Activate.ps1 --> virtual env'i çalıştırıyor. activate.bat, deactivate.bat dosyaları command promptta çalışıyor. Vs code ve powershell'de ps1 çalışıyor.
+
+deactivate = virtual env'den çıkıyor.
+
+
+
+Virtual environment python projelerinde izole bir ortam hazırlamaktadır. Birden fazla proje için kullanılabilecek paket çakışmaları ve versiyon uyuşmazlıklarının önüne geçebilmek için 
+birbirinden bağımsız python environmentlarının oluşturulması gerekir.
+Normalde pip ile requests package'ini yükledik. Virtual environment'lerde requests package'i olmadığı için ayrı olarak yüklemek gerekir.
+
+-------------------------------------------------------------------------------------
+py yazıp python shell'i açtık.
+
+name = "Python 201" 
+
+name. = tab'a birkaç kez tıkladığımızda ilgili methodlar gözükmesi lazım. Çalışmadı.
+
+
+
+pip install ipython = ipython package'ini yükledik.
+
+ipython = py yazmak yerine bunu yazdık.
+
+name = "Python 201"
+
+name. = nokta koyup tab'a birkaç kez basınca bütün kullanılabilecek methodlar gözüktü. Python öğrenirken ilgili methodlar buradan bakılarak öğrenilebilir.
+
+-------------------------------------------------------------------------------------
+Package'lerin ne işe yaradığını anlamak için documentleri okumak gerekir.
+
+pip install colorama = konsolda yazıların rengini değiştiriyor.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
