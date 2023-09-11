@@ -1,0 +1,331 @@
+class Animal:                     = class oluşturduk.
+    property_1 = "Something"      = Class variable oluşturduk. Class variables are defined within the class but outside of any class methods.
+
+the_animal = Animal()             = we instantiated the class. class için instance oluşturduk.
+
+print(the_animal.property_1)      = instance'den değişkeni yazdık.
+
+
+------------------------------------------------------------------------------------
+
+class Animal:                   
+    property_1 = {               = dictionary
+        "key_1" : "value_1"
+    }   
+    this_list = ["Mark", "John", "Kalob"]
+    _like_this = "This is a private property" = Yazılımcılar diğer yazılımcılara mesaj verebilirler. değişkenin başında underscore varsa bu private demektir ve
+                                                class'tan dışarıda kullanma anlamına gelir.
+
+the_animal = Animal()            
+
+print(the_animal.property_1["key_1"])   = değişkenlerin data type'i ne ise çağırırken o şekilde çağırırız. 
+print(the_animal.this_list[1]) 
+
+
+print(Animal.property_1)                = class isminden direkt class variablelere erişebiliriz.
+
+
+------------------------------------------------------------------------------------
+
+class Animal:                   
+    property_1 = {              
+        "key_1" : "value_1"
+    }   
+    this_list = ["Mark", "John", "Kalob"]
+
+    def this_is_a_method(self):   = method oluşturduk. functionlar class içinde açıldığında method olurlar. methodlar en az bir tane parametre almak zorundadır.
+                                    Yazılan ilk parametre olan self, class'i yani Animal'i temsil eder.
+        print(self.this_list)     = self, class'i temsil ettiği için class'tan variablelere, methodlara erişebiliriz.
+    
+    def get_john(self):
+        return self.this_list[1]
+    
+    @property                     = property decorator ekledik. property decorator da değişkendir ama methodlarla kullanılır. normalde methodları çağırırken () kullanırız. 
+    def get_mark(self):             property ekleyince return value property'e kaydedilir. property ise değişkeni temsil ettiği için () kullanmadan direkt method ismi ile çağırırız.  
+        return self.this_list[0]
+
+    def add_name(self, name):
+        self.this_list.append(name)
+        return self.this_list     
+
+
+the_animal = Animal()    
+the_animal.this_is_a_method()     = Method'u çalıştırdık. method'un içindeki self, class'i temsil ettiği için içeri değer yollamaya gerek yok.
+print(the_animal.get_john())      = methodu çalıştırınca return mesajı okundu.
+print(the_animal.get_mark)        = property ekleyince method property'e dönüşüyor ve () kullanılamıyor.
+the_animal.add_name("Rhubarb")    = 2 parametre olsa bile self'e değer verilemediği için diğer parametreye değer vermek yetiyor.
+print(the_animal.this_list)       = liste yeni değer eklendi. this_list class variable olduğu için bu classla ilgili tüm instancelerde aynı this_list kullanılır.
+
+
+------------------------------------------------------------------------------------
+
+class Animal:
+    fur_color = "Orange"
+
+    def speak(self):
+        print("Raawwwwrr")
+
+    def eat(self):
+        pass
+
+    def chase(self):
+        pass
+
+class Tiger(Animal):           = Animal'i extend ettik. Animal'in özellikleri Tiger'e geçti. (Inheritance)
+
+    fur_color = "Black"        = class variable'i overwrite ettik.
+
+    def eat(self):             = eat method'unu overwrite ettik.
+        print("They're GREEEEAATTTTTT")
+
+
+tiger = Tiger()              
+tiger.speak()                  = Tiger Animal'in özelliklerine sahip olduğu için speak methodu çalıştı.
+tiger.fur_color="Blue"         = class variable'in değerini buradan değiştirdik.
+print(tiger.fur_color)                 
+
+
+------------------------------------------------------------------------------------
+
+interface'de class'i blueprint olarak kullanırız. Methodları çalıştırmak için implement etmek gerekir.
+
+
+class Animal:
+    fur_color = "Orange"
+
+    def speak(self):
+        raise NotImplementedError = NotImplementedError ekledik. Eğer bu method çalıştırılırsa error gözükür. Bu class'i extend eden classlarin overwrite etmesi lazım.
+
+    def eat(self):
+        pass                      = interface sağlamak için pass da kullanılabilir.
+
+    def chase(self):
+        pass
+
+class Tiger(Animal):           
+    def speak(self):              = overwrite edince error geçti.
+        print("something in here") 
+
+tiger = Tiger()              
+tiger.speak()         
+
+
+------------------------------------------------------------------------------------
+
+class Animal:
+    fur_color = "Orange"
+
+    def speak(self):
+        raise NotImplementedError 
+
+    def eat(self):
+        print("I am eating")
+
+    def chase(self, animal):
+        print("I am chasing", animal)
+
+class Tiger(Animal):           
+    def eat(self):
+        super().eat()                 = super() yazarak parentteki methodlara eriştik. method çağırırken yine () kullandık.
+    def chase(self, animal):
+        super().chase(animal)         = parentteki methoda değer yolladık.
+        print(animal, " was caught")
+
+tiger = Tiger()              
+tiger.eat()       
+tiger.chase("mouse")
+
+
+------------------------------------------------------------------------------------
+
+class Animal:
+   
+    animal_type = "unknown"
+
+    def __init__(self, fur_color): = dunder method oluşturduk. __init__ method'u bütün methodlardan önce çalışır.
+        print(fur_color)            
+        self.color = fur_color     = self.color instance variable'dir.
+       
+    def get_fur_color(self):       = get methodu oluşturduk.
+        print(self.color)          
+                      
+
+
+class Tiger(Animal):
+
+    def __init__(self, fur_color):     = bunu yazınca __init__ method'u overwrite ettik.
+        super().__init__(fur_color)    = super() kullanarak parentteki __init__ methoda erişebiliriz.
+        self.animal_type = "House Cat" = parentteki class variable'i child'da self ile kullanabiliriz.
+        print(self.animal_type)
+
+       
+tiger = Tiger("Grey") = class'i çağırırken __init__ methodu çalıştı. fur_color'a değer verdik. Grey oldu. normalde parent __init__ çalışır. Overwrite edince ilk child'inki çalışır.
+tiger.get_fur_color()
+
+
+------------------------------------------------------------------------------------
+
+try:                       = try içindeki kodlar çalışır.
+    total=1/0              
+except Exception:          = hata bulursa burayı yapar. 
+    total=0                
+
+print(total)
+
+------------------------------------------------------------------------------------
+
+num = "python"
+
+try:
+    num=int(num)
+except ValueError:                        = Exception'in class ismini özel olarak girdik. sadece bir tane except çalıştı.
+    print(num,"was not a valid number")
+except ZeroDivisionError:                 = Eğer hatayı bulamazsa ikinci except'e bakar.
+    print(num,"could not be divided")
+except Exception as e:                    = Exception bütün hataları yakalar. e yazarak instance oluşturduk.
+    print(type(e))                        = instance'in type'i hatanın class'ini verdi.
+    num="unknown"
+
+print(num)
+
+
+------------------------------------------------------------------------------------
+function'ı decorate etmek için ilk yöntem
+
+def myfunc():
+    print("My name is Kalob")
+
+def my_decorator(func):          = decorator oluşturduk. İçeri parametre yazdık.
+    def wrapper():               = function içinde function oluşturduk.
+        print("Do something here")
+        func()                   = parametreyi burada kullandık. Parametre olarak function aldığımız için () kullandık.
+        print("Original function is finished")
+    return wrapper               = wrapper function'ı my_decorator function'ın return'u olarak yazdık. Dolayısıyla my_decorator function'ı çalıştığında
+                                   wrapper function'ı otomatik çalışacak. 
+                                   
+
+
+
+new_func = my_decorator(myfunc) = myfunc'ı içeri yollarken () kullanmıyoruz, sebebi ise myfunc'i execute etmedik. Değer olarak içeri yolladık.
+new_func()                        decorate edilmiş myfunc'i değişkene kaydettik ve çalıştırdık.
+
+
+
+----------------------
+function'ı decorate etmek için ikinci yöntem decoratordır. a decorator is function that wraps around another function.
+
+
+def my_decorator(func):                         
+    def wrapper():
+        print("Do something here")
+        func()
+        print("Original function is finished")
+    return wrapper         = return'de parantez yok.
+
+@my_decorator      = function'ı çalıştır. Aşağıdaki function'ı içeri yolla. 
+def myfunc():
+    print("My name is Kalob")
+
+myfunc()
+
+
+
+
+------------------------------------------------------------------------------------
+Return sends a specified value back to its caller whereas Yield can produce a sequence of values. 
+We should use yield when we want to iterate over a sequence, but don’t want to store the entire sequence in memory.
+
+
+def myfunc():
+    for num in range(14): = range() generator'dır. 0'dan 14'e kadar sayılar yazıldı. 14 dahil değil.
+        yield num**num    = yield ekleyince myfunc() generator'a dönüştü.
+                           
+
+total = myfunc()    
+
+print(total) = print, generator olduğunu söyledi. Generatorlar değerleri hafızada kayıtlı tutmak yerine işlem gerçekleştiği anda ürettikleri için print ile değerleri göremiyoruz.
+               Değerleri göstermesi için myfunc()'i list'e castingleyebiliriz. list'e castingleyince değerler kaydediliyor.
+
+
+for big_num in myfunc(): = generator'u loopladık. looplayınca değerleri yazdık.
+    print(big_num)
+
+
+total = range(50)
+print(total)           = range(50)'yi list'e castingleyince değerleri yazdı.
+
+
+----------
+
+def my_generator():
+    for num in range(50):
+        yield num ** num
+
+my_var_gen = my_generator()     = generatorlar sadece bir kere looplanabilir ama bunun için değişkene kaydedilmesi lazım. Değişkenden looplanmazsa her 
+all_numbers = list(my_var_gen)    seferinde yeni generator açılır ve sınırsız looplanabilir.
+print(all_numbers)
+
+for big_num in my_var_gen: = generator değişken'e kaydedilince bu kısıma değer kalmıyor.
+    print(big_num)         
+
+
+------------------------------------------------------------------------------------
+
+pip install pipenv = pipenv yükledik. Virtual environment oluşturmak için bir diğer yöntem pipenv'dir.
+
+pipenv yazınca komutlar gözüktü.
+
+pipenv install = virtual environment oluşturdu.
+
+pipenv shell = virtual environment'i çalıştırdık.
+
+exit --> Bunu yazınca virtual env'den çıkıyor.
+
+pipenv --rm = virtual environment'i sildi. Yeniden virtual environment oluşturmak için sildikten sonra exit de yazmak lazım.
+
+pipenv install --python 3.7 = bilgisayarda ilgili python versiyonu varsa bu şekilde belirli virtual environment için python versiyonu değiştirilebilir.
+
+------------------------------------------------------------------------------------
+
+Python için kitap önerisi = https://books.goalkicker.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
