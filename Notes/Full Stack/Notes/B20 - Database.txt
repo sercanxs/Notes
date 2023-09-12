@@ -1,0 +1,97 @@
+
+https://sqliteonline.com/
+
+PostgreSQL'e geldik. Click to connecte tıkladık.
+
+Solda table'ler columnlar var.
+
+SELECT * from demo;             = her şeyi seçti. Bu kısım query'dir.
+SELECT name, hint FROM demo;    = column isimleri girdik.
+
+SELECT * FROM demo ORDER BY NAME DESC; = order by ve column ismi girerek belirli column'a göre gelen verileri sıraladık.
+SELECT * FROM demo ORDER BY NAME ASC;  = asc yazınca alfabeyi düz sıralıyor. desc yazınca alfabeyi tersten sıralıyor.
+
+SELECT * FROM demo WHERE id=5;        = id'si 5 olanı bul.
+SELECT * FROM demo WHERE name='test'; = name'de test'i yazarken içeri string olarak yazmalıyız. "" yerine '' kullandık.
+
+SELECT * FROM demo WHERE id>3;                 = id'si 3'ten büyük olanları aldık.
+SELECT * FROM demo WHERE id=1 OR ID=3 OR ID=5; = or kullandık. id'si 1, 3, 5 olanları aldık.
+SELECT * FROM demo WHERE id=1 AND name='test'; = and kullandık. 2 koşulu sağlayan değerleri aldık.
+SELECT * FROM demo WHERE id>3 AND id<6;        = id'si 3'ten büyük 6'dan küçük değerleri aldık.
+
+SELECT * FROM demo WHERE id>3 ORDER BY ID DESC; = id'si 3'ten büyükleri aldıktan sonra değerleri sıraladık.
+
+SELECT * FROM demo LIMIT 2; = çıkan sonuçlardan 2 tane gösterir.
+
+INSERT INTO demo(NAME,hint) VALUES('Kalob', 'Your Teacher'); = yeni row ekledik. demo table'indeki column isimlerine değerler ekledik.
+                                                               primary key olan id'nin numarası otomatik girildi.
+
+--SELECT * FROM demo; = başına -- koyarak yorum yazdık.
+
+
+UPDATE demo SET name='Rhubarb' WHERE id=7; = update ile id'si 7 olanların column değerlerini değiştirdik. Eğer where koymazsak bütün 
+                                             rowların name değeri değişir.
+
+DELETE FROM demo WHERE id=7 or id=8;       = id'si 7 ya da 8 olan rowları sildi. Where kullanılmazsa bütün rowlar silinir. Delete kullanıldığında datalar sonsuza kadar silinir. 
+                                             delete'nin yanlış kullanılmadığını anlamak için önce select ile test etmek gerekebilir.
+
+
+
+--------------------------------------------------------------------------
+
+
+CREATE TABLE mystore(id INTEGER, item_name VARCHAR(30), price DECIMAL(5,2), notes VARCHAR(255), items_sold INTEGER DEFAULT 0);    
+
+
+Yeni table oluşturduk. parantez içinde soldaki değerler column isimlerini sağdaki değerler ise sınırlamaları gösteriyor. Table oluşturunca solda ismi gözüktü. İlk column ismi
+sitede büyük harfle görünür.
+
+
+
+INTEGER              --> integer
+VARCHAR(30)          --> 30 harf sınırı
+DECIMAL(5,2)         --> 5 numbers and 2 decimal point
+INTEGER DEFAULT 0    --> integer ama default değeri 0
+
+
+INSERT INTO mystore(id,item_name,price,notes) VALUES(1, 'Fidget spinner', 1.99, 'it spins forever'); = yeni oluşturduğumuz table'e data ekledik.
+
+
+
+TRUNCATE demo; = table'in içindeki her değeri siler. Table'i silmez.
+
+DROP TABLE mystore; = table'i sildi.
+
+
+
+--------------------------------------------------------------------------
+
+
+PostgreSQL için kitap önerisi = https://books.goalkicker.com/
+	
+MySQL için kitap önerisi = https://books.goalkicker.com/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
