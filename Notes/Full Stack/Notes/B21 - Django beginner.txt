@@ -1,0 +1,1161 @@
+pipenv install = Virtual environment oluşturduk.
+pipenv shell   = Virtual environmente girdik.
+
+pipenv install Django = Django yükledik.
+pip show django
+
+
+---------------------------------------------------------------------------
+
+django-admin startproject mysite . = django project'i başlattık.
+
+mysite dosyası ve manage.py açıldı.
+
+py manage.py runserver 0.0.0.0:8000 = server açtık.
+
+py manage.py migrate = kırmızı uyarı çıkmıştı. Bu kodu yazarak database oluşturduk.
+
+http://localhost:8000/ = servere girdik.
+
+http://localhost:8000/admin = admin sayfasına gittik.
+
+py manage.py createsuperuser = admin oluşturduk.
+
+Django           = admin 1
+m@notexist.com
+123
+
+django           = admin 2
+m@notexist.com
+123
+
+
+---------------------------------------------------------------------------
+
+py manage.py startapp feed = django app'i içinde app oluşturduk. ismi feed. solda feed dosyası oluştu.
+
+
+
+INSTALLED_APPS = [                 = mysite içinde settings.py'e geldik.
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'feed'                         = feed dosyasının ismini yazdık.                 
+]
+
+
+
+---------------------------------------------------------------------------
+
+A model is the single, definitive source of information about your data. It contains the essential fields and behaviors of the data you’re storing. 
+Generally, each model maps to a single database table.
+
+
+
+feed içinde models.py'i açtık. Database'de değişiklik yapmak için bu kısmı kullanıyoruz. Python dilini kullanarak database oluşturuyoruz.
+
+
+from django.db import models
+
+class Post(models.Model):        = yeni model oluşturduk. modeli database table oluşturmak amacı ile kullandık.
+    text = models.CharField(max_length=140, blank=False, null=False) = yeni column ekledik.
+
+max_length = maximum harf sayısını ayarladık.
+blank = default olarak false'dir. false olursa içeri kesin doldurulması lazım. boş olamaz.
+null = True yazınca text, database'de no value, empty string ya da string kabul eder. False yazdık.
+
+
+
+py manage.py makemigrations  = bunu yazınca feed migrations içinde yeni dosya oluştu.
+
+0001_initial.py'i açtık.
+
+ fields=[       = her model id ile birlikte gelir. text'i ise kendimiz oluşturduk. dolayısıyla table'imizde 2 tane column var.
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('text', models.CharField(max_length=140)),
+            ],
+
+
+
+py manage.py migrate = Bunu yazınca ilgili table database'e kaydedilir.
+
+
+
+
+table mevcut olduğu halde admin sayfasında kullanamıyoruz. Kullanabilmek için admin.py'e model oluşturduk.
+
+
+from django.contrib import admin
+from .models import Post                = aynı folderde olan models'ten Post'u(model) import ettik.
+
+# Register your models here.
+
+class PostAdmin(admin.ModelAdmin):      = PostAdmin modeli oluşturduk.
+    pass
+
+admin.site.register(Post, PostAdmin)    = Post ve PostAdmin'i birbirine bağladık.
+
+
+
+http://localhost:8000/admin/ = admin sayfasına geldiğimizde artık yeni feed ve posts açıldı. 
+
+Posts kısmında add'e tıkladık. Add post altında Text gözüktü. Text'i biz oluşturmuştuk. Modeli database'e kaydetmiştik. Admin paneli sayfasına kaydedince admin paneli sayfasından 
+database'de değişiklik yapabiliyoruz.
+
+This is my first post yazıp save'e tıkladık.
+
+yeni Post object (1) oluştu. in django every time we access a piece of data or a row in our database, it is called an object
+
+
+
+
+Post object (1) = Oluşan object isimleri değiştirilebilir.
+
+class Post(models.Model):
+    text = models.CharField(max_length=140, blank=False, null=False)
+
+    def __str__(self):    = models.py içine __str__ ekleyip belirli değeri returnleyince oluşan object ismini değiştirebildik.
+        return self.text  = object ismini yukarıda aldığımız text'e dönüştürdük. Siteye content eklendiğinde yazılan text sitede gözükeceği
+                            için debuglaması kolay oluyor.
+
+sitede yazılan objectteki texti update edebiliriz. Otomatik olarak object ismine yansır.
+
+
+
+
+Migrations are Django’s way of propagating changes you make to your models (adding a field, deleting a model, etc.) into your database schema. 
+makemigrations, which is responsible for creating new migrations based on the changes you have made to your models.
+migrate, which is responsible for applying and unapplying migrations.
+
+---------------------------------------------------------------------------
+
+
+mysite içinde urls.py'i açtık.
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),       = sol taraf path'i temsil ediyor. Sağ taraf ise bu path'de ne olduğunu gösteriyor. 
+]                                            http://localhost:8000/admin/ kısmındaki admin'i buradan değiştirebiliriz.
+
+
+
+
+
+
+feed dosyası içine urls.py açtık.
+
+from django.urls import path
+
+app_name = 'feed'
+
+urlpatterns = [
+    path('', renderSomeView, name='index'), = homepage'i ayarlayacağımız için '' içine bir şey yazmadık. Biraz view ekledik ve view'e isim verdik.
+]                                           = we can write class based views or function based views
+
+
+
+
+
+
+feed dosyası içinde views.py'i açtık.
+
+from django.views.generic import TemplateView = Burayı import ettik.
+
+#from django.shortcuts import render --> function based views kullanmayacağımız için bu kısmı sildik.
+
+# Create your views here.
+
+class HomePageView(TemplateView):    = view oluşturduk. 
+    template_name="home.html"        = django home.html'i arar.
+
+
+
+
+feed dosyası içinde urls.py'i açtık.
+
+from django.urls import path
+from .views import HomePageView           = Yukarıda oluşturduğumuz class'i import ettik.
+
+
+app_name = 'feed'
+
+
+urlpatterns = [
+    path('', HomePageView.as_view(), name='index'),   = class'i burada kullandık. .as_view() kısmını da ekleyince koyduğumuz view renderlendi. 
+]    
+
+
+
+
+
+mysite içinde urls.py'i açtık.   
+
+
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls import include            = include'i import ettik.
+from feed import urls as feed_url               = feed içindeki urls.py'i yani bütün urls'i import ettik ve ismini değiştirdik.
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include(feed_url, namespace='feed')) = include içinde kullandık. homepage'in path'ini buraya da yazdık.
+]
+
+
+
+TemplateDoesNotExist at /
+home.html                       = http://localhost:8000/ yazınca buradaki hatayı aldık.
+
+
+
+---------------------------------------------------------------------------
+
+mysite içinde settings.py'i açtık.
+
+import os = os'i en üstte import ettik.
+
+Template_DIR = os.path.join(BASE_DIR, "templates") = BASE_DIR en yukarılarda yer alıyordu. onu kullandık. Değişken oluşturduk.
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [Template_DIR],                                          = Oluşturduğumuz değişkeni buraya yazdık. Template directories'i aktif etmek için yazdık.
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+
+Masaüstü\Django\templates\home.html (Source does not exist) = app'i çalıştırınca django bu hatayı verdi. Django burayı aradığı için bu dosyaları oluşturduk.
+
+Django içine templates folder'i oluşturduk. İçine home.html ekledik. Artık sitenin ana sayfası home.html oldu. Eğer home.html çalışmazsa django'yu kapatıp tekrar 
+çalıştırmak çözüm olabilir.
+
+
+templates içine base.html oluşturduk.
+
+
+<!DOCTYPE html>                          = base.html içinde yazanlar.
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Sharer</title>
+</head>
+<body>
+    Stuff in here
+    
+</body>
+</html>
+
+
+
+
+
+
+{% extends "base.html" %} = home.html içinde base.html'i extends edince base.html kodları home.html'de geçerli oldu. Bu reusability'i artırıyor.
+
+
+
+---------------------------------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Sharer</title>
+</head>
+<body>
+    {% block body %}{% endblock %}         = base.html içinde template block oluşturduk.
+    
+</body>
+</html>
+
+
+
+-------------
+
+
+{% extends "base.html" %}
+
+
+{% block body %}                           = home.html içinde de aynı template block'u oluşturduk. Bunu yapınca home.html'de template block içinde yazılanlar base.html'e eklendi.
+
+       Stuff in here from home.html
+
+{% endblock %}
+
+
+------------------------------
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default title{% endblock %}</title>                = title'e template block ekledik. default değeri verdik. Böylelikle template block diğer html'lerde
+</head>                                                                          kullanılmazsa default değer geçerli olur.
+<body>
+    {% block body %}{% endblock %}
+    
+</body>
+</html>
+
+
+
+---------------------------------------------------------------------------
+
+context'lerde python ile data alırız. html'e ekleriz.
+
+
+
+feed içinde views.py'i açtık.
+
+
+
+from django.views.generic import TemplateView 
+
+
+
+# Create your views here.
+
+class HomePageView(TemplateView):
+    template_name="home.html"       
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)       = super(), TemplateView'i işaret eder.
+        context['my_thing'] = "Hello World"                = context'te belirli key'e value ekledik.
+
+        return context                                     = context'i returnledik.
+
+
+-----------
+
+
+{% extends "base.html" %}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {{ my_thing }}                                         = home.html'e contextteki key'i yazdık. key yazınca value verdi.
+
+
+{% endblock %}
+
+
+
+---------------------------------------------------------------------------
+
+
+
+from django.views.generic import TemplateView 
+from .models import Post                      = Post modelini import ettik.
+
+
+# Create your views here.
+
+class HomePageView(TemplateView):
+    template_name="home.html"       
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)      
+        context['posts'] = Post.objects.all()                            = Post modelinden bütün dataları çektik. pythonda ve django'da her şey objecttir.
+
+        return context
+
+
+--------------------------
+
+
+{% extends "base.html" %}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {{ posts }}                                                           = home.html içinde ilgili context key'i yazdık.
+
+{% endblock %}
+
+
+
+
+
+<QuerySet [<Post: first post>, <Post: second post>, <Post: third post>, <Post: fourth post>]> = sitede query set oluştu. database'de data'yı ararken yazdığımız kodlar query'dir.
+                                                                                                Yeni rowlar oluştururken object isimleri oluşuyordu. Burada object isimleri yazdı.
+
+
+{% extends "base.html" %}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}   = posts'taki her değeri html içinde loopladık. 4 tane row vardı 4 kere looplandı.
+          {{ post.text}}      = her row'daki text column'u ekledik.
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+
+---------------------------------------------------------------------------
+
+https://github.com/jazzband/sorl-thumbnail = yüklenecek package ile ilgili document
+
+pip install sorl-thumbnail                 = package yükledik.
+
+
+
+
+mysite içinde settings.py'i açtık.
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'feed',
+    'sorl.thumbnail',                = yeni app ekledik.
+]
+
+
+
+
+
+feed içinde models.py'i açtık.
+
+
+from django.db import models
+from sorl.thumbnail import ImageField            = import ekledik.
+
+# Create your models here.
+
+class Post(models.Model):
+    text = models.CharField(max_length=140, blank=False, null=False)
+    image = ImageField()     = image field ekledik database'e
+
+    def __str__(self):
+        return self.text
+
+
+
+siteyi çalıştırdığımızda konsolda hata çıktı.
+
+pip install Pillow = yeni package yükledik. hata geçti.
+
+py manage.py makemigrations = yazdık.
+
+Provide a one-off default now (will be set on all existing rows with a null value for this column) = 1'i seçtik. Yeni migration file oluştu.
+
+py manage.py migrate = unapplied migration'i migrate ettik. database'de resim kısmı oluştu. Admin panel'den bakılabilir. Admin panelde resim ekleyince project'in içinde resimler birikiyor.
+Bu resimleri toplamak için media folder oluşturduk.
+
+
+---------------------------------------------------------------------------
+
+mysite içinde settings.py'i açtık.
+
+MEDIA_URL = '/media/' kısmını oluşturduk.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+mysite içinde urls.py'i açtık.
+
+
+from django.conf import settings                  = import ekledik.
+from django.conf.urls.static import static        = import ekledik.
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls import include
+from feed import urls as feed_url 
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include(feed_url, namespace='feed'))
+]
+
+if settings.DEBUG:                                 = Bu kısımları ekledik. DEBUG eklemek websitesi için güvenlik sorunları oluşturabilir. 
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)    DEBUG'u kapatırsak buradaki static kısımlar hata verebilir.
+
+
+
+
+Admin panele girdik ve database'e yeni resim ekledik. media dosyası oluştu ve media dosyası içine resim kaydedildi. Sitede resime tıkladığımızda resim açıldı. Önceden açılmıyordu.
+
+
+---------------------------------------------------------------------------
+home.html'i açtık.
+
+
+{% extends "base.html" %}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}  
+          {{ post.text}}     
+          <img src="{{ post.image.url}}" >       = Database'den resim ekledik. Url kısmı var. url yazmayınca resimin ismi gözüküyor ama lokasyonu gözükmüyor. img elementi içine yazdık.
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+--------------------------------
+
+{% extends "base.html" %}
+{% load sorl_thumbnail %}             = Resimin boyutu küçülsün diye bu kısımı yazdık.
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}  
+          {{ post.text}}     
+          
+          
+          {% thumbnail post.image "100x100" crop="center" as im %}                   = Resim ekledik. post.image yazdık. Url kısmı yok. 200x200 yaptık. Documentteki kodları yazdık.
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">   = sitede 200x200 yeni resim gözüktü. Media dosyası içinde cache dosyası ve daha derinlerde 
+          {% endthumbnail %}                                                           farklı dosyalar açıldı. Yeni resimler oraya kaydedildi. Böylelikle her zaman orjinal resimin 
+                        							       200x200'lük versiyonu oluşturulmak istendiğinde regenerate etmeye gerek kalmıyor aynı resimin 
+                  								       200x200'lük kaydedilmiş olanı kullanılıyor. Böylelikle site daha hızlı çalışıyor.
+                                                                                       200x200'lük resimler derinlerde saklanırken orjinal olanlar media içinde bulunuyor.
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+
+---------------------------------------------------------------------------
+feed içinde views.py'i açtık.
+
+
+from django.views.generic import TemplateView, DetailView  = import ekledik.
+from .models import Post      
+
+
+# Create your views here.
+
+class HomePageView(TemplateView):
+    template_name="home.html"       
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)      
+        context['posts'] = Post.objects.all()                   
+
+        return context
+
+class PostDetailView(DetailView):
+    template_name="detail.html"                             = bu html'i arar.
+    model=Post                                              = post modelini buraya ekledik.
+
+
+
+
+
+feed içinde urls.py'i açtık.
+
+
+from django.urls import path
+from .views import HomePageView, PostDetailView = import ettik.
+
+
+app_name = 'feed'
+
+
+urlpatterns = [
+    path('', HomePageView.as_view(), name='index'),
+    path('detail/<int:pk>/', PostDetailView.as_view(), name='detail'),     = yeni path ekledik. <int:pk> kısmını ekledik. pk --> primary key.
+]                                                                           Database'de Post içinde text ve id vardı. pathin oluşması için buradaki id gerekli.   
+
+
+
+
+
+database'deki var olan dataların id'lerine baktık birisinin id'si 9'du. Bu id'yi path'e ekledik.
+
+
+http://localhost:8000/detail/9/ = siteye gittik.
+
+TemplateDoesNotExist hatasını aldık.
+
+templates içine detail.html oluşturduk. hata geçti.
+
+
+---------------------------------------------------------------------------
+
+detail.html'i açtık.
+
+
+{% extends "base.html" %}
+{% block title  %} Detail View {% endblock %}
+
+
+{% block body%}
+    {{ object }}         = object yazınca post modelinde oluşturulan objectin ismi gözüktü. --> This is second post 
+    <hr>
+    <img src="{{object.image.url}}" style="width: 100%; height: auto;"> = img elementi ekledik. database'deki resimi ekledik.
+
+{% endblock %}
+
+
+
+---------------------------------------------------------------------------
+
+home.html'i açtık.
+
+
+{% extends "base.html" %}
+{% load sorl_thumbnail %}  
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}  
+          <a href="/detail/{{post.id}}/"> Click</a>             = link ekledik. içinde bulunulan row'un id'si otomatik olarak addresse eklendi.
+          {{ post.text}}     
+          {% thumbnail post.image "200x200" crop="center" as im %}                  
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">  
+          {% endthumbnail %}                                                    
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+
+feed içinde urls.py içinde path değiştirilirse yukarıdaki link artık çalışmaz.
+
+name='detail' = path içinde bu kısım bulunuyordu.
+
+app_name = 'feed' = buradaki feed
+
+namespace='feed' = mysite urls.py içinde namespace ile eşleşiyordu.
+
+
+
+
+{% extends "base.html" %}
+{% load sorl_thumbnail %}  
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}  
+          <a href="{% url 'feed:detail' post.id %}"> Click</a>    = link'i yukarıdaki name'e göre değiştirdik. url function'ı çalıştı. ilgili feed ve detail view eklendi.        
+          {{ post.text}}                                            Böyle yapınca urls.py içinde path değiştirilirse link yine de çalışır.
+          {% thumbnail post.image "200x200" crop="center" as im %}                  
+          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">  
+          {% endthumbnail %}                                                    
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+
+detail.html'i açtık
+
+
+<a href="{% url 'feed:index' %}">Click</a> = Buraya homepage'e döndüren link ekledik.  detail'in url'inde detail/<int:pk>/ vardı ve <int:pk> olduğu için post.id kullandık.
+                                             homepage'in url'inde <int:pk> olmadığı içinde post.id'ye gerek yok.
+
+
+
+
+---------------------------------------------------------------------------
+
+feed içine forms.py oluşturduk.
+
+
+from django import forms                              = import ekledik.
+
+class PostForm(forms.Form):
+    image = forms.FileField()                         = FileField ekleyince, form ne tarz file olursa olsun kabul etti.
+    text = forms.CharField(label="Description")       = form'a text kısmı ekledik.
+
+
+
+feed içinde urls.py'i açtık.
+
+
+from django.urls import path
+from .views import HomePageView, PostDetailView, AddPostView  = import ekledik.
+
+
+app_name = 'feed'
+
+
+urlpatterns = [
+    path('', HomePageView.as_view(), name='index'),
+    path('detail/<int:pk>/', PostDetailView.as_view(), name='detail'),  
+    path('post/', AddPostView.as_view(), name='post'),        = yeni path oluşturduk.
+]                                           
+
+
+
+feed içinde views.py'i açtık.
+
+
+from django.views.generic import TemplateView, DetailView, FormView = import ekledik. FormView page'e upload özelliği getirdi.
+from .forms import PostForm                                         = forms.py içinde oluşturduğumuz PostForm'u import ettik.
+from .models import Post      
+
+
+# Create your views here.
+
+class HomePageView(TemplateView):
+    template_name="home.html"       
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)      
+        context['posts'] = Post.objects.all()                   
+
+        return context
+
+class PostDetailView(DetailView):
+    template_name="detail.html" 
+    model=Post              
+
+
+class AddPostView(FormView):
+    template_name = "new_post.html"   = bu dosyayı arar.
+    form_class = PostForm             = oluşturduğumuz formu buraya ekledik.
+    success_url = "/"
+
+    
+
+
+
+http://localhost:8000/post/ = yazınca TemplateDoesNotExist hatası çıktı.
+
+
+templates içine new_post.html oluşturduk. Hata geçti.
+
+
+
+{% extends "base.html" %}
+{% block title  %} Upload a new image {% endblock %}
+
+
+{% block body%}
+   {{ form }}          = form yazınca sitede form gözüktü. forms.py içinde oluşturduğumuz fieldler gözüktü.
+
+{% endblock %}
+
+
+  {{ form.as_ul }}     = form.as_ul yazınca form sitede list olarak gözüktü.
+  {{ form.as_p }}      = bunu yazınca form sitede paragraph olarak gözüktü.
+
+
+
+---------
+
+{% extends "base.html" %}
+{% block title  %} Upload a new image {% endblock %}
+
+
+{% block body%}
+
+    <form method="POST" action="">              = action'a bir şey yazmadık.
+   {{ form.as_p }}
+   <div>
+        <button type="submit"> Submit Form </button>   = form'u göndermek için submit button'u oluşturduk.
+   </div>
+   </form>
+
+{% endblock %}
+
+
+
+--------
+
+
+
+{% extends "base.html" %}
+{% block title  %} Upload a new image {% endblock %}
+
+
+{% block body%}
+
+    <form method="POST" action="" enctype="multipart/form-data">  = browserden servere file yollamak için enctype kullanmaya ihtiyaç var.
+   {% csrf_token %}                                               = CSRF verification failed hatasını bu kodla çözdük.
+   {{ form.as_p }}
+   <div>
+        <button type="submit"> Submit Form </button>
+   </div>
+
+    </form>
+
+{% endblock %}
+
+
+Bunları yazınca sitede başka sayfaya gidip sonra form sayfasına gittik. Resimi upload edince submit'e tıklayınca homepage'e yolladı. homepage'e yollamasının sebebi views.py içinde
+success_url = "/" oluşturmuştuk. Bu da homepage'i işaret etti.
+
+
+feed içinde views.py'i açtık.
+
+
+class AddPostView(FormView):
+    template_name = "new_post.html"   
+    form_class = PostForm           
+    success_url = "/"
+
+
+
+    def form_valid(self, form):            = form'u submit ettikten sonra aşağıdaki kodlar çalıştı.
+        # Create a new Post
+        print("This was valid!!")          = bu kısım vs code konsolde gözüktü.
+        print(form.cleaned_data['text'])   = form yazıp cleaned_data ile form'da yollanan text'in value'sini aldık.
+
+        
+        
+        return super().form_valid(form)
+
+
+----------------------
+
+
+class AddPostView(FormView):
+    template_name = "new_post.html"   
+    form_class = PostForm           
+    success_url = "/"
+
+
+
+    def form_valid(self, form):            
+        # Create a new Post
+        
+        new_object = Post.objects.create(              = form submit edildiğinde yeni object oluştu.
+            text=form.cleaned_data['text'],            = submit edilen formdan belirli key'i database'deki post modeline kaydettik.
+            image=form.cleaned_data['image']           = image için de aynısını yaptık. Böylelikle upload sayfasında form ile submit edildiğinde database'de yeni rowlar oluştu.
+        )
+             
+        return super().form_valid(form)
+
+
+----------------------
+home.html'i açtık.
+
+
+{% extends "base.html" %}
+{% load sorl_thumbnail %}  
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+     <a href="{% url 'feed:post' %}">Go to upload page</a>           = upload sayfasına link oluşturduk.
+     <hr>
+    
+    {% for post in posts %}  
+          <a href="{% url 'feed:detail' post.id %}" style="display: inline-block;"> 
+            {{ post.text}}     
+            {% thumbnail post.image "200x200" crop="center" as im %}                  
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">  
+            {% endthumbnail %} 
+
+
+          </a>       
+                                                             
+          <hr>
+
+
+    {%  endfor  %}
+
+
+{% endblock %}
+
+
+
+---------------------------------------------------------------------------
+
+feed içinde views.py'i açtık.
+
+
+
+class HomePageView(TemplateView):
+    template_name="home.html"       
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)      
+        context['posts'] = Post.objects.all().order_by('-id')  = order_by ekleyince database'den alınan data'lar id'ye göre sıraya girdi. -id yazınca id'ye göre tersten sıraya girdiler. 
+                                                                 böylelikle homepage'de en son eklenen row ilk gözüktü.
+        return context
+
+
+---------------------------------------------------------------------------
+
+django message'leri bir page'den diğerine mesaj yollamak için kullanılır. Bir sefer çalışır.
+
+
+feed içinde views.py'i açtık.
+
+
+from django.views.generic import TemplateView, DetailView, FormView
+from .forms import PostForm 
+from .models import Post     
+from django.contrib import messages                                    = import ettik. 
+
+
+
+
+   class AddPostView(FormView):
+    template_name = "new_post.html"   
+    form_class = PostForm           
+    success_url = "/"
+    
+
+    def dispatch(self, request, *args, **kwargs):                = bu kısımı ekledik.
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+
+    def form_valid(self, form):            
+        # Create a new Post
+        
+        new_object = Post.objects.create(             
+            text=form.cleaned_data['text'],          
+            image=form.cleaned_data['image']          
+        )
+        
+        messages.add_message(self.request, messages.SUCCESS, 'Your post was successful') = message ekledik.
+             
+        return super().form_valid(form)
+
+    
+
+
+
+
+
+---------------------
+
+base.html'i açtık.
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default title{% endblock %}</title>
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    = messageler varsa list içinde sitede gözüktü.
+    {% endfor %}                                                                           Yeni post oluştuğunda sitede Your post was successful mesajı gözüktü.
+    </ul>     										   
+    {% endif %}
+
+
+
+
+    {% block body %}{% endblock %}
+    
+</body>
+</html>
+
+
+
+
+---------------------------------------------------------------------------
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default title{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">  = base.html'e bootstrap ekledik. Sadece css kısmını ekledik.
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+
+
+
+
+    {% block body %}{% endblock %}
+    
+</body>
+</html>
+
+
+----------------------------
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Default title{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+       
+    {% include "includes/navbar.html" %}        = include oluşturduk. navbar.html ile bağlantı kurduk.
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="bg-{% if message.tags %}{{ message.tags }}{% else %}success{% endif %}  bg-gradient text-center text-white py-4">
+        {{ message }}
+    </div>                         = message.tags ekleyince mesaj ismi bg- kısmına eklendi ve bootstrap'ten ilgili kod çalıştı.
+    {% endfor %}
+    {% endif %}
+   
+
+    <div class="container">
+    {% block body %}{% endblock %}
+    </div>
+</body>
+</html>
+
+
+
+-----------------------
+navbar.html içinde yazanlar
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Image Sharer</a>            = / koyunca home page'e gider.
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'feed:index' %}">Home</a>  = / koymak yerine bu kısım da çalışır. Bu kısım url değişse bile çalışıyor. 
+          </li> 										     homepage'de bunu kullanmaya gerek yok.
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'feed:post' %}">Add New Image</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+-----------------------
+
+home.html içinde yazanlar
+
+
+{% extends "base.html" %}
+{% load sorl_thumbnail %}  
+
+{% block title %}Home Page{% endblock %}
+
+
+{% block body %}
+  
+  <div class="row">
+    {% for post in posts %}  
+        <div class="col-sm-6 col-md-3 col-lg-2">                                           
+          <div class="card my-4">
+            {% thumbnail post.image "200x200" crop="center" as im %}                
+            <img src="{{ im.url }}" class="card-img-top" alt="...">
+            {% endthumbnail %} 
+           
+            <div class="card-body">
+              <p class="card-text">{{ post.text}}</p>
+              <a href="{% url 'feed:detail' post.id %}" class="btn btn-primary">View Full Image</a>
+            </div>
+          </div>
+        </div>
+        {% empty %}                =  eğer for loop içerisinde bir değer yazmazsa burası çalışır. Ana sayfada resim olmadığında boşluğu dolduruyoruz.
+        <div class="col-sm-6 offset-3 text-center py-5 my-5">
+            <h3>Welcome!</h3>
+            <p>Add your first image?</p>
+            <a href="{% url 'feed:post' %}" class="btn btn-lg btn-success">Upload Image</a>
+        </div>
+    {%  endfor  %}
+  </div>
+
+
+{% endblock %}
+    
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
