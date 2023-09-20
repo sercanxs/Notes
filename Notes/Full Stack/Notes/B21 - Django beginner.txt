@@ -4,7 +4,7 @@ pipenv shell   = Virtual environmente girdik.
 pipenv install Django = Django yükledik.
 pip show django
 
-
+kazayla db.sqlite3 database dosyasını github'a atmamak için diğer django dosyasındaki .gitignore'yi kaydetmek gerekiyor.
 ---------------------------------------------------------------------------
 
 django-admin startproject mysite . = django project'i başlattık.
@@ -28,7 +28,6 @@ m@notexist.com
 django           = admin 2
 m@notexist.com
 123
-
 
 ---------------------------------------------------------------------------
 
