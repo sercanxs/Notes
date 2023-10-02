@@ -1,0 +1,1367 @@
+pipenv install             = Virtual environment oluşturduk.
+pipenv shell
+pip install django         = Django yükledik.
+
+
+
+-------------------------------------------------------------
+
+django-admin startproject til .     = django project'i başlattık.
+py manage.py migrate
+py manage.py runserver 0.0.0.0:8000 
+
+-------------------------------------------------------------
+
+git init
+.gitignore dosyası oluşturduk. içine aşağıdaki yazıları ekledik. Çünkü kazayla db.sqlite3 database dosyasını github'a atmak istemiyoruz. 
+.gitignore dosyasına aşağıdaki yazıları ekleyince git status yazınca db.sqlite3 gözükmedi.
+git add .
+git commit -m "first commit"
+
+
+--------------
+.gitignore içinde yazanlar.
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+.DS_Store
+.idea
+
+media/
+static/
+
+
+
+-------------------------------------------------------------
+
+vs code terminal'de server çalışırken code yazamıyoruz. Sağdaki split terminal'e tıklayınca hem serveri çalıştırıp hem kod yazabiliyoruz.
+
+py manage.py createsuperuser = admin bilgileri oluşturduk.
+
+django
+abc@noexist.com
+123
+
+
+
+py manage.py startapp feed = django app'i içinde app oluşturduk. ismi feed. solda feed dosyası oluştu.
+
+
+
+INSTALLED_APPS = [                 = til içinde settings.py'e geldik.
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'feed'                         = feed dosyasının ismini yazdık.                 
+]
+
+
+
+-------------------------------------------------------------
+feed içinde models.py'e girdik.
+
+class Post(models.Model):
+    text = models.CharField(max_length=240) = yeni model oluşturduk.
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+-------------------------------------------------------------
+feed içinde admin.py'e girdik.
+
+from django.contrib import admin
+from .models import Post                = aynı folderde olan models'ten Post'u(model) import ettik.
+
+# Register your models here.
+
+class PostAdmin(admin.ModelAdmin):      = PostAdmin modeli oluşturduk.
+    pass
+
+admin.site.register(Post, PostAdmin)    = Post ve PostAdmin'i birbirine bağladık.
+
+
+http://localhost:8000/admin/ = admin sayfasına geldiğimizde artık yeni feed ve posts açıldı. 
+
+
+-------------------------------------------------------------
+
+feed içinde models.py'e girdik.
+
+from django.db import models
+
+# Create your models here.
+
+
+class Post(models.Model):
+    text = models.CharField(max_length=240)
+
+    def __str__(self):          = object ismini yukarıda aldığımız text'e dönüştürdük.
+        return self.text[0:100] = textten ilk 100 harfi aldık.   
+
+-------------------------------------------------------------
+
+
+from django.db import models
+
+# Create your models here.
+
+
+class Post(models.Model):
+    text = models.CharField(max_length=240)
+    date = models.DateTimeField(auto_now=True)     = date ekleyince yeni post oluşturunca oluşturulma zamanını görüyoruz.
+
+    def __str__(self):   
+        return self.text[0:100]  
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+-------------------------------------------------------------
+
+feed dosyası içinde views.py'i açtık.
+
+
+
+from django.views.generic import ListView   = import ettik.
+from .models import Post                    = import ettik.
+
+#from django.shortcuts import render --> function based views kullanmayacağımız için bu kısmı sildik.
+
+# Create your views here.
+
+
+class HomePage(ListView):                   = view oluşturduk. 
+    http_method_names = ["get"]             = sadece get methoduna izin verdik.
+    template_name = "homepage.html"         = django homepage.html'i arar.
+    model = Post
+    context_object_name = "posts"
+    queryset = Post.objects.all().order_by('-id')[0:30] = 30 tane post objecti gösterdi. postları id'ye göre tersten sıraladı.
+
+
+
+-------------------
+
+
+feed dosyası içine urls.py'i açtık.
+
+
+
+from django.urls import path   = import ettik.
+
+from . import views            = bütün views.py'i import ettik.
+
+app_name = "feed"
+
+urlpatterns = [
+    path("", views.HomePage.as_view(), name="index"), = url kısmı oluşturduk. HomePage view'ini renderledik.
+]
+
+
+
+
+------------------
+
+
+
+til içinde urls.py'i açtık.
+
+
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls import include = import ettik.
+from feed import urls as feed_urls   = import ettik.
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", include(feed_urls, namespace="feed")), = homepage url'ini ekledik.
+
+]
+
+
+-------------------------------------------------------------
+
+http://localhost:8000/ = siteyi açınca TemplateDoesNotExist hatasını verdi.
+
+
+til içinde settings.py'i açtık.
+
+
+import os = import ettik.
+
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) = bu kısmı BASE_DIR altına yazdık.
+
+
+'DIRS': [
+    os.path.join(PROJECT_DIR, "til/templates") = TEMPLATES içinde bu kısmı ekledik. til/templates yazarak templatelerin nerede bulunacağını ayarladık.
+],
+
+
+til içine templates folder oluşturduk. içine homepage.html açtık. Bunu yapınca hata geçti.
+
+
+-------------------------------------------------------------
+feed içinde views.py'i açtık. 
+
+
+class HomePage(ListView):
+    http_method_names = ["get"]          
+    template_name = "feed/homepage.html"                 = feed folderi içinde homepage.html'i arar.
+    model = Post
+    context_object_name = "posts"
+    queryset = Post.objects.all().order_by('-id')[0:30]
+
+
+
+
+feed içine templates folder oluşturduk. içine tekrar feed folder açtık. içine homepage.html ekledik. Normalde yukarıda til/templates ekleyerek template'lerin nerede bulunacağını
+ayarlamıştık. Ama buna rağmen homepage.html'i feed/templates/feed içine atınca çalıştı. Böylelikle bazı templateleri til'den feed'e taşıdık.
+
+-------------------------------------------------------------
+til içinde templates içinde base.html oluşturduk.
+
+feed içinde homepage.html'i açtık.
+
+{% extends "base.html"%}     = bunu yazınca base.html'de yazanlar homepage.html'de geçerli oldu. homepage.html ile base.html'in birisi feed birisi til içinde olmasına rağmen çalıştı.
+
+-------------------------------------------------------------
+
+til içinde templates içinde base.html'i açtık. 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base File{% endblock %}</title>                  = template block ekledik.
+</head>
+<body>
+    {% block body %}{% endblock %}
+</body>
+</html>
+
+-------------------
+
+feed içinde homepage.html'i açtık.
+
+
+{% extends "base.html"%}
+
+
+{% block title %}Home Page{% endblock %}     = base.html'deki template blockları doldurduk.
+
+
+
+{% block body %}
+
+<h1>Hello World</h1>
+
+{% endblock %}
+
+
+
+-------------------------------------------------------------
+
+
+{% extends "base.html"%}
+
+
+{% block title %}Home Page{% endblock %}
+
+
+
+{% block body %}
+
+
+{% for post in posts %}                    = posts'taki her değeri html içinde loopladık. 4 tane row vardı 4 kere looplandı. posts ismi views.py içinde
+                                             context_object_name = "posts" dan geliyor.
+{{ post.text}} written at {{ post.date}}   = her row'un text'ini ve date'ini yazdık.
+<hr>
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+
+
+-------------------------------------------------------------
+
+pip install django-allauth = yeni package yükledik.
+
+til içinde settings.py'i açtık.
+
+
+INSTALLED_APPS = [                 
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',       = django'yu multisite yapıyor.
+    'feed',
+    'allauth',                    = allauth ekledik.
+    'allauth.account',            = yeni app ekledik.
+    'allauth.socialaccount',      = yeni app ekledik.
+]
+
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',             = allauth kısmını ekledik.
+]
+
+
+
+LOGIN_URL = '/login/'                      = login sayfasının url'i
+SITE_ID = 1                                = 1 tane site olduğu için 1 yazdık.
+LOGIN_REDIRECT_URL = '/'                   = login yaptıktan sonra gidecek sayfayı gösteriyor.
+ACCOUNT_AUTHENTICATION_METHOD = "email"    = hesap doğrulama yöntemi email ile olacak.
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True        = email'deki linke tıklayınca hesap onaylanıyor.
+ACCOUNT_EMAIL_REQUIRED = True          	   = email yazmak zorunlu.
+ACCOUNT_EMAIL_VERIFICATION = "optional"    = email'i doğrulamak optional ya da mandatory.
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True     = django-allauth.readthedocs.io sitesinde configuration bilgileri var.
+ACCOUNT_LOGOUT_REDIRECT = '/'
+ACCOUNT_PRESERVE_USERNAME_CASING = False   = false yazınca "Kane" ile "kane" aynı username sayılır.
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True = kaydolurken şifre iki kere yazılacak.
+ACCOUNT_USERNAME_MIN_LENGTH = 2            = en küçük username 2 harf içerebilir.
+AUTHENTICATION_BACKENDS = (                = bunları ekleyince hata verdi. 
+    "django.contrib.auth.backends.ModelBackend",                        
+    "allauth.account.auth_backends.AuthenticationBackend"
+)
+
+
+
+-----------
+
+
+py manage.py makemigrations
+py manage.py migrate                       = bunları yazınca hata geçti.
+
+
+til içinde urls.py'i açtık.
+
+
+from django.contrib import admin
+from django.urls import path, re_path as url = import ettik.
+from django.conf.urls import include 
+from feed import urls as feed_urls 
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", include(feed_urls, namespace="feed")), 
+    url("", include("allauth.urls")),               = bu kısımı ekledik.
+]
+
+
+http://localhost:8000/login/ = logout yazdıktan sonra login sayfasına gidebildik.
+http://localhost:8000/logout = yazarak logout yapabiliyoruz.
+
+-------------------------------------------------------------
+
+til/templates içinde base.html'i açtık.
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base File{% endblock %}</title>
+</head>
+<body>
+    {% if request.user.is_authenticated %}                                = if ekledik.  
+    <a href="{% url 'account_logout' %}">Logout</span>                    = eğer login yapılmışsa bu link gözükür. logout sayfasına gider. logout url'i documentte yazıyor.
+        </a>
+
+    {% else %}                                                            = else
+    <a href="{% url 'account_login' %}">Logout</a>
+    {% endif %}                            
+
+     <hr>
+    {% block body %}{% endblock %}
+</body>
+</html>
+
+
+-------------------------------------------------------------
+https://github.com/pennersr/django-allauth/tree/main/allauth/templates/account = allauth'da kullanılan sayfalar ve içerikleri burada yazıyor. 
+login.html sayfasını ve diğer sayfaları overwrite edebiliriz. Ama sayfaların yerleri önemli. login.html account'un içinde olmalı.
+Bütün dosyalar account içindeki base.html'i işaret eder. Bu base.html'i overwrite edince bu base.html'i işaret eden bütün sayfalar için düzenleme yaparız. Sayfaları 
+tek tek overwrite ederek sadece ilgili sayfaları değiştirebiliriz.
+
+til/templates/account içinde base.html açtık. allauth base.html'i overwrite ettik.
+
+
+{% extends "base.html" %}     = bu base.html bizim base.html'i extend etti. Bu base.html'i kullanmamızın sebebi bütün sayfalar bu sayfayı işaret ediyor.
+
+    {% block body %}
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock content %} = template blocklar oluşturulurken body block içine content block koyulmuş. Bizim base.html'de de body block içine content block 
+    {% endblock body %}      koyulması gerekir yoksa kodlar 2 kere tekrarlanabilir.
+
+
+
+------------
+til/templates içinde base.html'i açtık.
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base File{% endblock %}</title>
+</head>
+<body>
+    <a href="/">Homepage</a>               = homepage'e link oluşturduk.
+    {% if request.user.is_authenticated %}     
+    <a href="{% url 'account_logout' %}">Logout</span> 
+        </a>
+
+    {% else %}                              
+    <a href="{% url 'account_login' %}">Logout</a>
+    {% endif %}                            
+
+     <hr>
+    {% block body %}
+    {% block content %} {% endblock content%}     = base.html'deki template block'u buraya bağladık.
+    
+    {% endblock %}
+    
+
+</body>
+</html>
+
+
+
+-------------------------------------------------------------
+
+til/templates içinde base.html'i açtık.
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base File{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>                        = Tailwind CSS ekledik.
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" /> = sidebar navigation eklerken bu kısım da ekliydi. Burayı yukarı kaydırdık. 
+</head>
+<body>
+
+<div class="min-h-screen flex flex-row bg-gray-100">                           = Tailwind ile ilgili navigation componenti başka siteden aldık. --> https://tailwindcomponents.com/component/sidebar-navigation
+  <div class="flex flex-col w-56 bg-white rounded-r-3xl overflow-hidden">
+    <div class="flex items-center justify-center h-20 shadow-md">
+      <h1 class="text-3xl uppercase text-indigo-500">TIL</h1>
+    </div>
+    <ul class="flex flex-col py-4">
+      <li>
+        <a href="/" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+          <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-home"></i></span>
+          <span class="text-sm font-medium">Home</span>
+        </a>
+      </li>      
+      {% if request.user.is_authenticated %}     
+      <li>
+        <a href="{% url 'account_logout' %}" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+          <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-log-out"></i></span>
+          <span class="text-sm font-medium">Logout</span>                            = Bu kısımı if'in içine attık. Login yapılmışsa logout linki gözükür.
+        </a>
+      </li>
+    {% else %}     
+    <li>
+        <a href="{% url 'account_login' %}" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800">
+          <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-log-in"></i></span>
+          <span class="text-sm font-medium">Login</span> 
+        </a>
+      </li>                         
+    {% endif %}     
+    </ul>
+  </div>
+  <div class="p-16">
+   {% block body %}
+   {% block content %}{% endblock content%}  
+   {% endblock %}
+   
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+-------------------------------------------------------------
+
+https://tailwindcomponents.com/component/post-artical = postlar için Tailwind componenti
+
+
+feed içinde hompepage.html'i açtık.
+
+
+
+
+{% extends "base.html"%}
+
+
+{% block title %}Home Page{% endblock %}
+{% block body %}
+{% for post in posts %}    
+<!-- component -->
+<div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md" style="width: 50rem;">
+    <div class="flex justify-between items-center">
+        <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>  = Tarihi farklı yazdık.
+    </div>
+    <div class="mt-2">
+        <p class="mt-2 text-gray-600">{{ post.text}}</p>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+        <a class="text-blue-600 hover:underline" href="#">Read more</a>
+        <div>
+            <a class="flex items-center" href="#">
+                <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="https://images.unsplash.com/photo-1502980426475-b83966705988?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=373&q=80" alt="avatar">
+                <h1 class="text-gray-700 font-bold">Khatab wedaa</h1>
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+-------------------------------------------------------------
+
+py manage.py startapp profiles = yeni app oluşturduk.
+
+
+til/settings.py'i açtık.
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'feed',
+    'allauth',                   
+    'allauth.account',            
+    'allauth.socialaccount',    
+    'profiles'                   = app'i ekledik.
+]
+
+
+profiles içinde models.py'i açtık.
+
+
+from django.db import models
+from django.contrib.auth.models import User = import ettik.
+
+# Create your models here.
+
+class Profile(models.Model):           = model oluşturduk.
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+	related_name="profile"
+    )
+
+    def __str__(self):                 = object ismini değiştirdik. username yaptık.
+        return self.user.username
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+
+
+profiles içinde admin.py'i açtık.
+
+
+from django.contrib import admin
+from .models import Profile                   = import ettik.
+
+# Register your models here.
+
+class ProfileAdmin(admin.ModelAdmin):     
+    pass
+
+admin.site.register(Profile, ProfileAdmin)   = Profile ve ProfileAdmin'i birbirine bağladık.
+
+
+http://localhost:8000/admin/ = sitesinde Profiles oluştu. users oluşturulduğunda user bilgileriyle profile oluşturulabiliyor.
+
+
+
+
+
+
+profiles/models.py'i açtık.
+
+
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save = import ettik.
+from django.dispatch import receiver           = import ettik.
+
+# Create your models here.
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+
+    def __str__(self):
+        return self.user.username
+
+@receiver(post_save, sender=User) = Create a new Profile() object when a Django User is created.
+def create_user_profile(sender, instance, created, **kwargs):
+    
+    if created:
+        Profile.objects.create(user=instance) = yukarıdaki user'i burada kullandık. yeni instance oluşturduk. user oluştuğunda profil de oluştu.
+
+
+-------------------------------------------------------------
+
+https://github.com/jazzband/sorl-thumbnail = Thumbnail bilgileri.
+
+pip install sorl-thumbnail = package yükledik.
+
+
+til/settings.py'i açtık.
+
+
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'feed',
+    'allauth',                   
+    'allauth.account',            
+    'allauth.socialaccount',    
+    'profiles',
+    'sorl.thumbnail',            = app ekledik.
+]
+
+
+py manage.py migrate
+
+
+pip install Pillow = package yükledik.
+
+
+profiles/models.py'i açtık.
+
+
+from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver 
+from sorl.thumbnail import ImageField = import ekledik.
+
+# Create your models here.
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+    image = ImageField(upload_to='profiles') = database'e resim ekledik.
+
+
+    def __str__(self):
+        return self.user.username
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """Create a new Profile() object when a Django User is created."""
+    if created:
+        Profile.objects.create(user=instance) 
+
+
+
+py manage.py makemigrations --> soru çıkarsa 1 yazdık.
+py manage.py migrate
+
+
+
+http://localhost:8000/admin/ sayfasında profilde resim kısmı oluştu. resim eklenmeyen profiller için Currently: 1'di. Bu 1'e tıklayınca http://localhost:8000/1 sayfasına gönderiyor.
+ve bu sayfayı ayarlamadık. Resim eklenince gösterilecek sayfaları da ayarlamadık.
+
+
+-------------------------------------------------------------
+
+til/settings.py'i açtık.
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/") = BASE_DIR'in altına ekledik.
+MEDIA_URL = "/media/"
+
+
+til/urls.py'i açtık.
+
+from django.contrib import admin
+from django.urls import path, re_path as url
+from django.conf.urls.static import static = import ettik.
+from django.conf import settings           = import ettik.
+from django.conf.urls import include 
+from feed import urls as feed_urls 
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", include(feed_urls, namespace="feed")), 
+    url("", include("allauth.urls")),              
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) = static kısmını ekledik. Belki gerçek projede static kullanmak doğru olmayabilir.
+
+
+Bunları yazarak resim eklenince gösterilecek sayfaları ayarladık.
+media dosyası oluştu ve resimler burada toplandı. Bu resimlerin github'ta gösterilmesini istemiyoruz. gitignore içine yazdık.
+
+
+-------------------------------------------------------------
+
+feed içinde models.py'i açtık.
+
+from django.db import models
+from django.contrib.auth.models import User  = import ettik.
+
+# Create your models here.
+
+
+class Post(models.Model):
+    text = models.CharField(max_length=240)
+    date = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE, = user silindiğinde postta silinir. Postları yollayanlar belli değildi. Burada posta author field ekledik.
+    )
+
+
+    def __str__(self):   
+        return self.text[0:100]  
+
+
+
+py manage.py makemigrations(soru çıkarsa 1 yazdık.)
+py manage.py migrate
+
+-------------------------------------------------------------
+
+feed içinde homepage.html'i açtık.
+
+
+{% extends "base.html"%}
+{% load thumbnail %}             = thumbnail'i html'de kullandık.
+
+
+{% block title %}Home Page{% endblock %}
+{% block body %}
+{% for post in posts %}    
+<!-- component -->
+<div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md" style="width: 50rem;">
+    <div class="flex justify-between items-center">
+        <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>
+    </div>
+    <div class="mt-2">
+        <p class="mt-2 text-gray-600">{{ post.text}}</p>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+        <a class="text-blue-600 hover:underline" href="#">Read more</a>
+        <div>
+            <a class="flex items-center" href="#">
+                {% load sorl_thumbnail %}
+                    {% thumbnail post.author.profile.image "373x373" crop="center" as im %} = profile de yazınca profile modelindeki tüm columnlara eriştik. 100x100 resim oluşturduk.
+                    <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{ im.url }}" alt="avatar"> = Sitede databaseden profil resmi kullandık.
+                {% endthumbnail %}
+              
+                <h1 class="text-gray-700 font-bold">{{ post.author.username }}</h1> = Her post modelinde author var. Her authorda da username var. admin panelinde username gözüküyor.
+            </a>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+-------------------------------------------------------------
+
+feed içinde views.py'i açtık.
+
+
+
+from django.views.generic import ListView, DetailView = import ettik.
+from .models import Post                    
+
+
+
+# Create your views here.
+
+
+class HomePage(ListView):
+    http_method_names = ["get"]          
+    template_name = "feed/homepage.html"
+    model = Post
+    context_object_name = "posts"
+    queryset = Post.objects.all().order_by('-id')[0:30]
+
+
+
+class PostDetailView(DetailView):       = view oluşturduk.
+    http_method_names = ["get"]
+    template_name = "feed/detail.html"
+    model = Post
+    context_object_name = "post"
+
+
+
+feed içinde urls.py'i açtık.
+
+
+urlpatterns = [
+    path("", views.HomePage.as_view(), name="index"), 
+    path("<int:pk>/", views.PostDetailView.as_view(), name="detail"), = url ekledik. primary key içeriyor.
+]
+
+
+feed içinde homepage.html'i açtık.
+
+
+<a class="text-blue-600 hover:underline" href="{% url 'feed:detail' post.id %}">Read more</a> = linke url ekledik. url primary key içeriyor. url olsa bile daha sayfayı ayarlamadık.
+
+
+-------------------------------------------------------------
+
+
+feed içine detail.html ekledik.
+
+
+{% extends "base.html" %}
+
+{% block title %}{{ post.text }} by {{ post.author.username }}{% endblock %} = title ayarladık. burada post kullanabilmemizin sebebi views.py içinde model = Post yazmamız.
+
+{% block body %}
+<div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md" style="width: 50rem;">
+    <div class="flex justify-between items-center">
+        <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>
+    </div>
+    <div class="mt-2">
+        <p class="mt-2 text-gray-600">{{ post.text}}</p>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+        <a class="text-blue-600 hover:underline" href="{% url 'feed:detail' post.id %}">Read more</a> 
+        <div>
+            <a class="flex items-center" href="#">
+                {% load sorl_thumbnail %}
+                    {% thumbnail post.author.profile.image "373x373" crop="center" as im %} 
+                    <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{ im.url }}" alt="avatar"> 
+                {% endthumbnail %}
+              
+                <h1 class="text-gray-700 font-bold">{{ post.author.username }}</h1> 
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+-------------------------------------------------------------                                                                                               
+
+til/templates içine includes folder açtık.
+
+til/templates/includes içine post.html açtık.
+
+
+{% load thumbnail %} = thumbnail ekledik.
+
+<!-- component -->
+<div class="max-w-4xl px-10 my-4 py-6 bg-white rounded-lg shadow-md" style="width: 50rem;">
+    <div class="flex justify-between items-center">
+        <span class="font-light text-gray-600">{{ post.date|date:"F j, Y, g:i:a" }}</span>
+    </div>
+    <div class="mt-2">
+        <p class="mt-2 text-gray-600">{{ post.text}}</p>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+
+        {% if show_detail_link %}                  = if ekledik. show_detail_link true ise burayı yapar.
+        <a class="text-blue-600 hover:underline" href="{% url 'feed:detail' post.id %}">Read more</a> 
+        {% else %}
+        <span>&nbsp;</span>
+        {% endif %}
+        <div>
+            <a class="flex items-center" href="#">
+                {% load sorl_thumbnail %}
+                    {% thumbnail post.author.profile.image "373x373" crop="center" as im %} 
+                    <img class="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src="{{ im.url }}" alt="avatar"> 
+                {% endthumbnail %}
+              
+                <h1 class="text-gray-700 font-bold">{{ post.author.username }}</h1> 
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+feed içinde homepage.html'i açtık.
+
+{% extends "base.html"%}
+{% load thumbnail %} 
+
+
+{% block title %}Home Page{% endblock %}
+{% block body %}
+{% for post in posts %}    
+
+{% include "includes/post.html" with post=post show_detail_link=True %} = post.html içindeki kodları homepage.html içinde kullandık. Bu reusabilityi artırıyor.
+									  for post in posts kısmındaki postu post.html'e yolladık.
+                                                                          show_detail_link true olunca post.html içindeki if'li kısım çalıştı.
+
+{% endfor %}
+{% endblock %}
+
+
+
+
+feed içinde detail.html'i açtık.
+
+
+{% extends "base.html" %}
+
+{% block title %}{{ post.text }} by {{ post.author.username }}{% endblock %}
+
+{% block body %}
+
+{% include "includes/post.html" with post=post %} = bu kısmı ekledik. Ama show_detail_link kullanmadık. homepage'de read more yazısı gözükürken detail sayfasında read more gözükmedi.
+
+{% endblock body %}
+
+
+------------------------------------------------------------- 
+
+feed içinde views.py'i açtık.
+
+from django.views.generic.edit import CreateView = import ettik.
+
+
+class CreateNewPost(CreateView): = yeni view oluşturduk.
+    model = Post
+    template_name = "feed/create.html"
+    fields = ['text']           = post modelinde text, date, author vardı. sayfada forma sadece text'i koyduk.
+    success_url = "/"
+
+
+feed/urls.py'i açtık.
+
+urlpatterns = [
+    path("", views.HomePage.as_view(), name="index"), 
+    path("<int:pk>/", views.PostDetailView.as_view(), name="detail"), 
+    path("new/", views.CreateNewPost.as_view(), name="new_post"), = url ekledik.
+]
+
+feed içine create.html oluşturduk. form doldurma sayfası oluşturduk.
+
+{% extends "base.html" %}
+
+{% block title %}Create a new post{% endblock title %}
+
+{% block body %}
+        {{ form.as_p }}    = form koyduk. post oluşturulan sayfayı ayarladık. login yapmamış userler de post oluşturabiliyor.
+{% endblock body %}
+
+
+til/templates/base.html'i açtık.
+
+   <li>
+        <a href="{% url 'feed:new_post' %}" class="flex flex-row items-center h-12 transform hover:translate-x-2 transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 js-toggle-modal">
+          <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-layer-plus"></i></span>
+          <span class="text-sm font-medium">New post</span>  = form sayfasına link oluşturduk.
+        </a>
+    </li>
+
+------------------------------------------------------------- 
+
+feed içinde views.py'i açtık.
+
+from django.contrib.auth.mixins import LoginRequiredMixin = import ettik.
+
+
+class CreateNewPost(LoginRequiredMixin, CreateView): = LoginRequiredMixin ekleyince post oluşturduğumuz sayfaya gitmek için login yapmamız gerekiyor. Yoksa login sayfasına gidiyor.
+    model = Post
+    template_name = "feed/create.html"
+    fields = ['text']       
+    success_url = "/"
+
+------------------------------------------------------------- 
+
+feed içinde create.html'i açtık.
+
+{% extends "base.html" %}
+
+{% block title %}Create a new post{% endblock title %}
+
+{% block body %}
+    <form method="POST" action="."> = form ekledik.
+        {% csrf_token %}            = Bunu yazınca hata geçti.
+        {{ form.as_p }}
+        <div>
+                <div class="m-3">
+                     <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 
+                     hover:bg-green-500 hover:text-white 
+                     shadow-md py-2 px-6 inline-flex items-center" type="submit"> = button'ın type'i submit. button'ın eklendiği site --> https://tailwindcomponents.com/component/buttons-with-icons
+                        <span class="mr-2">Create Post</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                        </svg>
+                     </button>
+                </div>
+
+        </div>
+
+    </form>
+{% endblock body %}
+
+
+feed içinde views.py'i açtık.
+
+
+class CreateNewPost(LoginRequiredMixin, CreateView): 
+    model = Post
+    template_name = "feed/create.html"
+    fields = ['text']  
+    success_url = "/" = form gönderildiğinde home page'e yollar.
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):       = formu oluşturmak için author gerekliydi. form valid'i ekleyince login yapılan user'i posta ekledik.
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.save()
+        return super().form_valid(form)
+
+
+------------------------------------------------------------- 
+
+https://tailwindcomponents.com/component/a-minimal-simple-modal-that-still-looks-good = yeni Tailwind kodları ekledik.
+
+til/templates içinde base.html'i açtık.
+
+
+ {% if request.user.is_authenticated %}  = bu kısım login olduğunda sitede gözüküyor.
+  <!-- component -->
+<div class="flex items-center justify-center fixed left-0 bottom-0 w-full h-full bg-gray-800 bg-opacity-75 hidden js-modal"> = hidden ve js-modal ekledik. Tailwind'ten hidden ekleyince
+                                                                                                                               ilgili element görünmez oldu.
+  <div class="bg-white rounded-lg w-1/2">
+    <div class="flex flex-col items-start p-4">
+      <div class="flex items-center w-full">
+        <div class="text-gray-900 font-medium text-lg">New post</div>
+		<svg class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+			<path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+     	</svg>
+      </div>
+      <hr>
+      <div class=""></div>
+      <hr>
+      <div class="ml-auto">
+        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 
+        hover:bg-green-500 hover:text-white 
+        shadow-md py-1 px-3 inline-flex items-center text-sm mt-4" type="button"> = button'un type'i submit değil de button çünkü javascript kullanacağız.
+           <span class="mr-2">Create Post</span>
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+           <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+           </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+{% endif %}
+
+------------------------------------------------------------- 
+
+til içinde settings.py'i açtık.
+
+STATICFILES_DIRS = [                                   = eklemeler yaptık.
+    os.path.join(PROJECT_DIR, "frontend/")
+]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = "/static/"
+
+
+
+Yukarıdaki bilgilere göre frontend/js folder oluşturduk ve içine main.js ekledik. 
+
+til/templates içinde base.html'i açtık.
+
+{% load static %} = static ekledik.
+<script src="{% static 'js/main.js' %}"></script> = Bu kısmı en aşağı ekledik. Oluşturduğumuz js file'i html'e ekledik.
+
+py manage.py collectstatic = Bunu yazınca solda static folderler oluştu. 
+                             proje biterken tekrar yazmak gerekebilir.
+
+frontend/js içinde main.js'i açtık.
+
+console.log("Hello World"); = servere refresh atıldığında server console'inde göründü.
+
+.gitignore'ye static/ ekledik. Çünkü burada adminlerle ilgili dosyalar bulunuyor. sadece frontend dosyasının görünmesini istiyoruz.
+
+
+------------------------------------------------------------- 
+til/template içinde base.html'i açtık.
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script> = JQuery ekledik.
+<script src="{% static 'js/main.js' %}"></script>
+
+
+frontend/js içinde main.js'i açtık.
+
+$.ajaxSetup({                                                   = ajax ekledik.
+    beforeSend: function beforeSend(xhr, settings) {
+        function getCookie(name) {
+            let cookieValue = null;
+
+
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+
+                for (let i = 0; i < cookies.length; i += 1) {
+                    const cookie = jQuery.trim(cookies[i]);
+
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (`${name}=`)) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));              = CSRF tokenler cookie olarak alındı. Böylelikle her ajax request için CSRF token üretmeye
+        }           									gerek kalmıyor.
+    },
+});
+
+
+
+jQuery = sitede jQuery yazınca aşağıdaki yazı çıkıyor böylelikle jQuery'nin yüklendiğini anlıyoruz.
+
+(e,t){return new ce.fn.init(e,t)}
+
+
+
+------------------------------------------------------------- 
+
+frontend/js içinde main.js'i açtık.
+
+$(document).on("click", ".js-toggle-modal", function(e) { // event listener kullandık. js-toggle-modal class'ina tıklandığında function çalışacak. 
+    e.preventDefault()
+    $(".js-modal").toggleClass("hidden") // js-modal'da hidden class'i varsa kaldırıldı ekranda new post cartı oluştu. hidden class'i yoksa tekrar eklendi ve post cartı yok oldu.
+})
+
+
+til/template içinde base.html'i açtık.
+
+<li>
+  <a href="{% url 'feed:new_post' %}" class="flex flex-row items-center h-12 transform hover:translate-x-2 
+  transition-transform ease-in duration-200 text-gray-500 hover:text-gray-800 js-toggle-modal">  = js-toggle-modal ekledik. Ekranda post cart'in class'inda hidden vardı. bu elemente
+    <span class="inline-flex items-center justify-center h-12 w-12 text-lg text-gray-400"><i class="bx bx-layer-plus"></i></span>   tıklayınca hidden kalktı. ve ekranda post cartı gözüktü.
+    <span class="text-sm font-medium">New post</span>         									    
+  </a>
+</li>
+
+
+<div class="text-gray-900 font-medium text-lg">New post</div>
+   <svg class="ml-auto fill-current text-gray-700 w-6 h-6 cursor-pointer 
+   js-toggle-modal" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">   = post card'daki çarpı tuşuna js-toggle-model ekledik. böylelikle bu çarpı tuşuna basınca post card'da
+      <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47   hidden oluşacak ve post card yok olacak.
+      4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"/>
+   </svg>
+</div>
+
+------------------------------------------------------------- 
+
+
+
+
+
+
+
+
+
+
