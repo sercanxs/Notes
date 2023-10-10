@@ -1356,10 +1356,749 @@ til/template içinde base.html'i açtık.
 
 ------------------------------------------------------------- 
 
+til/templates içinde base.html'i açtık.
+
+
+ <div class="w-full">
+        <textarea class="border-2 border-blue-500 my-4 w-full js-post-text" 
+        placeholder="Enter your post" rows="3" maxlength="240" data-post-url="{% url 'feed:new_post' %}"></textarea> = post card'a text area ekledik. data-post-url ve yanına url ekledik.
+     
+      </div>
+      <hr>
+      <div class="ml-auto">
+        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 
+        hover:bg-green-500 hover:text-white 
+        shadow-md py-1 px-3 inline-flex items-center text-sm mt-4 js-submit" type="button"> = js-submit ekledik.
+           <span class="mr-2">Create Post</span>
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+           <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+           </svg>
+        </button>
+      </div>
+
+
+------------------------------
+
+feed içinde homepage.html'i açtık.
+
+
+{% extends "base.html"%}
+{% load thumbnail %} 
+
+
+{% block title %}Home Page{% endblock %}
+{% block body %}
+
+
+<div id="posts-container"> = posts-container ekledik.
+{% for post in posts %}    
+
+{% include "includes/post.html" with post=post show_detail_link=True %}
+
+{% endfor %}
+</div>
+
+{% endblock %}
+
+
+----------------------
+
+feed içinde views.py'i açtık.
+
+
+from django.views.generic import ListView, DetailView 
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from .models import Post                    
+from django.shortcuts import render = import ettik.
+
+
+
+# Create your views here.
+
+
+class HomePage(ListView):
+    http_method_names = ["get"]          
+    template_name = "feed/homepage.html"
+    model = Post
+    context_object_name = "posts"
+    queryset = Post.objects.all().order_by('-id')[0:30]
+
+
+
+class PostDetailView(DetailView):      
+    http_method_names = ["get"]
+    template_name = "feed/detail.html"
+    model = Post
+    context_object_name = "post"
+
+class CreateNewPost(LoginRequiredMixin, CreateView): 
+    model = Post
+    template_name = "feed/create.html"
+    fields = ['text']  
+    success_url = "/"
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+    
+    def form_valid(self, form):     
+        obj = form.save(commit=False)
+        obj.author = self.request.user
+        obj.save()
+        return super().form_valid(form)
+
+    def post(self, request, *args, **kwargs):                       
+        print("This is post request")                                      = post request oluşturunca vs code consolde gözüktü.
+        print("This is post request")
+        print("This is post request")
+        print("This is post request")
+        print("This is post request")
+        # TODO: There is a bug here when you go to /new/ to create a post.
+        # You must figure out how to determine if this is an Ajax request (or not an ajax request).
+        post = Post.objects.create(              = yeni post oluşturduk.
+            text=request.POST.get("text"),       = front end'ten bilgi ekledik.  $.ajax'taki texti koyduk.
+            author=request.user,
+        )
+
+        return render(                    = html renderledik.
+            request,
+            "includes/post.html",   
+            {
+                "post": post,             = post post.html'den geliyor.
+                "show_detail_link": True, = homepage'de olduğumuz için bunu da ekleyebiliriz. homepage.html'den geliyor.
+            },
+            content_type="application/html"
+        )
+
+
+
+-----------------------
+
+
+frontend/js içinde main.js'i açtık.
+
+$.ajaxSetup({
+    beforeSend: function beforeSend(xhr, settings) {
+        function getCookie(name) {
+            let cookieValue = null;
+
+
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+
+                for (let i = 0; i < cookies.length; i += 1) {
+                    const cookie = jQuery.trim(cookies[i]);
+
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (`${name}=`)) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+
+            return cookieValue;
+        }
+
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        }
+    },
+});
+
+
+$(document).on("click", ".js-toggle-modal", function(e) { 
+    e.preventDefault()
+    $(".js-modal").toggleClass("hidden") 
+})
+.on("click", ".js-submit", function(e) {     = submit button'una tıkladığımızda
+    e.preventDefault()
+    const text = $(".js-post-text").val().trim() = textarea'dan text aldık.
+    const $btn = $(this)                         = button'ı değişkene kaydettik. this, .js-submit button'ı temsil ediyor.
+
+    if(!text.length) { = length 0 ise false'dir false'in tersi true'dir.
+        return false
+    }
+
+    $btn.prop("disabled", true).text("Posting!")   = button'ı seç. disable yap. Buttondaki create post textini Posting'e çevirdik.
+    $.ajax({
+        type: 'POST',
+        url: $(".js-post-text").data("post-url"), = text areadaki data-post-url'i kullandık.
+        data: {
+            text: text = key value ekledik. texti backend'te kullandık.
+        },
+        success: (dataHtml) => {
+            $(".js-modal").addClass("hidden");          = post card hidden oldu.
+            $("#posts-container").prepend(dataHtml);    = homepage.html ile arada bağ oluşturduk.
+            $btn.prop("disabled", false).text("New Post"); = disabled'i false yapınca artık button clickable oldu.
+            $(".js-post-text").val('')                 = post carda bir şeyler yazdıktan sonra tekrar açınca bu yazılar duruyordu. bunu engelledik.
+                                                        
+        },
+        error: (error) => {
+            console.warn(error) 
+            $btn.prop("disabled", false).text("Error"); = disabled'i false yapınca artık disabled olmadı. button'daki text'i errora çevirdik.
+        }
+    });
+})
+
+
+------------------------------------------------------------- 
+
+profiles içinde views.py'i açtık.
+
+from django.contrib.auth.models import User = import ekledik.
+from django.views.generic import DetailView
+
+# Create your views here.
+
+
+class ProfileDetailView(DetailView):  = view ekledik.
+    http_method_names = ["get"]
+    template_name = "profiles/detail.html"
+    model = User
+    context_object_name = "user"
+    slug_field = "username"     = slug.
+    slug_url_kwarg = "username" = bu kısım profiles içinde urls.py'deki "<str:username>/" kısmını temsil ediyor.
 
 
 
 
+profiles folder içine urls.py'i açtık.
+
+
+from django.urls import path
+
+from . import views
+
+app_name = "profiles"
+
+urlpatterns = [
+    path("<str:username>/", views.ProfileDetailView.as_view(), name="detail"), = eklemeler yaptık.
+]
+
+
+
+til içinde urls.py'i açtık.
+
+from django.contrib import admin
+from django.urls import path, re_path as url
+from django.conf.urls.static import static 
+from django.conf import settings
+from django.conf.urls import include 
+from feed import urls as feed_urls 
+from profiles import urls as profiles_urls  = import ettik.
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path("", include(feed_urls, namespace="feed")), 
+    path("profile/", include(profiles_urls, namespace="profiles")), = ekleme yaptık. profile/ yazınca diğer urls.py'de profile/ yazmaya gerek kalmıyor otomatik olarak başına ekleniyor.
+    url("", include("allauth.urls")),              
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+til/templates/includes içinde post.html'i açtık.
+
+<a class="flex items-center" href="{% url 'profiles:detail' post.author.username %}"> = url ekledik. sağdaki kısım profiles içinde urls.py içindeki <str:username>/ kısmını temsil ediyor.
+        
+------------------------------------------------------------- 
+
+profiles/templates/profiles içinde detail.html oluşturduk. detail.html'in sitede görünmesi için django'yu yeniden başlatmak gerekebilir.
+
+https://tailwindcomponents.com/component/profile-card = Tailwind kullandık.
+
+
+{% extends "base.html" %}
+{% load thumbnail %} = resim ekledik.
+
+
+{% block title %}{{ user.username }}{% endblock title %} = user, context_object_name'den geliyor.
+
+
+{% block body %}
+<!-- component -->
+<div class="rounded-3xl overflow-hidden shadow-xl max-w-xs my-3 bg-blue-500">
+    <img src="https://i.imgur.com/dYcYQ7E.png" class="w-full" />
+  <div class="flex justify-center -mt-8">
+    {% load sorl_thumbnail %}                         = resim ekledik.
+    {% thumbnail user.profile.image "100x100" crop="center" as im %} 
+    <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3"> 
+{% endthumbnail %}
+    
+  </div>
+  <div class="text-center px-3 pb-6 pt-2">
+      <h3 class="text-white text-sm bold font-sans">{{ user.username }}</h3>  = kullanıcı ismi yazdık. Profil sayfasını ayarladık.
+      <p class="mt-2 font-sans font-light text-white">Hello, i'm from another the other side!</p>
+  </div>
+    <div class="flex justify-center pb-3 text-white">
+    <div class="text-center mr-3 border-r pr-3">
+      <h2>Todo</h2>
+      <span>Posts</span>
+    </div>
+    <div class="text-center">
+      <h2>Todo</h2>
+      <span>Followers</span>
+    </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+------------------------------------------------------------- 
+
+profiles içinde views.py'i açtık.
+
+
+from django.contrib.auth.models import User
+from django.views.generic import DetailView
+from feed.models import Post                = import ettik.
+
+# Create your views here.
+
+
+class ProfileDetailView(DetailView):
+    http_method_names = ["get"]
+    template_name = "profiles/detail.html"
+    model = User
+    context_object_name = "user"
+    slug_field = "username"
+    slug_url_kwarg = "username" 
+
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        user = self.get_object()                                          = user'i ayarladık. aşağıda total posts kısmına ekledik.
+        context = super().get_context_data(**kwargs)
+        context['total_posts'] = Post.objects.filter(author=user).count() = websitesine total posts'u ekledik. Soldaki kısımı html'de yazdık.
+        return context
+
+
+profiles içinde detail.html'i açtık.
+
+<div class="text-center mr-3 border-r pr-3">
+      <h2>{{total_posts}}</h2>                = Bunu yazınca html'de total post gözüktü.
+      <span>Posts</span>
+    </div>
+
+
+------------------------------------------------------------- 
+
+profiles içinde detail.html'i açtık.
+
+
+{% extends "base.html" %}
+{% load thumbnail %} 
+
+
+{% block title %}{{ user.username }}{% endblock title %}
+
+
+{% block body %}
+<!-- component -->
+<div class="rounded-3xl overflow-hidden shadow-xl max-w-xs my-3 bg-blue-500">
+    <img src="https://i.imgur.com/dYcYQ7E.png" class="w-full" />
+  <div class="flex justify-center -mt-8">
+    {% load sorl_thumbnail %}                         
+    {% thumbnail user.profile.image "100x100" crop="center" as im %} 
+    <img src="{{ im.url }}" class="rounded-full border-solid border-white border-2 -mt-3"> 
+{% endthumbnail %}
+    
+  </div>
+  <div class="text-center px-3 pb-6 pt-2">
+      <h3 class="text-white text-sm bold font-sans">{{ user.username }}</h3>
+      {% if request.user.is_authenticated %}                                  = if ekledik. sadece login yapanlar follow buttonunu görebilir.
+      {% if request.user != user %}                                           = if ekledik. kişi kendi hesabını takip edemez.
+
+      <div class="m-3">
+        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500 hover:border-green-600 
+        hover:bg-green-500 hover:text-white 
+        shadow-md py-1 px-3 inline-flex items-center js-follow" data-username="{{ user.username }}" type="button"> = button ekledik. js kullanacağımız için type'i button yaptık.  
+                                                                                                    js-follow class'i ekledik. data-username="{{ user.username }}" kısmı kimin
+                                                                                                    takip ettiğini gösteriyor. 
+           <span class="mr-2 js-follow-text">Follow</span>                                         = js-follow-text ekledik.
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+           <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+           </svg>
+        </button>
+      </div>
+      {% endif %}
+      {% else %}                                                     = login yapmamış kişiler follow button'ı göremezler.
+      <div class="mt-3 text-sm">Login to follow this user</div>
+      {% endif %}
+  </div>
+    <div class="flex justify-center pb-3 text-white">
+    <div class="text-center mr-3 border-r pr-3">
+      <h2>{{total_posts}}</h2>
+      <span>Posts</span>
+    </div>
+    <div class="text-center">
+      <h2>Todo</h2>
+      <span>Followers</span>
+    </div>
+    </div>
+</div>
+
+{% endblock body %}
+
+------------------------------------------------------------- 
+
+py manage.py startapp followers = yeni app oluşturduk.
+
+til içinde settings.py'i açtık.
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'feed',
+    'allauth',                   
+    'allauth.account',            
+    'allauth.socialaccount',    
+    'profiles',
+    'sorl.thumbnail',
+    'followers'            = app ekledik.
+]
+
+
+followers içinde models.py'i açtık.
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+
+
+class Follower(models.Model):
+    followed_by = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,  = takipçi hesabı silindiğinde follower sayısı azalıyor.
+        related_name='followed_by' = bu isimleri verince django içindeki karışıklıklar engellenmiş oluyor. yoksa aşağıdaki following ve followed_by birbirine karışıyordu.
+    )
+
+    following = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following'
+    )
+    
+    def __str__(self):
+        return f"{self.followed_by.id} is following {self.following.id}"
+
+    class Meta:
+        unique_together = ('followed_by', 'following',) = bir kişi bir kere takip edilebilir.
+
+
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+
+
+followers içinde admin.py'i açtık.
+
+
+from django.contrib import admin
+from .models import Follower               
+
+# Register your models here.
+
+class FollowerAdmin(admin.ModelAdmin):   = eklemeler yaptık.
+    pass
+
+admin.site.register(Follower, FollowerAdmin)    
+
+
+
+http://localhost:8000/admin/ = Followers app'i oluştu.
+
+
+------------------------------------------------------------- 
+
+profiles içinde views.py'i açtık.
+
+from django.contrib.auth.models import User
+from django.views.generic import DetailView, View            = import ekledik.
+from feed.models import Post 
+from django.contrib.auth.mixins import LoginRequiredMixin    = import ekledik
+from django.http import JsonResponse, HttpResponseBadRequest = import ekledik
+from followers.models import Follower                        = import ekledik
+
+
+class FollowView(LoginRequiredMixin, View):  = yeni view ekledik.
+    http_method_names = ["post"]
+
+    def post(self, request, *args, **kwargs):
+        data = request.POST.dict()           = dictionary ile çalışmak için yaptık.
+
+        if "action" not in data or "username" not in data:
+            return HttpResponseBadRequest("Missing data")
+
+        try:
+            other_user = User.objects.get(username=data['username'])
+        except User.DoesNotExist:
+            return HttpResponseBadRequest("Missing user")
+
+        if data['action'] == "follow":
+            # Follow
+            follower, created = Follower.objects.get_or_create(
+                followed_by=request.user,
+                following=other_user
+            )
+        else:
+            # Unfollow
+            try:
+                follower = Follower.objects.get(
+                    followed_by=request.user,
+                    following=other_user,
+                )
+            except Follower.DoesNotExist:
+                follower = None
+
+            if follower:
+                follower.delete()
+
+        return JsonResponse({
+            'success': True,
+            'wording': "Unfollow" if data['action'] == "follow" else "Follow"
+        })
+
+
+
+--------------------
+
+profiles içinde urls.py'i açtık.
+
+
+from django.urls import path
+
+from . import views
+
+app_name = "profiles"
+
+urlpatterns = [
+    path("<str:username>/", views.ProfileDetailView.as_view(), name="detail"),
+    path("<str:username>/follow/", views.FollowView.as_view(), name="follow"), = yeni url ekledik.
+]
+
+
+
+
+--------------------
+profiles içinde detail.html'i açtık.
+
+
+ <div class="m-3">
+        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500
+         hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md
+          py-1 px-3 inline-flex items-center js-follow" data-username="{{ user.username }}"   
+           data-action="follow"                                                               = data action ekledik.                            
+           data-url="{% url 'profiles:follow' user.username %}"                               = data-url ekledik.
+           type="button">  
+           <span class="mr-2 js-follow-text">
+            {% if you_follow %}
+            Unfollow
+           {% else %}
+            Follow
+           {% endif %}
+
+           </span> 
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+           <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+           </svg>
+        </button>
+      </div>
+
+--------------------
+
+frontend/js içinde main.js'i açtık.
+
+
+       
+$(document).on("click", ".js-toggle-modal", function(e) { 
+    e.preventDefault()
+    console.log("hi");
+    alert("hi")
+    $(".js-modal").toggleClass("hidden")
+}).on("click", ".js-submit", function(e) {     
+    e.preventDefault()
+    const text = $(".js-post-text").val().trim() 
+    const $btn = $(this)                        
+
+    if(!text.length) { 
+        return false
+    }
+
+    $btn.prop("disabled", true).text("Posting!")  
+    $.ajax({
+        type: 'POST',
+        url: $(".js-post-text").data("post-url"), 
+        data: {
+            text: text 
+        },
+        success: (dataHtml) => {
+            $(".js-modal").addClass("hidden");          
+            $("#posts-container").prepend(dataHtml);   
+            $btn.prop("disabled", false).text("New Post");
+            $(".js-post-text").val('')              
+                                                       
+        },
+        error: (error) => {
+            console.warn(error) 
+            $btn.prop("disabled", false).text("Error"); 
+        }
+    });
+}).on("click", ".js-follow", function(e) { = eklemeler yaptık.
+    e.preventDefault();
+    console.log("hi");     = Chrome browser is caching your js. ctrl+f5 denemek cacheleri silebilir ve yeni eklenen değişiklikler sitede görünür.
+    const action = $(this).attr("data-action") = action ayarladık. data yerine attr kullanmamızın sebebi attr cachelenmez ve her değişiklikte değişiklikler gözükür.
+
+    $.ajax({
+        type: 'POST',
+        url: $(this).data("url"), = detail.html'deki data-url'i kullandık. 
+        data: {
+            action: action,                      = action yolladık.
+            username: $(this).data("username"),  = username değiştirilmeyeceği için data kullandık. action follow unfollow olarak değişiyordu.
+        },
+        success: (data) => {                     = json
+            $(".js-follow-text").text(data.wording) = follow button'ında follow unfollow yazdı.
+            if(action == "follow") {
+                // Change wording to unfollow
+                console.log("DEBUG", "unfollow")
+                $(this).attr("data-action", "unfollow") = data-action attributesini unfollow yaptık. inspect'ten bakılabilir.
+            } else {
+                // The opposite
+                console.log("DEBUG", "follow")
+                $(this).attr("data-action", "follow")
+            }
+        },
+        error: (error) => {
+            console.warn(error)
+        }
+    });
+})
+
+
+
+------------------------------------------------------------- 
+
+profiles içinde views.py'i açtık.
+
+
+class ProfileDetailView(DetailView):
+    http_method_names = ["get"]
+    template_name = "profiles/detail.html"
+    model = User
+    context_object_name = "user"
+    slug_field = "username"
+    slug_url_kwarg = "username" 
+
+    def dispatch(self, request, *args, **kwargs): = ekleme yaptık.
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        user = self.get_object() 
+        context = super().get_context_data(**kwargs)
+        context['total_posts'] = Post.objects.filter(author=user).count() 
+        if self.request.user.is_authenticated:                           = ekleme yaptık. sayfa refreshlendiğinde unfollow yerine follow gözüküyordu bunu ayarladık.
+           context['you_follow'] = Follower.objects.filter(following=user, followed_by=self.request.user).exists()
+        return context
+
+
+
+
+
+
+
+profiles içinde detail.html'i açtık.
+
+
+ <div class="m-3">
+        <button class="bg-white text-gray-800 font-bold rounded border-b-2 border-green-500
+         hover:border-green-600 hover:bg-green-500 hover:text-white shadow-md
+          py-1 px-3 inline-flex items-center js-follow" data-username="{{ user.username }}" 
+           data-action="{% if you_follow %}un{% endif %}follow"  = data action ekledik.                                  
+           data-url="{% url 'profiles:follow' user.username %}"
+           type="button"> 
+           <span class="mr-2 js-follow-text">
+            {% if you_follow %}               = ekleme yaptık.                 
+            Unfollow
+           {% else %}
+            Follow
+           {% endif %}
+
+           </span> 
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+           <path fill="currentcolor" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+           </svg>
+        </button>
+      </div>
+
+
+------------------------------------------------------------- 
+
+feed içinde views.py'i açtık.
+
+
+from django.views.generic import DetailView, TemplateView = import ekledik.
+from django.views.generic.edit import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin 
+from .models import Post                    
+from django.shortcuts import render = import ekledik.
+from followers.models import Follower
+
+
+
+# Create your views here.
+
+
+class HomePage(TemplateView): = TemplateView ekledik.
+    http_method_names = ["get"]          
+    template_name = "feed/homepage.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        self.request = request
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            following = list(
+                Follower.objects.filter(followed_by=self.request.user).values_list('following', flat=True) = sadece takip ettiğimiz kişilerin postları gözüktü.
+            )
+            if not following: = kimseyi takip etmiyorsak ekran boş kalmasın diye doldurduk.
+                # Show the default 30
+                posts = Post.objects.all().order_by('-id')[0:30]
+            else:
+                posts = Post.objects.filter(author__in=following).order_by('-id')[0:60]
+        else:
+            posts = Post.objects.all().order_by('-id')[0:30]
+        context['posts'] = posts = homepage.html'de posts kullanmıştık.
+        return context
+
+
+------------------------------------------------------------- 
+Yapılabilecekler
+
+follower sayısı sitede gösterilebilir.
+Ana sayfada user bilgilerinin değiştirildiği account bölümü oluşturulabilir.
+
+
+django için kitap önerisi
+
+https://learndjango.com/
+https://docs.djangoproject.com/en/4.2/
 
 
 
