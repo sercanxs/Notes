@@ -1,0 +1,700 @@
+python yükledik. pip yükledik.
+
+Sites folder oluşturduk.
+
+command prompta cd'ler ile bu foldere geldik.
+
+pip install wagtail = wagtail yükledik.
+
+wagtail start sevendays = yeni project oluşturduk.
+
+cd sevendays = yeni oluşan foldere geldik.
+
+py -m venv .venv = bunu yazınca yeni virtual environment kuruldu. .venv dosyası oluştu.
+
+.venv\Scripts\activate.bat = virtual env'i çalıştırdık. command prompt yerine powershell kullanınca bat değil de ps1'i çalıştırıyoruz ve özel kod gerekiyor.
+
+pip install -r requirements.txt = requirements.txt içindeki her şeyi yükledi.
+
+py manage.py runserver 0.0.0.0:8000 = sitede hata çıktı.
+
+py manage.py migrate = migrate edince hata geçti.
+
+py manage.py runserver 0.0.0.0:8000
+
+py manage.py createsuperuser = admin bilgileri oluşturduk.
+
+django
+abc@noexist.com
+123
+
+
+sevendays project'i vs code'de açtık. home içinde home_page.html'e geldik ve homepage'i ayarladık. 
+
+
+-------------------------------------------------------------------
+
+home içinde models.py'e geldik.
+
+from django.db import models
+
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel = import ettik.
+
+
+class HomePage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to homepage") = database'i ayarladık.
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),           = bu kısmı yazınca admin panel'inde database'de değişiklik yapabiliyoruz.
+
+    ]
+
+
+py manage.py makemigrations 
+py manage.py migrate
+
+
+
+http://localhost:8000/admin sayfasına gelip home'e gelip edit'e tıkladık ve Banner title oluştu. Banner title buradan değiştirilebilir. publish edilirse değişiklikler websitesinde gözükür.
+
+
+home içinde home_page.html'i açtık.
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<h1>Hello World</h1>
+<h3> {{ page.banner_title }}</h3> = database'den bilgi aldık.
+
+{% endblock content %}
+
+
+-------------------------------------------------------------------
+
+py manage.py startapp generic = yeni app oluşturduk.
+
+sevendays/settings içinde base.py'e geldik.
+
+
+INSTALLED_APPS = [
+    "home",
+    "search",
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail",
+    "modelcluster",
+    "taggit",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "generic",                     = ekleme yaptık.
+]
+
+
+generic içinde models.py'i açtık.
+
+
+from django.db import models
+
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel
+
+
+class GenericPage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to homepage") = database'i ayarladık.
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),
+
+    ]
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+http://localhost:8000/admin sayfasına gelip home'e gelip edit'e tıkladık ve add child page'e tıkladık. Burada Generic page gözüktü ve yeni page açtık. publish ettik.
+
+generic/templates/generic içine generic_page.html açtık ve yeni sayfayı ayarladık.
+
+generic_page.html'e home_page.html'deki yazanları kopyaladık.
+
+generic içinde models.py'i açtık.
+
+from django.db import models
+
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel
+
+
+class GenericPage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to generic page")
+    introduction = models.TextField(blank=True)  = database'e yeni column ekledik.
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),
+        FieldPanel("introduction")               = bu kısmı yazınca admin panel'inde database'de değişiklik yapabildik.
+
+    ]
+
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+
+generic içinde generic_page.html'i açtık.
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}template-genericpage{% endblock %}
+
+{% block extra_css %}
+
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<h1>Hello World</h1>
+<h3> {{ page.banner_title }}</h3>
+<p> {{ page.introduction}}</p> = database'den bilgi ekledik.
+
+{% endblock content %}
+
+-------------------------------------------------------------------
+
+VS Code python extension'i yükleyince kod yazarken ilgili methodlar gözüküyor.
+
+
+
+generic içinde models.py'i açtık.
+
+
+from django.db import models
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel
+
+class GenericPage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to generic page")
+    introduction = models.TextField(blank=True)
+    banner_image = models.ForeignKey(  = database'e image field ekledik.
+        'wagtailimages.Image',
+        null=True,   = database'de değer olmayabilir.
+        blank=False, = pagede değişiklik yaparken bu kısım boş bırakılamaz.
+        on_delete=models.SET_NULL,
+        related_name='+',
+        )
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),
+        FieldPanel("introduction"),
+        FieldPanel("banner_image"), = admin paneline resim ekledik.
+    ]
+   
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+
+http://localhost:8000/admin'de generic sayfasında resim bölümü oluştu. resim upload ettik ve sayfayı publishledik.
+
+
+
+
+generic içinde generic_page.html'i açtık.
+
+{% extends "base.html" %}
+{% load static wagtailimages_tags%} = load'a yeni kısım ekledik.
+
+{% block body_class %}template-genericpage{% endblock %}
+
+{% block extra_css %}
+
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<h1>Hello World</h1>
+<h3> {{ page.banner_title }}</h3>
+<p> {{ page.introduction}}</p>
+
+{% image page.banner_image fill-1400x300 as img %} = database'den resim kullandık.
+<img src="{{ img.url }}" alt="{{ img.alt }}"/>
+
+{% endblock content %}
+
+
+
+
+http://localhost:8000/admin'de resim editlenebilir. Focal point ayarlanarak resimin eğer bir bölümü gösterilecekse gösterilecek bölümün merkez noktası ayarlanabilir.
+
+
+-------------------------------------------------------------------
+
+generic içinde models.py'i açtık.
+
+
+from django.db import models
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet = import ekledik.
+
+
+
+class GenericPage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to generic page")
+    introduction = models.TextField(blank=True)
+    banner_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, 
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        )
+    author = models.ForeignKey(    = aşağıda author oluşturduk. Burayı yazınca admin sayfasında generic page'i editlerken author gözüktü. oluşturduğumuz author'ı seçebildik. publish etmek gerekir.
+        'Author',   = aşağıdaki class ismini yazdık. Eğer Author class yukarıda açılırsa '' kullanmaya gerek kalmayabilir. Hata çıkarsa migrations yapmak gerekebilir.
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+'
+        )
+
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),
+        FieldPanel("introduction"),
+        FieldPanel("banner_image"),
+        FieldPanel("author"), = yeni panel ekledik. SnippetChooserPanel çalışmıyor.
+    ]
+
+
+@register_snippet                     = class'i decorate ettik. snippet ekledik. http://localhost:8000/admin/ sayfasında snippets gözüktü.
+class Author(models.Model):           = yeni model oluşturduk.
+    name = models.CharField(max_length=100)
+    title = models.CharField(blank=True, max_length=100)
+    company_name = models.CharField(blank=True, max_length=100)
+    company_url = models.URLField(blank=True)                   = url ekledik.
+    image = models.ForeignKey(                                  = resim ekledik.
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name='+',
+        )
+    
+    panels = [                          = panel ekledik.
+        FieldPanel("name"),
+        FieldPanel("title"),
+        FieldPanel("company_name"),
+        FieldPanel("company_url"),
+        FieldPanel("image"),
+
+        ]
+    
+    def __str__(self):                  = yeni Author oluşturunca Author object (1) yerine name yazacak.
+        return self.name
+
+
+
+
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+
+http://localhost:8000/admin/'de snippets'e tıkladık. Authors'a tıklayıp yeni Author oluşturduk.
+
+snippet oluşturmanın sebebi bir author bilgilerini değiştirince bütün websitesine etki ediyor.
+
+
+
+
+generic içinde generic_page.html'i açtık.
+
+
+{% extends "base.html" %}
+{% load static wagtailimages_tags%}
+
+{% block body_class %}template-genericpage{% endblock %}
+
+{% block extra_css %}
+
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<h1>Hello World</h1>
+<h3> {{ page.banner_title }}</h3>
+<p> {{ page.introduction}}</p>
+
+{% image page.banner_image fill-1400x300 as img %}
+<img src="{{ img.url }}" alt="{{ img.alt }}"/>
+
+<hr>
+
+<p>
+                             
+    {% image page.author.image fill-100x100 %} = databaseden authordan resim ekledik. resim eklemek için yukarıdaki wagtailimages_tags kısmı da lazım.
+
+    Page created by: {{ page.author.name }} from:{{ page.author.company_name }} = name ve company_name'i ekledik.
+    <br>{%if page.author.company_url %}       = if ekledik.
+     <a href="{{ page.author.company_url }}">
+        View website
+     </a>
+    {% endif %}
+</p>
+
+{% endblock content %}
+
+
+
+-------------------------------------------------------------------
+
+generic içinde models.py'i açtık.
+
+
+from django.db import models
+from wagtail import blocks                             = import ettik.
+from wagtail.models import Page
+from wagtail.admin.panels import FieldPanel
+from wagtail.snippets.models import register_snippet 
+from wagtail.fields import StreamField                 = import ettik.
+from wagtail.images.blocks import ImageChooserBlock    = import ettik.
+
+
+
+
+class GenericPage(Page):
+    banner_title = models.CharField(max_length=100, default="Welcome to generic page")
+    introduction = models.TextField(blank=True)
+    banner_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True, 
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        )
+    author = models.ForeignKey(   
+        'Author',   
+        null=True,
+        blank=False,
+        on_delete=models.SET_NULL,
+        related_name='+'
+        )
+    
+    body = StreamField([                 = streamfield ekledik.
+        # ('name', blocks.SomethingBlock()),
+        ('heading', blocks.CharBlock(template="heading_block.html")), = heading_block.html ekledik. heading_block.html dosyasının oluşturulması lazım aşağıda yazıyor.
+        ('image', ImageChooserBlock()),
+        ('paragraph', blocks.RichTextBlock()),
+    ], use_json_field=True, null=True)
+
+
+
+    content_panels= Page.content_panels + [
+        FieldPanel("banner_title"),
+        FieldPanel("introduction"),
+        FieldPanel("banner_image"),
+        FieldPanel("author"), 
+        FieldPanel("body"), = yeni panel ekledik.
+    ]
+
+
+@register_snippet                     
+class Author(models.Model):           
+    name = models.CharField(max_length=100)
+    title = models.CharField(blank=True, max_length=100)
+    company_name = models.CharField(blank=True, max_length=100)
+    company_url = models.URLField(blank=True)                  
+    image = models.ForeignKey(                                  
+        'wagtailimages.Image',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        related_name='+',
+        )
+    
+    panels = [                          
+        FieldPanel("name"),
+        FieldPanel("title"),
+        FieldPanel("company_name"),
+        FieldPanel("company_url"),
+        FieldPanel("image"),
+
+        ]
+    
+    def __str__(self):                 
+        return self.name
+
+
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+http://localhost:8000/admin'de generic sayfasında body bölümü oluştu. bu bölümde heading, image ve paragraph'i ayarladık. paragraphi ayarlarken yazının bir bölümü seçilip link
+haline getirilebilir. Yazıların boyutu değiştirilebilir. birden fazla paragraph, image, heading eklenebilir ve değişik sıralarla eklenebilirler. en son publishlemek gerekir.
+
+
+
+generic templates içine heading_block.html açtık.
+
+<h3 class="heading-large"> 
+    {{ self }} = bu kısmı yazmazsak admin sayfasında yaptığımız değişiklikler sitede gözükmez. streamfield'de paragraph kısmı için admin sayfasında 
+                 yazdıklarımız direkt sitede gözükür çünkü paragraph için template açmadık sadece heading kısmı için template açtık.
+</h3>          = admin sayfasındaki içeriğe class ekledik.
+
+stuff in here  = admin sayfasındaki değişikliklere ek bu kısım da yazılabilir.
+
+
+
+generic içinde generic_page.html'i açtık.
+
+
+{% extends "base.html" %}
+{% load static wagtailimages_tags wagtailcore_tags %} = yeni load static ekledik. 
+
+{% block body_class %}template-genericpage{% endblock %}
+
+{% block extra_css %}
+
+
+{% endblock extra_css %}
+
+{% block content %}
+
+<h1>Hello World</h1>
+<h3> {{ page.banner_title }}</h3>
+<p> {{ page.introduction}}</p>
+
+{% image page.banner_image fill-1400x300 as img %}
+<img src="{{ img.url }}" alt="{{ img.alt }}"/>
+
+<hr>
+
+<p>
+                             
+    {% image page.author.image fill-100x100 %} 
+
+    Page created by: {{ page.author.name }} from:{{ page.author.company_name }} 
+    <br>{%if page.author.company_url %}       
+     <a href="{{ page.author.company_url }}">
+        View website
+     </a>
+    {% endif %}
+</p>
+
+<hr>
+{% include_block page.body %} = bu kısımı ekledik. include_block, wagtailcore_tags'den geliyor. database'den streamfield bilgilerini aldık.
+
+{% endblock content %}
+
+
+
+
+Bunları yazınca http://localhost:8000/admin'de generic sayfasında body bölümünde oluşturduğumuz heading, image, paragraph websitesinde gözüktü ve admin sayfasından websitesine
+bolca içerik ekleyebildik. Websitesinden bu içeriklerin attribute value'leri bulunabilir. örneğin class="block-heading" gibi streamfields oluştururken verdiğimiz isimler var.
+
+
+sevendays/static/css içinde sevendays.css bulunuyordu. Yeni oluşturduğumuz içeriklere css ekledik. sitede ctrl+f5 atmak gerekebilir.
+
+
+body, html{
+    margin: 0;
+    padding: 0;
+}
+main, footer{ = main ve footer'e css ekledik. main içinde block content vardı. block content içinde eklenen bütün değerler sitenin ortasına geldi. 
+    max-width: 800px;   
+    margin: 0 auto;
+}
+
+
+.block-heading{
+    font-size: 35px;
+    margin-top: 30px;
+}
+
+.block-image img{
+    width: 100%;
+    height: auto;
+}
+
+
+
+sevendays/templates içinde base.html'i açtık.
+
+ <main>
+     {% block content %}{% endblock %} = block contenti main içine aldık.
+ </main>
+ <footer>
+     custom footer                   = footer ekledik.
+ </footer>
+
+
+-------------------------------------------------------------------
+
+py manage.py startapp site_settings = yeni app oluşturduk.
+
+
+sevendays/settings içinde base.py'i açtık.
+
+
+INSTALLED_APPS = [
+    "home",
+    "search",
+    "wagtail.contrib.forms",
+    "wagtail.contrib.redirects",
+    "wagtail.embeds",
+    "wagtail.sites",
+    "wagtail.users",
+    "wagtail.snippets",
+    "wagtail.documents",
+    "wagtail.images",
+    "wagtail.search",
+    "wagtail.admin",
+    "wagtail",
+    "modelcluster",
+    "taggit",
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "generic",
+    "site_settings",            = yeni app ekledik.
+    "wagtail.contrib.settings", = yeni app ekledik.
+
+]
+
+
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [
+            os.path.join(PROJECT_DIR, "templates"),
+        ],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+                "wagtail.contrib.settings.context_processors.settings", = bu kısmı ekledik.
+            ],
+        },
+    },
+]
+
+
+
+site_settings içinde models.py'i açtık.
+
+from django.db import models
+
+from wagtail.admin.panels import FieldPanel = import ettik.
+from wagtail.contrib.settings.models import BaseSiteSetting, register_setting = import ettik.
+
+# Create your models here.
+
+
+@register_setting                          = decorator ekledik. 
+class SocialMediaSettings(BaseSiteSetting):               
+    instagram = models.URLField(max_length=100, blank=True) = database'i ayarladık.
+
+    panels = [
+        FieldPanel("instagram") = yeni panel ekledik.
+    ]
+
+
+
+py manage.py makemigrations
+py manage.py migrate
+
+http://localhost:8000/admin/ sayfasında settings içinde Social media settings bölümü açıldı. Instagram'in altına url yazıp saveledik.
+
+
+sevendays/templates içinde base.html'i açtık.
+
+ <footer>
+    {% if settings.site_settings.SocialMediaSettings.instagram %}            = if ekledik.
+       <a href="{{ settings.site_settings.SocialMediaSettings.instagram }}"> = footer kısmına database'den url ekledik. Base.html içinde olduğu için
+        Follow us on Instagram                                                 websitesindeki her sayfaya etki etti.
+       </a>
+    {% endif %}              
+ </footer>
+
+
+sevendays/static/css içinde sevendays.css'i açtık. 
+
+
+body, html{
+    margin: 0;
+    padding: 0;
+}
+main, footer{ 
+    max-width: 800px;   
+    margin: 0 auto;
+}
+footer{                    = ekleme yaptık.
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+
+.block-heading{
+    font-size: 35px;
+    margin-top: 30px;
+}
+
+.block-image img{
+    width: 100%;
+    height: auto;
+}
+
+
+Wagtail is a free and open source content management system (CMS) written in Python.
+
+.gitignore'ye django notlarındaki yazanları ekledik ama yeterli olmayabilir. .dockerignore dosyasından ignorelenecek başka dosyalara bakılabilir ya da internetten bakılabilir.
+
+-------------------------------------------------------------------
+
+Wagtail için kitap önerisi = https://docs.wagtail.org/en/stable/
+
+
+
+
+
+
+
+
+
