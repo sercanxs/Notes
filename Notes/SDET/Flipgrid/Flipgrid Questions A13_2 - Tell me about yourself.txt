@@ -1,0 +1,28 @@
+My name is S. Ş.
+I have been working in IT industry more than 2 years as an SDET / Automation engineer.
+Through out my experience, I have been successfully tested web-based applications both manually and automatically.
+I have worked on fleet management and ERP domain.
+Fleet management refers to all actions that need to take place to keep a fleet running efficiently, on time, and within budget.  
+Enterprise resource planning (ERP) refers to a type of software that organizations use to manage day-to-day business activites
+I worked in Agile-Scrum environment in past 2 years, so I am very confident in all Scrum meetings.
+I am one of the QAs and responsible for creating our test cases and executing them.  
+I develop and maintain our “test automation framework” base on the POM and add new test cases to our automated regression suite.
+perform various types of testing, like; functional testing, smoke testing, regression testing, back-end testing, performance testing,
+mobile testing.
+attend the scrum ceremonies.
+I am using java as a programming language
+knowing both Eclipse and IntelliJ IDEs.
+using Selenium WebDriver to automate browser.
+Maven to manage Java projects.
+TestNG, Cucumber BDD and Junit for testing. 
+SQL Developer and JDBC to test Database.
+Postman and Rest Assured Library to test API.
+Selenium Grid for regression test and parallel testing.
+JMeter for performence testing
+Appium for mobile testing
+Git for Version Control 
+We use GitHub for team collaboration.
+Jira to manage the project.
+Jenkins for CI/CD.
+Personally, I have good communication skills and I really like to learn new things and share my knowledge with others. I am also a detail oriented person who sticks to the deadline.
+
