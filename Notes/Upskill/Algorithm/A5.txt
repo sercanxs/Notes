@@ -1,0 +1,132 @@
+KeyValue.java içinde yazanlar
+
+
+package Review5_Queues_Hashing;
+
+public class KeyValue<U,V> {                 = Generics kullandık.
+    U key;
+    V value;
+
+    public KeyValue(U key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+
+----------------------------------------------------------------------
+Bucket.java içinde yazanlar
+
+package Review5_Queues_Hashing;
+
+import java.util.LinkedList;
+
+public class Bucket {
+    LinkedList<KeyValue<Integer,Integer>>  bucket;                = LinkedList içinde generic kullanılan java class'i bu şekilde çağırdık. Belki Generic kullanmadan da istenen
+                                                                    hashmap yapısı oluşturulabilir.
+    public Bucket() {
+        this.bucket = new LinkedList<KeyValue<Integer,Integer>>();
+    }
+    public int get(int key){
+        for (KeyValue<Integer,Integer> pair:bucket) {          
+            if(pair.key.equals(key)) {return pair.value;
+           }
+        }
+        return -1;
+    }
+    public void remove(int key){
+        for (KeyValue<Integer,Integer> pair:bucket) {
+            if(pair.key.equals(key)) {
+                this.bucket.remove(pair);
+                break;
+            }
+        }
+    }
+    public void update(int key, int value){
+        // if Key exists then update value part
+        boolean found=false;
+        for (KeyValue<Integer,Integer> pair:bucket) {
+            if(pair.key.equals(key)) {
+                pair.value=value;
+                found=true;
+            }
+
+        }
+        // else add key and value as a new pair
+        if(!found) this.bucket.add(new KeyValue<>(key, value));
+    }
+
+}
+
+----------------------------------------------------------------------
+MyHashMap.java içinde yazanlar
+
+package Review5_Queues_Hashing;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MyHashMap {
+   public List<Bucket> hashMap;
+   public int modNumber;
+
+
+    public MyHashMap() {
+      this.modNumber=2341;
+        this.hashMap=new ArrayList<>();
+        for (int i = 0; i < 2341; i++) {
+            this.hashMap.add(new Bucket());
+        }
+
+    }
+
+    public void put(int key, int value) {
+           // calculate index address with modulus
+           int hashCode =key%modNumber;// I have an index
+           this.hashMap.get(hashCode).update(key,value);
+    }
+
+    public int get(int key) {
+        // calculate index address with modulus
+        int hashCode =key%modNumber;// I have an index
+        return this.hashMap.get(hashCode).get(key);
+    }
+
+    public void remove(int key) {
+        // calculate index address with modulus
+        int hashCode =key%modNumber;// I have an index
+        this.hashMap.get(hashCode).remove(key);
+    }
+}
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap obj = new MyHashMap();
+ * obj.put(key,value);
+ * int param_2 = obj.get(key);
+ * obj.remove(key);
+ */
+
+----------------------------------------------------------------------
+HashMapApp.java içinde yazanlar
+
+package Review5_Queues_Hashing;
+
+public class HashMapApp {
+    public static void main(String[] args) {
+     MyHashMap hm=new MyHashMap();
+     hm.put(1, 1);
+     hm.put(3,3);
+        System.out.println(hm.get(1));
+        hm.put(1,24);
+        System.out.println(hm.get(1));
+
+        hm.put(2342, 2342);
+        System.out.println(hm.get(1));
+    }
+
+}
+
+
+
+
