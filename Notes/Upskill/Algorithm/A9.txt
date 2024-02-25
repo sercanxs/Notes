@@ -1,0 +1,110 @@
+Left-Right ile oluşturulan binary search'te aranan değer mid'ten küçükse right değeri mid-1'e kaydırılır, tersi ise left değeri mid+1'e 
+kaydırılır.
+
+recursive ve iterative olarak uygulunabilir
+
+recursivelerde stacklerde birikme olacağı için space complexity log n'dir
+iterativelerde bir tane while olduğu için space complexity O(1)'dir
+
+Time complexity recursive ve iterative olanlar için O(logn)'dir.
+
+
+
+package SearchReview;
+
+public class SearchProblem {
+    public static void main(String[] args) {
+        int[] nums={-1,0,2,4,5,6,7,8};
+        System.out.println(search(nums, 9));
+    }
+    public static int search(int[] array, int data) {
+        // initialize left and right
+        int left=0;						= left başlangıç değeri=0
+        int right=array.length-1;			        = right başlangıç değeri =length-1
+        // have a while loop (left<=right)
+        while (left<=right) {
+            // calculate mid
+            int mid=(left+right)/2;
+            // compare == mid then return mid index
+            // else if data<mid then right=mid-1
+            // else left =mid+1
+            if (data==array[mid]) return mid;                   = aranan değer ile mid değeri eşitse mid indexini returnle
+            else if(data<array[mid]) right=mid-1;               = aranan değer midden kücükse right=mid-1
+            else left=mid+1;
+        }
+       return -1;
+    }
+
+}
+
+
+
+log3(n), log2(n)'den küçüktür ve log2(n)/log3(n) oranı hiçbir zaman değişmez. Bir tek n değeri 1 ise değişir.(0/0 tanımsız oluyor.)
+
+log3(n)= (log(2)/log(3))xlog2(n)'dir.
+
+Dolayısıyla log3(n) big o notation'da log2(n)'e göre daha hızlı iken yandaki constant değerler
+ile log2(n)'i geçebilir. log2(n)/log3(n) oranı 2'yi geçmediği için log3(n)'i iki ile çarpmak log3(n)'i log2(n)'den daha büyük değer yapar. Yani ternary search her zaman
+binary search'ten yavaştır. (ternary searchte iki comparison var)
+
+
+public class TernarySearch {
+    public static int ternarySearchIterative(int[] array, int data) {
+        int left = 0;
+        int right = array.length - 1;
+
+        while (right >= left) {
+            int partition = (right - left) / 3;              = 3 parçaya böleceğimiz için parçaların uzunluklarını hesapladık.
+            int middle1 = left + partition;                  = mid1 değeri left + partition'a eşit
+            int middle2 = right - partition;                 = mid2 değeri right - partitiona eşit
+            if (array[middle1] == data) return middle1;
+            if (array[middle2] == data) return middle2;      = Ternary search'te 2 tane middle var.
+            if (data < array[middle1]) right = middle1 - 1;
+            else if (data > middle2) left = middle2 + 1;
+            else {
+                left = middle1 + 1;
+                right = middle2 - 1;
+            }
+        }
+        return -1;
+    } // end ternary
+
+    public static int ternarySearchRecursive(int[] array, int data, int left, int right){         = Ternary search'in recursive hali
+        if (left>right) return -1;
+        int partition=(right-left)/3;
+        int middle1 = left + partition;
+        int middle2 = right - partition;
+        if (array[middle1] == data) return middle1;
+        if (array[middle2] == data) return middle2;
+        if (data<array[middle1]) return ternarySearchRecursive(array,data, left, middle1-1);
+        if(data>array[middle2]) return ternarySearchRecursive(array, data, middle2+1, right);
+        else return ternarySearchRecursive(array, data, middle1+1, middle2-1);
+
+
+    }
+}
+
+
+------------------------------------------------------------------------
+
+public class JumpSearch {
+    public static int jumpSearch(int[] array, int data){
+        int blockSize=(int)Math.sqrt(array.length); = array'in uzunluğunun karekökü bloksize'i verdi.
+        int start=0;                                = başlangıç değeri index 0
+        int next=blockSize;                         = diğer değer blockSize kadar sonra olacak.
+        while (start< array.length && array[next-1]<data){  = doğru grubu bulana kadar ileri sıçradık
+            start=next;
+            next+=blockSize;
+            if (next> array.length) next= array.length;
+        }
+        for (int i = start; i <next ; i++) { = doğru grupta linear search ile data aradık.
+           if (array[i]==data) return i;
+        }
+        return -1;
+    }
+}
+
+
+
+                                 
+ 
