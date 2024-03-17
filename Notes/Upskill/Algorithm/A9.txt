@@ -152,21 +152,25 @@ public class Search2DMatrix {
         }
     return false;
     }
+
+-----------------------------------------------------------------------------------------
+
+
     public static boolean searchMatrixLogNM(int[][] matrix, int target) {
-        int numberOfCols=matrix[0].length;
-        int numberOfRows=matrix.length;
-        int left =0;
-        int right= numberOfRows*numberOfCols-1;
+        int numberOfCols=matrix[0].length;  = 4 colmn var
+        int numberOfRows=matrix.length;     = 3 row var
+        int left =0;                        = başlangıç değeri sıfır
+        int right= numberOfRows*numberOfCols-1; = son değer rowxcolumn-1'e eşit.
         while (left<=right){
-            int midIndex=(left+right)/2;
+            int midIndex=(left+right)/2;        = mid index'i hesapladık.
             // rows and column from index number;
-            int row=midIndex / numberOfCols;
-            int col=midIndex % numberOfCols;
+            int row=midIndex / numberOfCols;       = mid index'in bulunduğu row'u hesapladik. mid index'i column sayisina bölünce bölüm değeri row sayısını verdi.
+            int col=midIndex % numberOfCols;       = mid index'in bulunduğu column'i hesapladık. mid index'i column sayisina bölünce kalan değer column sayısını verdi.
             // get value from matrix
-            int midValue=matrix[row][col];
-            if (target==midValue) return true;
-            else if(target<midValue) right=midIndex-1;
-            else left=midIndex+1;
+            int midValue=matrix[row][col];         = mid index'teki değeri aldık.
+            if (target==midValue) return true;     = binary search uyguladık.
+            else if(target<midValue) right=midIndex-1;                              =  O(log(m * n)) --> m*n tüm değerleri verdiği için tüm değerlere binary search uygulanıyor.
+            else left=midIndex+1;            						                 
         }
         return false;
     }
