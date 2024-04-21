@@ -33,7 +33,7 @@ dual pivot quick sortta left part mid part ve right part var.
 public class JD1QuickSort {                                           
     public static void qSort(int[] array, int start, int end){
        if (start>=end) return; //termination
-       int boundary=partition(array, start, end);                   --> içinde bulunulan kısımda pivottan kücük degerlerin sol tarafa ve pivottan büyük değerlerin sağ tarafta
+       int boundary=partition(array, start, end);                   --> içinde bulunulan kısımda pivottan kücük degerlerin sol tarafa ve pivottan büyük değerlerin sağ tarafa
                                                                         sıralanmasindan sonra pivotun yeni indexi.
        qSort(array, start, boundary-1);// call qSort for left part  --> left part için recursion
        qSort(array,boundary+1, end);// call qSort for right part
@@ -43,7 +43,7 @@ public class JD1QuickSort {
         int pivot=array[end];                                    = Son değer pivot seçildi. pivot herhangi bir değer secilebilir.
         int boundary=start;                                      = boundary, start olarak seçildi.
         for (int i = start; i <=end ; i++) {                     = i, starttan end'e kadar looplandi.
-            if(array[i]<=pivot) swap(array, i, boundary++);      = başlarda pivottan kücük değerler kendileriyle swaplaniyorlar. Ama pivottan büyük değer bulunduğunda 
+            if(array[i]<=pivot) swap(array, i, boundary++);      = başlarda pivottan kücük değerler kendileriyle swaplanirlar. Ama pivottan büyük değer bulunduğunda 
         }                                                          swap işlemi gerçekleşmez ve i sayısı boundary'nin bir fazlasi olur. Ne zamanki pivottan kücük değer bulunur
         return boundary-1;                                         swap işlemi tekrar gerçekleşir ve büyük değer yüksek array index'ine swaplanir. Pivottan kücük deger bulundukca
     }                                                              swap işlemi tekrar eder. En son pivot değerine gelir pivot değeri kendilerinden büyük degerlerin solunda olmasi 
