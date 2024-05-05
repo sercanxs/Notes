@@ -1,0 +1,143 @@
+package example1.tight_coupling;
+
+public class Cheese {
+
+    @Override
+    public String toString() {
+        return "Cheese";
+    }
+}
+
+
+--------------------
+
+package example1.tight_coupling;
+
+public class Milk{
+
+    @Override
+    public String toString() {
+        return "Milk";
+    }
+}
+
+--------------------
+
+package example1.tight_coupling;
+
+public class ShoppingCart {
+
+    int id;
+    Milk milk;
+    Cheese cheese;
+
+    public ShoppingCart(Milk milk, Cheese cheese) {                   = Tight Coupling'de yüksek bağımlılık vardır. Yani shopping card'a bread eklemek istiyorsak hem bread class'i
+        this.id = 1;                                                    açmak gerekir. Hem bread değişkeni tanımlamak gerekir. Constructor'a bread'i eklemek gerekir. Bunların
+        this.milk = milk;                                               hepsi yapıldığında kod hata verir. Çünkü bu constructor'ı çağıran yerde de bread'i eklemek gerekir. Dolayısıyla
+        this.cheese = cheese;                                           tight coupling'de bir tane değişiklik uygulamada birçok yeri bozabilir
+        System.out.println("the cart is initialized successfully");
+    }
+}
+
+
+--------------------
+
+
+package example1.tight_coupling;
+
+public class Test {
+
+    public static void main(String[] args) {
+
+        Milk milk = new Milk();
+        Cheese cheese = new Cheese();
+
+        ShoppingCart shoppingCart = new ShoppingCart(milk, cheese);
+
+    }
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+package example1.loose_coupling;
+
+public class Cheese extends Product {         = product class extends edildi.
+
+    @Override
+    public String toString() {
+        return "Cheese";
+    }
+
+}
+
+-----------------------
+
+
+package example1.loose_coupling;
+
+public class Milk extends Product {          = product class extends edildi.
+
+    @Override
+    public String toString() {
+        return "Milk";
+    }
+}
+
+
+-----------------------
+package example1.loose_coupling;
+
+public abstract class Product {              = abstract class
+}
+
+
+------------------------
+
+
+package example1.loose_coupling;
+
+import java.util.List;
+
+public class ShoppingCart {
+
+    int id;
+
+//    Product product;
+    List<Product> productList;
+
+    public ShoppingCart(List<Product> productList) {          = içinde product bulunduran list oluşturduk.
+        this.id = 1;
+        this.productList = productList;
+        System.out.println("the cart is initialized successfully");
+    }
+}
+
+
+------------------------
+
+package example1.loose_coupling;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Test {
+
+    public static void main(String[] args) {
+
+        List<Product> productList = new ArrayList<>();       = içinde product bulunduran list oluşturduk.
+
+        Product milk = new Milk();                           = milk product'i extends etmişti. Bu şekilde polymorphism kullanarak yeni object oluşturduk.
+
+        productList.add(milk);                              = polymorphism kullanarak milki product liste ekleyebildik.
+
+        ShoppingCart shoppingCart = new ShoppingCart(productList); = Loose Coupling'de örneğin bread'i eklemek istediğimizde daha az değişiklik yapıyoruz. Burada bread yazdık 
+                                                                     diye ShoppingCart class'i hata vermedi. Milk ve bread productir. ShoppingCart class'i içinde product listi 
+    }                     					     oluşturduğumuz için bread eklense de eklenmese de shoppincart'a bir şey ekleyip silmek gerekmez.
+}
+
+
+-----------------------------------------------------------------
+
