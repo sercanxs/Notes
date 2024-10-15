@@ -1,0 +1,397 @@
+Neural Network
+
+https://en.wikipedia.org/wiki/Neural_network_(machine_learning)
+
+---------------------------------------------
+Tensor
+
+https://en.wikipedia.org/wiki/Tensor
+
+
+----
+
+
+https://colab.research.google.com/  = python codeleri burada çalıştırılabilir. Runtime kısmında gpu tpu seçilebilir. Gpu seçtik. (Kota doldurmasın diye gpu'yu gerektiğinde kullanıyoruz)
+
+!nvidia-smi = kullanılan gpu'yu verdi. Google'in ücretsiz gpu'su --> Tesla T4
+
+-----
+
+
+
+
+import torch
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+print(torch.__version__)         = pytorch versiyonunu yazdı --> 2.4.1+cu121
+
+
+scalar = torch.tensor(7)  --> tensor oluşturduk.
+
+scalar                        --> tensor(7)
+scalar.item() = integer yazdı --> 7 
+
+
+scalar.ndim               --> Dim, dimensions'i temsil ediyor. Boyut sayısını gösteriyor --> 0 
+
+
+
+
+Google colab kodları birkaç saat sonra resetliyor. Tekrar çalıştırmak gerekebilir.
+
+
+vector = torch.tensor([7,7])
+vector                        --> tensor([7, 7])
+vector.ndim                   --> 1
+vector.shape                  --> torch.Size([2]) yazdı. Yani vektörde 2 tane element var.
+
+
+
+MATRIX = torch.tensor([[7,8],
+                      [9,10]])
+MATRIX                          --> tensor([[ 7,  8],
+                                           [ 9, 10]])
+
+
+MATRIX.ndim                     --> 2
+
+
+MATRIX[0] = Matrix'in birinci sırasında bulunan değeri yazdı. --> tensor([7, 8]) 
+
+
+MATRIX.shape = torch.Size([2, 2]) yazdı. yani matrixin şekli 2x2 yani matrixte 4 element var.
+
+
+
+
+TENSOR = torch.tensor([[[1, 2, 3],
+                        [3, 6, 9],
+                        [2, 4, 5]]])
+TENSOR                                  --> tensor([[[1, 2, 3],
+                                                     [3, 6, 9],
+                                                     [2, 4, 5]]])
+
+
+TENSOR.ndim                             --> 3
+TENSOR.shape                            --> torch.Size([1, 3, 3])
+
+TENSOR[0]                               --> tensor([[1, 2, 3],
+        			                    [3, 6, 9],
+        					    [2, 4, 5]])
+
+
+
+random_tensor=torch.rand(3,4)   --> random tensor oluşturduk.
+random_tensor                   --> tensor([[0.0554, 0.0659, 0.9163, 0.6129],
+        			            [0.9525, 0.8096, 0.5071, 0.3709],
+        				    [0.6432, 0.1050, 0.6121, 0.5664]])
+
+
+random_tensor=torch.rand(3,4)
+random_tensor=torch.rand(size=(3,4))      = size yazılsa da yazılmasa da bir şey değişmez.
+
+
+zeros = torch.zeros(3,4) = torch.zeros yazınca bütün değerler sıfır olarak geldi.
+zeros
+
+
+ones = torch.ones(3,4) = torch.ones ekleyince bütün değerler bir olarak gelir.
+ones
+
+
+
+
+torch.arange(1,11) --> arange yazınca 1'den 11'e kadar sayı yazdı. 11 dahil değil. range deprecated artık arange kullanılıyor. Sonuç --> tensor([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10])
+
+
+torch.arange(start=0,end=1000,step=133) --> start ve end kısmı bu şekilde gösterilebilir. step ise sayıların kaçar kaçar artacağını gösterir. 
+                                            Sonuç --> tensor([  0, 133, 266, 399, 532, 665, 798, 931])
+
+
+
+
+one_to_ten = torch.arange(1,11)
+one_to_ten                      --> tensor([ 1,  2,  3,  4,  5,  6,  7,  8,  9, 10])
+
+
+ten_zeros = torch.zeros_like(input=one_to_ten) = torch.zeros_like yazınca belirli tensorle aynı shapede değerleri 0 olan yeni tensor oluşturduk. içeri input olarak değişken yazdık.
+ten_zeros                       --> tensor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+
+--------
+
+
+
+float_32_tensor=torch.tensor([3.0, 6.0, 9.0],  = torch.float32 tensorler için default datatype'dir. tensor oluştururken dtype=None yazsak bile tensorun datatype'i torch.float32'dir.
+                               dtype=None)
+float_32_tensor                               --> tensor([3., 6., 9.])
+
+
+float_32_tensor.dtype                         = dtype yazarak datatype'i alırız --> torch.float32 
+
+
+
+float_16_tensor=torch.tensor([3.0, 6.0, 9.0],
+                               dtype=torch.float16)  = data type'i değiştirdik.
+
+float_16_tensor.dtype --> torch.float16
+
+
+-----
+
+
+float_32_tensor = torch.tensor([3.0, 6.0, 9.0],
+                               dtype=None, # defaults to None, which is torch.float32 or whatever datatype is passed
+                               device=None, # What device is your tensor on
+                               requires_grad=False) # whether or not to track gradients with this tensors operations
+
+float_32_tensor.shape, float_32_tensor.dtype, float_32_tensor.device  --> (torch.Size([3]), torch.float32, device(type='cpu'))
+
+
+-----
+
+
+float_16_tensor=float_32_tensor.type(torch.float16) = belirli tensorun datatype'ini bu şekilde değiştirdik. torch.float32 artık torch.float16 oldu.
+float_16_tensor
+
+
+
+
+float_16_tensor.dtype --> torch.float16
+
+
+---------------------------------------------
+
+some_tensor.size() = size ile shape aynıdır. ama size function ve shape ise attribute'dir.
+some_tensor.shape
+
+
+Getting information from tensors (tensor attributes)
+Tensors not right datatype - to do get datatype from a tensor, can use tensor.dtype
+Tensors not right shape - to get shape from a tensor, can use tensor.shape
+Tensors not on the right device - to get device from a tensor, can use tensor.device
+
+---------
+Manipulating Tensors (tensor operations)
+
+Addition
+Subtraction
+Multiplication (element-wise)
+Division
+Matrix multiplication
+
+
+
+Addition
+
+tensor = torch.tensor([1, 2, 3])
+tensor + 10                       --> tensor([11, 12, 13])
+
+Subtraction
+
+tensor - 10                       --> tensor([-9, -8, -7])
+
+Multiplication (element-wise)
+
+tensor * 10                       --> tensor([10, 20, 30])
+
+
+torch.add(tensor, 10) = toplama ve çarpma için bu functionlar da kullanılabilir.
+torch.mul(tensor, 10)
+
+
+
+
+
+Two main ways of performing multiplication in neural networks and deep learning:
+
+Element-wise multiplication   = çarpanlardan birisi scalar ise element wise vardır.
+Matrix mutliplication (dot product)
+
+
+tensor = torch.tensor([1, 2, 3])
+print(tensor, "*", tensor)
+print(f"Equals: {tensor * tensor}")
+
+sonuç =
+
+tensor([1, 2, 3]) * tensor([1, 2, 3]) = ikisi vektörse bu elementlerin çarpımı element-wise multiplication'dır
+Equals: tensor([1, 4, 9])
+
+-----
+torch.matmul(tensor, tensor) = tensor(14) --> iki vektörün çarpımında matrix multiplication kullanıldığında sonuç tensor([1, 4, 9])
+                                              değil de tensor(14) çıkıyor.
+
+torch.matmul(tensor, tensor) = işlemini for loop kullanmak yerine pytorch methodlarıyla yapınca süre daha kısa oluyor.
+
+-----
+
+torch.matmul(tensor, tensor) = torch.matmul matrix multiplication için kullanılır
+tensor @ tensor              = yukarıdaki ile bu aynıdır. ikisi de matrix multiplication için kullanılabilir.
+
+torch.mm ile torch.matmul aynıdır.
+
+
+
+To fix our tensor shape issues, we can manipulate the shape of one of our tensors using a transpose.
+
+A transpose switches the axes or dimensions of a given tensor.
+
+
+tensor_B = torch.tensor([[7, 10],
+                         [8, 11],
+                         [9, 12]]) 
+
+
+tensor_B     --> tensor([[ 7, 10],
+                         [ 8, 11],
+                         [ 9, 12]])
+
+
+tensor_B.T   --> tensor([[ 7,  8,  9],  --> sonuna T ekleyince tensorun şekli değişti. matrixler birbiriyle çarpılamadığında iş yapabilir.
+                        [10, 11, 12]])
+
+
+
+
+Finding the min, max, mean, sum, etc (tensor aggregation)
+
+
+x = torch.arange(0,100,10)
+x                             --> tensor([ 0, 10, 20, 30, 40, 50, 60, 70, 80, 90])
+
+x.dtype                       --> torch.int64 yazdı. yani arange kullanınca datatype'i torch.float32 değil de torch.int64 oldu.
+
+
+torch.min(x) = tensor(0) --> minimum değeri verdi
+x.min() = torch.min() yerine bu yazılabilir.
+
+torch.max(x) = tensor(90) --> maximum değeri verdi
+
+
+torch.mean(x.type(torch.float32)) = tensor(45.) --> ortalama değeri verdi. Ortalama değeri alırken her data type'i desteklemeyebilir. dolayısıyla tensorun datatype'ini değiştirdik.
+x.mean() = torch.mean() yerine bu yazılabilir.
+
+
+
+torch.sum(x) = tensor(450) --> bütün sayıların toplamını verdi.
+x.sum() = torch.sum() yerine bu kullanılabilir.  
+
+
+
+Finding the positional min and max
+
+
+x = torch.arange(1,100,10)
+x                         --> tensor([ 1, 11, 21, 31, 41, 51, 61, 71, 81, 91])
+
+
+x.argmin() = tensor(0) --> En küçük değerin indexini verdi
+x.argmax() = tensor(9) --> En büyük değerin indexini verdi
+
+
+
+
+
+
+
+Reshaping, stacking, squeezing and unsqueezing tensors
+
+Reshaping - reshapes an input tensor to a defined shape
+View - Return a view of an input tensor of certain shape but keep the same memory as the original tensor
+Stacking - combine multiple tensors on top of each other (vstack) or side by side (hstack)
+Squeeze - removes all 1 dimensions from a tensor
+Unsqueeze - add a 1 dimension to a target tensor
+Permute - Return a view of the input with dimensions permuted (swapped) in a certain way
+
+
+x = torch.arange(1., 10.)
+x                             --> tensor([1., 2., 3., 4., 5., 6., 7., 8., 9.])
+
+x.shape                       --> torch.Size([9])
+
+
+x_reshaped = x.reshape(1, 9) = reshape kullanarak tensorun şeklini değiştirdik. Yalnız tensordeki değerlerin kaybolmaması için var olan boyutlara küçük değer girilemez.
+x_reshaped                    --> tensor([[1., 2., 3., 4., 5., 6., 7., 8., 9.]]) --> yeni boyut eklendi.
+
+x_reshaped.shape              --> torch.Size([1, 9])
+
+x_reshaped = x.reshape(2, 9)  --> Boyutlar değiştirilirken oluşan yeni şekilde mevcut bulunan eleman sayısınca yer olmalıdır. Yani 9x1, 1x9 ve 3x3 yer olabilir ama 2x9 olursa toplam
+x_reshaped                        yer sayısı 18 olur ve 9 yer boş kalır. Program hata verir.
+
+x_reshaped = x.reshape(3, 3)
+x_reshaped                    --> tensor([[1., 2., 3.],
+       					  [4., 5., 6.],
+       					  [7., 8., 9.]])
+
+
+---------
+
+z = x.view(1, 9)  --> view kullandık.
+z                 --> tensor([[1., 2., 3., 4., 5., 6., 7., 8., 9.]])
+
+
+
+# Changing z changes x (because a view of a tensor shares the same memory as the original input) --> view, reshape gibidir ama yeni tensör değiştiğinde eskisi de değişir.
+z[:, 0] = 5                                                      --> z'nin 1'inci değerini değiştirdik. normalde z[0]=5 yazarsak bütün sırayı içereceğinden dolayı bütün sıra 5 olurdu.
+                                                                     z[0][0]=5 yazarak tek bir sayıyı işaret edebiliriz. Burada ise : kullanılmış, numpy/pandas ile alakalı olabilir.
+z            --> tensor([[5., 2., 3., 4., 5., 6., 7., 8., 9.]])  --> z'nin ilk değeri 5 oldu.
+
+
+
+x  --> tensor([5., 2., 3., 4., 5., 6., 7., 8., 9.])              --> z değişince x de değişti.
+
+
+---------
+
+x = torch.arange(1., 10.)
+x                         --> tensor([1., 2., 3., 4., 5., 6., 7., 8., 9.])
+
+
+# Stack tensors on top of each other
+x_stacked = torch.stack([x, x, x, x], dim=0)         --> stack ekleyince tensorler üst üste eklendi.
+
+
+x_stacked  --> tensor([[1., 2., 3., 4., 5., 6., 7., 8., 9.],
+       		       [1., 2., 3., 4., 5., 6., 7., 8., 9.],
+        	       [1., 2., 3., 4., 5., 6., 7., 8., 9.],
+        	       [1., 2., 3., 4., 5., 6., 7., 8., 9.]])
+
+
+
+x_stacked = torch.stack([x, x, x, x], dim=1)          --> dim'i bir yapınca değerler alt alta sıralandı. dim'i 2 yapınca hata verdi çünkü stacklenmek için alınan tensor dimensionun
+							  2 olması için uygun değil.
+
+
+x_stacked  --> tensor([[1., 1., 1., 1.],
+        	       [2., 2., 2., 2.],
+     		       [3., 3., 3., 3.],
+       		       [4., 4., 4., 4.],
+       		       [5., 5., 5., 5.],
+       		       [6., 6., 6., 6.],
+       		       [7., 7., 7., 7.],
+       		       [8., 8., 8., 8.],
+      		       [9., 9., 9., 9.]])
+
+
+---------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
