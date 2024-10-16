@@ -377,17 +377,171 @@ x_stacked  --> tensor([[1., 1., 1., 1.],
 
 ---------------------------------------------
 
+# torch.squeeze() - removes all single dimensions from a target tensor
+
+
+random_tensor=torch.rand(1,3,1,4)
+random_tensor                        --> tensor([[[[0.6112, 0.0567, 0.5847, 0.5393]],
+
+         					  [[0.8180, 0.3211, 0.3559, 0.8263]],
+
+         					  [[0.5220, 0.9734, 0.9233, 0.6857]]]])
+
+
+
+random_tensor.shape  --> torch.Size([1, 3, 1, 4])
+
+
+x_squeezed = random_tensor.squeeze() --> squeeze kullanınca 1 değer içeren boyutlar silindi.
+x_squeezed                           --> tensor([[0.6112, 0.0567, 0.5847, 0.5393],
+      					         [0.8180, 0.3211, 0.3559, 0.8263],
+     					         [0.5220, 0.9734, 0.9233, 0.6857]])
+
+
+x_squeezed.shape  --> torch.Size([3, 4]) --> önceden var olan 1'ler yok oldu.
+
+
+# torch.unsqueeze() - adds a single dimension to a target tensor at a specific dim (dimension)
+
+
+
+x_unsqueezed = x_squeezed.unsqueeze(dim=0) --> unsqueeze ekleyince belirli sıraya yeni boyut eklendi.
+x_unsqueezed                               --> tensor([[[0.0382, 0.1392, 0.6659, 0.4221],
+         						[0.5023, 0.8650, 0.0075, 0.4094],
+      						        [0.1181, 0.5211, 0.0024, 0.3381]]])
+
+
+x_unsqueezed.shape --> torch.Size([1, 3, 4]) --> buraya 1 eklendi.
+
+
+# torch.permute - rearranges the dimensions of a target tensor in a specified order
+
+
+random_tensor=torch.rand(224,50,75,9)
+random_tensor.shape                  --> torch.Size([224, 50, 75, 9])
+
+
+x_permuted = random_tensor.permute(3, 1, 2, 0) --> permute ekleyince önceki şekildeki boyutların indexlerini değiştirdik.
+x_permuted.shape                     --> torch.Size([9, 50, 75, 224])
 
 
 
 
+random_tensor[0, 0, 0, 0] = 728218
+random_tensor[0, 0, 0, 0]           --> tensor(728218.) --> permute, view olduğu için önceki tensor değiştiğinde yeni tensor de değişir.
+                                                            Değerler her ne kadar aynı olsa da şekilleri farklıdır. Buradaki asıl sorun
+                                                            eğer şekiller farklı ise önceki tensorde değiştirilen yer yeni tensordeki aynı
+                                                            yere mi denk geliyor.
+
+x_permuted[0, 0, 0, 0]              --> tensor(728218.) --> şekiller farklı olmasına rağmen bu şekilde index girince değişikliği
+                                                            görebildik. index konusuna daha gelmedik.
+
+
+
+----------
+
+Indexing (selecting data from tensors)
+
+
+x = torch.arange(1, 10).reshape(1, 3, 3)
+x                                        --> tensor([[[1, 2, 3],
+      				                      [4, 5, 6],
+     		 		                      [7, 8, 9]]])
+
+x.shape --> torch.Size([1, 3, 3])
+
+
+
+x[0] --> tensor([[1, 2, 3],   --> index verdik.
+                 [4, 5, 6],
+                 [7, 8, 9]])
+
+
+x[0][0] --> tensor([1, 2, 3])
+x[0, 0] = yukarıdaki yerine bu kullanılabilir. ikisi de aynı sonucu verir.
+
+
+x[0][0][0] --> tensor(1)
+
+
+x[:,0] --> tensor([[1, 2, 3]]) --> önce bir boyuttaki bütün elementleri aldık. Sonra o elementlerin 1. değerini aldık.
+
+
+x[:, :, 1] --> tensor([[2, 5, 8]]) --> önce bir boyuttaki bütün elementlari aldık. Normalde index verip bir tane seçebiliyorduk ama bu
+                                       şekilde o boyutta olan hepsini seçebildik. sonra bir alt boyuttaki var olan bütün elemanları 
+                                       aldık. dolayısıyla elimizde ilk iki noktadan sonra bir element vardı. ikinci iki noktadan sonra
+                                       3 element oldu. o 3 elementin ise 2. değerlerini seçtik. Yani [1, 2, 3]'te 2'yi [4, 5, 6]'da 5'i
+				       [7, 8, 9]'da 8'i seçtik. tensörde bütün elementler bulunmasına rağmen sadece bir tanesini seçiyorduk.
+				       Bu şekilde birden fazla tensör değeri seçebildik.
+
+
+
+x[0][0][0] --> tensor(1)
+x[:,0,0]   --> tensor([1]) --> birden fazla değer içerebileceği için bunda square bracket var.
+
+-----
+
+PyTorch tensors & NumPy
+
+Since NumPy is a popular Python numerical computing library, PyTorch has functionality to interact with it nicely.
+
+The two main methods you'll want to use for NumPy to PyTorch (and back again) are:
+
+torch.from_numpy(ndarray) - NumPy array -> PyTorch tensor.
+torch.Tensor.numpy() - PyTorch tensor -> NumPy array.
 
 
 
 
+array = np.arange(1.0, 8.0)       --> numpy array oluşturduk.
+tensor = torch.from_numpy(array)  --> tensore çevirdik. # warning: when converting from numpy -> pytorch, pytorch reflects numpy's default datatype of float64 unless specified otherwise
+
+array                             --> array([1., 2., 3., 4., 5., 6., 7.])
+tensor                            --> tensor([1., 2., 3., 4., 5., 6., 7.], dtype=torch.float64)  
 
 
 
+
+tensor = torch.ones(7)
+numpy_tensor = tensor.numpy()  --> Tensor to NumPy array
+
+
+
+tensor          --> tensor([1., 1., 1., 1., 1., 1., 1.])
+
+
+numpy_tensor    --> array([1., 1., 1., 1., 1., 1., 1.], dtype=float32)
+
+
+--------
+
+Reproducbility (trying to take random out of random)
+
+To reduce the randomness in neural networks and PyTorch comes the concept of a random seed.
+
+Essentially what the random seed does is "flavour" the randomness.
+
+RANDOM_SEED = 42                    = istediğimiz numarayı yazdık.
+torch.manual_seed(RANDOM_SEED)      = her random tensorden önce torchlara seed verince tensorde rastgele oluşan değerler aynı oluyor. Bu da reproducibility'i artırıyor. ama seedler aynı 
+random_tensor_C = torch.rand(3, 4)    olsa bile çıkan sonuçların device, bilgisayar vs. aynı olmadığında farklı olabilme riski var.
+
+torch.manual_seed(RANDOM_SEED)
+random_tensor_D = torch.rand(3, 4)
+
+print(random_tensor_C)
+print(random_tensor_D)
+print(random_tensor_C == random_tensor_D)
+
+
+
+
+Extra resources for reproducibility:
+
+https://pytorch.org/docs/stable/notes/randomness.html
+https://en.wikipedia.org/wiki/Random_seed
+
+
+---------------------------------------------
 
 
 
