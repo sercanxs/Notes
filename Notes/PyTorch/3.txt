@@ -150,7 +150,8 @@ you can use the following resource from Real Python: https://realpython.com/pyth
 What our model does:
 
 Start with random values (weight & bias)
-Look at training data and adjust the random values to better represent (or get closer to) the ideal values (the weight & bias values we used to create the data)
+Look at training data and adjust the random values to better represent (or get closer to) the ideal 
+values (the weight & bias values we used to create the data) 
 How does it do so?
 
 Through two main algorithms: PyTorch bunları arkada otomatik yapıyor.
@@ -189,10 +190,121 @@ class LinearRegressionModel(nn.Module): # <- almost everything in PyTorch inherh
 
 
 
+x:torch.Tensor  =  means that the function expects x to be of type tensor.
+
+-> torch.tensor =  means that the functions should return a value of type tensor.
+
+-----
+
+
+PyTorch model building essentials
+
+torch.nn - contains all of the buildings for computational graphs (a neural network can be considered a computational graph)
+torch.nn.Parameter - what parameters should our model try and learn, often a PyTorch layer from torch.nn will set these for us
+torch.nn.Module - The base class for all neural network modules, if you subclass it, you should overwrite forward()
+torch.optim - this where the optimizers in PyTorch live, they will help with gradient descent
+def forward() - All nn.Module subclasses require you to overwrite forward(), this method defines what happens in the forward computation
+
+
+See more of these essential modules via the PyTorch cheatsheet - https://pytorch.org/tutorials/beginner/ptcheat.html
+
+-----
+
+Checking the contents of our PyTorch model
+Now we've created a model, let's see what's inside...
+
+So we can check our model parameters or what's inside our model using .parameters().
+
+
+# Create a random seed
+torch.manual_seed(42)
+
+# Create an instance of the model (this is a subclass of nn.Module)
+model_0 = LinearRegressionModel()
+
+# Check out the parameters
+list(model_0.parameters())        --> modeldeki parametrelere bakmak için list içinde yazdık. 
+     
+[Parameter containing:
+ tensor([0.3367], requires_grad=True),
+ Parameter containing:
+ tensor([0.1288], requires_grad=True)]
+
+# List named parameters
+model_0.state_dict()              --> bu şekilde yazınca parametreler isimleriyle birlikte geliyor.
+     
+OrderedDict([('weights', tensor([0.3367])), ('bias', tensor([0.1288]))])
+
+-----
 
 
 
+Making prediction using torch.inference_mode()
 
+
+To check our model's predictive power, let's see how well it predicts y_test based on X_test.
+
+When we pass data through our model, it's going to run it through the forward() method.
+
+
+y_preds = model_0(X_test) --> modelimize verilerimizi ekledik. model verilerimizi çalıştırdı ve x'e göre y'i tahmin etti.
+y_preds
+     
+tensor([[0.3982],
+        [0.4049],
+        [0.4116],
+        [0.4184],
+        [0.4251],
+        [0.4318],
+        [0.4386],
+        [0.4453],
+        [0.4520],
+        [0.4588]], grad_fn=<AddBackward0>)
+
+# Make predictions with model
+with torch.inference_mode(): --> inference mode koymayınca yukarıdaki gibi grad_fn oluşuyor. inference mode bazı özellikleri kapatıyor ve model daha hızlı çalışıyor.
+  y_preds = model_0(X_test)
+  
+
+# # You can also do something similar with torch.no_grad(), however, torch.inference_mode() is preferred
+# with torch.no_grad():
+#   y_preds = model_0(X_test)
+
+y_preds
+     
+tensor([[0.3982],
+        [0.4049],
+        [0.4116],
+        [0.4184],
+        [0.4251],
+        [0.4318],
+        [0.4386],
+        [0.4453],
+        [0.4520],
+        [0.4588]]) --> inference mode'de grad_fn oluşmadı.
+
+
+See more on inference mode here - https://twitter.com/PyTorch/status/1437838231505096708?s=20&t=cnKavO9iTgwQ-rfri6u7PQ
+
+
+y_test
+     
+tensor([[0.8600],
+        [0.8740],
+        [0.8880],
+        [0.9020],
+        [0.9160],
+        [0.9300],
+        [0.9440],
+        [0.9580],
+        [0.9720],
+        [0.9860]]) --> önceden yaptığımız, parametreleri doğru ayarladığımız modelin tahmini (Belki bu model değildir.)
+
+
+plot_predictions(predictions=y_preds) --> predictions'in default value'si None'du. Ona modelin yaptığı tahmini ekledik. grafikte gösterdik.
+
+
+-------------------------------------------------------------------
 
 
 
