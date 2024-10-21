@@ -306,6 +306,111 @@ plot_predictions(predictions=y_preds) --> predictions'in default value'si None'd
 
 -------------------------------------------------------------------
 
+Train model
+
+
+The whole idea of training is for a model to move from some unknown parameters (these may be random) to some known parameters.
+
+Or in other words from a poor representation of the data to a better representation of the data.
+
+One way to measure how poor or how wrong your models predictions are is to use a loss function.
+
+Note: Loss function may also be called cost function or criterion in different areas. For our case, we're going to refer to it as a loss function.
+
+
+Things we need to train:
+
+Loss function: A function to measure how wrong your model's predictions are to the ideal outputs, lower is better.
+Optimizer: Takes into account the loss of a model and adjusts the model's parameters (e.g. weight & bias in our case) to improve the loss function - https://pytorch.org/docs/stable/optim.html#module-torch.optim
+         Inside the optimizer you'll often have to set two parameters:
+                       params - the model parameters you'd like to optimize, for example params=model_0.parameters()
+                       lr (learning rate) - the learning rate is a hyperparameter that defines how big/small the optimizer changes the parameters with each step (a small lr results in small changes, a large lr results in large changes)
+
+And specifically for PyTorch, we need:
+
+A training loop
+A testing loop
+
+list(model_0.parameters())
+     
+[Parameter containing:
+ tensor([0.3367], requires_grad=True),
+ Parameter containing:
+ tensor([0.1288], requires_grad=True)]
+
+# Check out our model's parameters (a parameter is a value that the model sets itself)
+model_0.state_dict()
+     
+OrderedDict([('weights', tensor([0.3367])), ('bias', tensor([0.1288]))])
+
+# Setup a loss function
+loss_fn = nn.L1Loss() --> L1Loss --> https://pytorch.org/docs/stable/generated/torch.nn.L1Loss.html
+
+# Setup an optimizer (stochastic gradient descent)
+optimizer = torch.optim.SGD(params=model_0.parameters(), # we want to optimize the parameters present in our model
+                            lr=0.01) # lr = learning rate = possibly the most important hyperparameter you can set
+     
+Q: Which loss function and optimizer should I use?
+
+A: This will be problem specific. But with experience, you'll get an idea of what works and what doesn't with your particular problem set.
+
+For example, for a regression problem (like ours), a loss function of nn.L1Loss() and an optimizer like torch.optim.SGD() will suffice.
+
+But for a classification problem like classifying whether a photo is of a dog or a cat, you'll likely want to use a loss function of nn.BCELoss() (binary cross entropy loss).
+
+-----
+
+
+Building a training loop (and a testing loop) in PyTorch
+
+A couple of things we need in a training loop:
+
+Loop through the data and do...
+Forward pass (this involves data moving through our model's forward() functions) to make predictions on data - also called forward propagation
+Calculate the loss (compare forward pass predictions to ground truth labels)
+Optimizer zero grad
+Loss backward - move backwards through the network to calculate the gradients of each of the parameters of our model with respect to the loss (backpropagation - https://www.youtube.com/watch?v=tIeHLnjs5U8)
+Optimizer step - use the optimizer to adjust our model's parameters to try and improve the loss (gradient descent - https://youtu.be/IHZwWFHWa-w)
+
+torch.manual_seed(42)
+
+# An epoch is one loop through the data... (this is a hyperparameter because we've set it ourselves)
+epochs = 200
+
+# Track different values
+epoch_count = [] 
+loss_values = []
+test_loss_values = [] 
+
+### Training
+# 0. Loop through the data
+for epoch in range(epochs): 
+  # Set the model to training mode
+  model_0.train() # train mode in PyTorch sets all parameters that require gradients to require gradients 
+
+  # 1. Forward pass
+  y_pred = model_0(X_train)
+
+  # 2. Calculate the loss
+  loss = loss_fn(y_pred, y_train)
+
+  # 3. Optimizer zero grad
+  optimizer.zero_grad()    --> 5. adımdaki gradientleri sıfırlamazsak gradientler toplanır ya da başka bir şey olur. Böylelikle backpropogation evresinde parametreler yanlış ayarlanır.
+
+  # 4. Perform backpropagation on the loss with respect to the parameters of the model (calculate gradients of each parameter)
+  loss.backward()
+
+  # 5. Step the optimizer (perform gradient descent)
+  optimizer.step() # by default how the optimizer changes will accumulate through the loop so... we have to zero them above in step 3 for the next iteration of the loop
+
+-------------------------------------------------------------------
+
+  ### Testing
+
+
+
+
+
 
 
 
