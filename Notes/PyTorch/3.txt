@@ -672,7 +672,8 @@ next(loaded_model_1.parameters()).device --> device(type='cuda', index=0)
 
 -------------------------------------------------------------------
 
-
+Exercises & Extra-curriculum
+For exercise & extra-curriculum, refer to: https://www.learnpytorch.io/01_pytorch_workflow/#exercises
 
 
 
