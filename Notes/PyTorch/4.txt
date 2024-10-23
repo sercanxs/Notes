@@ -1,0 +1,156 @@
+Neural Network classification with PyTorch
+
+Classification is a problem of predicting whether something is one thing or another (there can be multiple things as the options).
+
+Book version of this notebook - https://www.learnpytorch.io/02_pytorch_classification/
+All other resources - https://github.com/mrdbourke/pytorch-deep-learning
+Stuck? Ask a question - https://github.com/mrdbourke/pytorch-deep-learning/discussions
+
+
+Make classification data and get it ready
+
+import sklearn
+from sklearn.datasets import make_circles
+
+# Make 1000 samples
+n_samples = 1000
+
+# Create circles                       --> Make a large circle containing a smaller circle in 2d.
+X, y = make_circles(n_samples,         --> 1000 veri ürettik.
+                    noise=0.03,        --> Standard deviation of Gaussian noise added to the data.
+                    random_state=42)   --> random seed ile aynı görevi yapıyor.
+                                           Ekstaradan faktor de ayarlanabilir. default'u 0.8 dir. yani içerideki dairenin çapı dışarıdaki
+                                           dairenin 5'te 4'üdür.
+     
+
+len(X), len(y)
+     
+(1000, 1000)
+
+print(f"First 5 samples of X:\n {X[:5]}")
+print(f"First 5 samples of y:\n {y[:5]}")
+     
+First 5 samples of X:
+ [[ 0.75424625  0.23148074]
+ [-0.75615888  0.15325888]
+ [-0.81539193  0.17328203]
+ [-0.39373073  0.69288277]
+ [ 0.44220765 -0.89672343]]
+First 5 samples of y:
+ [1 1 1 1 0]                --> y değişkeni bir ve sıfırlardan oluşur. 1 değerlerine karşılık gelen X verileri dış daireyi 0 değerlerine
+                                denk gelen X verileri iç daireyi oluşturur.
+
+# Make DataFrame of circle data
+import pandas as pd                    --> pandas kullandık
+circles = pd.DataFrame({"X1": X[:, 0], 
+                        "X2": X[:, 1],
+                        "label": y})   --> key value girdik.
+circles.head(10)                              
+     
+              X1	      X2    label
+0	0.754246	0.231481	1
+1	-0.756159	0.153259	1
+2	-0.815392	0.173282	1
+3	-0.393731	0.692883	1
+4	0.442208	-0.896723	0
+5	-0.479646	0.676435	1
+6	-0.013648	0.803349	1
+7	0.771513	0.147760	1
+8	-0.169322	-0.793456	1
+9	-0.121486	1.021509	0
+
+
+circles.label.value_counts() 
+     
+1    500
+0    500
+Name: label, dtype: int64
+
+
+# Visualize, visualize, visualize
+import matplotlib.pyplot as plt
+plt.scatter(x=X[:, 0],             --> x eksenine X değişkeninin yukarıdaki X1 kısmını koyduk.
+            y=X[:, 1],             --> y eksenine X değişkeninin yukarıdaki X2 kısmını koyduk.
+            c=y,                   --> c'ye ise y değişkenini label olsun diye koyduk. Yani y değerlerinin 1 olduğu noktalarda
+                                       X değerleri bir renk alırken, y değerlerinin 0 olduğu noktalarda X değerleri başka renk alacak.
+            cmap=plt.cm.RdYlBu);   --> RedYellowBlue'yi seçtik. Dış çember red olurken iç çember blue oldu.
+     
+
+Note: The data we're working with is often referred to as a toy dataset, a dataset that is small enough to experiment but still sizeable enough to practice the fundamentals.
+
+-----
+
+Check input and output shapes
+
+X.shape, y.shape
+     
+((1000, 2), (1000,))
+
+X
+     
+array([[ 0.75424625,  0.23148074],
+       [-0.75615888,  0.15325888],
+       [-0.81539193,  0.17328203],
+       ...,
+       [-0.13690036, -0.81001183],
+       [ 0.67036156, -0.76750154],
+       [ 0.28105665,  0.96382443]])
+
+View the first example of features and labels
+X_sample = X[0]
+y_sample = y[0]
+
+print(f"Values for one sample of X: {X_sample} and the same for y: {y_sample}")
+print(f"Shapes for one sample of X: {X_sample.shape} and the same for y: {y_sample.shape}")
+     
+Values for one sample of X: [0.75424625 0.23148074] and the same for y: 1
+Shapes for one sample of X: (2,) and the same for y: ()
+
+
+Turn data into tensors and create train and test splits
+
+import torch
+torch.__version__
+     
+'1.10.0+cu111'
+
+type(X), X.dtype --> (numpy.ndarray, dtype('float64'))
+
+# Turn data into tensors
+X = torch.from_numpy(X).type(torch.float)
+y = torch.from_numpy(y).type(torch.float)
+
+X[:5], y[:5]
+     
+(tensor([[ 0.7542,  0.2315],
+         [-0.7562,  0.1533],
+         [-0.8154,  0.1733],
+         [-0.3937,  0.6929],
+         [ 0.4422, -0.8967]]), tensor([1., 1., 1., 1., 0.]))
+
+
+
+type(X), X.dtype, y.dtype --> (torch.Tensor, torch.float32, torch.float32)
+
+# Split data into training and test sets
+
+from sklearn.model_selection import train_test_split   --> train_test_split splits arrays or matrices into random train and test subsets.
+
+X_train, X_test, y_train, y_test = train_test_split(X, --> X değişkenini buraya yazdık. Soldaki değişkenler bu sırayla yazılmalılar --> X_train, X_test, y_train, y_test                             			           
+                                                    y, --> y değişkenini buraya yazdık.
+                                                    test_size=0.2, # 0.2 = 20% of data will be test & 80% will be train
+                                                    random_state=42) --> random seed ile aynı görevi yapıyor.
+     
+
+len(X_train), len(X_test), len(y_train), len(y_test)
+     
+(800, 200, 800, 200)
+
+n_samples
+     
+1000
+
+--------------------------------------------------------
+
+
+
