@@ -609,7 +609,7 @@ class LinearRegressionModelV2(nn.Module):
   def __init__(self):
     super().__init__()
     # Use nn.Linear() for creating the model parameters / also called: linear transform, probing layer, fully connected layer, dense layer
-    self.linear_layer = nn.Linear(in_features=1,              --> size'i bir olan input alır. Bu kısım içeri giren inputları temsil ediyor.
+    self.linear_layer = nn.Linear(in_features=1,              --> feature sayısı bir olan input alır. Bu kısım içeri giren inputları temsil ediyor.
                                   out_features=1)             --> Burası dışarı çıkan outputu temsil ediyor. Linear ise gelen dataya linear regresyon formülü uyguluyor. 
     
   def forward(self, x: torch.Tensor) -> torch.Tensor:
