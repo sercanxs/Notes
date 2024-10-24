@@ -152,5 +152,41 @@ n_samples
 
 --------------------------------------------------------
 
+Building a model
+Let's build a model to classify our blue and red dots.
+
+To do so, we want to:
+
+Setup device agonistic code so our code will run on an accelerator (GPU) if there is one
+Construct a model (by subclassing nn.Module)
+Define a loss function and optimizer
+Create a training and test loop
+
+# Import PyTorch and nn
+import torch
+from torch import nn
+
+# Make device agnostic code
+device = "cuda" if torch.cuda.is_available() else "cpu"
+device                                                 --> cpu
+     
+
+
+X_train
+
+tensor([[ 0.6579, -0.4651],
+        [ 0.6319, -0.7347],
+        [-1.0086, -0.1240],
+        ...,
+        [ 0.0157, -1.0300],
+        [ 1.0110,  0.1680],
+        [ 0.5578, -0.5709]])
+
+
+--------------------------------------------------------
+
+
+
+
 
 
