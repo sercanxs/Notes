@@ -185,6 +185,139 @@ tensor([[ 0.6579, -0.4651],
 
 --------------------------------------------------------
 
+Now we've setup device agnostic code, let's create a model that:
+
+Subclasses nn.Module (almost all models in PyTorch subclass nn.Module)
+Create 2 nn.Linear() layers that are capable of handling the shapes of our data
+Defines a forward() method that outlines the forward pass (or forward computation) of the model
+Instatiate an instance of our model class and send it to the target device
+
+X_train.shape
+     
+torch.Size([800, 2])
+
+y_train[:5]
+     
+tensor([1., 0., 0., 0., 1.])
+
+from sklearn import datasets
+# 1. Construct a model that subclasses nn.Module
+class CircleModelV0(nn.Module):
+  def __init__(self):
+    super().__init__()
+    # 2. Create 2 nn.Linear layers capable of handling the shapes of our data                                 --> 2 tane nn.Linear koyunca multi layer neural network oluşturmuş olduk.
+    self.layer_1 = nn.Linear(in_features=2, out_features=5) # takes in 2 features and upscales to 5 features  --> 5 sayısı diğer nn.Linear'e gider ve yüksek değer vermek modelin kalitesini yükseltir ama yavaşlık sorunu oluşur.
+    self.layer_2 = nn.Linear(in_features=5, out_features=1) # takes in 5 features from previous layer and outputs a single feature (same shape as y)
+                                                                                                              Buradaki 2 değeri input layerindeki 2 neuron'i temsil ediyor.
+                                                                                                                       5 değeri hidden layerdeki 5 neuron'i temsil ediyor.
+														       1 değeri output layerindeki outputu temsil ediyor.
+                                                                                                                     
+
+  # 3. Define a forward() method that outlines the forward pass
+  def forward(self, x):
+    return self.layer_2(self.layer_1(x)) # x -> layer_1 ->  layer_2 -> output 
+                                        layer 1'de linear regression formülü uygulanıyor output layer 2'ye gidiyor. layer 2'de linear regression formülü uygulanıyor.
+                                        output return ediliyor.
+                                                                                 
+
+# 4. Instantiate an instance of our model class and send it to the target device
+model_0 = CircleModelV0().to(device)
+model_0
+     
+CircleModelV0(
+  (layer_1): Linear(in_features=2, out_features=5, bias=True)
+  (layer_2): Linear(in_features=5, out_features=1, bias=True)
+)
+
+device
+     
+cpu
+
+next(model_0.parameters()).device
+     
+device(type='cpu')
+
+
+-----
+
+
+# Let's replicate the model above using nn.Sequential() --> sequential ile yukarıdaki kurduğumuz modeli kurabiliriz. Ama nn.module'i extend ettiğimiz yukarıdaki modelde 
+							    forward methodunda istediğimizi yapabiliriz. Sequential sadece yukarı modeldeki gibi sıralamaya izin verir.
+model_0 = nn.Sequential(
+    nn.Linear(in_features=2, out_features=5),
+    nn.Linear(in_features=5, out_features=1)
+).to(device)
+
+model_0
+     
+Sequential(
+  (0): Linear(in_features=2, out_features=5, bias=True)
+  (1): Linear(in_features=5, out_features=1, bias=True)
+)
+
+model_0.state_dict()
+     
+OrderedDict([('0.weight', tensor([[-0.1962,  0.3652],
+                      [ 0.2764,  0.2147],
+                      [ 0.5723, -0.5955],
+                      [-0.2329,  0.0170],
+                      [ 0.6259,  0.6916]], device='cuda:0')),
+             ('0.bias',
+              tensor([ 0.4193,  0.6624,  0.2594, -0.1640, -0.0477], device='cuda:0')),
+             ('1.weight',
+              tensor([[ 0.4129,  0.2358,  0.4115,  0.4045, -0.0853]], device='cuda:0')),
+             ('1.bias', tensor([-0.4294], device='cuda:0'))])
+
+
+# Make predictions
+with torch.inference_mode():
+  untrained_preds = model_0(X_test.to(device))
+
+print(f"Length of predictions: {len(untrained_preds)}, Shape: {untrained_preds.shape}")
+print(f"Length of test samples: {len(X_test)}, Shape: {X_test.shape}")
+print(f"\nFirst 10 predictions:\n{torch.round(untrained_preds[:10])}") --> sonuçları yuvarladık.
+print(f"\nFirst 10 labels:\n{y_test[:10]}")
+     
+Length of predictions: 200, Shape: torch.Size([200, 1])
+Length of test samples: 200, Shape: torch.Size([200, 2]) --> len soldaki değeri verir. Buranın lengthi 200. 
+
+First 10 predictions:
+tensor([[-0.],
+        [-0.],
+        [-0.],
+        [-0.],
+        [0.],
+        [0.],
+        [-0.],
+        [-0.],
+        [-0.],
+        [-0.]], device='cuda:0')
+
+First 10 labels:
+tensor([1., 0., 1., 0., 1., 1., 0., 0., 1., 0.])
+
+
+
+X_test[:10], y_test[:10]
+     
+(tensor([[-0.3752,  0.6827],
+         [ 0.0154,  0.9600],
+         [-0.7028, -0.3147],
+         [-0.2853,  0.9664],
+         [ 0.4024, -0.7438],
+         [ 0.6323, -0.5711],
+         [ 0.8561,  0.5499],
+         [ 1.0034,  0.1903],
+         [-0.7489, -0.2951],
+         [ 0.0538,  0.9739]]),
+ tensor([1., 0., 1., 0., 1., 1., 0., 0., 1., 0.]))
+
+
+--------------------------------------------------------
+
+
+
+
 
 
 
