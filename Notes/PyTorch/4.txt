@@ -315,6 +315,65 @@ X_test[:10], y_test[:10]
 
 --------------------------------------------------------
 
+Setup loss function and optimizer
+Which loss function or optimizer should you use?
+
+Again... this is problem specific.
+
+For example for regression you might want MAE or MSE (mean absolute error or mean squared error).
+
+For classification you might want binary cross entropy or categorical cross entropy (cross entropy).
+
+As a reminder, the loss function measures how wrong your models predictions are.
+
+And for optimizers, two of the most common and useful are SGD and Adam, however PyTorch has many built-in options.
+
+For some common choices of loss functions and optimizers - https://www.learnpytorch.io/02_pytorch_classification/#21-setup-loss-function-and-optimizer
+For the loss function we're going to use torch.nn.BECWithLogitsLoss(), for more on what binary cross entropy (BCE) is, check out this article - https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a
+For a defintion on what a logit is in deep learning - https://stackoverflow.com/a/52111173/7900723
+For different optimizers see torch.optim
+
+
+
+Binary cross-entropy is a loss function used in binary classification problems where the target variable has two possible outcomes, 0 and 1 and it measures the performance 
+of the classification model whose output is a probability is a value between them. The goal of the model is to minimize this loss function during training to improve its 
+predictive accuracy.
+
+Kaynaklar=https://www.geeksforgeeks.org/binary-cross-entropy-log-loss-for-binary-classification/
+Kaynaklar=https://en.wikipedia.org/wiki/Cross-entropy
+
+Sigmoid Function aktivasyon fonksiyon'unudur. doğrusal olmayan(non-linear) fonksiyondur. Karar vermeye yönelik olasılıksal bir yaklaşımdır ve değer aralığı [0,1] arasındadır. 
+Yani çıktının hangi sınıfa ait olduğuna dair olasılıksal bir değer verir bize. Sigmoid fonksiyonu sürekli yani türevlenebilir bir fonksiyon olduğundan öğrenme işlemi gerçekleşir.
+Fakat Sigmoid de mükemmel değildir. Çünkü türev değeri uç noktalarda sıfıra yakınsar (Vanishing Gradient).Bu durum Back Propagation sırasında öğrenmenin durmasına sebebiyet verir.
+
+Kaynaklar=https://medium.com/databulls/yapay-sinir-a%C4%9Flar%C4%B1nda-aktivasyon-fonksiyonlar%C4%B1-11002b8ac522
+Kaynaklar=https://en.wikipedia.org/wiki/Sigmoid_function
+
+
+# Setup the loss function
+# loss_fn = nn.BCELoss() # BCELoss = requires inputs to have gone through the sigmoid activation function prior to input to BCELoss
+loss_fn = nn.BCEWithLogitsLoss() # BCEWithLogitsLoss = sigmoid activation function built-in
+
+optimizer = torch.optim.SGD(params=model_0.parameters(),
+                            lr=0.1)
+     
+
+# Calculate accuracy - out of 100 examples, what percentage does our model get right? 
+def accuracy_fn(y_true, y_pred):
+  correct = torch.eq(y_true, y_pred).sum().item() 
+  acc = (correct/len(y_pred)) * 100
+  return acc
+
+-----
+
+
+
+
+
+
+
+
+
 
 
 
