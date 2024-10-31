@@ -807,6 +807,277 @@ plot_predictions(train_data=X_train_regression.cpu(),
 --------------------------------------------------------
 
 
+The missing piece: non-linearity
+
+"What patterns could you draw if you were given an infinite amount of a straight and non-straight lines?"
+
+Or in machine learning terms, an infinite (but really it is finite) of linear and non-linear functions?
+
+Recreating non-linear data (red and blue circles)
+
+# Make and plot data
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_circles
+
+n_samples = 1000
+
+X, y = make_circles(n_samples,
+                    noise=0.03,
+                    random_state=42)
+
+plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.RdYlBu);
+     
+
+
+# Convert data to tensors and then to train and test splits 
+import torch
+from sklearn.model_selection import train_test_split
+
+# Turn data into tensors
+X = torch.from_numpy(X).type(torch.float) 
+y = torch.from_numpy(y).type(torch.float)
+
+# Split into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X,
+                                                    y, 
+                                                    test_size=0.2,
+                                                    random_state=42) 
+
+X_train[:5], y_train[:5]
+     
+(tensor([[ 0.6579, -0.4651],
+         [ 0.6319, -0.7347],
+         [-1.0086, -0.1240],
+         [-0.9666, -0.2256],
+         [-0.1666,  0.7994]]), tensor([1., 0., 0., 0., 1.]))
+
+
+Building a model with non-linearity
+
+Linear = straight lines
+Non-linear = non-straight lines
+Artificial neural networks are a large combination of linear (straight) and non-straight (non-linear) functions which are potentially able to find patterns in data.
+
+
+# Build a model with non-linear activation functions
+from torch import nn
+class CircleModelV2(nn.Module):
+  def __init__(self):
+    super().__init__()
+    self.layer_1 = nn.Linear(in_features=2, out_features=10)
+    self.layer_2 = nn.Linear(in_features=10, out_features=10)
+    self.layer_3 = nn.Linear(in_features=10, out_features=1)
+    self.relu = nn.ReLU() # relu is a non-linear activation function --> nn.ReLU() kullandık.
+    
+  def forward(self, x):
+    # Where should we put our non-linear activation functions?
+    return self.layer_3(self.relu(self.layer_2(self.relu(self.layer_1(x))))) --> sonuncusunu relu içerisine koymuyoruz. Sigmoid ile alakası olabilir.
+
+model_3 = CircleModelV2().to(device)
+model_3
+     
+CircleModelV2(
+  (layer_1): Linear(in_features=2, out_features=10, bias=True)
+  (layer_2): Linear(in_features=10, out_features=10, bias=True)
+  (layer_3): Linear(in_features=10, out_features=1, bias=True)
+  (relu): ReLU()
+)
+
+# Setup loss and optimizer
+loss_fn = nn.BCEWithLogitsLoss()
+optimizer = torch.optim.SGD(model_3.parameters(), 
+                            lr=0.1)
+     
+Training a model with non-linearity
+
+len(X_test), len(y_test)
+     
+(200, 200)
+
+# Random seeds 
+torch.manual_seed(42)
+torch.cuda.manual_seed(42)
+
+# Put all data on target device
+X_train, y_train = X_train.to(device), y_train.to(device)
+X_test, y_test = X_test.to(device), y_test.to(device)
+
+# Loop through data
+epochs = 1000
+
+for epoch in range(epochs):
+  ### Training
+  model_3.train()
+
+  # 1. Forward pass
+  y_logits = model_3(X_train).squeeze()
+  y_pred = torch.round(torch.sigmoid(y_logits)) # logits -> prediction probabilities -> prediction labels
+
+  # 2. Calculate the loss
+  loss = loss_fn(y_logits, y_train) # BCEWithLogitsLoss (takes in logits as first input)
+  acc = accuracy_fn(y_true=y_train,
+                    y_pred=y_pred)
+  
+  # 3. Optimizer zero grad
+  optimizer.zero_grad()
+
+  # 4. Loss backward
+  loss.backward()
+
+  # 5. Step the optimizer
+  optimizer.step()
+
+  ### Testing
+  model_3.eval()
+  with torch.inference_mode():
+    test_logits = model_3(X_test).squeeze()
+    test_pred = torch.round(torch.sigmoid(test_logits))
+    
+    test_loss = loss_fn(test_logits, y_test)
+    test_acc = accuracy_fn(y_true=y_test, 
+                           y_pred=test_pred)
+  
+  # Print out what's this happenin'
+  if epoch % 100 == 0:
+    print(f"Epoch: {epoch} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test Loss: {test_loss:.4f}, Test Acc: {test_acc:.2f}%")
+     
+Epoch: 0 | Loss: 0.6928, Acc: 50.00% | Test Loss: 0.6931, Test Acc: 50.00%
+Epoch: 100 | Loss: 0.6911, Acc: 53.12% | Test Loss: 0.6910, Test Acc: 53.00%
+Epoch: 200 | Loss: 0.6897, Acc: 53.50% | Test Loss: 0.6894, Test Acc: 55.50%
+Epoch: 300 | Loss: 0.6879, Acc: 53.00% | Test Loss: 0.6872, Test Acc: 56.00%
+Epoch: 400 | Loss: 0.6851, Acc: 52.75% | Test Loss: 0.6840, Test Acc: 56.50%
+Epoch: 500 | Loss: 0.6809, Acc: 52.75% | Test Loss: 0.6793, Test Acc: 56.50%
+Epoch: 600 | Loss: 0.6750, Acc: 54.62% | Test Loss: 0.6727, Test Acc: 56.50%
+Epoch: 700 | Loss: 0.6664, Acc: 58.38% | Test Loss: 0.6630, Test Acc: 59.50%
+Epoch: 800 | Loss: 0.6512, Acc: 64.25% | Test Loss: 0.6472, Test Acc: 68.00%
+Epoch: 900 | Loss: 0.6228, Acc: 74.00% | Test Loss: 0.6208, Test Acc: 79.00%
+
+
+Evaluating a model trained with non-linear activation functions
+
+# Makes predictions
+model_3.eval()
+with torch.inference_mode():
+  y_preds = torch.round(torch.sigmoid(model_3(X_test))).squeeze()
+y_preds[:10], y_test[:10]
+     
+(tensor([1., 0., 1., 0., 0., 1., 0., 0., 1., 0.], device='cuda:0'),
+ tensor([1., 0., 1., 0., 1., 1., 0., 0., 1., 0.], device='cuda:0'))
+
+# Plot decision boundaries
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.title("Train")
+plot_decision_boundary(model_1, X_train, y_train) # model_1 = no non-linearity
+plt.subplot(1, 2, 2)
+plt.title("Test")
+plot_decision_boundary(model_3, X_test, y_test) # model_3 = has non-linearity --> grafik 4.4
+     
+
+
+Replicating non-linear activation functions
+
+Neural networks, rather than us telling the model what to learn, we give it the tools to discover patterns in data and it tries to figure out the patterns on its own.
+
+And these tools are linear & non-linear functions.
+
+
+# Create a tensor
+A = torch.arange(-10, 10, 1, dtype=torch.float32)
+A.dtype
+     
+torch.float32
+
+A
+     
+tensor([-10.,  -9.,  -8.,  -7.,  -6.,  -5.,  -4.,  -3.,  -2.,  -1.,   0.,   1.,
+          2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.])
+
+# Visualize the tensor
+plt.plot(A);          --> grafiğinde alt taraf index sol taraf değerler. grafik 4.5
+          
+
+plt.plot(torch.relu(A)); --> grafik 4.6
+     
+
+
+A
+     
+tensor([-10.,  -9.,  -8.,  -7.,  -6.,  -5.,  -4.,  -3.,  -2.,  -1.,   0.,   1.,
+          2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.])
+
+def relu(x: torch.Tensor) -> torch.Tensor:                                 
+  return torch.maximum(torch.tensor(0), x) # inputs must be tensors       --> torch.relu pytorch'ta bu işlemi yapıyor.
+
+relu(A)
+     
+tensor([0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 2., 3., 4., 5., 6., 7.,
+        8., 9.])
+
+# Plot ReLU activation function
+plt.plot(relu(A)); --> grafik 4.7
+     
+
+
+# Now let's do the same for Sigmoid = https://pytorch.org/docs/stable/generated/torch.nn.Sigmoid.html#torch.nn.Sigmoid 
+def sigmoid(x):
+  return 1 / (1 + torch.exp(-x)) --> exp(a) = e üzeri a değeri olabilir.
+     
+
+plt.plot(torch.sigmoid(A)); --> grafik 4.8
+     
+
+
+plt.plot(sigmoid(A)); --> grafik 4.9
+     
+
+Putting it all together with a multi-class classification problem
+
+Binary classification = one thing or another (cat vs. dog, spam vs. not spam, fraud or not fraud)
+Multi-class classification = more than one thing or another (cat vs. dog vs. chicken)
+
+Creating a toy multi-class dataset
+
+# Import dependencies 
+import torch
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_blobs # https://scikit-learn.org/stable/modules/generated/sklearn.datasets.make_blobs.html#sklearn.datasets.make_blobs 
+from sklearn.model_selection import train_test_split
+
+# Set the hyperparameters for data creation
+NUM_CLASSES = 4
+NUM_FEATURES = 2
+RANDOM_SEED = 42
+
+# 1. Create multi-class data
+X_blob, y_blob = make_blobs(n_samples=1000,
+                            n_features=NUM_FEATURES,
+                            centers=NUM_CLASSES,
+                            cluster_std=1.5, # give the clusters a little shake up --> The standard deviation of the clusters.
+                            random_state=RANDOM_SEED)
+
+# 2. Turn data into tensors
+X_blob = torch.from_numpy(X_blob).type(torch.float)
+y_blob = torch.from_numpy(y_blob).type(torch.LongTensor) -->  torch.LongTensor kullandık.
+
+# 3. Split into train and test
+X_blob_train, X_blob_test, y_blob_train, y_blob_test = train_test_split(X_blob,
+                                                                        y_blob,
+                                                                        test_size=0.2, 
+                                                                        random_state=RANDOM_SEED)
+
+# 4. Plot data (visualize, visualize, visualize)
+plt.figure(figsize=(10, 7))
+plt.scatter(X_blob[:, 0], X_blob[:, 1], c=y_blob, cmap=plt.cm.RdYlBu); --> grafik 4.10
+
+
+
+
+
+-----
+
+
+
 
 
 
