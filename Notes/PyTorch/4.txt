@@ -1077,11 +1077,390 @@ plt.scatter(X_blob[:, 0], X_blob[:, 1], c=y_blob, cmap=plt.cm.RdYlBu); --> grafi
 -----
 
 
+ Building a multi-class classification model in PyTorch
+
+# Create device agnostic code
+device = "cuda" if torch.cuda.is_available() else "cpu"
+device
+     
+'cuda'
+
+# Build a multi-class classification model
+class BlobModel(nn.Module):
+  def __init__(self, input_features, output_features, hidden_units=8):
+    """Initializes multi-class classification model.
+    
+    Args:
+      input_features (int): Number of input features to the model
+      output_features (int): Number of outputs features (number of output classes)
+      hidden_units (int): Number of hidden units between layers, default 8
+
+    Returns:
+
+    Example:
+    """
+    super().__init__()
+    self.linear_layer_stack = nn.Sequential(
+        nn.Linear(in_features=input_features, out_features=hidden_units),
+        # nn.ReLU(),
+        nn.Linear(in_features=hidden_units, out_features=hidden_units),
+        # nn.ReLU(),
+        nn.Linear(in_features=hidden_units, out_features=output_features)
+    )
+
+  def forward(self, x):
+    return self.linear_layer_stack(x)
+
+# Create an instance of BlobModel and send it to the target device
+model_4 = BlobModel(input_features=2,
+                    output_features=4,
+                    hidden_units=8).to(device)
+
+model_4
+     
+BlobModel(
+  (linear_layer_stack): Sequential(
+    (0): Linear(in_features=2, out_features=8, bias=True)
+    (1): Linear(in_features=8, out_features=8, bias=True)
+    (2): Linear(in_features=8, out_features=4, bias=True)
+  )
+)
+
+X_blob_train.shape, y_blob_train[:5]
+     
+(torch.Size([800, 2]), tensor([1, 0, 2, 2, 0], device='cuda:0'))
+
+torch.unique(y_blob_train)
+     
+tensor([0, 1, 2, 3], device='cuda:0')
+8.3 Create a loss function and an optimizer for a multi-class classification model
+
+# Create a loss function for multi-class classification - loss function measures how wrong our model's predictions are
+loss_fn = nn.CrossEntropyLoss()
+
+# Create an optimizer for multi-class classification - optimizer updates our model parameters to try and reduce the loss
+optimizer = torch.optim.SGD(params=model_4.parameters(), 
+                            lr=0.1) # learning rate is a hyperparameter you can change
+     
+8.4 Getting prediction probabilities for a multi-class PyTorch model
+In order to evaluate and train and test our model, we need to convert our model's outputs (logtis) to predicition probabilities and then to prediction labels.
+
+Logits (raw output of the model) -> Pred probs (use torch.softmax) -> Pred labels (take the argmax of the prediction probabilities)
+
+
+# Let's get some raw outputs of our model (logits)
+model_4.eval()
+with torch.inference_mode():
+  y_logits = model_4(X_blob_test.to(device))
+
+y_logits[:10]
+     
+tensor([[-1.2549, -0.8112, -1.4795, -0.5696],
+        [ 1.7168, -1.2270,  1.7367,  2.1010],
+        [ 2.2400,  0.7714,  2.6020,  1.0107],
+        [-0.7993, -0.3723, -0.9138, -0.5388],
+        [-0.4332, -1.6117, -0.6891,  0.6852],
+        [ 2.0878, -1.3728,  2.1248,  2.5052],
+        [ 1.8310,  0.8851,  2.1674,  0.6006],
+        [ 0.1412, -1.4742, -0.0360,  1.0373],
+        [ 2.9426,  0.7047,  3.3670,  1.6184],
+        [-0.0645, -1.5006, -0.2666,  0.8940]], device='cuda:0')
+
+y_blob_test[:10]
+     
+tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0], device='cuda:0')
+
+# Convert our model's logit outputs to prediction probabilities
+y_pred_probs = torch.softmax(y_logits, dim=1)
+print(y_logits[:5])
+print(y_pred_probs[:5])
+     
+tensor([[-1.2549, -0.8112, -1.4795, -0.5696],
+        [ 1.7168, -1.2270,  1.7367,  2.1010],
+        [ 2.2400,  0.7714,  2.6020,  1.0107],
+        [-0.7993, -0.3723, -0.9138, -0.5388],
+        [-0.4332, -1.6117, -0.6891,  0.6852]], device='cuda:0')
+tensor([[0.1872, 0.2918, 0.1495, 0.3715],
+        [0.2824, 0.0149, 0.2881, 0.4147],
+        [0.3380, 0.0778, 0.4854, 0.0989],
+        [0.2118, 0.3246, 0.1889, 0.2748],
+        [0.1945, 0.0598, 0.1506, 0.5951]], device='cuda:0')
+
+# Convert our model's prediction probabilities to prediction labels
+y_preds = torch.argmax(y_pred_probs, dim=1)
+y_preds
+     
+tensor([3, 3, 2, 1, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2,
+        2, 2, 3, 3, 3, 3, 3, 1, 1, 2, 1, 2, 1, 3, 3, 2, 3, 3, 3, 2, 3, 3, 3, 3,
+        3, 3, 1, 3, 3, 1, 3, 2, 3, 1, 3, 2, 2, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3, 3,
+        3, 3, 2, 3, 3, 3, 3, 1, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 1, 3, 3, 3,
+        1, 3, 3, 2, 3, 3, 3, 3, 2, 3, 1, 3, 3, 2, 1, 1, 3, 2, 2, 3, 3, 3, 1, 2,
+        2, 3, 3, 1, 2, 3, 3, 3, 2, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 1, 1, 3, 2, 2,
+        2, 2, 3, 3, 3, 2, 2, 1, 3, 2, 3, 3, 3, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3,
+        2, 2, 2, 3, 3, 1, 1, 1, 1, 1, 3, 1, 3, 2, 2, 3, 2, 2, 3, 3, 2, 2, 3, 3,
+        1, 3, 2, 3, 3, 1, 2, 3], device='cuda:0')
+
+y_blob_test
+     
+tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0, 0, 1, 0, 0, 0, 3, 3, 2, 3, 3, 3, 0, 1, 2,
+        2, 2, 3, 0, 1, 0, 3, 1, 1, 3, 1, 2, 1, 3, 0, 2, 0, 3, 3, 2, 0, 3, 1, 1,
+        0, 3, 1, 0, 1, 1, 3, 2, 1, 1, 3, 2, 2, 0, 3, 2, 2, 0, 0, 3, 3, 0, 0, 3,
+        3, 3, 2, 3, 3, 3, 3, 1, 0, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 1, 3, 3, 3,
+        1, 0, 3, 2, 0, 0, 3, 0, 2, 3, 1, 0, 3, 2, 1, 1, 0, 2, 2, 3, 0, 0, 1, 2,
+        2, 3, 0, 1, 2, 0, 0, 0, 2, 3, 1, 2, 3, 2, 0, 3, 0, 0, 1, 1, 1, 0, 2, 2,
+        2, 2, 0, 3, 3, 2, 2, 1, 3, 2, 0, 0, 3, 3, 2, 1, 2, 0, 3, 2, 0, 3, 2, 0,
+        2, 2, 2, 0, 3, 1, 1, 1, 1, 1, 3, 1, 0, 2, 2, 1, 2, 2, 0, 1, 2, 2, 0, 0,
+        1, 3, 2, 0, 3, 1, 2, 1], device='cuda:0')
+8.5 Creating a training loop and testing loop for a multi-class PyTorch model
+
+y_blob_train.dtype
+     
+torch.int64
+
+# Fit the multi-class model to the data
+torch.manual_seed(42)
+torch.cuda.manual_seed(42)
+
+# Set number of epochs 
+epochs = 100
+
+# Put data to the target device
+X_blob_train, y_blob_train = X_blob_train.to(device), y_blob_train.to(device)
+X_blob_test, y_blob_test = X_blob_test.to(device), y_blob_test.to(device)
+
+# Loop through data
+for epoch in range(epochs):
+  ### Training 
+  model_4.train()
+
+  y_logits = model_4(X_blob_train)
+  y_pred = torch.softmax(y_logits, dim=1).argmax(dim=1)
+
+  loss = loss_fn(y_logits, y_blob_train)
+  acc = accuracy_fn(y_true=y_blob_train,
+                    y_pred=y_pred)
+  
+  optimizer.zero_grad()
+  loss.backward()
+  optimizer.step()
+
+  ### Testing
+  model_4.eval()
+  with torch.inference_mode():
+    test_logits = model_4(X_blob_test)
+    test_preds = torch.softmax(test_logits, dim=1).argmax(dim=1)
+    
+    test_loss = loss_fn(test_logits, y_blob_test)
+    test_acc = accuracy_fn(y_true=y_blob_test,
+                           y_pred=test_preds)
+    
+  # Print out what's happenin'
+  if epoch % 10 == 0:
+    print(f"Epoch: {epoch} | Loss: {loss:.4f}, Acc: {acc:.2f}% | Test loss: {test_loss:.4f}, Test acc: {test_acc:.2f}%")
+     
+Epoch: 0 | Loss: 1.0432, Acc: 65.50% | Test loss: 0.5786, Test acc: 95.50%
+Epoch: 10 | Loss: 0.1440, Acc: 99.12% | Test loss: 0.1304, Test acc: 99.00%
+Epoch: 20 | Loss: 0.0806, Acc: 99.12% | Test loss: 0.0722, Test acc: 99.50%
+Epoch: 30 | Loss: 0.0592, Acc: 99.12% | Test loss: 0.0513, Test acc: 99.50%
+Epoch: 40 | Loss: 0.0489, Acc: 99.00% | Test loss: 0.0410, Test acc: 99.50%
+Epoch: 50 | Loss: 0.0429, Acc: 99.00% | Test loss: 0.0349, Test acc: 99.50%
+Epoch: 60 | Loss: 0.0391, Acc: 99.00% | Test loss: 0.0308, Test acc: 99.50%
+Epoch: 70 | Loss: 0.0364, Acc: 99.00% | Test loss: 0.0280, Test acc: 99.50%
+Epoch: 80 | Loss: 0.0345, Acc: 99.00% | Test loss: 0.0259, Test acc: 99.50%
+Epoch: 90 | Loss: 0.0330, Acc: 99.12% | Test loss: 0.0242, Test acc: 99.50%
+8.6 Making and evaluating predictions with a PyTorch multi-class model
+
+# Make predictions
+model_4.eval()
+with torch.inference_mode():
+  y_logits = model_4(X_blob_test)
+
+# View the first 10 predictions
+y_logits[:10]
+     
+tensor([[  4.3377,  10.3539, -14.8948,  -9.7642],
+        [  5.0142, -12.0371,   3.3860,  10.6699],
+        [ -5.5885, -13.3448,  20.9894,  12.7711],
+        [  1.8400,   7.5599,  -8.6016,  -6.9942],
+        [  8.0726,   3.2906, -14.5998,  -3.6186],
+        [  5.5844, -14.9521,   5.0168,  13.2890],
+        [ -5.9739, -10.1913,  18.8655,   9.9179],
+        [  7.0755,  -0.7601,  -9.5531,   0.1736],
+        [ -5.5918, -18.5990,  25.5309,  17.5799],
+        [  7.3142,   0.7197, -11.2017,  -1.2011]], device='cuda:0')
+
+# Go from logits -> Prediction probabilities
+y_pred_probs = torch.softmax(y_logits, dim=1)
+y_pred_probs[:10]
+     
+tensor([[2.4332e-03, 9.9757e-01, 1.0804e-11, 1.8271e-09],
+        [3.4828e-03, 1.3698e-10, 6.8363e-04, 9.9583e-01],
+        [2.8657e-12, 1.2267e-15, 9.9973e-01, 2.6959e-04],
+        [3.2692e-03, 9.9673e-01, 9.5436e-08, 4.7620e-07],
+        [9.9168e-01, 8.3089e-03, 1.4120e-10, 8.2969e-06],
+        [4.5039e-04, 5.4288e-13, 2.5532e-04, 9.9929e-01],
+        [1.6306e-11, 2.4030e-13, 9.9987e-01, 1.3003e-04],
+        [9.9860e-01, 3.9485e-04, 5.9938e-08, 1.0045e-03],
+        [3.0436e-14, 6.8305e-20, 9.9965e-01, 3.5218e-04],
+        [9.9843e-01, 1.3657e-03, 9.0768e-09, 2.0006e-04]], device='cuda:0')
+
+# Go from pred probs to pred labels
+y_preds = torch.argmax(y_pred_probs, dim=1)
+y_preds[:10]
+     
+tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0], device='cuda:0')
+
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.title("Train")
+plot_decision_boundary(model_4, X_blob_train, y_blob_train)
+plt.subplot(1, 2, 2)
+plt.title("Test")
+plot_decision_boundary(model_4, X_blob_test, y_blob_test)
+     
+
+9. A few more classification metrics... (to evaluate our classification model)
+Accuracy - out of 100 samples, how many does our model get right?
+Precision
+Recall
+F1-score
+Confusion matrix
+Classification report
+See this article for when to use precision/recall - https://towardsdatascience.com/beyond-accuracy-precision-and-recall-3da06bea9f6c
+
+If you want access to a lot of PyTorch metrics, see TorchMetrics - https://torchmetrics.readthedocs.io/en/latest/
+
+
+!pip install torchmetrics
+     
+Collecting torchmetrics
+  Downloading torchmetrics-0.7.2-py3-none-any.whl (397 kB)
+
+     |▉                               | 10 kB 23.4 MB/s eta 0:00:01
+     |█▋                              | 20 kB 27.3 MB/s eta 0:00:01
+     |██▌                             | 30 kB 22.5 MB/s eta 0:00:01
+     |███▎                            | 40 kB 18.3 MB/s eta 0:00:01
+     |████▏                           | 51 kB 11.7 MB/s eta 0:00:01
+     |█████                           | 61 kB 13.5 MB/s eta 0:00:01
+     |█████▊                          | 71 kB 12.5 MB/s eta 0:00:01
+     |██████▋                         | 81 kB 12.1 MB/s eta 0:00:01
+     |███████▍                        | 92 kB 13.2 MB/s eta 0:00:01
+     |████████▎                       | 102 kB 12.6 MB/s eta 0:00:01
+     |█████████                       | 112 kB 12.6 MB/s eta 0:00:01
+     |██████████                      | 122 kB 12.6 MB/s eta 0:00:01
+     |██████████▊                     | 133 kB 12.6 MB/s eta 0:00:01
+     |███████████▌                    | 143 kB 12.6 MB/s eta 0:00:01
+     |████████████▍                   | 153 kB 12.6 MB/s eta 0:00:01
+     |█████████████▏                  | 163 kB 12.6 MB/s eta 0:00:01
+     |██████████████                  | 174 kB 12.6 MB/s eta 0:00:01
+     |██████████████▉                 | 184 kB 12.6 MB/s eta 0:00:01
+     |███████████████▊                | 194 kB 12.6 MB/s eta 0:00:01
+     |████████████████▌               | 204 kB 12.6 MB/s eta 0:00:01
+     |█████████████████▎              | 215 kB 12.6 MB/s eta 0:00:01
+     |██████████████████▏             | 225 kB 12.6 MB/s eta 0:00:01
+     |███████████████████             | 235 kB 12.6 MB/s eta 0:00:01
+     |███████████████████▉            | 245 kB 12.6 MB/s eta 0:00:01
+     |████████████████████▋           | 256 kB 12.6 MB/s eta 0:00:01
+     |█████████████████████▌          | 266 kB 12.6 MB/s eta 0:00:01
+     |██████████████████████▎         | 276 kB 12.6 MB/s eta 0:00:01
+     |███████████████████████         | 286 kB 12.6 MB/s eta 0:00:01
+     |████████████████████████        | 296 kB 12.6 MB/s eta 0:00:01
+     |████████████████████████▊       | 307 kB 12.6 MB/s eta 0:00:01
+     |█████████████████████████▋      | 317 kB 12.6 MB/s eta 0:00:01
+     |██████████████████████████▍     | 327 kB 12.6 MB/s eta 0:00:01
+     |███████████████████████████▎    | 337 kB 12.6 MB/s eta 0:00:01
+     |████████████████████████████    | 348 kB 12.6 MB/s eta 0:00:01
+     |████████████████████████████▉   | 358 kB 12.6 MB/s eta 0:00:01
+     |█████████████████████████████▊  | 368 kB 12.6 MB/s eta 0:00:01
+     |██████████████████████████████▌ | 378 kB 12.6 MB/s eta 0:00:01
+     |███████████████████████████████▍| 389 kB 12.6 MB/s eta 0:00:01
+     |████████████████████████████████| 397 kB 12.6 MB/s 
+Requirement already satisfied: torch>=1.3.1 in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (1.10.0+cu111)
+Collecting pyDeprecate==0.3.*
+  Downloading pyDeprecate-0.3.2-py3-none-any.whl (10 kB)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (21.3)
+Requirement already satisfied: numpy>=1.17.2 in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (1.21.5)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.7/dist-packages (from torch>=1.3.1->torchmetrics) (3.10.0.2)
+Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in /usr/local/lib/python3.7/dist-packages (from packaging->torchmetrics) (3.0.7)
+Installing collected packages: pyDeprecate, torchmetrics
+Successfully installed pyDeprecate-0.3.2 torchmetrics-0.7.2
+
+from torchmetrics import Accuracy
+
+# Setup metric
+torchmetric_accuracy = Accuracy(task='multiclass', num_classes=4).to(device)
+
+# Calculuate accuracy
+torchmetric_accuracy(y_preds, y_blob_test)
+     
+tensor(0.9950, device='cuda:0')
+
+torchmetric_accuracy.device
+     
+device(type='cpu')
+
+Exercises & Extra-curriculum
+See exercises and extra-curriculum here: https://www.learnpytorch.io/02_pytorch_classification/#exercises
 
 
 
+-----
+
+def __init__(self, input_features, output_features, hidden_units=8): --> artık bu kısımları tekrar kullanabilelim diye elle ayarlıyoruz
+
+model içinde sequntial açtık ilk kez böyle bir şey yaptık. return kısmını ona göre yazdık.
+
+output_features=4, --> burası 4. yani 1 değil de 4.
+
+https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss
+cross entropy loss nedir
+
+https://medium.com/@omerkaanvural/cross-entropy-loss-nedir-56805a94cb09#:~:text=Entropi%2C%20veri%20d%C3%BCnyas%C4%B1nda%20benzerlikleri%20veya,temel%20loss%20fonksiyonlar%C4%B1ndan%20bir%20tanesidir.
 
 
+torch.unique(y_blob_train) --> eşsizler
+
+weight default none vardı.
+softmax nedir
+https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax --> softmax
+y_pred_probs = torch.softmax(y_logits, dim=1) --> dim=1 nedir
+
+tensor([[0.1872, 0.2918, 0.1495, 0.3715], --> pred probslari toplayınca toplamları bir ediyor. sonraki kısımlarda etmiyor bakılabilir.
+        [0.2824, 0.0149, 0.2881, 0.4147],
+        [0.3380, 0.0778, 0.4854, 0.0989],
+        [0.2118, 0.3246, 0.1889, 0.2748],
+        [0.1945, 0.0598, 0.1506, 0.5951]], device='cuda:0') 
+
+
+torch.argmax(y_pred_probs, dim=1) --> en büyük değerin indexi
+torch.argmax(y_pred_probs, dim=1) --> pred label'e çevirirken argmax kullandık. ve dim kullandık.
+
+
+
+ y_pred = torch.softmax(y_logits, dim=1).argmax(dim=1) --> argmax bu şekilde de koyduk.
+
+https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html --> torch.longa ihtiyaç duyabilir.
+
+
+
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.title("Train")
+plot_decision_boundary(model_4, X_blob_train, y_blob_train)
+plt.subplot(1, 2, 2)
+plt.title("Test")
+plot_decision_boundary(model_4, X_blob_test, y_blob_test) --> relular yorumda olsa bile grafik çalıştı. Çünkü veriler düz çizgilerle
+                                                              ayrılabilir durumdaydı. Ama bir sürü veri olduğunda non linear çizgiler
+							      gerekebilir. Ama multi class classification kısmında bunu yaptığımız
+							      için softmax filan kullanıldı. linear regresyondaki gibi tek bir çizgi
+                                                              çekmek yerine bir sürü çizgi çekildi. Sadece çizgiler düzdü.
+
+
+torchmetric_accuracy = Accuracy().to(device) --> metricslere de device ayarladık.
+
+If you want access to a lot of PyTorch metrics, see TorchMetrics - https://torchmetrics.readthedocs.io/en/latest/ --> bakılabilir 10 dak.
+
+egzersizlere bakılabilir.
 
 
 
