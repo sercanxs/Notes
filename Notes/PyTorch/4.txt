@@ -1087,7 +1087,7 @@ device
 
 # Build a multi-class classification model
 class BlobModel(nn.Module):
-  def __init__(self, input_features, output_features, hidden_units=8):
+  def __init__(self, input_features, output_features, hidden_units=8): --> Bu kısımları tekrar kullanılabilir hale getirdik.
     """Initializes multi-class classification model.
     
     Args:
@@ -1100,9 +1100,9 @@ class BlobModel(nn.Module):
     Example:
     """
     super().__init__()
-    self.linear_layer_stack = nn.Sequential(
+    self.linear_layer_stack = nn.Sequential(                                   --> model içinde sequential açabildik. return kısmını ona göre yazdık.
         nn.Linear(in_features=input_features, out_features=hidden_units),
-        # nn.ReLU(),
+        # nn.ReLU(),                                                           --> nn.ReLU()'ları aralara bu şekilde ekliyoruz ama şu anda yorum olarak duruyorlar.
         nn.Linear(in_features=hidden_units, out_features=hidden_units),
         # nn.ReLU(),
         nn.Linear(in_features=hidden_units, out_features=output_features)
@@ -1111,9 +1111,10 @@ class BlobModel(nn.Module):
   def forward(self, x):
     return self.linear_layer_stack(x)
 
+
 # Create an instance of BlobModel and send it to the target device
 model_4 = BlobModel(input_features=2,
-                    output_features=4,
+                    output_features=4,                  --> burası şuan 4 ama belirli işlemler ile feature sayısı 1'e inecek.
                     hidden_units=8).to(device)
 
 model_4
@@ -1130,13 +1131,24 @@ X_blob_train.shape, y_blob_train[:5]
      
 (torch.Size([800, 2]), tensor([1, 0, 2, 2, 0], device='cuda:0'))
 
-torch.unique(y_blob_train)
+
+torch.unique(y_blob_train) --> classlari görüntüledik.
      
 tensor([0, 1, 2, 3], device='cuda:0')
+
+
 8.3 Create a loss function and an optimizer for a multi-class classification model
 
+
+her class'a ait eşit sayıda veri yoksa torch.nn.CrossEntropyLoss'da weight ayarlamasına gitmek gerekebilir. --> https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss
+cross entropy loss nedir --> https://en.wikipedia.org/wiki/Cross-entropy
+                         --> https://medium.com/@omerkaanvural/cross-entropy-loss-nedir-56805a94cb09
+
+
+
+
 # Create a loss function for multi-class classification - loss function measures how wrong our model's predictions are
-loss_fn = nn.CrossEntropyLoss()
+loss_fn = nn.CrossEntropyLoss()         
 
 # Create an optimizer for multi-class classification - optimizer updates our model parameters to try and reduce the loss
 optimizer = torch.optim.SGD(params=model_4.parameters(), 
@@ -1170,8 +1182,15 @@ y_blob_test[:10]
      
 tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0], device='cuda:0')
 
+
+
+softmax --> https://en.wikipedia.org/wiki/Softmax_function
+        --> https://medium.com/deep-learning-from-deepest/derin-%C3%B6%C4%9Frenme-modellerinde-aktivasyon-fonksiyonlar%C4%B1-124b49c96a66
+
+
+
 # Convert our model's logit outputs to prediction probabilities
-y_pred_probs = torch.softmax(y_logits, dim=1)
+y_pred_probs = torch.softmax(y_logits, dim=1) --> dim=1 olduğunu da belirttik.
 print(y_logits[:5])
 print(y_pred_probs[:5])
      
@@ -1180,14 +1199,14 @@ tensor([[-1.2549, -0.8112, -1.4795, -0.5696],
         [ 2.2400,  0.7714,  2.6020,  1.0107],
         [-0.7993, -0.3723, -0.9138, -0.5388],
         [-0.4332, -1.6117, -0.6891,  0.6852]], device='cuda:0')
-tensor([[0.1872, 0.2918, 0.1495, 0.3715],
+tensor([[0.1872, 0.2918, 0.1495, 0.3715],                         --> pred probslari toplayınca toplamları bir ediyor.
         [0.2824, 0.0149, 0.2881, 0.4147],
         [0.3380, 0.0778, 0.4854, 0.0989],
         [0.2118, 0.3246, 0.1889, 0.2748],
         [0.1945, 0.0598, 0.1506, 0.5951]], device='cuda:0')
 
 # Convert our model's prediction probabilities to prediction labels
-y_preds = torch.argmax(y_pred_probs, dim=1)
+y_preds = torch.argmax(y_pred_probs, dim=1) --> en büyük değerin indexi --> pred label'e çevirirken argmax kullandık. ve dim kullandık.
 y_preds
      
 tensor([3, 3, 2, 1, 3, 3, 2, 3, 2, 3, 3, 3, 3, 3, 3, 3, 3, 2, 3, 3, 3, 3, 3, 2,
@@ -1211,6 +1230,8 @@ tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0, 0, 1, 0, 0, 0, 3, 3, 2, 3, 3, 3, 0, 1, 2,
         2, 2, 0, 3, 3, 2, 2, 1, 3, 2, 0, 0, 3, 3, 2, 1, 2, 0, 3, 2, 0, 3, 2, 0,
         2, 2, 2, 0, 3, 1, 1, 1, 1, 1, 3, 1, 0, 2, 2, 1, 2, 2, 0, 1, 2, 2, 0, 0,
         1, 3, 2, 0, 3, 1, 2, 1], device='cuda:0')
+
+
 8.5 Creating a training loop and testing loop for a multi-class PyTorch model
 
 y_blob_train.dtype
@@ -1234,7 +1255,7 @@ for epoch in range(epochs):
   model_4.train()
 
   y_logits = model_4(X_blob_train)
-  y_pred = torch.softmax(y_logits, dim=1).argmax(dim=1)
+  y_pred = torch.softmax(y_logits, dim=1).argmax(dim=1) --> argmax bu şekilde de kullanılabilir.
 
   loss = loss_fn(y_logits, y_blob_train)
   acc = accuracy_fn(y_true=y_blob_train,
@@ -1268,6 +1289,8 @@ Epoch: 60 | Loss: 0.0391, Acc: 99.00% | Test loss: 0.0308, Test acc: 99.50%
 Epoch: 70 | Loss: 0.0364, Acc: 99.00% | Test loss: 0.0280, Test acc: 99.50%
 Epoch: 80 | Loss: 0.0345, Acc: 99.00% | Test loss: 0.0259, Test acc: 99.50%
 Epoch: 90 | Loss: 0.0330, Acc: 99.12% | Test loss: 0.0242, Test acc: 99.50%
+
+
 8.6 Making and evaluating predictions with a PyTorch multi-class model
 
 # Make predictions
@@ -1293,7 +1316,7 @@ tensor([[  4.3377,  10.3539, -14.8948,  -9.7642],
 y_pred_probs = torch.softmax(y_logits, dim=1)
 y_pred_probs[:10]
      
-tensor([[2.4332e-03, 9.9757e-01, 1.0804e-11, 1.8271e-09],
+tensor([[2.4332e-03, 9.9757e-01, 1.0804e-11, 1.8271e-09],            --> pred probslari toplayınca toplamları bir ediyor. burada bilimsel terimler kullanıldığı için anlaşılması zor.
         [3.4828e-03, 1.3698e-10, 6.8363e-04, 9.9583e-01],
         [2.8657e-12, 1.2267e-15, 9.9973e-01, 2.6959e-04],
         [3.2692e-03, 9.9673e-01, 9.5436e-08, 4.7620e-07],
@@ -1313,10 +1336,21 @@ tensor([1, 3, 2, 1, 0, 3, 2, 0, 2, 0], device='cuda:0')
 plt.figure(figsize=(12, 6))
 plt.subplot(1, 2, 1)
 plt.title("Train")
-plot_decision_boundary(model_4, X_blob_train, y_blob_train)
+plot_decision_boundary(model_4, X_blob_train, y_blob_train) --> grafik 4.11
 plt.subplot(1, 2, 2)
 plt.title("Test")
-plot_decision_boundary(model_4, X_blob_test, y_blob_test)
+plot_decision_boundary(model_4, X_blob_test, y_blob_test) --> relular yorumda olsa bile sınıflar yüksek doğrulukla ayrıldı. Multi class classification'da düz çizgiler kullanınca
+							      her sınıfa göre model parametreleri şekillendi. Her sınıf kendi bölgesini sınıflandırmada bir tane düz çizgiden yararlandı.
+							      Ama her sınıfın düz çizgisi oluşurken aynı parametreler üzerinde değişiklik yapıldı. Dolayısıyla da her sınıfın alanı
+							      düz çizgilerle ayrılmış oldu. relular yorumda olsa bile sınıfların yüksek doğrulukla ayrılabilmesinin sebebi bu
+							      veriler düz çizgilerle ayrılabilir durumdaydı. Eğer sınıf verileri farklı şekilde olsaydı reluların yani
+ 				                              non-linear activation functionların kullanılması gerekebilirdi. Bir sınıfı belirlerken doğrusal olsun olmasın tek bir
+							      çizgi kullanıldığı için her sınıfın bir tane bölgesi var. Bu yüzden model, ne kadar eğitilirse eğitilsin herhangi bir
+							      sınıfın içerisinde bulunan diğer sınıflara ait verileri göremeyebilir ya da çok fazla eğitilirse o verileri de 
+					                      gerekli sınıfa yerleştirecek yeni alan oluşturabilir belki.
+							      
+							      
+							   
      
 
 9. A few more classification metrics... (to evaluate our classification model)
@@ -1388,7 +1422,7 @@ Successfully installed pyDeprecate-0.3.2 torchmetrics-0.7.2
 from torchmetrics import Accuracy
 
 # Setup metric
-torchmetric_accuracy = Accuracy(task='multiclass', num_classes=4).to(device)
+torchmetric_accuracy = Accuracy(task='multiclass', num_classes=4).to(device) --> metricslere de device ayarladık.
 
 # Calculuate accuracy
 torchmetric_accuracy(y_preds, y_blob_test)
@@ -1399,6 +1433,9 @@ torchmetric_accuracy.device
      
 device(type='cpu')
 
+
+-----
+
 Exercises & Extra-curriculum
 See exercises and extra-curriculum here: https://www.learnpytorch.io/02_pytorch_classification/#exercises
 
@@ -1406,57 +1443,6 @@ See exercises and extra-curriculum here: https://www.learnpytorch.io/02_pytorch_
 
 -----
 
-def __init__(self, input_features, output_features, hidden_units=8): --> artık bu kısımları tekrar kullanabilelim diye elle ayarlıyoruz
-
-model içinde sequntial açtık ilk kez böyle bir şey yaptık. return kısmını ona göre yazdık.
-
-output_features=4, --> burası 4. yani 1 değil de 4.
-
-https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html#torch.nn.CrossEntropyLoss
-cross entropy loss nedir
-
-https://medium.com/@omerkaanvural/cross-entropy-loss-nedir-56805a94cb09#:~:text=Entropi%2C%20veri%20d%C3%BCnyas%C4%B1nda%20benzerlikleri%20veya,temel%20loss%20fonksiyonlar%C4%B1ndan%20bir%20tanesidir.
-
-
-torch.unique(y_blob_train) --> eşsizler
-
-weight default none vardı.
-softmax nedir
-https://pytorch.org/docs/stable/generated/torch.nn.Softmax.html#torch.nn.Softmax --> softmax
-y_pred_probs = torch.softmax(y_logits, dim=1) --> dim=1 nedir
-
-tensor([[0.1872, 0.2918, 0.1495, 0.3715], --> pred probslari toplayınca toplamları bir ediyor. sonraki kısımlarda etmiyor bakılabilir.
-        [0.2824, 0.0149, 0.2881, 0.4147],
-        [0.3380, 0.0778, 0.4854, 0.0989],
-        [0.2118, 0.3246, 0.1889, 0.2748],
-        [0.1945, 0.0598, 0.1506, 0.5951]], device='cuda:0') 
-
-
-torch.argmax(y_pred_probs, dim=1) --> en büyük değerin indexi
-torch.argmax(y_pred_probs, dim=1) --> pred label'e çevirirken argmax kullandık. ve dim kullandık.
-
-
-
- y_pred = torch.softmax(y_logits, dim=1).argmax(dim=1) --> argmax bu şekilde de koyduk.
-
-https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html --> torch.longa ihtiyaç duyabilir.
-
-
-
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 2, 1)
-plt.title("Train")
-plot_decision_boundary(model_4, X_blob_train, y_blob_train)
-plt.subplot(1, 2, 2)
-plt.title("Test")
-plot_decision_boundary(model_4, X_blob_test, y_blob_test) --> relular yorumda olsa bile grafik çalıştı. Çünkü veriler düz çizgilerle
-                                                              ayrılabilir durumdaydı. Ama bir sürü veri olduğunda non linear çizgiler
-							      gerekebilir. Ama multi class classification kısmında bunu yaptığımız
-							      için softmax filan kullanıldı. linear regresyondaki gibi tek bir çizgi
-                                                              çekmek yerine bir sürü çizgi çekildi. Sadece çizgiler düzdü.
-
-
-torchmetric_accuracy = Accuracy().to(device) --> metricslere de device ayarladık.
 
 If you want access to a lot of PyTorch metrics, see TorchMetrics - https://torchmetrics.readthedocs.io/en/latest/ --> bakılabilir 10 dak.
 
