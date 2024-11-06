@@ -1441,12 +1441,7 @@ See exercises and extra-curriculum here: https://www.learnpytorch.io/02_pytorch_
 
 
 
------
 
-
-If you want access to a lot of PyTorch metrics, see TorchMetrics - https://torchmetrics.readthedocs.io/en/latest/ --> bakılabilir 10 dak.
-
-egzersizlere bakılabilir.
 
 
 
