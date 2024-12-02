@@ -15,3 +15,79 @@ https://www.ibm.com/topics/computer-vision
 
 ---------------------------------------------------------------------
 
+What is a convolutional neural network?
+
+
+CNN genellikle görüntü işlemede kullanılan ve girdi olarak görselleri alan bir derin öğrenme algoritmasıdır. Farklı operasyonlarla görsellerdeki featureları (özellikleri) 
+yakalayan ve onları sınıflandıran bu algoritma farklı katmanlardan oluşmaktadır. Convolutional Layer, Pooling ve Fully Connected olan bu katmanlardan geçen görsel, 
+farklı işlemlere tabii tutularak derin öğrenme modeline girecek kıvama gelir.
+
+
+kaynaklar
+
+https://en.wikipedia.org/wiki/Convolutional_neural_network
+https://medium.com/@tuncerergin/convolutional-neural-network-convnet-yada-cnn-nedir-nasil-calisir-97a0f5d34cad
+https://bartubozkurt35.medium.com/cnn-convolutional-neural-networks-nedir-a5bafc4a82a1
+https://www.ibm.com/topics/convolutional-neural-networks
+
+-----
+
+PyTorch Computer Vision
+
+See reference notebook - https://github.com/mrdbourke/pytorch-deep-learning/blob/main/03_pytorch_computer_vision.ipynb
+See reference online book - https://www.learnpytorch.io/03_pytorch_computer_vision/
+
+Computer vision libaries in PyTorch
+
+torchvision - base domain library for PyTorch computer vision
+torchvision.datasets - get datasets and data loading functions for computer vision here
+torchvision.models - get pretrained computer vision models that you can leverage for your own problems
+torchvision.transforms - functions for manipulating your vision data (images) to be suitable for use with an ML model
+torch.utils.data.Dataset - Base dataset class for PyTorch.
+torch.utils.data.DataLoader - Creates a Python iterable over a dataset
+
+# Import PyTorch
+import torch
+from torch import nn
+
+# Import torchvision
+import torchvision
+from torchvision import datasets
+from torchvision import transforms
+from torchvision.transforms import ToTensor
+
+# Import matplotlib for visualization
+import matplotlib.pyplot as plt
+
+# Check versions
+print(torch.__version__)
+print(torchvision.__version__)
+     
+2.5.1+cu121
+0.20.1+cu121
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
