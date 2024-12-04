@@ -256,7 +256,134 @@ print(f"Image label: {class_names[label]}")   --> label 9'du.
 Image shape: torch.Size([1, 28, 28]) -> [color_channels, height, width]
 Image label: Ankle boot
 
+---------------------------------------------------------------------
+
+Visualizing our data
+
+import matplotlib.pyplot as plt
+image, label = train_data[0]
+print(f"Image shape: {image.shape}")
+plt.imshow(image.squeeze())
+plt.title(label);
+# image
+     
+
+Image shape: torch.Size([1, 28, 28])
+                                     --> resim 5.1
+
+
+
+plt.imshow(image.squeeze(), cmap="gray")
+plt.title(class_names[label]);
+plt.axis(False);
+                                     --> resim 5.2
+     
+
+
+# Plot more images
+# torch.manual_seed(42)
+fig = plt.figure(figsize=(9, 9))
+rows, cols = 4, 4
+for i in range(1, rows*cols+1):
+  random_idx = torch.randint(0, len(train_data), size=[1]).item() 
+  img, label = train_data[random_idx]
+  fig.add_subplot(rows, cols, i)
+  plt.imshow(img.squeeze(), cmap="gray")
+  plt.title(class_names[label])
+  plt.axis(False);
+                                    --> resim 5.3
+     
+
 -----
+
+Do you think these items of clothing (images) could be modelled with pure linear lines? Or do you think we'll need non-linearities?
+
+
+train_data, test_data
+     
+(Dataset FashionMNIST
+     Number of datapoints: 60000
+     Root location: data
+     Split: Train
+     StandardTransform
+ Transform: ToTensor(), Dataset FashionMNIST
+     Number of datapoints: 10000
+     Root location: data
+     Split: Test
+     StandardTransform
+ Transform: ToTensor())
+
+
+2. Prepare DataLoader
+Right now, our data is in the form of PyTorch Datasets.
+
+DataLoader turns our dataset into a Python iterable.
+
+More specifically, we want to turn our data into batches (or mini-batches).
+
+Why would we do this?
+
+It is more computationally efficient, as in, your computing hardware may not be able to look (store in memory) at 60000 images in one hit. So we break it down 
+to 32 images at a time (batch size of 32).
+It gives our neural network more chances to update its gradients per epoch.
+
+For more on mini-batches, see here: https://youtu.be/l4lSUAcvHFs
+
+
+from torch.utils.data import DataLoader
+
+# Setup the batch size hyperparameter
+BATCH_SIZE = 32
+
+# Turn datasets into iterables (batches)
+train_dataloader = DataLoader(dataset=train_data,
+                              batch_size=BATCH_SIZE,
+                              shuffle=True)           --> shuffle ile verileri karıştırıyoruz. 
+
+test_dataloader = DataLoader(dataset=test_data,
+                             batch_size=BATCH_SIZE,
+                             shuffle=False)           --> testte shuffle kullanmaya gerek olmayabilir. trainde de belki bazen kullanmaya gerek olmayabilir.
+
+train_dataloader, test_dataloader
+     
+(<torch.utils.data.dataloader.DataLoader at 0x7f8e42bb4fd0>,
+ <torch.utils.data.dataloader.DataLoader at 0x7f8e42bb4150>)
+
+# Let's check out what what we've created
+print(f"DataLoaders: {train_dataloader, test_dataloader}")
+print(f"Length of train_dataloader: {len(train_dataloader)} batches of {BATCH_SIZE}...")
+print(f"Length of test_dataloader: {len(test_dataloader)} batches of {BATCH_SIZE}...")
+     
+DataLoaders: (<torch.utils.data.dataloader.DataLoader object at 0x7f8e42bb4fd0>, <torch.utils.data.dataloader.DataLoader object at 0x7f8e42bb4150>)
+Length of train_dataloader: 1875 batches of 32...
+Length of test_dataloader: 313 batches of 32...
+
+# Check out what's inside the training dataloader
+train_features_batch, train_labels_batch = next(iter(train_dataloader))  --> The next() function returns the next item from the iterator. Batchlerden bir tane seçtik.
+train_features_batch.shape, train_labels_batch.shape
+     
+(torch.Size([32, 1, 28, 28]), torch.Size([32]))
+
+# Show a sample
+# torch.manual_seed(42)
+random_idx = torch.randint(0, len(train_features_batch), size=[1]).item()
+img, label = train_features_batch[random_idx], train_labels_batch[random_idx]
+plt.imshow(img.squeeze(), cmap="gray")
+plt.title(class_names[label])
+plt.axis(False)
+print(f"Image size: {img.shape}")
+print(f"Label: {label}, label size: {label.shape}")
+     
+Image size: torch.Size([1, 28, 28])
+Label: 2, label size: torch.Size([])
+                                     --> resim 5.4
+
+
+
+
+---------------------------------------------------------------------
+
+
 
 
 
