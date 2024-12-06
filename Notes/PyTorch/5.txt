@@ -529,6 +529,196 @@ optimizer = torch.optim.SGD(params=model_0.parameters(),
 
 
 
+Creating a function to time our experiments
+Machine learning is very experimental.
+
+Two of the main things you'll often want to track are:
+
+Model's performance (loss and accuracy values etc)
+How fast it runs
+
+
+
+from timeit import default_timer as timer 
+def print_train_time(start: float,
+                     end: float, 
+                     device: torch.device = None):
+  """Prints difference between start and end time."""
+  total_time = end - start
+  print(f"Train time on {device}: {total_time:.3f} seconds")
+  return total_time
+     
+
+start_time = timer()
+# some code...
+end_time = timer()
+print_train_time(start=start_time, end=end_time, device="cpu")
+     
+Train time on cpu: 0.000 seconds
+2.397800017206464e-05
+
+
+3.3 Creating a training loop and training a model on batches of data
+
+Loop through epochs.
+Loop through training batches, perform training steps, calculate the train loss per batch.
+Loop through testing batches, perform testing steps, calculate the test loss per batch.
+Print out what's happening.
+Time it all (for fun).
+Note: Because we are computing on batches, the optimizer will update the model's parameters once per batch rather than once per epoch.
+
+
+# Import tqdm for progress bar
+from tqdm.auto import tqdm
+
+# Set the seed and start the timer
+torch.manual_seed(42)
+train_time_start_on_cpu = timer() 
+
+# Set the number of epochs (we'll keep this small for faster training time)
+epochs = 3
+
+# Create training and test loop
+for epoch in tqdm(range(epochs)):
+  print(f"Epoch: {epoch}\n------")
+  ### Training
+  train_loss = 0
+  # Add a loop to loop through the training batches
+  for batch, (X, y) in enumerate(train_dataloader):
+    model_0.train()
+    # 1. Forward pass
+    y_pred = model_0(X)
+    
+    # 2. Calculate loss (per batch)
+    loss = loss_fn(y_pred, y)
+    train_loss += loss # accumulate train loss
+    
+    # 3. Optimizer zero grad
+    optimizer.zero_grad()
+    
+    # 4. Loss backward
+    loss.backward()
+    
+    # 5. Optimizer step (update the model's parameters once *per batch*)
+    optimizer.step()
+    
+    # Print out what's happening
+    if batch % 400 == 0:
+        print(f"Looked at {batch * len(X)}/{len(train_dataloader.dataset)} samples.")
+  
+  # Divide total train loss by length of train dataloader
+  train_loss /= len(train_dataloader)
+
+  ### Testing
+  test_loss, test_acc = 0, 0
+  model_0.eval()
+  with torch.inference_mode(): 
+    for X_test, y_test in test_dataloader:
+      # 1. Forward pass
+      test_pred = model_0(X_test)
+
+      # 2. Calculate loss (accumulatively)
+      test_loss += loss_fn(test_pred, y_test)
+
+      # 3. Calculate accuracy
+      test_acc += accuracy_fn(y_true=y_test, y_pred=test_pred.argmax(dim=1))
+
+    # Calculate the test loss average per batch
+    test_loss /= len(test_dataloader)
+
+    # Calculate the test acc average per batch
+    test_acc /= len(test_dataloader)
+
+  # Print out what's happening
+  print(f"\nTrain loss: {train_loss:.4f} | Test loss: {test_loss:.4f}, Test acc: {test_acc:.4f}")
+
+# Calculate training time
+train_time_end_on_cpu = timer()
+total_train_time_model_0 = print_train_time(start=train_time_start_on_cpu,
+                                            end=train_time_end_on_cpu,
+                                            device=str(next(model_0.parameters()).device))
+     
+  0%|          | 0/3 [00:00<?, ?it/s]
+Epoch: 0
+------
+Looked at 0/60000 samples.
+Looked at 12800/60000 samples.
+Looked at 25600/60000 samples.
+Looked at 38400/60000 samples.
+Looked at 51200/60000 samples.
+
+Train loss: 0.5904 | Test loss: 0.5095, Test acc: 82.0387
+Epoch: 1
+------
+Looked at 0/60000 samples.
+Looked at 12800/60000 samples.
+Looked at 25600/60000 samples.
+Looked at 38400/60000 samples.
+Looked at 51200/60000 samples.
+
+Train loss: 0.4763 | Test loss: 0.4799, Test acc: 83.1969
+Epoch: 2
+------
+Looked at 0/60000 samples.
+Looked at 12800/60000 samples.
+Looked at 25600/60000 samples.
+Looked at 38400/60000 samples.
+Looked at 51200/60000 samples.
+
+Train loss: 0.4550 | Test loss: 0.4766, Test acc: 83.4265
+Train time on cpu: 26.749 seconds
+
+
+4. Make predictions and get Model 0 results
+
+torch.manual_seed(42)
+def eval_model(model: torch.nn.Module,
+               data_loader: torch.utils.data.DataLoader,
+               loss_fn: torch.nn.Module, 
+               accuracy_fn):
+  """Returns a dictionary containing the results of model predicting on data_loader."""
+  loss, acc = 0, 0
+  model.eval()
+  with torch.inference_mode():
+    for X, y in tqdm(data_loader):
+      # Make predictions
+      y_pred = model(X)
+
+      # Accumulate the loss and acc values per batch
+      loss += loss_fn(y_pred, y)
+      acc += accuracy_fn(y_true=y,
+                         y_pred=y_pred.argmax(dim=1))
+
+    # Scale loss and acc to find the average loss/acc per batch
+    loss /= len(data_loader)
+    acc /= len(data_loader)
+
+  return {"model_name": model.__class__.__name__, # only works when model was created with a class
+          "model_loss": loss.item(),
+          "model_acc": acc}
+
+# Calculate model 0 results on test dataset
+model_0_results = eval_model(model=model_0,
+                             data_loader=test_dataloader,
+                             loss_fn=loss_fn, 
+                             accuracy_fn=accuracy_fn)
+model_0_results
+     
+  0%|          | 0/313 [00:00<?, ?it/s]
+{'model_acc': 83.42651757188499,
+ 'model_loss': 0.47663888335227966,
+ 'model_name': 'FashionMNISTModelV0'}
+
+
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
 
 
 
