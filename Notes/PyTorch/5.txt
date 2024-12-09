@@ -720,7 +720,381 @@ model_0_results
 
 
 
+Setup device agnostic-code (for using a GPU if there is one)
 
+!nvidia-smi
+     
+Sat Apr 23 01:36:35 2022       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  Tesla P100-PCIE...  Off  | 00000000:00:04.0 Off |                    0 |
+| N/A   37C    P0    29W / 250W |      2MiB / 16280MiB |      0%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+                                                                               
++-----------------------------------------------------------------------------+
+| Processes:                                                                  |
+|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |
+|        ID   ID                                                   Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+
+torch.cuda.is_available()
+     
+True
+
+# Setup device-agnostic code
+import torch 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+device
+     
+'cuda'
+
+6. Model 1: Building a better model with non-linearity
+We learned about the power of non-linearity in notebook 02 - https://www.learnpytorch.io/02_pytorch_classification/#6-the-missing-piece-non-linearity
+
+
+# Create a model with non-linear and linear layers
+class FashionMNISTModelV1(nn.Module):
+  def __init__(self,
+               input_shape: int,
+               hidden_units: int,
+               output_shape: int):
+    super().__init__()
+    self.layer_stack = nn.Sequential(
+        nn.Flatten(), # flatten inputs into a single vector
+        nn.Linear(in_features=input_shape,
+                  out_features=hidden_units),
+        nn.ReLU(),
+        nn.Linear(in_features=hidden_units,
+                  out_features=output_shape),
+        nn.ReLU()
+    )
+  
+  def forward(self, x: torch.Tensor):
+    return self.layer_stack(x)
+     
+
+# Create an instance of model_1
+torch.manual_seed(42)
+model_1 = FashionMNISTModelV1(input_shape=784, # this is the output of the flatten after our 28*28 image goes in
+                              hidden_units=10,
+                              output_shape=len(class_names)).to(device) # send to the GPU if it's available
+
+next(model_1.parameters()).device
+     
+device(type='cuda', index=0)
+
+6.1 Setup loss, optimizer and evaluation metrics
+
+from helper_functions import accuracy_fn
+loss_fn = nn.CrossEntropyLoss() # measure how wrong our model is
+optimizer = torch.optim.SGD(params=model_1.parameters(), # tries to update our model's parameters to reduce the loss 
+                            lr=0.1)
+     
+6.2 Functionizing training and evaluation/testing loops
+Let's create a function for:
+
+training loop - train_step()
+testing loop - test_step()
+
+def train_step(model: torch.nn.Module,
+               data_loader: torch.utils.data.DataLoader,
+               loss_fn: torch.nn.Module,
+               optimizer: torch.optim.Optimizer,
+               accuracy_fn,
+               device: torch.device = device):
+  """Performs a training with model trying to learn on data_loader."""
+  train_loss, train_acc = 0, 0
+
+  # Put model into training mode
+  model.train()
+
+  # Add a loop to loop through the training batches
+  for batch, (X, y) in enumerate(data_loader):
+    # Put data on target device 
+    X, y = X.to(device), y.to(device)
+
+    # 1. Forward pass (outputs the raw logits from the model)
+    y_pred = model(X)
+    
+    # 2. Calculate loss and accuracy (per batch)
+    loss = loss_fn(y_pred, y)
+    train_loss += loss # accumulate train loss
+    train_acc += accuracy_fn(y_true=y,
+                             y_pred=y_pred.argmax(dim=1)) # go from logits -> prediction labels
+    
+    # 3. Optimizer zero grad
+    optimizer.zero_grad()
+    
+    # 4. Loss backward
+    loss.backward()
+    
+    # 5. Optimizer step (update the model's parameters once *per batch*)
+    optimizer.step()
+  
+  # Divide total train loss and acc by length of train dataloader
+  train_loss /= len(data_loader)
+  train_acc /= len(data_loader)
+  print(f"Train loss: {train_loss:.5f} | Train acc: {train_acc:.2f}%")
+     
+
+def test_step(model: torch.nn.Module,
+              data_loader: torch.utils.data.DataLoader, 
+              loss_fn: torch.nn.Module,
+              accuracy_fn,
+              device: torch.device = device):
+  """Performs a testing loop step on model going over data_loader."""
+  test_loss, test_acc = 0, 0
+  
+  # Put the model in eval mode
+  model.eval()
+
+  # Turn on inference mode context manager
+  with torch.inference_mode():
+    for X, y in data_loader:
+      # Send the data to the target device
+      X, y = X.to(device), y.to(device)
+
+      # 1. Forward pass (outputs raw logits)
+      test_pred = model(X)
+
+      # 2. Calculuate the loss/acc
+      test_loss += loss_fn(test_pred, y)
+      test_acc += accuracy_fn(y_true=y,
+                              y_pred=test_pred.argmax(dim=1)) # go from logits -> prediction labels 
+
+    # Adjust metrics and print out
+    test_loss /= len(data_loader)
+    test_acc /= len(data_loader)
+    print(f"Test loss: {test_loss:.5f} | Test acc: {test_acc:.2f}%\n")
+     
+
+torch.manual_seed(42)
+
+# Measure time
+from timeit import default_timer as timer
+train_time_start_on_gpu = timer()
+
+# Set epochs
+epochs = 3
+
+# Create a optimization and evaluation loop using train_step() and test_step()
+for epoch in tqdm(range(epochs)):
+  print(f"Epoch: {epoch}\n----------")
+  train_step(model=model_1,
+             data_loader=train_dataloader,
+             loss_fn=loss_fn,
+             optimizer=optimizer,
+             accuracy_fn=accuracy_fn,
+             device=device)
+  test_step(model=model_1,
+            data_loader=test_dataloader,
+            loss_fn=loss_fn,
+            accuracy_fn=accuracy_fn,
+            device=device)
+
+train_time_end_on_gpu = timer()
+total_train_time_model_1 = print_train_time(start=train_time_start_on_gpu,
+                                            end=train_time_end_on_gpu,
+                                            device=device)
+     
+  0%|          | 0/3 [00:00<?, ?it/s]
+Epoch: 0
+----------
+Train loss: 1.09199 | Train acc: 61.34%
+Test loss: 0.95636 | Test acc: 65.00%
+
+Epoch: 1
+----------
+Train loss: 0.78101 | Train acc: 71.93%
+Test loss: 0.72227 | Test acc: 73.91%
+
+Epoch: 2
+----------
+Train loss: 0.67027 | Train acc: 75.94%
+Test loss: 0.68500 | Test acc: 75.02%
+
+Train time on cuda: 20.042 seconds
+
+
+
+Note: Sometimes, depending on your data/hardware you might find that your model trains faster on CPU than GPU.
+
+Why is this?
+
+- It could be that the overhead for copying data/model to and from the GPU outweighs the compute benefits offered by the GPU.
+- The hardware you're using has a better CPU in terms compute capability than the GPU.
+
+For more on how to make your models compute faster, see here: https://horace.io/brrr_intro.html
+
+
+model_0_results
+     
+{'model_acc': 83.42651757188499,
+ 'model_loss': 0.47663888335227966,
+ 'model_name': 'FashionMNISTModelV0'}
+
+# Train time on CPU
+total_train_time_model_0
+     
+26.74877341499996
+
+# Get model_1 results dictionary
+model_1_results = eval_model(model=model_1,
+                             data_loader=test_dataloader,
+                             loss_fn=loss_fn,
+                             accuracy_fn=accuracy_fn)
+model_1_results
+     
+  0%|          | 0/313 [00:00<?, ?it/s]
+---------------------------------------------------------------------------
+RuntimeError                              Traceback (most recent call last)
+<ipython-input-39-801e93364267> in <module>()
+      3                              data_loader=test_dataloader,
+      4                              loss_fn=loss_fn,
+----> 5                              accuracy_fn=accuracy_fn)
+      6 model_1_results
+
+<ipython-input-27-c5b127dad9f6> in eval_model(model, data_loader, loss_fn, accuracy_fn)
+     10     for X, y in tqdm(data_loader):
+     11       # Make predictions
+---> 12       y_pred = model(X)
+     13 
+     14       # Accumulate the loss and acc values per batch
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1100         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1101                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1102             return forward_call(*input, **kwargs)
+   1103         # Do not call functions when jit is used
+   1104         full_backward_hooks, non_full_backward_hooks = [], []
+
+<ipython-input-31-2284727bcc95> in forward(self, x)
+     17 
+     18   def forward(self, x: torch.Tensor):
+---> 19     return self.layer_stack(x)
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1100         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1101                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1102             return forward_call(*input, **kwargs)
+   1103         # Do not call functions when jit is used
+   1104         full_backward_hooks, non_full_backward_hooks = [], []
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/modules/container.py in forward(self, input)
+    139     def forward(self, input):
+    140         for module in self:
+--> 141             input = module(input)
+    142         return input
+    143 
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/modules/module.py in _call_impl(self, *input, **kwargs)
+   1100         if not (self._backward_hooks or self._forward_hooks or self._forward_pre_hooks or _global_backward_hooks
+   1101                 or _global_forward_hooks or _global_forward_pre_hooks):
+-> 1102             return forward_call(*input, **kwargs)
+   1103         # Do not call functions when jit is used
+   1104         full_backward_hooks, non_full_backward_hooks = [], []
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/modules/linear.py in forward(self, input)
+    101 
+    102     def forward(self, input: Tensor) -> Tensor:
+--> 103         return F.linear(input, self.weight, self.bias)
+    104 
+    105     def extra_repr(self) -> str:
+
+/usr/local/lib/python3.7/dist-packages/torch/nn/functional.py in linear(input, weight, bias)
+   1846     if has_torch_function_variadic(input, weight, bias):
+   1847         return handle_torch_function(linear, (input, weight, bias), input, weight, bias=bias)
+-> 1848     return torch._C._nn.linear(input, weight, bias)
+   1849 
+   1850 
+
+RuntimeError: Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu! (when checking argument for argument mat1 in method wrapper_addmm)
+
+
+
+torch.manual_seed(42)
+def eval_model(model: torch.nn.Module,
+               data_loader: torch.utils.data.DataLoader,
+               loss_fn: torch.nn.Module, 
+               accuracy_fn,
+               device=device):
+  """Returns a dictionary containing the results of model predicting on data_loader."""
+  loss, acc = 0, 0
+  model.eval()
+  with torch.inference_mode():
+    for X, y in tqdm(data_loader):
+      # Make our data device agnostic
+      X, y = X.to(device), y.to(device)
+      # Make predictions
+      y_pred = model(X)
+
+      # Accumulate the loss and acc values per batch
+      loss += loss_fn(y_pred, y)
+      acc += accuracy_fn(y_true=y,
+                         y_pred=y_pred.argmax(dim=1))
+
+    # Scale loss and acc to find the average loss/acc per batch
+    loss /= len(data_loader)
+    acc /= len(data_loader)
+
+  return {"model_name": model.__class__.__name__, # only works when model was created with a class
+          "model_loss": loss.item(),
+          "model_acc": acc}
+     
+
+# Get model_1 results dictionary
+model_1_results = eval_model(model=model_1,
+                             data_loader=test_dataloader,
+                             loss_fn=loss_fn,
+                             accuracy_fn=accuracy_fn,
+                             device=device)
+model_1_results
+     
+  0%|          | 0/313 [00:00<?, ?it/s]
+{'model_acc': 75.01996805111821,          
+ 'model_loss': 0.6850008368492126,
+ 'model_name': 'FashionMNISTModelV1'}
+
+model_0_results
+     
+{'model_acc': 83.42651757188499,
+ 'model_loss': 0.47663888335227966,
+ 'model_name': 'FashionMNISTModelV0'}
+
+
+in this case, it looks like adding non-linearities to our model made it perform worse than the baseline.
+
+That's a thing to note in machine learning, sometimes the thing you thought should work doesn't.
+
+And then the thing you thought might not work does.
+
+It's part science, part art.
+
+From the looks of things, it seems like our model is overfitting on the training data.
+
+Overfitting means our model is learning the training data well but those patterns aren't generalizing to the testing data.
+
+Two of the main ways to fix overfitting include:
+
+1. Using a smaller or different model (some models fit certain kinds of data better than others).
+2. Using a larger dataset (the more data, the more chance a model has to learn generalizable patterns).
+
+There are more, but I'm going to leave that as a challenge for you to explore.
+
+Try searching online, "ways to prevent overfitting in machine learning" and see what comes up.
+
+In the meantime, let's take a look at number 1: using a different model.
+
+
+---------------------------------------------------------------------
 
 
 
