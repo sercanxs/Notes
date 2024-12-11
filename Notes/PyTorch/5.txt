@@ -1097,6 +1097,324 @@ In the meantime, let's take a look at number 1: using a different model.
 ---------------------------------------------------------------------
 
 
+Model 2: Building a Convolutional Neural Network (CNN)
+
+CNN's are also known ConvNets.
+
+CNN's are known for their capabilities to find patterns in visual data.
+
+To find out what's happening inside a CNN, see this website: https://poloclub.github.io/cnn-explainer/
+
+
+# Create a convolutional neural network
+class FashionMNISTModelV2(nn.Module):
+  """
+  Model architecture that replicates the TinyVGG
+  model from CNN explainer website.
+  """
+  def __init__(self, input_shape: int, hidden_units: int, output_shape: int):
+    super().__init__()
+    self.conv_block_1 = nn.Sequential(
+        # Create a conv layer - https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
+        nn.Conv2d(in_channels=input_shape, 
+                  out_channels=hidden_units,
+                  kernel_size=3,
+                  stride=1,
+                  padding=1), # values we can set ourselves in our NN's are called hyperparameters
+        nn.ReLU(),
+        nn.Conv2d(in_channels=hidden_units,
+                  out_channels=hidden_units,
+                  kernel_size=3,
+                  stride=1,
+                  padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2)
+    )
+    self.conv_block_2 = nn.Sequential(
+        nn.Conv2d(in_channels=hidden_units,
+                  out_channels=hidden_units,
+                  kernel_size=3,
+                  stride=1,
+                  padding=1),
+        nn.ReLU(),
+        nn.Conv2d(in_channels=hidden_units,
+                  out_channels=hidden_units,
+                  kernel_size=3,
+                  stride=1,
+                  padding=1),
+        nn.ReLU(),
+        nn.MaxPool2d(kernel_size=2)
+    )
+    self.classifier = nn.Sequential(
+        nn.Flatten(),
+        nn.Linear(in_features=hidden_units*7*7, # there's a trick to calculating this...
+                  out_features=output_shape)
+    )
+
+  def forward(self, x):
+    x = self.conv_block_1(x)
+    # print(f"Output shape of conv_block_1: {x.shape}")
+    x = self.conv_block_2(x) 
+    # print(f"Output shape of conv_block_2: {x.shape}")
+    x = self.classifier(x)
+    # print(f"Output shape of classifier: {x.shape}")
+    return x
+     
+
+torch.manual_seed(42)
+model_2 = FashionMNISTModelV2(input_shape=1,
+                              hidden_units=10,
+                              output_shape=len(class_names)).to(device)
+     
+
+rand_image_tensor = torch.randn(size=(1, 28, 28)) --> randn --> https://pytorch.org/docs/stable/generated/torch.randn.html
+rand_image_tensor.shape
+     
+torch.Size([1, 28, 28])
+
+# Pass image through model
+model_2(rand_image_tensor.unsqueeze(0).to(device))
+     
+tensor([[ 0.0366, -0.0940,  0.0686, -0.0485,  0.0068,  0.0290,  0.0132,  0.0084,
+         -0.0030, -0.0185]], device='cuda:0', grad_fn=<AddmmBackward0>)
+
+plt.imshow(image.squeeze(), cmap="gray")
+     
+<matplotlib.image.AxesImage at 0x7f8e43543a10>
+                                              --> resim 5.5
+
+
+# model_2.state_dict()
+     
+
+
+7.1 Stepping through nn.Conv2d()
+See the documentation for nn.Conv2d() here - https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
+
+
+torch.manual_seed(42)
+
+# Create a batch of images
+images = torch.randn(size=(32, 3, 64, 64))
+test_image = images[0] 
+
+print(f"Image batch shape: {images.shape}")
+print(f"Single image shape: {test_image.shape}")
+print(f"Test image:\n {test_image}")
+     
+Image batch shape: torch.Size([32, 3, 64, 64])
+Single image shape: torch.Size([3, 64, 64])
+Test image:
+ tensor([[[ 1.9269,  1.4873,  0.9007,  ...,  1.8446, -1.1845,  1.3835],
+         [ 1.4451,  0.8564,  2.2181,  ...,  0.3399,  0.7200,  0.4114],
+         [ 1.9312,  1.0119, -1.4364,  ..., -0.5558,  0.7043,  0.7099],
+         ...,
+         [-0.5610, -0.4830,  0.4770,  ..., -0.2713, -0.9537, -0.6737],
+         [ 0.3076, -0.1277,  0.0366,  ..., -2.0060,  0.2824, -0.8111],
+         [-1.5486,  0.0485, -0.7712,  ..., -0.1403,  0.9416, -0.0118]],
+
+        [[-0.5197,  1.8524,  1.8365,  ...,  0.8935, -1.5114, -0.8515],
+         [ 2.0818,  1.0677, -1.4277,  ...,  1.6612, -2.6223, -0.4319],
+         [-0.1010, -0.4388, -1.9775,  ...,  0.2106,  0.2536, -0.7318],
+         ...,
+         [ 0.2779,  0.7342, -0.3736,  ..., -0.4601,  0.1815,  0.1850],
+         [ 0.7205, -0.2833,  0.0937,  ..., -0.1002, -2.3609,  2.2465],
+         [-1.3242, -0.1973,  0.2920,  ...,  0.5409,  0.6940,  1.8563]],
+
+        [[-0.7978,  1.0261,  1.1465,  ...,  1.2134,  0.9354, -0.0780],
+         [-1.4647, -1.9571,  0.1017,  ..., -1.9986, -0.7409,  0.7011],
+         [-1.3938,  0.8466, -1.7191,  ..., -1.1867,  0.1320,  0.3407],
+         ...,
+         [ 0.8206, -0.3745,  1.2499,  ..., -0.0676,  0.0385,  0.6335],
+         [-0.5589, -0.3393,  0.2347,  ...,  2.1181,  2.4569,  1.3083],
+         [-0.4092,  1.5199,  0.2401,  ..., -0.2558,  0.7870,  0.9924]]])
+
+test_image.shape
+     
+torch.Size([3, 64, 64])
+
+torch.manual_seed(42)
+# Create a sinlge conv2d layer
+conv_layer = nn.Conv2d(in_channels=3, 
+                       out_channels=10,
+                       kernel_size=(3, 3),
+                       stride=1,
+                       padding=0)
+
+# Pass the data through the convolutional layer 
+conv_output = conv_layer(test_image.unsqueeze(0))
+conv_output.shape
+     
+torch.Size([1, 10, 62, 62])
+
+test_image.unsqueeze(0).shape
+     
+torch.Size([1, 3, 64, 64])
+
+
+
+7.2 Stepping through nn.MaxPool2d()
+https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html
+
+
+test_image.shape
+     
+torch.Size([3, 64, 64])
+
+# Print out original image shape without unsqueezed dimension
+print(f"Test image original shape: {test_image.shape}")
+print(f"Test image with unsqueezed dimension: {test_image.unsqueeze(0).shape}")
+
+# Create a sample nn.MaxPool2d layer
+max_pool_layer = nn.MaxPool2d(kernel_size=2)
+
+# Pass data through just the conv_layer
+test_image_through_conv = conv_layer(test_image.unsqueeze(dim=0))
+print(f"Shape after going through conv_layer(): {test_image_through_conv.shape}")
+
+# Pass data through the max pool layer
+test_image_through_conv_and_max_pool = max_pool_layer(test_image_through_conv)
+print(f"Shape after going through conv_layer() and max_pool_layer(): {test_image_through_conv_and_max_pool.shape}")
+     
+Test image original shape: torch.Size([3, 64, 64])
+Test image with unsqueezed dimension: torch.Size([1, 3, 64, 64])
+Shape after going through conv_layer(): torch.Size([1, 10, 62, 62])
+Shape after going through conv_layer() and max_pool_layer(): torch.Size([1, 10, 31, 31])
+
+torch.manual_seed(42)
+# Create a random tesnor with a similar number of dimensions to our images
+random_tensor = torch.randn(size=(1, 1, 2, 2))
+print(f"\nRandom tensor:\n{random_tensor}")
+print(f"Random tensor shape: {random_tensor.shape}")
+
+# Create a max pool layer
+max_pool_layer = nn.MaxPool2d(kernel_size=2)
+
+# Pass the random tensor through the max pool layer
+max_pool_tensor = max_pool_layer(random_tensor)
+print(f"\nMax pool tensor:\n {max_pool_tensor}")
+print(f"Max pool tensor shape: {max_pool_tensor.shape}")
+     
+Random tensor:
+tensor([[[[0.3367, 0.1288],
+          [0.2345, 0.2303]]]])
+Random tensor shape: torch.Size([1, 1, 2, 2])
+
+Max pool tensor:
+ tensor([[[[0.3367]]]])
+Max pool tensor shape: torch.Size([1, 1, 1, 1])
+
+
+
+7.3 Setup a loss function and optimizer for model_2
+
+# Setup loss function/eval metrics/optimizer
+from helper_functions import accuracy_fn
+
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(params=model_2.parameters(),
+                            lr=0.1)
+     
+
+
+7.4 Training and testing model_2 using our training and test functions
+
+torch.manual_seed(42)
+torch.cuda.manual_seed(42)
+
+# Measure time
+from timeit import default_timer as timer
+train_time_start_model_2 = timer() 
+
+# Train and test model
+epochs = 3
+for epoch in tqdm(range(epochs)):
+  print(f"Epoch: {epoch}\n-------")
+  train_step(model=model_2,
+             data_loader=train_dataloader,
+             loss_fn=loss_fn,
+             optimizer=optimizer,
+             accuracy_fn=accuracy_fn,
+             device=device)
+  test_step(model=model_2,
+            data_loader=test_dataloader,
+            loss_fn=loss_fn,
+            accuracy_fn=accuracy_fn,
+            device=device)
+
+train_time_end_model_2 = timer()
+total_train_time_model_2 = print_train_time(start=train_time_start_model_2,
+                                            end=train_time_end_model_2,
+                                            device=device)
+     
+  0%|          | 0/3 [00:00<?, ?it/s]
+Epoch: 0
+-------
+Train loss: 0.59952 | Train acc: 78.09%
+Test loss: 0.38754 | Test acc: 85.94%
+
+Epoch: 1
+-------
+Train loss: 0.35734 | Train acc: 87.07%
+Test loss: 0.34306 | Test acc: 87.63%
+
+Epoch: 2
+-------
+Train loss: 0.31825 | Train acc: 88.42%
+Test loss: 0.31359 | Test acc: 88.57%
+
+Train time on cuda: 32.770 seconds
+
+# Get model_2 results
+model_2_results = eval_model(
+     model=model_2,
+     data_loader=test_dataloader,
+     loss_fn=loss_fn,
+     accuracy_fn=accuracy_fn,
+     device=device
+)
+
+model_2_results
+     
+  0%|          | 0/313 [00:00<?, ?it/s]
+{'model_acc': 88.56829073482429,
+ 'model_loss': 0.31358689069747925,
+ 'model_name': 'FashionMNISTModelV2'}
+
+
+
+8. Compare model results and training time
+
+import pandas as pd
+compare_results = pd.DataFrame([model_0_results,
+                                model_1_results,
+                                model_2_results])
+compare_results
+     
+                 model_name	model_loss	model_acc
+0	FashionMNISTModelV0	0.476639	83.426518
+1	FashionMNISTModelV1	0.685001	75.019968
+2	FashionMNISTModelV2	0.313587	88.568291
+
+# Add training time to results comparison
+compare_results["training_time"] = [total_train_time_model_0,
+                                    total_train_time_model_1,
+                                    total_train_time_model_2]
+compare_results
+     
+                 model_name	model_loss	model_acc	training_time
+0	FashionMNISTModelV0	0.476639	83.426518	26.748773
+1	FashionMNISTModelV1	0.685001	75.019968	20.041531
+2	FashionMNISTModelV2	0.313587	88.568291	32.770459
+
+# Visualize our model results
+compare_results.set_index("model_name")["model_acc"].plot(kind="barh")
+plt.xlabel("accuracy (%)")
+plt.ylabel("model");
+     
+                       --> resim 5.6
+
+---------------------------------------------------------------------
 
 
 
