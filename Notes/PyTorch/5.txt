@@ -1416,7 +1416,315 @@ plt.ylabel("model");
 
 ---------------------------------------------------------------------
 
+9. Make and evaluate random predictions with best model
 
+def make_predictions(model: torch.nn.Module,
+                     data: list,
+                     device: torch.device = device):
+  pred_probs = []
+  model.to(device)
+  model.eval()
+  with torch.inference_mode():
+    for sample in data:
+      # Prepare the sample (add a batch dimension and pass to target device)
+      sample = torch.unsqueeze(sample, dim=0).to(device)
+
+      # Forward pass (model outputs raw logits)
+      pred_logit = model(sample)
+
+      # Get prediction probability (logit -> prediction probability)
+      pred_prob = torch.softmax(pred_logit.squeeze(), dim=0)
+
+      # Get pred_prob off the GPU for further calculations
+      pred_probs.append(pred_prob.cpu())
+
+  # Stack the pred_probs to turn list into a tensor
+  return torch.stack(pred_probs)
+     
+
+import random
+# random.seed(42)
+test_samples = [] 
+test_labels = []
+for sample, label in random.sample(list(test_data), k=9):
+  test_samples.append(sample)
+  test_labels.append(label)
+
+# View the first sample shape
+test_samples[0].shape
+     
+torch.Size([1, 28, 28])
+
+plt.imshow(test_samples[0].squeeze(), cmap="gray")
+plt.title(class_names[test_labels[0]])
+     
+Text(0.5, 1.0, 'Coat')
+
+                      --> resim 5.7
+
+
+
+
+# Make predictions
+pred_probs = make_predictions(model=model_2,
+                              data=test_samples)
+
+# View first two prediction probabilities
+pred_probs[:2]
+     
+tensor([[1.2333e-03, 3.3934e-03, 4.5061e-05, 9.8818e-01, 6.3306e-03, 7.6291e-06,
+         3.1144e-04, 3.5785e-04, 7.5017e-05, 6.2114e-05],
+        [1.6455e-03, 2.8294e-05, 9.6235e-01, 2.9167e-04, 1.0726e-03, 3.6521e-06,
+         3.4579e-02, 1.1791e-06, 2.2558e-05, 6.7034e-06]])
+
+# Convert prediction probabilities to labels
+pred_classes = pred_probs.argmax(dim=1)
+pred_classes
+     
+tensor([3, 2, 3, 0, 7, 1, 1, 5, 4])
+
+test_labels
+     
+[3, 2, 3, 0, 9, 1, 1, 5, 4]
+
+# Plot predictions
+plt.figure(figsize=(9, 9))
+nrows = 3
+ncols = 3
+for i, sample in enumerate(test_samples):
+  # Create subplot
+  plt.subplot(nrows, ncols, i+1)
+
+  # Plot the target image
+  plt.imshow(sample.squeeze(), cmap="gray")
+
+  # Find the prediction (in text form, e.g "Sandal")
+  pred_label = class_names[pred_classes[i]]
+
+  # Get the truth label (in text form) 
+  truth_label = class_names[test_labels[i]]
+
+  # Create a title for the plot
+  title_text = f"Pred: {pred_label} | Truth: {truth_label}"
+
+  # Check for equality between pred and truth and change color of title text
+  if pred_label == truth_label:
+    plt.title(title_text, fontsize=10, c="g") # green text if prediction same as truth
+  else:
+    plt.title(title_text, fontsize=10, c="r") 
+  
+  plt.axis(False);
+
+                  --> resim 5.8
+     
+
+10. Making a confusion matrix for further prediction evaluation
+A confusion matrix is a fantastic way of evaluating your classification models visually: https://www.learnpytorch.io/02_pytorch_classification/#9-more-classification-evaluation-metrics
+
+Make predictions with our trained model on the test dataset
+Make a confusion matrix torchmetrics.ConfusionMatrix - https://torchmetrics.readthedocs.io/en/stable/classification/confusion_matrix.html
+Plot the confusion matrix using mlxtend.plotting.plot_confusion_matrix() - http://rasbt.github.io/mlxtend/user_guide/plotting/plot_confusion_matrix/
+
+# Import tqdm.auto
+from tqdm.auto import tqdm 
+
+
+# 1. Make predictions with trained model
+y_preds = []
+model_2.eval()
+with torch.inference_mode():
+  for X, y in tqdm(test_dataloader, desc="Making predictions..."):
+    # Send the data and targets to target device
+    X, y = X.to(device), y.to(device)
+    # Do the forward pass
+    y_logit = model_2(X)
+    # Turn predictions from logits -> prediction probabilities -> prediction labels
+    y_pred = torch.softmax(y_logit.squeeze(), dim=0).argmax(dim=1)
+    # Put prediction on CPU for evaluation
+    y_preds.append(y_pred.cpu())
+
+# Concatenate list of predictions into a tensor
+# print(y_preds)
+y_pred_tensor = torch.cat(y_preds)
+y_pred_tensor
+     
+Making predictions...:   0%|          | 0/313 [00:00<?, ?it/s]
+tensor([9, 2, 1,  ..., 8, 1, 2])
+
+len(y_pred_tensor)
+     
+10000
+
+# See if required packages are installed and if not, install them...
+try:
+  import torchmetrics, mlxtend
+  print(f"mlxtend version: {mlxtend.__version__}")
+  assert int(mlxtend.__version__.split(".")[1] >= 19, "mlxtend version should be 0.19.0 or higher")
+except:
+  !pip install torchmetrics -U mlxtend  
+  import torchmetrics, mlxtend
+  print(f"mlxtend version: {mlxtend.__version__}")
+     
+mlxtend version: 0.19.0
+Requirement already satisfied: torchmetrics in /usr/local/lib/python3.7/dist-packages (0.8.0)
+Requirement already satisfied: mlxtend in /usr/local/lib/python3.7/dist-packages (0.19.0)
+Requirement already satisfied: packaging in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (21.3)
+Requirement already satisfied: pyDeprecate==0.3.* in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (0.3.2)
+Requirement already satisfied: torch>=1.3.1 in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (1.10.0+cu111)
+Requirement already satisfied: numpy>=1.17.2 in /usr/local/lib/python3.7/dist-packages (from torchmetrics) (1.21.6)
+Requirement already satisfied: typing-extensions in /usr/local/lib/python3.7/dist-packages (from torch>=1.3.1->torchmetrics) (4.1.1)
+Requirement already satisfied: matplotlib>=3.0.0 in /usr/local/lib/python3.7/dist-packages (from mlxtend) (3.2.2)
+Requirement already satisfied: scikit-learn>=0.20.3 in /usr/local/lib/python3.7/dist-packages (from mlxtend) (1.0.2)
+Requirement already satisfied: joblib>=0.13.2 in /usr/local/lib/python3.7/dist-packages (from mlxtend) (1.1.0)
+Requirement already satisfied: scipy>=1.2.1 in /usr/local/lib/python3.7/dist-packages (from mlxtend) (1.4.1)
+Requirement already satisfied: pandas>=0.24.2 in /usr/local/lib/python3.7/dist-packages (from mlxtend) (1.3.5)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.7/dist-packages (from mlxtend) (57.4.0)
+Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.0->mlxtend) (0.11.0)
+Requirement already satisfied: kiwisolver>=1.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.0->mlxtend) (1.4.2)
+Requirement already satisfied: python-dateutil>=2.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.0->mlxtend) (2.8.2)
+Requirement already satisfied: pyparsing!=2.0.4,!=2.1.2,!=2.1.6,>=2.0.1 in /usr/local/lib/python3.7/dist-packages (from matplotlib>=3.0.0->mlxtend) (3.0.8)
+Requirement already satisfied: pytz>=2017.3 in /usr/local/lib/python3.7/dist-packages (from pandas>=0.24.2->mlxtend) (2022.1)
+Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.7/dist-packages (from python-dateutil>=2.1->matplotlib>=3.0.0->mlxtend) (1.15.0)
+Requirement already satisfied: threadpoolctl>=2.0.0 in /usr/local/lib/python3.7/dist-packages (from scikit-learn>=0.20.3->mlxtend) (3.1.0)
+mlxtend version: 0.19.0
+
+import mlxtend
+print(mlxtend.__version__)
+     
+0.19.0
+
+class_names
+     
+['T-shirt/top',
+ 'Trouser',
+ 'Pullover',
+ 'Dress',
+ 'Coat',
+ 'Sandal',
+ 'Shirt',
+ 'Sneaker',
+ 'Bag',
+ 'Ankle boot']
+
+y_pred_tensor[:10]
+     
+tensor([9, 2, 1, 1, 6, 1, 4, 6, 5, 7])
+
+test_data.targets
+     
+tensor([9, 2, 1,  ..., 8, 1, 5])
+
+from torchmetrics import ConfusionMatrix
+from mlxtend.plotting import plot_confusion_matrix
+
+# 2. Setup confusion instance and compare predictions to targets
+confmat = ConfusionMatrix(task="multiclass", num_classes=len(class_names))
+confmat_tensor = confmat(preds=y_pred_tensor,      
+                         target=test_data.targets)
+
+# 3. Plot the confusion matrix
+fig, ax = plot_confusion_matrix(     
+    conf_mat=confmat_tensor.numpy(), # matplotlib likes working with numpy
+    class_names=class_names,
+    figsize=(10, 7)
+)
+
+                           --> resim 5.9
+     
+
+11. Save and load best performing model
+
+from pathlib import Path
+
+# Create model dictory path
+MODEL_PATH = Path("models")
+MODEL_PATH.mkdir(parents=True,
+                 exist_ok=True)
+
+# Create model save
+MODEL_NAME = "03_pytorch_computer_vision_model_2.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+# Save the model state dict
+print(f"Saving model to: {MODEL_SAVE_PATH}")
+torch.save(obj=model_2.state_dict(),
+           f=MODEL_SAVE_PATH)
+     
+Saving model to: models/03_pytorch_computer_vision_model_2.pth
+
+
+     
+
+# Create a new instance
+torch.manual_seed(42)
+
+loaded_model_2 = FashionMNISTModelV2(input_shape=1,
+                                     hidden_units=10,
+                                     output_shape=len(class_names))
+
+# Load in the save state_dict()
+loaded_model_2.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+
+# Send the model to the target device
+loaded_model_2.to(device)
+     
+FashionMNISTModelV2(
+  (conv_block_1): Sequential(
+    (0): Conv2d(1, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (conv_block_2): Sequential(
+    (0): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): ReLU()
+    (2): Conv2d(10, 10, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): ReLU()
+    (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  )
+  (classifier): Sequential(
+    (0): Flatten(start_dim=1, end_dim=-1)
+    (1): Linear(in_features=490, out_features=10, bias=True)
+  )
+)
+
+# Evaluate loaded model
+torch.manual_seed(42)
+
+loaded_model_2_results = eval_model(
+    model=loaded_model_2,
+    data_loader=test_dataloader,
+    loss_fn=loss_fn,
+    accuracy_fn=accuracy_fn
+)
+
+loaded_model_2_results
+     
+  0%|          | 0/313 [00:00<?, ?it/s]
+{'model_acc': 88.56829073482429,
+ 'model_loss': 0.31358689069747925,
+ 'model_name': 'FashionMNISTModelV2'}
+
+model_2_results
+     
+{'model_acc': 88.56829073482429,
+ 'model_loss': 0.31358689069747925,
+ 'model_name': 'FashionMNISTModelV2'}
+
+# Check if model results are close to each other
+torch.isclose(torch.tensor(model_2_results["model_loss"]),
+              torch.tensor(loaded_model_2_results["model_loss"]),
+              atol=1e-02)
+     
+tensor(True)
+
+
+
+-----
+
+Exercises
+See here for exercises and extra-curriculum: https://www.learnpytorch.io/03_pytorch_computer_vision/#exercises
 
 
 
