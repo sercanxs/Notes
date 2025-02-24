@@ -2,6 +2,7 @@
 ### Storing them here so they're easily accessible.
 
 import tensorflow as tf
+import tf_keras as keras
 
 # Create a function to import an image and resize it to be able to be used with our model
 def load_and_prep_image(filename, img_shape=224, scale=True):
@@ -146,7 +147,7 @@ def create_tensorboard_callback(dir_name, experiment_name):
     experiment_name: name of experiment directory (e.g. efficientnet_model_1)
   """
   log_dir = dir_name + "/" + experiment_name + "/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-  tensorboard_callback = tf_keras.callbacks.TensorBoard(
+  tensorboard_callback = keras.callbacks.TensorBoard(
       log_dir=log_dir
   )
   print(f"Saving TensorBoard log files to: {log_dir}")
