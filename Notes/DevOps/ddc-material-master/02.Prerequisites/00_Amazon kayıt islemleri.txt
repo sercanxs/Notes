@@ -1,0 +1,22 @@
+Amazon kayıt islemleri
+
+kayit olduk - free tier
+iam'e geldik.
+mfa ekledik. --> telefona google authenticator yükledik.
+iam'de yeni user açtık.
+kullanıcıya mfa device bağladık.
+Billing preferences --> Invoice delivery preferences ekledik.     -->Alert preferences ekledik
+cloudwatch services'e geldik. --> United States (N. Virginia) bölgesindeyiz. --> all alarmsa geldik --> create alarm --> metric --> billing --> total estimated charge --> USD --> aşağıyı 5 USD ayarladık --> next --> create new topic(MonitoringTeam, email) -->
+create topic --> send a notificiation to MonitoringTeam --> next  --> alarm name (AWSBillingAlert) --> alarm description (AWSBillingAlert) --> next --> create alarm --> email geldi ve confirm subscription tıkladık.
+arama --> acm --> certifacte manager tıkladık --> request a certicate
+godaddy --> domaine dns record ekledik.
+Aws --> IAM Dashboard --> account alias create
+Iam --> users --> security credentials --> manage console access  --> csv indirdik
+--> csv ile bağlanınca region N Virginia yaptık.
+
+
+
+
+her gece yatmadan billinge bakmak iş yapabilir.
+
+

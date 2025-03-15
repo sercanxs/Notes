@@ -1,0 +1,3 @@
+Oracle virtualBox Manager --> centos ubuntu kurduk. (manuel)  
+vagrant ile centos ubuntuyu otomatik kurduk.
+
