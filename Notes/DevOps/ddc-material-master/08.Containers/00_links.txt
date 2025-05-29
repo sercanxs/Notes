@@ -1,0 +1,3 @@
+https://www.docker.com/resources/what-container/
+https://docs.docker.com/get-started/docker-overview/
+https://aws.amazon.com/microservices/
